@@ -8,3 +8,7 @@ client-web/dist/
 client-web/.env
 client-web/.env.local
 .env
+
+# Node
+node_modules/
+*.log
