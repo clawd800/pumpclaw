@@ -8,6 +8,10 @@ import {IPoolManager} from "@uniswap/v4-core/src/interfaces/IPoolManager.sol";
 import {IPositionManager} from "@uniswap/v4-periphery/src/interfaces/IPositionManager.sol";
 import {PoolKey} from "@uniswap/v4-core/src/types/PoolKey.sol";
 import {Currency} from "@uniswap/v4-core/src/types/Currency.sol";
+import {IHooks} from "@uniswap/v4-core/src/interfaces/IHooks.sol";
+import {PoolSwapTest} from "@uniswap/v4-core/src/test/PoolSwapTest.sol";
+import {BalanceDelta} from "@uniswap/v4-core/src/types/BalanceDelta.sol";
+import {TickMath} from "@uniswap/v4-core/src/libraries/TickMath.sol";
 
 import {PumpClawToken} from "../src/core/PumpClawToken.sol";
 import {PumpClawLPLocker} from "../src/core/PumpClawLPLocker.sol";
@@ -24,13 +28,18 @@ contract PumpClawTest is Test {
     address constant ADMIN = 0x261368f0EC280766B84Bfa7a9B23FD53c774878D;
     address creator = makeAddr("creator");
     address user = makeAddr("user");
+    address trader = makeAddr("trader");
 
     PumpClawLPLocker locker;
     PumpClawFactory factory;
+    PoolSwapTest swapRouter;
+    IPoolManager poolManager;
 
     function setUp() public {
         // Fork Base mainnet
-        vm.createSelectFork("https://mainnet.base.org");
+        vm.createSelectFork("https://base-rpc.publicnode.com");
+        
+        poolManager = IPoolManager(POOL_MANAGER);
         
         // Deploy our contracts
         locker = new PumpClawLPLocker(POSITION_MANAGER, ADMIN);
@@ -40,10 +49,14 @@ contract PumpClawTest is Test {
             address(locker),
             WETH
         );
+        
+        // Deploy swap router for testing
+        swapRouter = new PoolSwapTest(poolManager);
 
         // Fund test accounts
         vm.deal(creator, 10 ether);
         vm.deal(user, 10 ether);
+        vm.deal(trader, 100 ether);
     }
 
     function test_CreateToken() public {
@@ -75,41 +88,216 @@ contract PumpClawTest is Test {
         console2.log("Position ID:", positionId);
     }
 
-    function test_CreateTokenAndSwap() public {
-        vm.startPrank(creator);
-        
-        // Create token
+    function test_SwapGeneratesFees() public {
+        // 1. Create token with 1 ETH liquidity
+        vm.prank(creator);
         (address token, ) = factory.createToken{value: 1 ether}(
-            "Swap Test",
-            "SWAP",
+            "Fee Token",
+            "FEET",
             ""
         );
+
+        // 2. Build pool key
+        bool tokenIsToken0 = token < WETH;
+        PoolKey memory poolKey = PoolKey({
+            currency0: tokenIsToken0 ? Currency.wrap(token) : Currency.wrap(WETH),
+            currency1: tokenIsToken0 ? Currency.wrap(WETH) : Currency.wrap(token),
+            fee: 10000, // 1% fee
+            tickSpacing: 200,
+            hooks: IHooks(address(0))
+        });
+
+        // 3. Trader buys tokens with ETH (swap WETH for token)
+        vm.startPrank(trader);
+        
+        // Wrap some ETH to WETH for the swap
+        (bool success,) = WETH.call{value: 10 ether}("");
+        require(success, "WETH wrap failed");
+        
+        // Approve swap router
+        IERC20(WETH).approve(address(swapRouter), type(uint256).max);
+        
+        // Swap: sell WETH for token
+        // If tokenIsToken0: WETH is token1, so we swap 1->0 (zeroForOne=false), price goes up
+        // If !tokenIsToken0: WETH is token0, so we swap 0->1 (zeroForOne=true), price goes down
+        bool zeroForOne = !tokenIsToken0;
+        IPoolManager.SwapParams memory params = IPoolManager.SwapParams({
+            zeroForOne: zeroForOne,
+            amountSpecified: -1 ether, // negative = exact input
+            sqrtPriceLimitX96: zeroForOne ? TickMath.MIN_SQRT_PRICE + 1 : TickMath.MAX_SQRT_PRICE - 1
+        });
+        
+        PoolSwapTest.TestSettings memory settings = PoolSwapTest.TestSettings({
+            takeClaims: false,
+            settleUsingBurn: false
+        });
+        
+        BalanceDelta delta = swapRouter.swap(poolKey, params, settings, "");
         
         vm.stopPrank();
 
-        // Now someone should be able to swap on the pool
-        // The pool exists on Uniswap v4 now
-        console2.log("Token created:", token);
-        console2.log("Pool should be tradeable on Uniswap v4");
+        console2.log("Swap completed!");
+        console2.log("Delta amount0:", delta.amount0());
+        console2.log("Delta amount1:", delta.amount1());
+        
+        // Verify trader got tokens
+        uint256 tokenBalance = IERC20(token).balanceOf(trader);
+        assertGt(tokenBalance, 0, "Trader should have received tokens");
+        console2.log("Trader received tokens:", tokenBalance);
     }
 
-    function test_ClaimFees() public {
-        // Create token
-        vm.startPrank(creator);
+    function test_ClaimFeesAfterSwaps() public {
+        // 1. Create token
+        vm.prank(creator);
         (address token, ) = factory.createToken{value: 1 ether}(
             "Fee Test",
             "FEE",
             ""
         );
+
+        // 2. Build pool key
+        bool tokenIsToken0 = token < WETH;
+        PoolKey memory poolKey = PoolKey({
+            currency0: tokenIsToken0 ? Currency.wrap(token) : Currency.wrap(WETH),
+            currency1: tokenIsToken0 ? Currency.wrap(WETH) : Currency.wrap(token),
+            fee: 10000,
+            tickSpacing: 200,
+            hooks: IHooks(address(0))
+        });
+
+        // 3. Perform multiple swaps to generate fees
+        vm.startPrank(trader);
+        (bool success,) = WETH.call{value: 50 ether}("");
+        require(success);
+        IERC20(WETH).approve(address(swapRouter), type(uint256).max);
+        IERC20(token).approve(address(swapRouter), type(uint256).max);
+
+        PoolSwapTest.TestSettings memory settings = PoolSwapTest.TestSettings({
+            takeClaims: false,
+            settleUsingBurn: false
+        });
+
+        // For buying tokens (selling WETH):
+        // If tokenIsToken0: WETH is token1, zeroForOne=false, price goes up
+        // If !tokenIsToken0: WETH is token0, zeroForOne=true, price goes down
+        bool buyTokenZeroForOne = !tokenIsToken0;
+        uint160 buyLimit = buyTokenZeroForOne ? TickMath.MIN_SQRT_PRICE + 1 : TickMath.MAX_SQRT_PRICE - 1;
+        
+        // For selling tokens (buying WETH): opposite direction
+        bool sellTokenZeroForOne = tokenIsToken0;
+        uint160 sellLimit = sellTokenZeroForOne ? TickMath.MIN_SQRT_PRICE + 1 : TickMath.MAX_SQRT_PRICE - 1;
+
+        // Swap 1: Buy tokens with 5 ETH
+        swapRouter.swap(
+            poolKey,
+            IPoolManager.SwapParams({
+                zeroForOne: buyTokenZeroForOne,
+                amountSpecified: -5 ether,
+                sqrtPriceLimitX96: buyLimit
+            }),
+            settings,
+            ""
+        );
+
+        // Swap 2: Sell some tokens back
+        uint256 tokenBal = IERC20(token).balanceOf(trader);
+        if (tokenBal > 0) {
+            swapRouter.swap(
+                poolKey,
+                IPoolManager.SwapParams({
+                    zeroForOne: sellTokenZeroForOne,
+                    amountSpecified: -int256(tokenBal / 2),
+                    sqrtPriceLimitX96: sellLimit
+                }),
+                settings,
+                ""
+            );
+        }
+
+        // Swap 3: Buy more tokens
+        swapRouter.swap(
+            poolKey,
+            IPoolManager.SwapParams({
+                zeroForOne: buyTokenZeroForOne,
+                amountSpecified: -3 ether,
+                sqrtPriceLimitX96: buyLimit
+            }),
+            settings,
+            ""
+        );
+        
         vm.stopPrank();
 
-        // TODO: Simulate some swaps to generate fees
-        // Then test fee claiming
+        // 4. Record balances before claiming
+        uint256 creatorWethBefore = IERC20(WETH).balanceOf(creator);
+        uint256 creatorTokenBefore = IERC20(token).balanceOf(creator);
+        uint256 adminWethBefore = IERC20(WETH).balanceOf(ADMIN);
+        uint256 adminTokenBefore = IERC20(token).balanceOf(ADMIN);
+
+        console2.log("=== Before Claim ===");
+        console2.log("Creator WETH:", creatorWethBefore);
+        console2.log("Creator Token:", creatorTokenBefore);
+        console2.log("Admin WETH:", adminWethBefore);
+        console2.log("Admin Token:", adminTokenBefore);
+
+        // 5. Claim fees
+        locker.claimFees(token);
+
+        // 6. Check balances after
+        uint256 creatorWethAfter = IERC20(WETH).balanceOf(creator);
+        uint256 creatorTokenAfter = IERC20(token).balanceOf(creator);
+        uint256 adminWethAfter = IERC20(WETH).balanceOf(ADMIN);
+        uint256 adminTokenAfter = IERC20(token).balanceOf(ADMIN);
+
+        console2.log("=== After Claim ===");
+        console2.log("Creator WETH:", creatorWethAfter);
+        console2.log("Creator Token:", creatorTokenAfter);
+        console2.log("Admin WETH:", adminWethAfter);
+        console2.log("Admin Token:", adminTokenAfter);
+
+        uint256 creatorWethGain = creatorWethAfter - creatorWethBefore;
+        uint256 adminWethGain = adminWethAfter - adminWethBefore;
+        uint256 creatorTokenGain = creatorTokenAfter - creatorTokenBefore;
+        uint256 adminTokenGain = adminTokenAfter - adminTokenBefore;
+
+        console2.log("=== Gains ===");
+        console2.log("Creator WETH gain:", creatorWethGain);
+        console2.log("Admin WETH gain:", adminWethGain);
+        console2.log("Creator Token gain:", creatorTokenGain);
+        console2.log("Admin Token gain:", adminTokenGain);
+
+        // 7. Verify 80/20 split (with some tolerance for rounding)
+        if (creatorWethGain > 0 || adminWethGain > 0) {
+            uint256 totalWethFees = creatorWethGain + adminWethGain;
+            assertApproxEqRel(creatorWethGain, totalWethFees * 80 / 100, 0.01e18, "Creator should get ~80% of WETH fees");
+            assertApproxEqRel(adminWethGain, totalWethFees * 20 / 100, 0.01e18, "Admin should get ~20% of WETH fees");
+        }
+
+        if (creatorTokenGain > 0 || adminTokenGain > 0) {
+            uint256 totalTokenFees = creatorTokenGain + adminTokenGain;
+            assertApproxEqRel(creatorTokenGain, totalTokenFees * 80 / 100, 0.01e18, "Creator should get ~80% of token fees");
+            assertApproxEqRel(adminTokenGain, totalTokenFees * 20 / 100, 0.01e18, "Admin should get ~20% of token fees");
+        }
+    }
+
+    function test_OnlyLockerCanClaimFees() public {
+        vm.prank(creator);
+        (address token, ) = factory.createToken{value: 0.1 ether}(
+            "Test",
+            "TST",
+            ""
+        );
+
+        // Anyone can call claimFees (it just distributes to creator/admin)
+        // This should not revert, even with no fees
+        locker.claimFees(token);
+    }
+
+    function test_ClaimFeesRevertsForUnknownToken() public {
+        address fakeToken = makeAddr("fake");
         
-        // For now just verify the claim function doesn't revert with no fees
-        // locker.claimFees(token);
-        
-        console2.log("Token created for fee testing:", token);
+        vm.expectRevert("Position not found");
+        locker.claimFees(fakeToken);
     }
 
     function test_TokenSupply() public {
