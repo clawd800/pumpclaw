@@ -14,6 +14,15 @@
       "rev": "b66cc587b4185089e6f81bf6a4fc4233f2a7505d"
     }
   },
+  "lib/permit2": {
+    "rev": "cc56ad0f3439c502c246fc5cfcc3db92bb8b7219"
+  },
+  "lib/universal-router": {
+    "tag": {
+      "name": "v1.6.0",
+      "rev": "41183d6eb154f0ab0e74a0e911a5ef9ea51fc4bd"
+    }
+  },
   "lib/v4-core": {
     "tag": {
       "name": "v4.0.0",
