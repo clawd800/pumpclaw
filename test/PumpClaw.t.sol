@@ -314,8 +314,46 @@ contract PumpClawTest is Test {
         // Factory should have 0 tokens (all in LP)
         assertEq(pumpToken.balanceOf(address(factory)), 0, "Factory should have no tokens");
         
-        // Total supply should be 100B
-        assertEq(pumpToken.totalSupply(), 100_000_000_000e18, "Total supply should be 100B");
+        // Total supply should be 1B (default)
+        assertEq(pumpToken.totalSupply(), 1_000_000_000e18, "Total supply should be 1B");
+    }
+
+    function test_CustomSupply() public {
+        uint256 customSupply = 500_000_000e18; // 500M tokens
+        
+        vm.startPrank(creator);
+        (address token, ) = factory.createTokenWithSupply{value: 0.1 ether}(
+            "Custom Supply",
+            "CUST",
+            "",
+            customSupply
+        );
+        vm.stopPrank();
+
+        PumpClawToken pumpToken = PumpClawToken(token);
+        assertEq(pumpToken.totalSupply(), customSupply, "Total supply should be custom amount");
+    }
+
+    function test_RevertWhen_SupplyTooLow() public {
+        vm.prank(creator);
+        vm.expectRevert("Supply too low");
+        factory.createTokenWithSupply{value: 0.1 ether}(
+            "Low Supply",
+            "LOW",
+            "",
+            100e18 // Only 100 tokens, below minimum
+        );
+    }
+
+    function test_RevertWhen_SupplyTooHigh() public {
+        vm.prank(creator);
+        vm.expectRevert("Supply too high");
+        factory.createTokenWithSupply{value: 0.1 ether}(
+            "High Supply",
+            "HIGH",
+            "",
+            10_000_000_000_000e18 // 10T tokens, above maximum
+        );
     }
 
     function test_RevertWhen_CreateTokenNoETH() public {

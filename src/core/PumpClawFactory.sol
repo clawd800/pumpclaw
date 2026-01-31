@@ -24,7 +24,9 @@ import {IPumpClawLPLocker} from "../interfaces/IPumpClawLPLocker.sol";
 contract PumpClawFactory is IPumpClawFactory, ReentrancyGuard {
     using SafeERC20 for IERC20;
 
-    uint256 public constant TOKEN_SUPPLY = 100_000_000_000e18; // 100B tokens
+    uint256 public constant DEFAULT_TOKEN_SUPPLY = 1_000_000_000e18; // 1B tokens (default)
+    uint256 public constant MIN_TOKEN_SUPPLY = 1_000_000e18; // 1M tokens minimum
+    uint256 public constant MAX_TOKEN_SUPPLY = 1_000_000_000_000e18; // 1T tokens maximum
     uint24 public constant LP_FEE = 10000; // 1% fee (in hundredths of bps, so 10000 = 1%)
     int24 public constant TICK_SPACING = 200; // Standard tick spacing for 1% fee
     
@@ -48,20 +50,34 @@ contract PumpClawFactory is IPumpClawFactory, ReentrancyGuard {
         weth = _weth;
     }
 
-    /// @notice Create token with full liquidity on v4
+    /// @notice Create token with full liquidity on v4 (default 1B supply)
     /// @dev Requires ETH to be sent for the WETH side of the pool
     function createToken(
         string calldata name,
         string calldata symbol,
         string calldata imageUrl
-    ) external payable override nonReentrant returns (address token, uint256 positionId) {
+    ) external payable returns (address token, uint256 positionId) {
+        return createTokenWithSupply(name, symbol, imageUrl, DEFAULT_TOKEN_SUPPLY);
+    }
+
+    /// @notice Create token with custom supply and full liquidity on v4
+    /// @dev Requires ETH to be sent for the WETH side of the pool
+    /// @param supply Token supply (must be between MIN_TOKEN_SUPPLY and MAX_TOKEN_SUPPLY)
+    function createTokenWithSupply(
+        string calldata name,
+        string calldata symbol,
+        string calldata imageUrl,
+        uint256 supply
+    ) public payable nonReentrant returns (address token, uint256 positionId) {
         require(msg.value > 0, "Must provide ETH");
+        require(supply >= MIN_TOKEN_SUPPLY, "Supply too low");
+        require(supply <= MAX_TOKEN_SUPPLY, "Supply too high");
 
         // 1. Deploy token (mints to this contract)
         PumpClawToken newToken = new PumpClawToken(
             name,
             symbol,
-            TOKEN_SUPPLY,
+            supply,
             msg.sender,
             imageUrl
         );
@@ -87,10 +103,10 @@ contract PumpClawFactory is IPumpClawFactory, ReentrancyGuard {
         uint160 sqrtPriceX96;
         if (tokenIsToken0) {
             // price = WETH / TOKEN
-            sqrtPriceX96 = _calculateSqrtPrice(msg.value, TOKEN_SUPPLY);
+            sqrtPriceX96 = _calculateSqrtPrice(msg.value, supply);
         } else {
             // price = TOKEN / WETH
-            sqrtPriceX96 = _calculateSqrtPrice(TOKEN_SUPPLY, msg.value);
+            sqrtPriceX96 = _calculateSqrtPrice(supply, msg.value);
         }
 
         // 5. Initialize the pool
@@ -105,12 +121,12 @@ contract PumpClawFactory is IPumpClawFactory, ReentrancyGuard {
             sqrtPriceX96,
             TickMath.getSqrtPriceAtTick(tickLower),
             TickMath.getSqrtPriceAtTick(tickUpper),
-            tokenIsToken0 ? TOKEN_SUPPLY : msg.value,
-            tokenIsToken0 ? msg.value : TOKEN_SUPPLY
+            tokenIsToken0 ? supply : msg.value,
+            tokenIsToken0 ? msg.value : supply
         );
 
         // 8. Transfer tokens to PositionManager (for settlement)
-        IERC20(token).safeTransfer(address(positionManager), TOKEN_SUPPLY);
+        IERC20(token).safeTransfer(address(positionManager), supply);
 
         // 9. Build actions:
         // - WRAP: wrap ETH to WETH (using contract balance from msg.value)
