@@ -12,6 +12,8 @@ import {Currency} from "@uniswap/v4-core/src/types/Currency.sol";
 import {IHooks} from "@uniswap/v4-core/src/interfaces/IHooks.sol";
 import {TickMath} from "@uniswap/v4-core/src/libraries/TickMath.sol";
 import {Actions} from "@uniswap/v4-periphery/src/libraries/Actions.sol";
+import {ActionConstants} from "@uniswap/v4-periphery/src/libraries/ActionConstants.sol";
+import {LiquidityAmounts} from "@uniswap/v4-periphery/src/libraries/LiquidityAmounts.sol";
 
 import {PumpClawToken} from "./PumpClawToken.sol";
 import {IPumpClawFactory} from "../interfaces/IPumpClawFactory.sol";
@@ -25,6 +27,9 @@ contract PumpClawFactory is IPumpClawFactory, ReentrancyGuard {
     uint256 public constant TOKEN_SUPPLY = 100_000_000_000e18; // 100B tokens
     uint24 public constant LP_FEE = 10000; // 1% fee (in hundredths of bps, so 10000 = 1%)
     int24 public constant TICK_SPACING = 200; // Standard tick spacing for 1% fee
+    
+    // Max slippage for minting (very high since we control both sides)
+    uint128 constant MAX_SLIPPAGE = type(uint128).max;
 
     IPoolManager public immutable poolManager;
     IPositionManager public immutable positionManager;
@@ -66,6 +71,8 @@ contract PumpClawFactory is IPumpClawFactory, ReentrancyGuard {
         bool tokenIsToken0 = token < weth;
         Currency currency0 = tokenIsToken0 ? Currency.wrap(token) : Currency.wrap(weth);
         Currency currency1 = tokenIsToken0 ? Currency.wrap(weth) : Currency.wrap(token);
+        Currency tokenCurrency = Currency.wrap(token);
+        Currency wethCurrency = Currency.wrap(weth);
 
         // 3. Create pool key (no hooks for simplicity)
         PoolKey memory poolKey = PoolKey({
@@ -77,8 +84,6 @@ contract PumpClawFactory is IPumpClawFactory, ReentrancyGuard {
         });
 
         // 4. Calculate initial sqrt price based on ETH/token ratio
-        // sqrtPriceX96 = sqrt(price) * 2^96
-        // price = amount1/amount0 (how much token1 per token0)
         uint160 sqrtPriceX96;
         if (tokenIsToken0) {
             // price = WETH / TOKEN
@@ -91,47 +96,70 @@ contract PumpClawFactory is IPumpClawFactory, ReentrancyGuard {
         // 5. Initialize the pool
         positionManager.initializePool(poolKey, sqrtPriceX96);
 
-        // 6. Approve tokens
-        IERC20(token).approve(address(positionManager), TOKEN_SUPPLY);
-
-        // 7. Build actions to mint position with full range liquidity
-        bytes memory actions = abi.encodePacked(
-            uint8(Actions.MINT_POSITION),
-            uint8(Actions.SETTLE_PAIR)
-        );
-
-        bytes[] memory params = new bytes[](2);
-        
-        // MINT_POSITION params: poolKey, tickLower, tickUpper, liquidity, amount0Max, amount1Max, recipient, hookData
+        // 6. Calculate tick range (full range)
         int24 tickLower = TickMath.minUsableTick(TICK_SPACING);
         int24 tickUpper = TickMath.maxUsableTick(TICK_SPACING);
+
+        // 7. Calculate liquidity from our amounts
+        uint128 liquidity = LiquidityAmounts.getLiquidityForAmounts(
+            sqrtPriceX96,
+            TickMath.getSqrtPriceAtTick(tickLower),
+            TickMath.getSqrtPriceAtTick(tickUpper),
+            tokenIsToken0 ? TOKEN_SUPPLY : msg.value,
+            tokenIsToken0 ? msg.value : TOKEN_SUPPLY
+        );
+
+        // 8. Transfer tokens to PositionManager (for settlement)
+        IERC20(token).safeTransfer(address(positionManager), TOKEN_SUPPLY);
+
+        // 9. Build actions:
+        // - WRAP: wrap ETH to WETH (using contract balance from msg.value)
+        // - MINT_POSITION: create the LP position
+        // - SETTLE: settle WETH (from PositionManager's WETH balance after wrap)
+        // - SETTLE: settle token (from PositionManager's token balance after transfer)
+        // - SWEEP: return any excess WETH to creator
+        bytes memory actions = abi.encodePacked(
+            uint8(Actions.WRAP),
+            uint8(Actions.MINT_POSITION),
+            uint8(Actions.SETTLE),
+            uint8(Actions.SETTLE),
+            uint8(Actions.SWEEP)
+        );
+
+        bytes[] memory params = new bytes[](5);
         
-        // For full range, we provide max amounts and let v4 calculate liquidity
-        uint256 amount0Max = tokenIsToken0 ? TOKEN_SUPPLY : msg.value;
-        uint256 amount1Max = tokenIsToken0 ? msg.value : TOKEN_SUPPLY;
+        // WRAP params: amount (CONTRACT_BALANCE = wrap all ETH sent)
+        params[0] = abi.encode(ActionConstants.CONTRACT_BALANCE);
         
-        params[0] = abi.encode(
+        // MINT_POSITION params: poolKey, tickLower, tickUpper, liquidity, amount0Max, amount1Max, owner, hookData
+        params[1] = abi.encode(
             poolKey,
             tickLower,
             tickUpper,
-            0, // liquidity (0 = auto-calculate from amounts)
-            amount0Max,
-            amount1Max,
+            liquidity,
+            MAX_SLIPPAGE,
+            MAX_SLIPPAGE,
             address(lpLocker), // LP position goes directly to locker
             bytes("")
         );
         
-        // SETTLE_PAIR params: currency0, currency1
-        params[1] = abi.encode(currency0, currency1);
+        // SETTLE WETH params: currency, amount (OPEN_DELTA = settle exactly what's owed), payerIsUser (false = PositionManager pays)
+        params[2] = abi.encode(wethCurrency, ActionConstants.OPEN_DELTA, false);
+        
+        // SETTLE token params: same pattern
+        params[3] = abi.encode(tokenCurrency, ActionConstants.OPEN_DELTA, false);
+        
+        // SWEEP params: currency, recipient (sweep excess WETH back to creator)
+        params[4] = abi.encode(wethCurrency, msg.sender);
 
-        // 8. Execute - send ETH with the call
+        // 10. Execute - send ETH with the call
         positionId = positionManager.nextTokenId();
         positionManager.modifyLiquidities{value: msg.value}(
             abi.encode(actions, params),
             block.timestamp + 60
         );
 
-        // 9. Register position in locker
+        // 11. Register position in locker
         lpLocker.lockPosition(token, positionId, msg.sender);
 
         emit TokenCreated(token, msg.sender, name, symbol, positionId, poolKey);
@@ -139,11 +167,9 @@ contract PumpClawFactory is IPumpClawFactory, ReentrancyGuard {
 
     /// @notice Calculate sqrt price X96 from amounts
     function _calculateSqrtPrice(uint256 amount1, uint256 amount0) internal pure returns (uint160) {
-        // sqrtPriceX96 = sqrt(amount1/amount0) * 2^96
-        // To avoid overflow: sqrt(amount1 * 2^192 / amount0)
         require(amount0 > 0, "amount0 zero");
         
-        // Use a simplified calculation that works for most cases
+        // sqrtPriceX96 = sqrt(amount1/amount0) * 2^96
         uint256 ratio = (amount1 * 1e18) / amount0;
         uint256 sqrtRatio = _sqrt(ratio);
         
