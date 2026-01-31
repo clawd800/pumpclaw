@@ -105,7 +105,7 @@ program
       });
 
       const [positionId, creator] = await publicClient.readContract({
-        address: CONTRACTS.LP_LOCKER,
+        address: CONTRACTS.LP_LOCKER_V4,
         abi: LOCKER_ABI,
         functionName: "getPosition",
         args: [tokenAddress as `0x${string}`],
@@ -234,7 +234,7 @@ program
       console.log(`Claiming fees for: ${tokenAddress}`);
 
       const hash = await walletClient.writeContract({
-        address: CONTRACTS.LP_LOCKER,
+        address: CONTRACTS.LP_LOCKER_V4,
         abi: LOCKER_ABI,
         functionName: "claimFees",
         args: [tokenAddress as `0x${string}`],
@@ -315,7 +315,7 @@ program
       });
 
       const creatorFeeBps = await publicClient.readContract({
-        address: CONTRACTS.LP_LOCKER,
+        address: CONTRACTS.LP_LOCKER_V4,
         abi: LOCKER_ABI,
         functionName: "CREATOR_FEE_BPS",
       });
@@ -323,7 +323,7 @@ program
       console.log("PumpClaw V4 Contracts (Base Mainnet)");
       console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
       console.log(`Factory V4: ${CONTRACTS.FACTORY_V4}`);
-      console.log(`LP Locker:  ${CONTRACTS.LP_LOCKER}`);
+      console.log(`LP Locker:  ${CONTRACTS.LP_LOCKER_V4}`);
       console.log(`Swap Router: ${CONTRACTS.SWAP_ROUTER}`);
       console.log(`WETH:       ${CONTRACTS.WETH}`);
       console.log("");
