@@ -383,6 +383,40 @@ contract PumpClawTest is Test {
         locker.setFactory(address(0x456));
     }
 
+    function test_AdminTransfer() public {
+        address newAdmin = makeAddr("newAdmin");
+        
+        // Step 1: Current admin initiates transfer
+        vm.prank(ADMIN);
+        locker.transferAdmin(newAdmin);
+        
+        // Step 2: New admin accepts
+        vm.prank(newAdmin);
+        locker.acceptAdmin();
+        
+        // Verify new admin
+        assertEq(locker.admin(), newAdmin, "Admin should be updated");
+    }
+
+    function test_OnlyAdminCanTransfer() public {
+        vm.prank(user);
+        vm.expectRevert("Only admin");
+        locker.transferAdmin(user);
+    }
+
+    function test_OnlyPendingAdminCanAccept() public {
+        address newAdmin = makeAddr("newAdmin");
+        
+        // Initiate transfer
+        vm.prank(ADMIN);
+        locker.transferAdmin(newAdmin);
+        
+        // Random user tries to accept
+        vm.prank(user);
+        vm.expectRevert("Only pending admin");
+        locker.acceptAdmin();
+    }
+
     function test_MultipleTokens() public {
         vm.startPrank(creator);
         

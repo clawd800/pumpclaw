@@ -24,7 +24,8 @@ contract PumpClawLPLocker is IPumpClawLPLocker, IERC721Receiver, ReentrancyGuard
     uint256 public constant BPS = 10000;
 
     IPositionManager public immutable positionManager;
-    address public immutable admin;
+    address public admin;
+    address public pendingAdmin;
     address public factory;
 
     struct LockedPosition {
@@ -46,6 +47,23 @@ contract PumpClawLPLocker is IPumpClawLPLocker, IERC721Receiver, ReentrancyGuard
         require(factory == address(0), "Factory already set");
         require(_factory != address(0), "Invalid factory");
         factory = _factory;
+    }
+
+    /// @notice Initiate admin transfer (two-step for safety)
+    function transferAdmin(address newAdmin) external {
+        require(msg.sender == admin, "Only admin");
+        require(newAdmin != address(0), "Invalid new admin");
+        pendingAdmin = newAdmin;
+        emit AdminTransferInitiated(admin, newAdmin);
+    }
+
+    /// @notice Accept admin transfer (must be called by pending admin)
+    function acceptAdmin() external {
+        require(msg.sender == pendingAdmin, "Only pending admin");
+        address oldAdmin = admin;
+        admin = pendingAdmin;
+        pendingAdmin = address(0);
+        emit AdminTransferred(oldAdmin, admin);
     }
 
     /// @notice Lock an LP position - can only be called by factory
