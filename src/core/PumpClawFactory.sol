@@ -27,6 +27,7 @@ contract PumpClawFactory is IPumpClawFactory, ReentrancyGuard {
     uint256 public constant DEFAULT_TOKEN_SUPPLY = 1_000_000_000e18; // 1B tokens (default)
     uint256 public constant MIN_TOKEN_SUPPLY = 1_000_000e18; // 1M tokens minimum
     uint256 public constant MAX_TOKEN_SUPPLY = 1_000_000_000_000e18; // 1T tokens maximum
+    uint256 public constant MIN_ETH = 0.0001 ether; // Minimum ETH to prevent price precision issues
     uint24 public constant LP_FEE = 10000; // 1% fee (in hundredths of bps, so 10000 = 1%)
     int24 public constant TICK_SPACING = 200; // Standard tick spacing for 1% fee
     
@@ -69,7 +70,7 @@ contract PumpClawFactory is IPumpClawFactory, ReentrancyGuard {
         string calldata imageUrl,
         uint256 supply
     ) public payable nonReentrant returns (address token, uint256 positionId) {
-        require(msg.value > 0, "Must provide ETH");
+        require(msg.value >= MIN_ETH, "ETH below minimum");
         require(supply >= MIN_TOKEN_SUPPLY, "Supply too low");
         require(supply <= MAX_TOKEN_SUPPLY, "Supply too high");
 

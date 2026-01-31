@@ -2,6 +2,7 @@
 pragma solidity ^0.8.28;
 
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import {IERC721} from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import {IERC721Receiver} from "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
@@ -24,6 +25,7 @@ contract PumpClawLPLocker is IPumpClawLPLocker, IERC721Receiver, ReentrancyGuard
 
     IPositionManager public immutable positionManager;
     address public immutable admin;
+    address public factory;
 
     struct LockedPosition {
         uint256 positionId;
@@ -39,10 +41,20 @@ contract PumpClawLPLocker is IPumpClawLPLocker, IERC721Receiver, ReentrancyGuard
         admin = _admin;
     }
 
-    /// @notice Lock an LP position - can only be called once per token
+    /// @notice Set the factory address (can only be set once)
+    function setFactory(address _factory) external {
+        require(factory == address(0), "Factory already set");
+        require(_factory != address(0), "Invalid factory");
+        factory = _factory;
+    }
+
+    /// @notice Lock an LP position - can only be called by factory
     function lockPosition(address token, uint256 positionId, address creator) external override {
+        require(msg.sender == factory, "Only factory");
         require(!positions[token].exists, "Already locked");
         require(creator != address(0), "Invalid creator");
+        // Verify we own the position NFT
+        require(IERC721(address(positionManager)).ownerOf(positionId) == address(this), "Position not owned");
         
         positions[token] = LockedPosition({
             positionId: positionId,
@@ -61,6 +73,13 @@ contract PumpClawLPLocker is IPumpClawLPLocker, IERC721Receiver, ReentrancyGuard
         // Get pool key and position info
         (PoolKey memory poolKey, ) = positionManager.getPoolAndPositionInfo(pos.positionId);
 
+        address token0 = Currency.unwrap(poolKey.currency0);
+        address token1 = Currency.unwrap(poolKey.currency1);
+
+        // Snapshot balances BEFORE fee collection to avoid accumulated balance bug
+        uint256 balanceBefore0 = token0 == address(0) ? address(this).balance : IERC20(token0).balanceOf(address(this));
+        uint256 balanceBefore1 = token1 == address(0) ? address(this).balance : IERC20(token1).balanceOf(address(this));
+
         // Build actions to collect fees (decrease liquidity by 0)
         bytes memory actions = abi.encodePacked(
             uint8(Actions.DECREASE_LIQUIDITY),
@@ -78,12 +97,12 @@ contract PumpClawLPLocker is IPumpClawLPLocker, IERC721Receiver, ReentrancyGuard
         // Execute fee collection
         positionManager.modifyLiquidities(abi.encode(actions, params), block.timestamp + 60);
 
-        // Get balances and distribute
-        address token0 = Currency.unwrap(poolKey.currency0);
-        address token1 = Currency.unwrap(poolKey.currency1);
+        // Calculate actual fees collected (balance after - balance before)
+        uint256 balanceAfter0 = token0 == address(0) ? address(this).balance : IERC20(token0).balanceOf(address(this));
+        uint256 balanceAfter1 = token1 == address(0) ? address(this).balance : IERC20(token1).balanceOf(address(this));
         
-        uint256 balance0 = token0 == address(0) ? address(this).balance : IERC20(token0).balanceOf(address(this));
-        uint256 balance1 = token1 == address(0) ? address(this).balance : IERC20(token1).balanceOf(address(this));
+        uint256 balance0 = balanceAfter0 - balanceBefore0;
+        uint256 balance1 = balanceAfter1 - balanceBefore1;
 
         if (balance0 > 0 || balance1 > 0) {
             uint256 creatorShare0 = (balance0 * CREATOR_FEE_BPS) / BPS;

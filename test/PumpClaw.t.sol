@@ -50,6 +50,9 @@ contract PumpClawTest is Test {
             WETH
         );
         
+        // Link locker to factory (security: only factory can lock positions)
+        locker.setFactory(address(factory));
+        
         // Deploy swap router for testing
         swapRouter = new PoolSwapTest(poolManager);
 
@@ -358,8 +361,26 @@ contract PumpClawTest is Test {
 
     function test_RevertWhen_CreateTokenNoETH() public {
         vm.prank(creator);
-        vm.expectRevert("Must provide ETH");
+        vm.expectRevert("ETH below minimum");
         factory.createToken("Fail", "FAIL", "");
+    }
+
+    function test_RevertWhen_ETHBelowMinimum() public {
+        vm.prank(creator);
+        vm.expectRevert("ETH below minimum");
+        factory.createToken{value: 0.00001 ether}("Fail", "FAIL", ""); // Below 0.0001 ETH minimum
+    }
+
+    function test_OnlyFactoryCanLock() public {
+        vm.prank(user);
+        vm.expectRevert("Only factory");
+        locker.lockPosition(address(0x123), 1, user);
+    }
+
+    function test_FactoryCanOnlyBeSetOnce() public {
+        // Factory already set in setUp
+        vm.expectRevert("Factory already set");
+        locker.setFactory(address(0x456));
     }
 
     function test_MultipleTokens() public {
