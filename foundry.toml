@@ -10,7 +10,8 @@ via_ir = true
 
 # Fork settings
 [rpc_endpoints]
-base = "https://mainnet.base.org"
+base = "https://base-rpc.publicnode.com"
+base_fallback = "https://mainnet.base.org"
 
 [fuzz]
 runs = 256
