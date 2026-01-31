@@ -1,0 +1,23 @@
+{
+  "name": "pumpclaw-cli",
+  "version": "0.1.0",
+  "description": "CLI for PumpClaw - token launcher on Base",
+  "type": "module",
+  "bin": {
+    "pumpclaw": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/cli.ts",
+    "start": "node dist/cli.js"
+  },
+  "dependencies": {
+    "commander": "^13.1.0",
+    "viem": "^2.45.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.29",
+    "tsx": "^4.20.2",
+    "typescript": "^5.9.3"
+  }
+}
