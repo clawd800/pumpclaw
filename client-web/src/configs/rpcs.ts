@@ -1,0 +1,15 @@
+export const BASE_RPC_ENDPOINTS = [
+  "https://base-rpc.publicnode.com",
+  "https://mainnet.base.org",
+  "https://developer-access-mainnet.base.org",
+  "https://base-mainnet.public.blastapi.io",
+  "https://base-public.nodies.app",
+  "https://rpc.poolz.finance/base",
+  "https://base.meowrpc.com",
+  "https://api.zan.top/base-mainnet",
+  "https://1rpc.io/base",
+  "https://endpoints.omniatech.io/v1/base/mainnet/public",
+  "https://base.public.blockpi.network/v1/rpc/public",
+  "https://base.drpc.org",
+  "https://base.llamarpc.com",
+] as const;

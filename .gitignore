@@ -1,3 +1,9 @@
 clanker-v4-reference/
 out/
 cache/
+
+# Client web
+client-web/node_modules/
+client-web/dist/
+client-web/.env
+client-web/.env.local
