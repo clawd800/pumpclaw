@@ -39,6 +39,21 @@ contract PumpClawFactory is IPumpClawFactory, ReentrancyGuard {
     IPumpClawLPLocker public immutable lpLocker;
     address public immutable weth;
 
+    // Token registry for on-chain indexing
+    struct TokenInfo {
+        address token;
+        address creator;
+        uint256 positionId;
+        uint256 supply;
+        uint256 createdAt;
+        string name;
+        string symbol;
+    }
+
+    TokenInfo[] public tokens;
+    mapping(address => uint256) public tokenIndex; // token address => index + 1 (0 means not found)
+    mapping(address => uint256[]) public tokensByCreator; // creator => token indices
+
     constructor(
         address _poolManager,
         address _positionManager,
@@ -179,7 +194,79 @@ contract PumpClawFactory is IPumpClawFactory, ReentrancyGuard {
         // 11. Register position in locker
         lpLocker.lockPosition(token, positionId, msg.sender);
 
+        // 12. Register token in on-chain registry
+        tokens.push(TokenInfo({
+            token: token,
+            creator: msg.sender,
+            positionId: positionId,
+            supply: supply,
+            createdAt: block.timestamp,
+            name: name,
+            symbol: symbol
+        }));
+        tokenIndex[token] = tokens.length; // index + 1
+        tokensByCreator[msg.sender].push(tokens.length - 1);
+
         emit TokenCreated(token, msg.sender, name, symbol, positionId, poolKey);
+    }
+
+    /// @notice Get total number of tokens created
+    function getTokenCount() external view returns (uint256) {
+        return tokens.length;
+    }
+
+    /// @notice Get tokens with pagination (prevents gas overflow)
+    /// @param startIndex Starting index (inclusive)
+    /// @param endIndex Ending index (exclusive)
+    function getTokens(uint256 startIndex, uint256 endIndex) external view returns (TokenInfo[] memory) {
+        require(startIndex < endIndex, "Invalid range");
+        if (endIndex > tokens.length) {
+            endIndex = tokens.length;
+        }
+        
+        uint256 length = endIndex - startIndex;
+        TokenInfo[] memory result = new TokenInfo[](length);
+        
+        for (uint256 i = 0; i < length; i++) {
+            result[i] = tokens[startIndex + i];
+        }
+        
+        return result;
+    }
+
+    /// @notice Get token info by address
+    function getTokenInfo(address token) external view returns (TokenInfo memory) {
+        uint256 idx = tokenIndex[token];
+        require(idx > 0, "Token not found");
+        return tokens[idx - 1];
+    }
+
+    /// @notice Get tokens created by a specific creator
+    function getTokensByCreator(address creator) external view returns (uint256[] memory) {
+        return tokensByCreator[creator];
+    }
+
+    /// @notice Get tokens by creator with pagination
+    function getTokensByCreatorPaginated(
+        address creator,
+        uint256 startIndex,
+        uint256 endIndex
+    ) external view returns (TokenInfo[] memory) {
+        uint256[] storage indices = tokensByCreator[creator];
+        
+        require(startIndex < endIndex, "Invalid range");
+        if (endIndex > indices.length) {
+            endIndex = indices.length;
+        }
+        
+        uint256 length = endIndex - startIndex;
+        TokenInfo[] memory result = new TokenInfo[](length);
+        
+        for (uint256 i = 0; i < length; i++) {
+            result[i] = tokens[indices[startIndex + i]];
+        }
+        
+        return result;
     }
 
     /// @notice Calculate sqrt price X96 from amounts

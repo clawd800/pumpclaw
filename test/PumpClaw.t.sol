@@ -417,6 +417,86 @@ contract PumpClawTest is Test {
         locker.acceptAdmin();
     }
 
+    // ========== Token Registry Tests ==========
+
+    function test_TokenRegistry() public {
+        vm.startPrank(creator);
+        
+        // Create first token
+        (address token1, uint256 pos1) = factory.createToken{value: 0.1 ether}("Token One", "ONE", "");
+        
+        // Create second token
+        (address token2, uint256 pos2) = factory.createToken{value: 0.1 ether}("Token Two", "TWO", "");
+        
+        vm.stopPrank();
+
+        // Check count
+        assertEq(factory.getTokenCount(), 2, "Should have 2 tokens");
+
+        // Check token info
+        PumpClawFactory.TokenInfo memory info1 = factory.getTokenInfo(token1);
+        assertEq(info1.token, token1);
+        assertEq(info1.creator, creator);
+        assertEq(info1.positionId, pos1);
+        assertEq(info1.supply, 1_000_000_000e18);
+        assertEq(keccak256(bytes(info1.name)), keccak256(bytes("Token One")));
+
+        PumpClawFactory.TokenInfo memory info2 = factory.getTokenInfo(token2);
+        assertEq(info2.token, token2);
+        assertEq(info2.positionId, pos2);
+    }
+
+    function test_TokenRegistryPagination() public {
+        vm.startPrank(creator);
+        
+        // Create 5 tokens
+        for (uint i = 0; i < 5; i++) {
+            factory.createToken{value: 0.1 ether}(
+                string(abi.encodePacked("Token ", i)),
+                string(abi.encodePacked("TKN", i)),
+                ""
+            );
+        }
+        
+        vm.stopPrank();
+
+        // Get page 1 (0-2)
+        PumpClawFactory.TokenInfo[] memory page1 = factory.getTokens(0, 2);
+        assertEq(page1.length, 2);
+
+        // Get page 2 (2-4)
+        PumpClawFactory.TokenInfo[] memory page2 = factory.getTokens(2, 4);
+        assertEq(page2.length, 2);
+
+        // Get page 3 (4-10) - should return only 1
+        PumpClawFactory.TokenInfo[] memory page3 = factory.getTokens(4, 10);
+        assertEq(page3.length, 1);
+    }
+
+    function test_TokensByCreator() public {
+        // Creator 1 creates 2 tokens
+        vm.startPrank(creator);
+        factory.createToken{value: 0.1 ether}("Creator1 Token1", "C1T1", "");
+        factory.createToken{value: 0.1 ether}("Creator1 Token2", "C1T2", "");
+        vm.stopPrank();
+
+        // Creator 2 (user) creates 1 token
+        vm.prank(user);
+        factory.createToken{value: 0.1 ether}("Creator2 Token1", "C2T1", "");
+
+        // Check creator1's tokens
+        uint256[] memory creator1Tokens = factory.getTokensByCreator(creator);
+        assertEq(creator1Tokens.length, 2);
+
+        // Check creator2's tokens
+        uint256[] memory creator2Tokens = factory.getTokensByCreator(user);
+        assertEq(creator2Tokens.length, 1);
+
+        // Test paginated retrieval
+        PumpClawFactory.TokenInfo[] memory c1Paginated = factory.getTokensByCreatorPaginated(creator, 0, 10);
+        assertEq(c1Paginated.length, 2);
+    }
+
     function test_MultipleTokens() public {
         vm.startPrank(creator);
         
