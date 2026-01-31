@@ -16,6 +16,7 @@ import {
   FACTORY_ABI,
   LOCKER_ABI,
   TOKEN_ABI,
+  SWAP_ROUTER_ABI,
 } from "./constants.js";
 
 const publicClient = createPublicClient({
@@ -338,6 +339,141 @@ program
       console.log(`Min ETH:        ${formatEther(minEth)} ETH`);
       console.log(`Default Supply: ${formatUnits(defaultSupply, 18)}`);
       console.log(`Creator Fee:    ${Number(creatorFeeBps) / 100}%`);
+      console.log(`Swap Router:    ${CONTRACTS.SWAP_ROUTER}`);
+    } catch (error: any) {
+      console.error("Error:", error.message);
+      process.exit(1);
+    }
+  });
+
+// Buy tokens with ETH
+program
+  .command("buy <token>")
+  .description("Buy tokens with ETH")
+  .requiredOption("-e, --eth <amount>", "Amount of ETH to spend")
+  .option("--slippage <percent>", "Slippage tolerance in percent", "5")
+  .action(async (tokenAddress, opts) => {
+    try {
+      const walletClient = getWalletClient();
+      const account = walletClient.account!;
+
+      const ethAmount = parseEther(opts.eth);
+
+      // Get token info
+      const symbol = await publicClient.readContract({
+        address: tokenAddress as `0x${string}`,
+        abi: TOKEN_ABI,
+        functionName: "symbol",
+      });
+
+      // Get balance before
+      const balanceBefore = await publicClient.readContract({
+        address: tokenAddress as `0x${string}`,
+        abi: TOKEN_ABI,
+        functionName: "balanceOf",
+        args: [account.address],
+      });
+
+      console.log(`Buying ${symbol} with ${opts.eth} ETH`);
+
+      const hash = await walletClient.writeContract({
+        address: CONTRACTS.SWAP_ROUTER,
+        abi: SWAP_ROUTER_ABI,
+        functionName: "buyTokens",
+        args: [tokenAddress as `0x${string}`, 0n], // 0 for no slippage protection
+        value: ethAmount,
+      });
+
+      console.log(`Transaction: ${hash}`);
+      console.log("Waiting for confirmation...");
+
+      const receipt = await publicClient.waitForTransactionReceipt({ hash });
+
+      if (receipt.status === "success") {
+        const balanceAfter = await publicClient.readContract({
+          address: tokenAddress as `0x${string}`,
+          abi: TOKEN_ABI,
+          functionName: "balanceOf",
+          args: [account.address],
+        });
+
+        const received = balanceAfter - balanceBefore;
+        console.log(`✅ Bought ${formatUnits(received, 18)} ${symbol}!`);
+      } else {
+        console.log("❌ Transaction failed");
+      }
+    } catch (error: any) {
+      console.error("Error:", error.message);
+      process.exit(1);
+    }
+  });
+
+// Sell tokens for ETH
+program
+  .command("sell <token>")
+  .description("Sell tokens for ETH")
+  .requiredOption("-a, --amount <amount>", "Amount of tokens to sell")
+  .option("--slippage <percent>", "Slippage tolerance in percent", "5")
+  .action(async (tokenAddress, opts) => {
+    try {
+      const walletClient = getWalletClient();
+      const account = walletClient.account!;
+
+      const tokenAmount = parseEther(opts.amount);
+
+      // Get token info
+      const symbol = await publicClient.readContract({
+        address: tokenAddress as `0x${string}`,
+        abi: TOKEN_ABI,
+        functionName: "symbol",
+      });
+
+      console.log(`Selling ${opts.amount} ${symbol} for ETH`);
+
+      // Approve router
+      console.log("Approving router...");
+      const approveHash = await walletClient.writeContract({
+        address: tokenAddress as `0x${string}`,
+        abi: [
+          {
+            type: "function",
+            name: "approve",
+            inputs: [
+              { name: "spender", type: "address" },
+              { name: "amount", type: "uint256" },
+            ],
+            outputs: [{ name: "", type: "bool" }],
+            stateMutability: "nonpayable",
+          },
+        ],
+        functionName: "approve",
+        args: [CONTRACTS.SWAP_ROUTER, tokenAmount],
+      });
+      await publicClient.waitForTransactionReceipt({ hash: approveHash });
+
+      // Get ETH balance before
+      const ethBefore = await publicClient.getBalance({ address: account.address });
+
+      // Execute swap
+      const hash = await walletClient.writeContract({
+        address: CONTRACTS.SWAP_ROUTER,
+        abi: SWAP_ROUTER_ABI,
+        functionName: "sellTokens",
+        args: [tokenAddress as `0x${string}`, tokenAmount, 0n],
+      });
+
+      console.log(`Transaction: ${hash}`);
+      console.log("Waiting for confirmation...");
+
+      const receipt = await publicClient.waitForTransactionReceipt({ hash });
+
+      if (receipt.status === "success") {
+        const ethAfter = await publicClient.getBalance({ address: account.address });
+        const received = ethAfter - ethBefore;
+        console.log(`✅ Received ~${formatEther(received)} ETH!`);
+      } else {
+        console.log("❌ Transaction failed");
+      }
     } catch (error: any) {
       console.error("Error:", error.message);
       process.exit(1);

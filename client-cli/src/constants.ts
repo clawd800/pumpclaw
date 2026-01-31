@@ -1,7 +1,9 @@
 export const CONTRACTS = {
   FACTORY: "0x5FdB07360476a6b530890eBE210dbB63ee2B0EeD" as const,
   LP_LOCKER: "0x5b23417DE66C7795bCB294c4e0BfaBd1c290d0f3" as const,
+  SWAP_ROUTER: "0x0c7eefbf31597254fe72d0fbb19667d5cd5d5752" as const,
   WETH: "0x4200000000000000000000000000000000000006" as const,
+  POOL_MANAGER: "0x498581fF718922c3f8e6A244956aF099B2652b2b" as const,
 } as const;
 
 export const BASE_RPC = "https://base-rpc.publicnode.com";
@@ -227,5 +229,29 @@ export const TOKEN_ABI = [
     inputs: [{ name: "account", type: "address" }],
     outputs: [{ name: "", type: "uint256" }],
     stateMutability: "view",
+  },
+] as const;
+
+export const SWAP_ROUTER_ABI = [
+  {
+    type: "function",
+    name: "buyTokens",
+    inputs: [
+      { name: "token", type: "address" },
+      { name: "minTokensOut", type: "uint256" },
+    ],
+    outputs: [{ name: "tokensOut", type: "uint256" }],
+    stateMutability: "payable",
+  },
+  {
+    type: "function",
+    name: "sellTokens",
+    inputs: [
+      { name: "token", type: "address" },
+      { name: "tokensIn", type: "uint256" },
+      { name: "minEthOut", type: "uint256" },
+    ],
+    outputs: [{ name: "ethOut", type: "uint256" }],
+    stateMutability: "nonpayable",
   },
 ] as const;
