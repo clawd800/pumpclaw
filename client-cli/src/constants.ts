@@ -1,15 +1,19 @@
 export const CONTRACTS = {
-  FACTORY: "0x5FdB07360476a6b530890eBE210dbB63ee2B0EeD" as const,
+  FACTORY_V4: "0x0B7BCa07d37092BAf623e91650cCfd97A442437C" as const,
+  FACTORY_V1: "0x5FdB07360476a6b530890eBE210dbB63ee2B0EeD" as const, // Legacy
   LP_LOCKER: "0x5b23417DE66C7795bCB294c4e0BfaBd1c290d0f3" as const,
   SWAP_ROUTER: "0x0c7eefbf31597254fe72d0fbb19667d5cd5d5752" as const,
   WETH: "0x4200000000000000000000000000000000000006" as const,
   POOL_MANAGER: "0x498581fF718922c3f8e6A244956aF099B2652b2b" as const,
 } as const;
 
+export const DEFAULT_FDV = 20n * 10n ** 18n; // 20 ETH
+
 export const BASE_RPC = "https://base-rpc.publicnode.com";
 export const BASE_CHAIN_ID = 8453;
 
-export const FACTORY_ABI = [
+// V4 Factory ABI (no ETH deposit, FDV-based pricing)
+export const FACTORY_V4_ABI = [
   {
     type: "function",
     name: "createToken",
@@ -22,7 +26,22 @@ export const FACTORY_ABI = [
       { name: "token", type: "address" },
       { name: "positionId", type: "uint256" },
     ],
-    stateMutability: "payable",
+    stateMutability: "nonpayable",
+  },
+  {
+    type: "function",
+    name: "createTokenWithFdv",
+    inputs: [
+      { name: "name", type: "string" },
+      { name: "symbol", type: "string" },
+      { name: "imageUrl", type: "string" },
+      { name: "initialFdv", type: "uint256" },
+    ],
+    outputs: [
+      { name: "token", type: "address" },
+      { name: "positionId", type: "uint256" },
+    ],
+    stateMutability: "nonpayable",
   },
   {
     type: "function",
@@ -31,44 +50,35 @@ export const FACTORY_ABI = [
       { name: "name", type: "string" },
       { name: "symbol", type: "string" },
       { name: "imageUrl", type: "string" },
+      { name: "initialFdv", type: "uint256" },
       { name: "creator", type: "address" },
     ],
     outputs: [
       { name: "token", type: "address" },
       { name: "positionId", type: "uint256" },
     ],
-    stateMutability: "payable",
+    stateMutability: "nonpayable",
   },
   {
     type: "function",
-    name: "createTokenWithSupply",
-    inputs: [
-      { name: "name", type: "string" },
-      { name: "symbol", type: "string" },
-      { name: "imageUrl", type: "string" },
-      { name: "supply", type: "uint256" },
-    ],
-    outputs: [
-      { name: "token", type: "address" },
-      { name: "positionId", type: "uint256" },
-    ],
-    stateMutability: "payable",
+    name: "DEFAULT_FDV",
+    inputs: [],
+    outputs: [{ name: "", type: "uint256" }],
+    stateMutability: "view",
   },
   {
     type: "function",
-    name: "createTokenWithSupplyFor",
-    inputs: [
-      { name: "name", type: "string" },
-      { name: "symbol", type: "string" },
-      { name: "imageUrl", type: "string" },
-      { name: "supply", type: "uint256" },
-      { name: "creator", type: "address" },
-    ],
-    outputs: [
-      { name: "token", type: "address" },
-      { name: "positionId", type: "uint256" },
-    ],
-    stateMutability: "payable",
+    name: "TOKEN_SUPPLY",
+    inputs: [],
+    outputs: [{ name: "", type: "uint256" }],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "PRICE_RANGE_MULTIPLIER",
+    inputs: [],
+    outputs: [{ name: "", type: "uint256" }],
+    stateMutability: "view",
   },
   {
     type: "function",
@@ -92,7 +102,7 @@ export const FACTORY_ABI = [
           { name: "token", type: "address" },
           { name: "creator", type: "address" },
           { name: "positionId", type: "uint256" },
-          { name: "supply", type: "uint256" },
+          { name: "initialFdv", type: "uint256" },
           { name: "createdAt", type: "uint256" },
           { name: "name", type: "string" },
           { name: "symbol", type: "string" },
@@ -113,7 +123,7 @@ export const FACTORY_ABI = [
           { name: "token", type: "address" },
           { name: "creator", type: "address" },
           { name: "positionId", type: "uint256" },
-          { name: "supply", type: "uint256" },
+          { name: "initialFdv", type: "uint256" },
           { name: "createdAt", type: "uint256" },
           { name: "name", type: "string" },
           { name: "symbol", type: "string" },
@@ -137,23 +147,34 @@ export const FACTORY_ABI = [
       { name: "token", type: "address" },
       { name: "creator", type: "address" },
       { name: "positionId", type: "uint256" },
-      { name: "supply", type: "uint256" },
+      { name: "initialFdv", type: "uint256" },
       { name: "createdAt", type: "uint256" },
       { name: "name", type: "string" },
       { name: "symbol", type: "string" },
     ],
     stateMutability: "view",
   },
+] as const;
+
+// Legacy V1 Factory ABI (kept for reference)
+export const FACTORY_ABI = [
   {
     type: "function",
-    name: "DEFAULT_TOKEN_SUPPLY",
-    inputs: [],
-    outputs: [{ name: "", type: "uint256" }],
-    stateMutability: "view",
+    name: "createToken",
+    inputs: [
+      { name: "name", type: "string" },
+      { name: "symbol", type: "string" },
+      { name: "imageUrl", type: "string" },
+    ],
+    outputs: [
+      { name: "token", type: "address" },
+      { name: "positionId", type: "uint256" },
+    ],
+    stateMutability: "payable",
   },
   {
     type: "function",
-    name: "MIN_ETH",
+    name: "getTokenCount",
     inputs: [],
     outputs: [{ name: "", type: "uint256" }],
     stateMutability: "view",

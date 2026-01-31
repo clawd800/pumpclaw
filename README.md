@@ -14,9 +14,14 @@ PumpClaw allows anyone to create fair launch memecoins with instant liquidity on
 
 | Contract | Address |
 |----------|---------|
-| Factory | `0x5FdB07360476a6b530890eBE210dbB63ee2B0EeD` |
+| **Factory V4** | `0x0B7BCa07d37092BAf623e91650cCfd97A442437C` |
 | LP Locker | `0x5b23417DE66C7795bCB294c4e0BfaBd1c290d0f3` |
 | Swap Router | `0x0c7eefbf31597254fe72d0fbb19667d5cd5d5752` |
+
+### Legacy (V1)
+| Contract | Address |
+|----------|---------|
+| Factory V1 | `0x5FdB07360476a6b530890eBE210dbB63ee2B0EeD` |
 
 ## CLI Usage
 
@@ -30,8 +35,11 @@ export PRIVATE_KEY=0x...
 # View factory info
 npx tsx src/cli.ts info
 
-# Create a new token
-npx tsx src/cli.ts create --name "My Token" --symbol "MTK" --value 0.001
+# Create a new token (V4: no ETH required!)
+npx tsx src/cli.ts create --name "My Token" --symbol "MTK"
+
+# Create with custom FDV (default: 20 ETH)
+npx tsx src/cli.ts create --name "My Token" --symbol "MTK" --fdv 50
 
 # Buy tokens with ETH
 npx tsx src/cli.ts buy <token_address> -e 0.001

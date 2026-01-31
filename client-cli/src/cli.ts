@@ -13,10 +13,11 @@ import { privateKeyToAccount } from "viem/accounts";
 import {
   CONTRACTS,
   BASE_RPC,
-  FACTORY_ABI,
+  FACTORY_V4_ABI,
   LOCKER_ABI,
   TOKEN_ABI,
   SWAP_ROUTER_ABI,
+  DEFAULT_FDV,
 } from "./constants.js";
 
 const publicClient = createPublicClient({
@@ -55,8 +56,8 @@ program
   .action(async (opts) => {
     try {
       const count = await publicClient.readContract({
-        address: CONTRACTS.FACTORY,
-        abi: FACTORY_ABI,
+        address: CONTRACTS.FACTORY_V4,
+        abi: FACTORY_V4_ABI,
         functionName: "getTokenCount",
       });
 
@@ -69,8 +70,8 @@ program
       const end = Math.min(offset + limit, Number(count));
 
       const tokens = await publicClient.readContract({
-        address: CONTRACTS.FACTORY,
-        abi: FACTORY_ABI,
+        address: CONTRACTS.FACTORY_V4,
+        abi: FACTORY_V4_ABI,
         functionName: "getTokens",
         args: [BigInt(offset), BigInt(end)],
       });
@@ -80,7 +81,7 @@ program
         console.log(`${token.symbol} (${token.name})`);
         console.log(`  Token: ${token.token}`);
         console.log(`  Creator: ${token.creator}`);
-        console.log(`  Supply: ${formatUnits(token.supply, 18)}`);
+        console.log(`  FDV: ${formatEther(token.initialFdv)} ETH`);
         console.log(`  Created: ${date.toISOString()}`);
         console.log("");
       }
@@ -97,8 +98,8 @@ program
   .action(async (tokenAddress) => {
     try {
       const info = await publicClient.readContract({
-        address: CONTRACTS.FACTORY,
-        abi: FACTORY_ABI,
+        address: CONTRACTS.FACTORY_V4,
+        abi: FACTORY_V4_ABI,
         functionName: "getTokenInfo",
         args: [tokenAddress as `0x${string}`],
       });
@@ -122,7 +123,7 @@ program
       console.log(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
       console.log(`Token:      ${info.token}`);
       console.log(`Creator:    ${info.creator}`);
-      console.log(`Supply:     ${formatUnits(info.supply, 18)}`);
+      console.log(`FDV:        ${formatEther(info.initialFdv)} ETH`);
       console.log(`Position:   ${positionId}`);
       console.log(`Created:    ${date.toISOString()}`);
       if (imageUrl) console.log(`Image:      ${imageUrl}`);
@@ -133,76 +134,59 @@ program
     }
   });
 
-// Create token
+// Create token (V4 - no ETH required!)
 program
   .command("create")
-  .description("Create a new token")
+  .description("Create a new token (no ETH deposit required)")
   .requiredOption("-n, --name <name>", "Token name")
   .requiredOption("-s, --symbol <symbol>", "Token symbol")
   .option("-i, --image <url>", "Image URL", "")
-  .option("-e, --eth <amount>", "ETH for liquidity", "0.001")
-  .option("--supply <amount>", "Custom token supply (default: 1B)")
+  .option("-f, --fdv <amount>", "Initial FDV in ETH (default: 20)")
   .option("--creator <address>", "Creator address (defaults to sender)")
   .action(async (opts) => {
     try {
       const walletClient = getWalletClient();
       const account = walletClient.account!;
 
+      const fdv = opts.fdv ? parseEther(opts.fdv) : DEFAULT_FDV;
+
       console.log(`Creating token: ${opts.name} (${opts.symbol})`);
       console.log(`Creator: ${opts.creator || account.address}`);
-      console.log(`ETH: ${opts.eth}`);
-      if (opts.supply) console.log(`Supply: ${opts.supply}`);
+      console.log(`Initial FDV: ${formatEther(fdv)} ETH`);
+      console.log(`(No ETH deposit required!)`);
       console.log("");
 
-      const value = parseEther(opts.eth);
       let hash: `0x${string}`;
 
-      if (opts.supply && opts.creator) {
-        // Custom supply + custom creator
+      if (opts.creator) {
+        // Custom creator with FDV
         hash = await walletClient.writeContract({
-          address: CONTRACTS.FACTORY,
-          abi: FACTORY_ABI,
-          functionName: "createTokenWithSupplyFor",
-          args: [
-            opts.name,
-            opts.symbol,
-            opts.image,
-            parseEther(opts.supply),
-            opts.creator as `0x${string}`,
-          ],
-          value,
-        });
-      } else if (opts.supply) {
-        // Custom supply
-        hash = await walletClient.writeContract({
-          address: CONTRACTS.FACTORY,
-          abi: FACTORY_ABI,
-          functionName: "createTokenWithSupply",
-          args: [opts.name, opts.symbol, opts.image, parseEther(opts.supply)],
-          value,
-        });
-      } else if (opts.creator) {
-        // Custom creator
-        hash = await walletClient.writeContract({
-          address: CONTRACTS.FACTORY,
-          abi: FACTORY_ABI,
+          address: CONTRACTS.FACTORY_V4,
+          abi: FACTORY_V4_ABI,
           functionName: "createTokenFor",
           args: [
             opts.name,
             opts.symbol,
             opts.image,
+            fdv,
             opts.creator as `0x${string}`,
           ],
-          value,
+        });
+      } else if (opts.fdv) {
+        // Custom FDV
+        hash = await walletClient.writeContract({
+          address: CONTRACTS.FACTORY_V4,
+          abi: FACTORY_V4_ABI,
+          functionName: "createTokenWithFdv",
+          args: [opts.name, opts.symbol, opts.image, fdv],
         });
       } else {
-        // Default
+        // Default (20 ETH FDV)
         hash = await walletClient.writeContract({
-          address: CONTRACTS.FACTORY,
-          abi: FACTORY_ABI,
+          address: CONTRACTS.FACTORY_V4,
+          abi: FACTORY_V4_ABI,
           functionName: "createToken",
           args: [opts.name, opts.symbol, opts.image],
-          value,
         });
       }
 
@@ -214,20 +198,21 @@ program
       if (receipt.status === "success") {
         // Get token address from logs
         const count = await publicClient.readContract({
-          address: CONTRACTS.FACTORY,
-          abi: FACTORY_ABI,
+          address: CONTRACTS.FACTORY_V4,
+          abi: FACTORY_V4_ABI,
           functionName: "getTokenCount",
         });
 
         const [token] = await publicClient.readContract({
-          address: CONTRACTS.FACTORY,
-          abi: FACTORY_ABI,
+          address: CONTRACTS.FACTORY_V4,
+          abi: FACTORY_V4_ABI,
           functionName: "getTokens",
           args: [count - 1n, count],
         });
 
         console.log(`\n✅ Token created!`);
         console.log(`Token: ${token.token}`);
+        console.log(`FDV: ${formatEther(token.initialFdv)} ETH`);
         console.log(`Basescan: https://basescan.org/token/${token.token}`);
       } else {
         console.log("❌ Transaction failed");
@@ -278,8 +263,8 @@ program
   .action(async (creatorAddress) => {
     try {
       const indices = await publicClient.readContract({
-        address: CONTRACTS.FACTORY,
-        abi: FACTORY_ABI,
+        address: CONTRACTS.FACTORY_V4,
+        abi: FACTORY_V4_ABI,
         functionName: "getTokensByCreator",
         args: [creatorAddress as `0x${string}`],
       });
@@ -288,14 +273,15 @@ program
 
       for (const idx of indices) {
         const token = await publicClient.readContract({
-          address: CONTRACTS.FACTORY,
-          abi: FACTORY_ABI,
+          address: CONTRACTS.FACTORY_V4,
+          abi: FACTORY_V4_ABI,
           functionName: "tokens",
           args: [idx],
         });
 
         console.log(`${token[5]} (${token[6]})`); // name, symbol
         console.log(`  Token: ${token[0]}`);
+        console.log(`  FDV: ${formatEther(token[3])} ETH`);
         console.log("");
       }
     } catch (error: any) {
@@ -310,16 +296,22 @@ program
   .description("Show contract addresses and constants")
   .action(async () => {
     try {
-      const minEth = await publicClient.readContract({
-        address: CONTRACTS.FACTORY,
-        abi: FACTORY_ABI,
-        functionName: "MIN_ETH",
+      const defaultFdv = await publicClient.readContract({
+        address: CONTRACTS.FACTORY_V4,
+        abi: FACTORY_V4_ABI,
+        functionName: "DEFAULT_FDV",
       });
 
-      const defaultSupply = await publicClient.readContract({
-        address: CONTRACTS.FACTORY,
-        abi: FACTORY_ABI,
-        functionName: "DEFAULT_TOKEN_SUPPLY",
+      const tokenSupply = await publicClient.readContract({
+        address: CONTRACTS.FACTORY_V4,
+        abi: FACTORY_V4_ABI,
+        functionName: "TOKEN_SUPPLY",
+      });
+
+      const priceRange = await publicClient.readContract({
+        address: CONTRACTS.FACTORY_V4,
+        abi: FACTORY_V4_ABI,
+        functionName: "PRICE_RANGE_MULTIPLIER",
       });
 
       const creatorFeeBps = await publicClient.readContract({
@@ -328,18 +320,21 @@ program
         functionName: "CREATOR_FEE_BPS",
       });
 
-      console.log("PumpClaw Contracts (Base Mainnet)");
+      console.log("PumpClaw V4 Contracts (Base Mainnet)");
       console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-      console.log(`Factory:    ${CONTRACTS.FACTORY}`);
+      console.log(`Factory V4: ${CONTRACTS.FACTORY_V4}`);
       console.log(`LP Locker:  ${CONTRACTS.LP_LOCKER}`);
+      console.log(`Swap Router: ${CONTRACTS.SWAP_ROUTER}`);
       console.log(`WETH:       ${CONTRACTS.WETH}`);
       console.log("");
       console.log("Constants");
       console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-      console.log(`Min ETH:        ${formatEther(minEth)} ETH`);
-      console.log(`Default Supply: ${formatUnits(defaultSupply, 18)}`);
+      console.log(`Default FDV:    ${formatEther(defaultFdv)} ETH`);
+      console.log(`Token Supply:   ${formatUnits(tokenSupply, 18)}`);
+      console.log(`Price Range:    ${priceRange}x`);
       console.log(`Creator Fee:    ${Number(creatorFeeBps) / 100}%`);
-      console.log(`Swap Router:    ${CONTRACTS.SWAP_ROUTER}`);
+      console.log("");
+      console.log("Note: No ETH deposit required to create tokens!");
     } catch (error: any) {
       console.error("Error:", error.message);
       process.exit(1);
