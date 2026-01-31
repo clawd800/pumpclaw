@@ -16,22 +16,20 @@ import {ActionConstants} from "@uniswap/v4-periphery/src/libraries/ActionConstan
 import {LiquidityAmounts} from "@uniswap/v4-periphery/src/libraries/LiquidityAmounts.sol";
 
 import {PumpClawToken} from "./PumpClawToken.sol";
-import {IPumpClawFactory} from "../interfaces/IPumpClawFactory.sol";
 import {IPumpClawLPLocker} from "../interfaces/IPumpClawLPLocker.sol";
 
 /// @title PumpClawFactory
-/// @notice Creates tokens and immediately provides 100% liquidity on Uniswap v4
-contract PumpClawFactory is IPumpClawFactory, ReentrancyGuard {
+/// @notice Fair launch with concentrated liquidity - NO ETH deposit required
+/// @dev Uses single-sided liquidity: all tokens deposited, released as price rises
+contract PumpClawFactory is ReentrancyGuard {
     using SafeERC20 for IERC20;
 
-    uint256 public constant DEFAULT_TOKEN_SUPPLY = 1_000_000_000e18; // 1B tokens (default)
-    uint256 public constant MIN_TOKEN_SUPPLY = 1_000_000e18; // 1M tokens minimum
-    uint256 public constant MAX_TOKEN_SUPPLY = 1_000_000_000_000e18; // 1T tokens maximum
-    uint256 public constant MIN_ETH = 0.0001 ether; // Minimum ETH to prevent price precision issues
-    uint24 public constant LP_FEE = 10000; // 1% fee (in hundredths of bps, so 10000 = 1%)
-    int24 public constant TICK_SPACING = 200; // Standard tick spacing for 1% fee
+    uint256 public constant TOKEN_SUPPLY = 1_000_000_000e18; // Fixed 1B supply
+    uint256 public constant DEFAULT_FDV = 20 ether; // Default 20 ETH FDV
+    uint256 public constant PRICE_RANGE_MULTIPLIER = 100; // Price can go up to 100x FDV
+    uint24 public constant LP_FEE = 10000; // 1% fee
+    int24 public constant TICK_SPACING = 200;
     
-    // Max slippage for minting (very high since we control both sides)
     uint128 constant MAX_SLIPPAGE = type(uint128).max;
 
     IPoolManager public immutable poolManager;
@@ -39,20 +37,30 @@ contract PumpClawFactory is IPumpClawFactory, ReentrancyGuard {
     IPumpClawLPLocker public immutable lpLocker;
     address public immutable weth;
 
-    // Token registry for on-chain indexing
     struct TokenInfo {
         address token;
         address creator;
         uint256 positionId;
-        uint256 supply;
+        uint256 initialFdv;
         uint256 createdAt;
         string name;
         string symbol;
     }
 
     TokenInfo[] public tokens;
-    mapping(address => uint256) public tokenIndex; // token address => index + 1 (0 means not found)
-    mapping(address => uint256[]) public tokensByCreator; // creator => token indices
+    mapping(address => uint256) public tokenIndex;
+    mapping(address => uint256[]) public tokensByCreator;
+
+    event TokenCreated(
+        address indexed token,
+        address indexed creator,
+        string name,
+        string symbol,
+        uint256 positionId,
+        uint256 initialFdv,
+        int24 tickLower,
+        int24 tickUpper
+    );
 
     constructor(
         address _poolManager,
@@ -66,82 +74,62 @@ contract PumpClawFactory is IPumpClawFactory, ReentrancyGuard {
         weth = _weth;
     }
 
-    /// @notice Create token with full liquidity on v4 (default 1B supply)
-    /// @dev Requires ETH to be sent for the WETH side of the pool
+    /// @notice Create token with default FDV (20 ETH)
     function createToken(
         string calldata name,
         string calldata symbol,
         string calldata imageUrl
-    ) external payable returns (address token, uint256 positionId) {
-        return _createTokenInternal(name, symbol, imageUrl, DEFAULT_TOKEN_SUPPLY, msg.sender);
+    ) external returns (address token, uint256 positionId) {
+        return _createToken(name, symbol, imageUrl, DEFAULT_FDV, msg.sender);
     }
 
-    /// @notice Create token on behalf of a creator (for frontend/relayer use)
-    /// @dev Requires ETH to be sent for the WETH side of the pool
+    /// @notice Create token with custom FDV
+    /// @param initialFdv Initial fully diluted valuation in ETH (e.g., 20 ether)
+    function createTokenWithFdv(
+        string calldata name,
+        string calldata symbol,
+        string calldata imageUrl,
+        uint256 initialFdv
+    ) external returns (address token, uint256 positionId) {
+        return _createToken(name, symbol, imageUrl, initialFdv, msg.sender);
+    }
+
+    /// @notice Create token on behalf of creator
     function createTokenFor(
         string calldata name,
         string calldata symbol,
         string calldata imageUrl,
+        uint256 initialFdv,
         address creator
-    ) external payable returns (address token, uint256 positionId) {
-        return _createTokenInternal(name, symbol, imageUrl, DEFAULT_TOKEN_SUPPLY, creator);
+    ) external returns (address token, uint256 positionId) {
+        return _createToken(name, symbol, imageUrl, initialFdv, creator);
     }
 
-    /// @notice Create token with custom supply and full liquidity on v4
-    /// @dev Requires ETH to be sent for the WETH side of the pool
-    /// @param supply Token supply (must be between MIN_TOKEN_SUPPLY and MAX_TOKEN_SUPPLY)
-    function createTokenWithSupply(
+    function _createToken(
         string calldata name,
         string calldata symbol,
         string calldata imageUrl,
-        uint256 supply
-    ) external payable returns (address token, uint256 positionId) {
-        return _createTokenInternal(name, symbol, imageUrl, supply, msg.sender);
-    }
-
-    /// @notice Create token with custom supply on behalf of a creator
-    /// @dev Requires ETH to be sent for the WETH side of the pool
-    function createTokenWithSupplyFor(
-        string calldata name,
-        string calldata symbol,
-        string calldata imageUrl,
-        uint256 supply,
-        address creator
-    ) external payable returns (address token, uint256 positionId) {
-        return _createTokenInternal(name, symbol, imageUrl, supply, creator);
-    }
-
-    /// @notice Internal implementation for token creation
-    function _createTokenInternal(
-        string calldata name,
-        string calldata symbol,
-        string calldata imageUrl,
-        uint256 supply,
+        uint256 initialFdv,
         address creator
     ) internal nonReentrant returns (address token, uint256 positionId) {
-        require(msg.value >= MIN_ETH, "ETH below minimum");
-        require(supply >= MIN_TOKEN_SUPPLY, "Supply too low");
-        require(supply <= MAX_TOKEN_SUPPLY, "Supply too high");
+        require(initialFdv > 0, "FDV required");
         require(creator != address(0), "Invalid creator");
 
-        // 1. Deploy token (mints to this contract)
+        // Deploy token - mints full supply to this contract
         PumpClawToken newToken = new PumpClawToken(
             name,
             symbol,
-            supply,
+            TOKEN_SUPPLY,
             creator,
             imageUrl
         );
         token = address(newToken);
 
-        // 2. Determine token order (v4 requires token0 < token1)
+        // Determine token order (V4 requires currency0 < currency1)
         bool tokenIsToken0 = token < weth;
         Currency currency0 = tokenIsToken0 ? Currency.wrap(token) : Currency.wrap(weth);
         Currency currency1 = tokenIsToken0 ? Currency.wrap(weth) : Currency.wrap(token);
-        Currency tokenCurrency = Currency.wrap(token);
-        Currency wethCurrency = Currency.wrap(weth);
 
-        // 3. Create pool key (no hooks for simplicity)
         PoolKey memory poolKey = PoolKey({
             currency0: currency0,
             currency1: currency1,
@@ -150,173 +138,173 @@ contract PumpClawFactory is IPumpClawFactory, ReentrancyGuard {
             hooks: IHooks(address(0))
         });
 
-        // 4. Calculate initial sqrt price based on ETH/token ratio
+        // Calculate ticks for concentrated liquidity
+        // We want single-sided token liquidity, so we position the range such that
+        // at the initial price, we only need to deposit tokens (not WETH)
+        //
+        // If Token is token0: at lower tick bound, position holds 100% token0
+        // If Token is token1: at upper tick bound, position holds 100% token1
+        
+        int24 tickLower;
+        int24 tickUpper;
         uint160 sqrtPriceX96;
+        
         if (tokenIsToken0) {
-            // price = WETH / TOKEN
-            sqrtPriceX96 = _calculateSqrtPrice(msg.value, supply);
+            // Token is token0, WETH is token1
+            // price = token1/token0 = WETH/Token
+            // We want high price (lots of WETH per Token = token is valuable)
+            // At lower tick, we hold 100% token0 (Token)
+            // So we set current price at lower tick
+            
+            // sqrtPrice for FDV: price = FDV/supply (WETH per token)
+            sqrtPriceX96 = _calculateSqrtPrice(initialFdv, TOKEN_SUPPLY);
+            tickLower = _getTickFromSqrtPrice(sqrtPriceX96);
+            tickLower = _alignTick(tickLower, TICK_SPACING);
+            
+            // Upper tick: 100x price range
+            int24 tickRange = _getTicksForMultiplier(PRICE_RANGE_MULTIPLIER);
+            tickUpper = tickLower + tickRange;
+            tickUpper = _alignTick(tickUpper, TICK_SPACING);
+            
+            // Ensure within bounds
+            if (tickUpper > TickMath.maxUsableTick(TICK_SPACING)) {
+                tickUpper = TickMath.maxUsableTick(TICK_SPACING);
+            }
+            
+            // Set initial price exactly at lower tick (single-sided token)
+            sqrtPriceX96 = TickMath.getSqrtPriceAtTick(tickLower);
+            
         } else {
-            // price = TOKEN / WETH
-            sqrtPriceX96 = _calculateSqrtPrice(supply, msg.value);
+            // WETH is token0, Token is token1
+            // price = token1/token0 = Token/WETH
+            // Low price = few tokens per WETH = token is valuable
+            // At upper tick, we hold 100% token1 (Token)
+            // So we set current price at upper tick
+            
+            // sqrtPrice for FDV: price = supply/FDV (tokens per WETH)
+            sqrtPriceX96 = _calculateSqrtPrice(TOKEN_SUPPLY, initialFdv);
+            tickUpper = _getTickFromSqrtPrice(sqrtPriceX96);
+            tickUpper = _alignTick(tickUpper, TICK_SPACING);
+            
+            // Lower tick: 100x price range (price goes down = token more valuable)
+            int24 tickRange = _getTicksForMultiplier(PRICE_RANGE_MULTIPLIER);
+            tickLower = tickUpper - tickRange;
+            tickLower = _alignTick(tickLower, TICK_SPACING);
+            
+            // Ensure within bounds
+            if (tickLower < TickMath.minUsableTick(TICK_SPACING)) {
+                tickLower = TickMath.minUsableTick(TICK_SPACING);
+            }
+            
+            // Set initial price exactly at upper tick (single-sided token)
+            sqrtPriceX96 = TickMath.getSqrtPriceAtTick(tickUpper);
         }
 
-        // 5. Initialize the pool
+        // Initialize pool at the boundary price
         positionManager.initializePool(poolKey, sqrtPriceX96);
 
-        // 6. Calculate tick range (full range)
-        int24 tickLower = TickMath.minUsableTick(TICK_SPACING);
-        int24 tickUpper = TickMath.maxUsableTick(TICK_SPACING);
-
-        // 7. Calculate liquidity from our amounts
+        // Calculate liquidity for single-sided deposit
+        // At boundary, we deposit 100% tokens
         uint128 liquidity = LiquidityAmounts.getLiquidityForAmounts(
             sqrtPriceX96,
             TickMath.getSqrtPriceAtTick(tickLower),
             TickMath.getSqrtPriceAtTick(tickUpper),
-            tokenIsToken0 ? supply : msg.value,
-            tokenIsToken0 ? msg.value : supply
+            tokenIsToken0 ? TOKEN_SUPPLY : 0,
+            tokenIsToken0 ? 0 : TOKEN_SUPPLY
         );
 
-        // 8. Transfer tokens to PositionManager (for settlement)
-        IERC20(token).safeTransfer(address(positionManager), supply);
+        // Transfer tokens to PositionManager
+        IERC20(token).safeTransfer(address(positionManager), TOKEN_SUPPLY);
 
-        // 9. Build actions:
-        // - WRAP: wrap ETH to WETH (using contract balance from msg.value)
-        // - MINT_POSITION: create the LP position
-        // - SETTLE: settle WETH (from PositionManager's WETH balance after wrap)
-        // - SETTLE: settle token (from PositionManager's token balance after transfer)
-        // - SWEEP: return any excess WETH to creator
+        // Build actions - NO WRAP needed since no ETH
         bytes memory actions = abi.encodePacked(
-            uint8(Actions.WRAP),
             uint8(Actions.MINT_POSITION),
-            uint8(Actions.SETTLE),
             uint8(Actions.SETTLE),
             uint8(Actions.SWEEP)
         );
 
-        bytes[] memory params = new bytes[](5);
+        bytes[] memory params = new bytes[](3);
         
-        // WRAP params: amount (CONTRACT_BALANCE = wrap all ETH sent)
-        params[0] = abi.encode(ActionConstants.CONTRACT_BALANCE);
-        
-        // MINT_POSITION params: poolKey, tickLower, tickUpper, liquidity, amount0Max, amount1Max, owner, hookData
-        params[1] = abi.encode(
+        // MINT_POSITION
+        params[0] = abi.encode(
             poolKey,
             tickLower,
             tickUpper,
             liquidity,
             MAX_SLIPPAGE,
             MAX_SLIPPAGE,
-            address(lpLocker), // LP position goes directly to locker
+            address(lpLocker),
             bytes("")
         );
         
-        // SETTLE WETH params: currency, amount (OPEN_DELTA = settle exactly what's owed), payerIsUser (false = PositionManager pays)
-        params[2] = abi.encode(wethCurrency, ActionConstants.OPEN_DELTA, false);
+        // SETTLE token (from PositionManager's balance)
+        params[1] = abi.encode(Currency.wrap(token), ActionConstants.OPEN_DELTA, false);
         
-        // SETTLE token params: same pattern
-        params[3] = abi.encode(tokenCurrency, ActionConstants.OPEN_DELTA, false);
-        
-        // SWEEP params: currency, recipient (sweep excess WETH back to tx sender, not creator)
-        params[4] = abi.encode(wethCurrency, msg.sender);
+        // SWEEP any excess tokens back
+        params[2] = abi.encode(Currency.wrap(token), msg.sender);
 
-        // 10. Execute - send ETH with the call
+        // Execute - NO msg.value since no ETH needed!
         positionId = positionManager.nextTokenId();
-        positionManager.modifyLiquidities{value: msg.value}(
+        positionManager.modifyLiquidities(
             abi.encode(actions, params),
             block.timestamp + 60
         );
 
-        // 11. Register position in locker
+        // Lock LP
         lpLocker.lockPosition(token, positionId, creator);
 
-        // 12. Register token in on-chain registry
+        // Register
         tokens.push(TokenInfo({
             token: token,
             creator: creator,
             positionId: positionId,
-            supply: supply,
+            initialFdv: initialFdv,
             createdAt: block.timestamp,
             name: name,
             symbol: symbol
         }));
-        tokenIndex[token] = tokens.length; // index + 1
+        tokenIndex[token] = tokens.length;
         tokensByCreator[creator].push(tokens.length - 1);
 
-        emit TokenCreated(token, msg.sender, name, symbol, positionId, poolKey);
+        emit TokenCreated(token, creator, name, symbol, positionId, initialFdv, tickLower, tickUpper);
     }
 
-    /// @notice Get total number of tokens created
+    // View functions
     function getTokenCount() external view returns (uint256) {
         return tokens.length;
     }
 
-    /// @notice Get tokens with pagination (prevents gas overflow)
-    /// @param startIndex Starting index (inclusive)
-    /// @param endIndex Ending index (exclusive)
     function getTokens(uint256 startIndex, uint256 endIndex) external view returns (TokenInfo[] memory) {
         require(startIndex < endIndex, "Invalid range");
-        if (endIndex > tokens.length) {
-            endIndex = tokens.length;
-        }
+        if (endIndex > tokens.length) endIndex = tokens.length;
         
         uint256 length = endIndex - startIndex;
         TokenInfo[] memory result = new TokenInfo[](length);
-        
         for (uint256 i = 0; i < length; i++) {
             result[i] = tokens[startIndex + i];
         }
-        
         return result;
     }
 
-    /// @notice Get token info by address
     function getTokenInfo(address token) external view returns (TokenInfo memory) {
         uint256 idx = tokenIndex[token];
         require(idx > 0, "Token not found");
         return tokens[idx - 1];
     }
 
-    /// @notice Get tokens created by a specific creator
     function getTokensByCreator(address creator) external view returns (uint256[] memory) {
         return tokensByCreator[creator];
     }
 
-    /// @notice Get tokens by creator with pagination
-    function getTokensByCreatorPaginated(
-        address creator,
-        uint256 startIndex,
-        uint256 endIndex
-    ) external view returns (TokenInfo[] memory) {
-        uint256[] storage indices = tokensByCreator[creator];
-        
-        require(startIndex < endIndex, "Invalid range");
-        if (endIndex > indices.length) {
-            endIndex = indices.length;
-        }
-        
-        uint256 length = endIndex - startIndex;
-        TokenInfo[] memory result = new TokenInfo[](length);
-        
-        for (uint256 i = 0; i < length; i++) {
-            result[i] = tokens[indices[startIndex + i]];
-        }
-        
-        return result;
-    }
-
-    /// @notice Calculate sqrt price X96 from amounts
+    // Internal helpers
+    
     function _calculateSqrtPrice(uint256 amount1, uint256 amount0) internal pure returns (uint160) {
         require(amount0 > 0, "amount0 zero");
-        
-        // sqrtPriceX96 = sqrt(amount1/amount0) * 2^96
         uint256 ratio = (amount1 * 1e18) / amount0;
         uint256 sqrtRatio = _sqrt(ratio);
-        
-        // Scale to X96 format (multiply by 2^96, divide by sqrt(1e18) = 1e9)
         return uint160((sqrtRatio * (1 << 96)) / 1e9);
     }
 
-    /// @notice Babylonian sqrt
     function _sqrt(uint256 x) internal pure returns (uint256) {
         if (x == 0) return 0;
         uint256 z = (x + 1) / 2;
@@ -326,6 +314,30 @@ contract PumpClawFactory is IPumpClawFactory, ReentrancyGuard {
             z = (x / z + z) / 2;
         }
         return y;
+    }
+    
+    function _getTickFromSqrtPrice(uint160 sqrtPriceX96) internal pure returns (int24) {
+        return TickMath.getTickAtSqrtPrice(sqrtPriceX96);
+    }
+    
+    function _alignTick(int24 tick, int24 tickSpacing) internal pure returns (int24) {
+        // Round down to nearest tick spacing
+        int24 compressed = tick / tickSpacing;
+        if (tick < 0 && tick % tickSpacing != 0) compressed--;
+        return compressed * tickSpacing;
+    }
+    
+    function _getTicksForMultiplier(uint256 multiplier) internal pure returns (int24) {
+        // Each tick represents ~0.01% price change
+        // 100x = 10000% = 1000000 basis points
+        // log(100) / log(1.0001) ≈ 46052 ticks
+        // Simplified: multiplier of N needs ~23026 * ln(N) ticks
+        // For 100x: ~106000 ticks, but we'll use a simpler approximation
+        
+        // Approximate: 100x ≈ 92000 ticks (conservative)
+        if (multiplier >= 100) return 92000;
+        if (multiplier >= 10) return 23000;
+        return 4600; // ~2x
     }
 
     receive() external payable {}

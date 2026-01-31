@@ -12,3 +12,4 @@ client-web/.env.local
 # Node
 node_modules/
 *.log
+.env*
