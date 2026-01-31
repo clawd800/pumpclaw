@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { useAppKitAccount } from "@reown/appkit/react";
+import { useAccount } from "wagmi";
 import { useCreateToken } from "@/hooks/useCreateToken";
 import { formatEther } from "viem";
 import { MIN_ETH } from "@/configs/constants";
 
 export default function CreateTokenForm({ onSuccess }: { onSuccess?: () => void }) {
-  const { isConnected } = useAppKitAccount();
+  const { isConnected } = useAccount();
   const { createToken, isPending, isConfirming, isSuccess, error, hash } = useCreateToken();
 
   const [name, setName] = useState("");

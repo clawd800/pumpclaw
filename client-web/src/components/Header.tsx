@@ -1,11 +1,21 @@
-import { useAppKit, useAppKitAccount } from "@reown/appkit/react";
+import { useAccount, useConnect, useDisconnect } from "wagmi";
 
 export default function Header() {
-  const { open } = useAppKit();
-  const { address, isConnected } = useAppKitAccount();
+  const { address, isConnected } = useAccount();
+  const { connect, connectors, isPending } = useConnect();
+  const { disconnect } = useDisconnect();
 
   const formatAddress = (addr: string) => {
     return `${addr.slice(0, 6)}...${addr.slice(-4)}`;
+  };
+
+  const handleConnect = () => {
+    // Try injected first, fallback to first available
+    const injected = connectors.find((c) => c.id === "injected");
+    const connector = injected ?? connectors[0];
+    if (connector) {
+      connect({ connector });
+    }
   };
 
   return (
@@ -19,12 +29,22 @@ export default function Header() {
           </span>
         </div>
 
-        <button
-          onClick={() => open()}
-          className="px-4 py-2 bg-green-500/20 border border-green-500/50 text-green-400 hover:bg-green-500/30 transition-colors font-mono text-sm"
-        >
-          {isConnected && address ? formatAddress(address) : "Connect"}
-        </button>
+        {isConnected && address ? (
+          <button
+            onClick={() => disconnect()}
+            className="px-4 py-2 bg-green-500/20 border border-green-500/50 text-green-400 hover:bg-green-500/30 transition-colors font-mono text-sm"
+          >
+            {formatAddress(address)}
+          </button>
+        ) : (
+          <button
+            onClick={handleConnect}
+            disabled={isPending}
+            className="px-4 py-2 bg-green-500/20 border border-green-500/50 text-green-400 hover:bg-green-500/30 transition-colors font-mono text-sm disabled:opacity-50"
+          >
+            {isPending ? "Connecting..." : "Connect"}
+          </button>
+        )}
       </div>
     </header>
   );

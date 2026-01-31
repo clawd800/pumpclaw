@@ -17,17 +17,12 @@ Simple frontend for launching tokens on PumpClaw.
 npm install
 ```
 
-2. Create `.env` file:
-```bash
-cp .env.example .env
-```
-
-3. Get a Reown project ID from [cloud.reown.com](https://cloud.reown.com) and add it to `.env`
-
-4. Run development server:
+2. Run development server:
 ```bash
 npm run dev
 ```
+
+No API keys needed - just browser wallet (MetaMask, Coinbase, etc.)
 
 ## Tech Stack
 
@@ -35,7 +30,7 @@ npm run dev
 - **Vite** for builds
 - **Tailwind CSS v4** for styling
 - **Viem** + Wagmi for Web3
-- **Reown AppKit** for wallet connections
+- **Browser wallet** injection (no WalletConnect)
 
 ## Deployment
 
