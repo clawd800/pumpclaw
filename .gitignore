@@ -7,3 +7,4 @@ client-web/node_modules/
 client-web/dist/
 client-web/.env
 client-web/.env.local
+.env

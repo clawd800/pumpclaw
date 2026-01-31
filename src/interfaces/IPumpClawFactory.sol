@@ -25,6 +25,20 @@ interface IPumpClawFactory {
         string calldata imageUrl
     ) external payable returns (address token, uint256 positionId);
 
+    /// @notice Create a new token on behalf of a creator (for frontend/relayer use)
+    /// @param name Token name
+    /// @param symbol Token symbol  
+    /// @param imageUrl Token image URL
+    /// @param creator Address to be set as the token creator (receives 80% of LP fees)
+    /// @return token The deployed token address
+    /// @return positionId The LP position NFT ID
+    function createTokenFor(
+        string calldata name,
+        string calldata symbol,
+        string calldata imageUrl,
+        address creator
+    ) external payable returns (address token, uint256 positionId);
+
     /// @notice Create a new token with custom supply and 100% liquidity on Uniswap v4
     /// @param name Token name
     /// @param symbol Token symbol  
@@ -37,5 +51,21 @@ interface IPumpClawFactory {
         string calldata symbol,
         string calldata imageUrl,
         uint256 supply
+    ) external payable returns (address token, uint256 positionId);
+
+    /// @notice Create a new token with custom supply on behalf of a creator
+    /// @param name Token name
+    /// @param symbol Token symbol  
+    /// @param imageUrl Token image URL
+    /// @param supply Token supply (must be between MIN_TOKEN_SUPPLY and MAX_TOKEN_SUPPLY)
+    /// @param creator Address to be set as the token creator (receives 80% of LP fees)
+    /// @return token The deployed token address
+    /// @return positionId The LP position NFT ID
+    function createTokenWithSupplyFor(
+        string calldata name,
+        string calldata symbol,
+        string calldata imageUrl,
+        uint256 supply,
+        address creator
     ) external payable returns (address token, uint256 positionId);
 }

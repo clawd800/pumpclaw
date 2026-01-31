@@ -73,7 +73,18 @@ contract PumpClawFactory is IPumpClawFactory, ReentrancyGuard {
         string calldata symbol,
         string calldata imageUrl
     ) external payable returns (address token, uint256 positionId) {
-        return createTokenWithSupply(name, symbol, imageUrl, DEFAULT_TOKEN_SUPPLY);
+        return _createTokenInternal(name, symbol, imageUrl, DEFAULT_TOKEN_SUPPLY, msg.sender);
+    }
+
+    /// @notice Create token on behalf of a creator (for frontend/relayer use)
+    /// @dev Requires ETH to be sent for the WETH side of the pool
+    function createTokenFor(
+        string calldata name,
+        string calldata symbol,
+        string calldata imageUrl,
+        address creator
+    ) external payable returns (address token, uint256 positionId) {
+        return _createTokenInternal(name, symbol, imageUrl, DEFAULT_TOKEN_SUPPLY, creator);
     }
 
     /// @notice Create token with custom supply and full liquidity on v4
@@ -84,17 +95,41 @@ contract PumpClawFactory is IPumpClawFactory, ReentrancyGuard {
         string calldata symbol,
         string calldata imageUrl,
         uint256 supply
-    ) public payable nonReentrant returns (address token, uint256 positionId) {
+    ) external payable returns (address token, uint256 positionId) {
+        return _createTokenInternal(name, symbol, imageUrl, supply, msg.sender);
+    }
+
+    /// @notice Create token with custom supply on behalf of a creator
+    /// @dev Requires ETH to be sent for the WETH side of the pool
+    function createTokenWithSupplyFor(
+        string calldata name,
+        string calldata symbol,
+        string calldata imageUrl,
+        uint256 supply,
+        address creator
+    ) external payable returns (address token, uint256 positionId) {
+        return _createTokenInternal(name, symbol, imageUrl, supply, creator);
+    }
+
+    /// @notice Internal implementation for token creation
+    function _createTokenInternal(
+        string calldata name,
+        string calldata symbol,
+        string calldata imageUrl,
+        uint256 supply,
+        address creator
+    ) internal nonReentrant returns (address token, uint256 positionId) {
         require(msg.value >= MIN_ETH, "ETH below minimum");
         require(supply >= MIN_TOKEN_SUPPLY, "Supply too low");
         require(supply <= MAX_TOKEN_SUPPLY, "Supply too high");
+        require(creator != address(0), "Invalid creator");
 
         // 1. Deploy token (mints to this contract)
         PumpClawToken newToken = new PumpClawToken(
             name,
             symbol,
             supply,
-            msg.sender,
+            creator,
             imageUrl
         );
         token = address(newToken);
@@ -181,7 +216,7 @@ contract PumpClawFactory is IPumpClawFactory, ReentrancyGuard {
         // SETTLE token params: same pattern
         params[3] = abi.encode(tokenCurrency, ActionConstants.OPEN_DELTA, false);
         
-        // SWEEP params: currency, recipient (sweep excess WETH back to creator)
+        // SWEEP params: currency, recipient (sweep excess WETH back to tx sender, not creator)
         params[4] = abi.encode(wethCurrency, msg.sender);
 
         // 10. Execute - send ETH with the call
@@ -192,12 +227,12 @@ contract PumpClawFactory is IPumpClawFactory, ReentrancyGuard {
         );
 
         // 11. Register position in locker
-        lpLocker.lockPosition(token, positionId, msg.sender);
+        lpLocker.lockPosition(token, positionId, creator);
 
         // 12. Register token in on-chain registry
         tokens.push(TokenInfo({
             token: token,
-            creator: msg.sender,
+            creator: creator,
             positionId: positionId,
             supply: supply,
             createdAt: block.timestamp,
@@ -205,7 +240,7 @@ contract PumpClawFactory is IPumpClawFactory, ReentrancyGuard {
             symbol: symbol
         }));
         tokenIndex[token] = tokens.length; // index + 1
-        tokensByCreator[msg.sender].push(tokens.length - 1);
+        tokensByCreator[creator].push(tokens.length - 1);
 
         emit TokenCreated(token, msg.sender, name, symbol, positionId, poolKey);
     }

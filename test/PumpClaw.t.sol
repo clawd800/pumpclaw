@@ -717,6 +717,65 @@ contract PumpClawTest is Test {
         assertEq(info.creator, user, "Registry should record correct creator");
     }
 
+    function test_CreateTokenFor() public {
+        // User sends tx but creator is set to a different address
+        address relayer = makeAddr("relayer");
+        vm.deal(relayer, 1 ether);
+        
+        vm.prank(relayer);
+        (address token, ) = factory.createTokenFor{value: 0.1 ether}(
+            "Relayed Token", 
+            "RELAY", 
+            "",
+            user  // user is the creator, not relayer
+        );
+
+        // Check creator is user, not relayer
+        PumpClawToken pumpToken = PumpClawToken(token);
+        assertEq(pumpToken.creator(), user, "Token creator should be user, not relayer");
+
+        // Check locker has user as creator
+        (, address lockerCreator) = locker.getPosition(token);
+        assertEq(lockerCreator, user, "Locker should record user as creator");
+
+        // Check registry has user as creator
+        PumpClawFactory.TokenInfo memory info = factory.getTokenInfo(token);
+        assertEq(info.creator, user, "Registry should record user as creator");
+
+        // Check user gets indexed in tokensByCreator
+        uint256[] memory userTokens = factory.getTokensByCreator(user);
+        assertEq(userTokens.length, 1, "User should have 1 token");
+        
+        // Relayer should have no tokens
+        uint256[] memory relayerTokens = factory.getTokensByCreator(relayer);
+        assertEq(relayerTokens.length, 0, "Relayer should have 0 tokens");
+    }
+
+    function test_CreateTokenForWithSupply() public {
+        address relayer = makeAddr("relayer");
+        vm.deal(relayer, 1 ether);
+        uint256 customSupply = 500_000_000e18;
+        
+        vm.prank(relayer);
+        (address token, ) = factory.createTokenWithSupplyFor{value: 0.1 ether}(
+            "Custom Supply Relayed", 
+            "CSR", 
+            "",
+            customSupply,
+            user
+        );
+
+        PumpClawToken pumpToken = PumpClawToken(token);
+        assertEq(pumpToken.creator(), user);
+        assertEq(pumpToken.totalSupply(), customSupply);
+    }
+
+    function test_CreateTokenForZeroCreatorReverts() public {
+        vm.prank(user);
+        vm.expectRevert("Invalid creator");
+        factory.createTokenFor{value: 0.1 ether}("Bad Token", "BAD", "", address(0));
+    }
+
     function test_PositionIdIncrementsCorrectly() public {
         vm.startPrank(creator);
         
