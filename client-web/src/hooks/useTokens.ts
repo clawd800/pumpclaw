@@ -1,4 +1,4 @@
-import { useReadContract, useReadContracts } from "wagmi";
+import { useReadContract } from "wagmi";
 import { CONTRACTS } from "@/configs/constants";
 import { FACTORY_ABI } from "@/configs/abis";
 
