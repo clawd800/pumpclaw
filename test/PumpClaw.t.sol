@@ -515,4 +515,271 @@ contract PumpClawTest is Test {
         assertGt(pos2, 0);
         assertTrue(pos1 != pos2, "Position IDs should be different");
     }
+
+    // ========== Additional Edge Case Tests ==========
+
+    function test_TokenWithEmptyImageUrl() public {
+        vm.prank(creator);
+        (address token, ) = factory.createToken{value: 0.1 ether}("No Image", "NOIMG", "");
+        
+        PumpClawToken pumpToken = PumpClawToken(token);
+        assertEq(pumpToken.imageUrl(), "");
+    }
+
+    function test_TokenWithLongImageUrl() public {
+        string memory longUrl = "https://example.com/very/long/path/to/image/that/is/quite/lengthy/image.png";
+        
+        vm.prank(creator);
+        (address token, ) = factory.createToken{value: 0.1 ether}("Long URL", "LURL", longUrl);
+        
+        PumpClawToken pumpToken = PumpClawToken(token);
+        assertEq(pumpToken.imageUrl(), longUrl);
+    }
+
+    function test_ClaimFeesMultipleTimes() public {
+        // Create token and do swaps
+        vm.prank(creator);
+        (address token, ) = factory.createToken{value: 1 ether}("Multi Claim", "MCLAIM", "");
+
+        bool tokenIsToken0 = token < WETH;
+        PoolKey memory poolKey = PoolKey({
+            currency0: tokenIsToken0 ? Currency.wrap(token) : Currency.wrap(WETH),
+            currency1: tokenIsToken0 ? Currency.wrap(WETH) : Currency.wrap(token),
+            fee: 10000,
+            tickSpacing: 200,
+            hooks: IHooks(address(0))
+        });
+
+        // Swap to generate fees
+        vm.startPrank(trader);
+        (bool success,) = WETH.call{value: 10 ether}("");
+        require(success);
+        IERC20(WETH).approve(address(swapRouter), type(uint256).max);
+        
+        bool buyTokenZeroForOne = !tokenIsToken0;
+        swapRouter.swap(
+            poolKey,
+            IPoolManager.SwapParams({
+                zeroForOne: buyTokenZeroForOne,
+                amountSpecified: -1 ether,
+                sqrtPriceLimitX96: buyTokenZeroForOne ? TickMath.MIN_SQRT_PRICE + 1 : TickMath.MAX_SQRT_PRICE - 1
+            }),
+            PoolSwapTest.TestSettings({takeClaims: false, settleUsingBurn: false}),
+            ""
+        );
+        vm.stopPrank();
+
+        // First claim
+        uint256 creatorBalBefore1 = IERC20(WETH).balanceOf(creator);
+        locker.claimFees(token);
+        uint256 creatorBalAfter1 = IERC20(WETH).balanceOf(creator);
+        assertGt(creatorBalAfter1, creatorBalBefore1, "Should have received fees");
+
+        // Second claim with no new fees should not revert
+        uint256 creatorBalBefore2 = IERC20(WETH).balanceOf(creator);
+        locker.claimFees(token);
+        uint256 creatorBalAfter2 = IERC20(WETH).balanceOf(creator);
+        assertEq(creatorBalAfter2, creatorBalBefore2, "No new fees to claim");
+    }
+
+    function test_RegistryInvalidRange() public {
+        vm.prank(creator);
+        factory.createToken{value: 0.1 ether}("Test", "TST", "");
+
+        // startIndex >= endIndex should revert
+        vm.expectRevert("Invalid range");
+        factory.getTokens(5, 5);
+
+        vm.expectRevert("Invalid range");
+        factory.getTokens(10, 5);
+    }
+
+    function test_GetTokenInfoNotFound() public {
+        vm.expectRevert("Token not found");
+        factory.getTokenInfo(address(0x123));
+    }
+
+    function test_EmptyCreatorTokens() public {
+        uint256[] memory tokens = factory.getTokensByCreator(address(0xdead));
+        assertEq(tokens.length, 0);
+    }
+
+    function test_TokenPermitFunctionality() public {
+        vm.prank(creator);
+        (address token, ) = factory.createToken{value: 0.1 ether}("Permit Test", "PRMT", "");
+        
+        PumpClawToken pumpToken = PumpClawToken(token);
+        
+        // Token should have permit functionality (ERC20Permit)
+        assertGt(bytes(pumpToken.name()).length, 0);
+        // DOMAIN_SEPARATOR should be set
+        assertGt(uint256(pumpToken.DOMAIN_SEPARATOR()), 0);
+    }
+
+    function test_TokenBurnFunctionality() public {
+        vm.prank(creator);
+        (address token, ) = factory.createToken{value: 0.1 ether}("Burn Test", "BURN", "");
+
+        // Do a swap to get some tokens to the trader
+        bool tokenIsToken0 = token < WETH;
+        PoolKey memory poolKey = PoolKey({
+            currency0: tokenIsToken0 ? Currency.wrap(token) : Currency.wrap(WETH),
+            currency1: tokenIsToken0 ? Currency.wrap(WETH) : Currency.wrap(token),
+            fee: 10000,
+            tickSpacing: 200,
+            hooks: IHooks(address(0))
+        });
+
+        vm.startPrank(trader);
+        (bool success,) = WETH.call{value: 1 ether}("");
+        require(success);
+        IERC20(WETH).approve(address(swapRouter), type(uint256).max);
+        
+        bool buyTokenZeroForOne = !tokenIsToken0;
+        swapRouter.swap(
+            poolKey,
+            IPoolManager.SwapParams({
+                zeroForOne: buyTokenZeroForOne,
+                amountSpecified: -0.1 ether,
+                sqrtPriceLimitX96: buyTokenZeroForOne ? TickMath.MIN_SQRT_PRICE + 1 : TickMath.MAX_SQRT_PRICE - 1
+            }),
+            PoolSwapTest.TestSettings({takeClaims: false, settleUsingBurn: false}),
+            ""
+        );
+
+        PumpClawToken pumpToken = PumpClawToken(token);
+        uint256 traderBal = pumpToken.balanceOf(trader);
+        assertGt(traderBal, 0, "Trader should have tokens");
+
+        // Burn some tokens
+        uint256 burnAmount = traderBal / 2;
+        uint256 supplyBefore = pumpToken.totalSupply();
+        pumpToken.burn(burnAmount);
+        
+        assertEq(pumpToken.balanceOf(trader), traderBal - burnAmount, "Balance should decrease");
+        assertEq(pumpToken.totalSupply(), supplyBefore - burnAmount, "Supply should decrease");
+        vm.stopPrank();
+    }
+
+    function test_MinSupplyBoundary() public {
+        uint256 minSupply = factory.MIN_TOKEN_SUPPLY();
+        
+        vm.prank(creator);
+        (address token, ) = factory.createTokenWithSupply{value: 0.1 ether}(
+            "Min Supply",
+            "MIN",
+            "",
+            minSupply
+        );
+
+        PumpClawToken pumpToken = PumpClawToken(token);
+        assertEq(pumpToken.totalSupply(), minSupply);
+    }
+
+    function test_MaxSupplyBoundary() public {
+        uint256 maxSupply = factory.MAX_TOKEN_SUPPLY();
+        
+        vm.prank(creator);
+        (address token, ) = factory.createTokenWithSupply{value: 0.1 ether}(
+            "Max Supply",
+            "MAX",
+            "",
+            maxSupply
+        );
+
+        PumpClawToken pumpToken = PumpClawToken(token);
+        assertEq(pumpToken.totalSupply(), maxSupply);
+    }
+
+    function test_ExactMinETH() public {
+        uint256 minEth = factory.MIN_ETH();
+        
+        vm.prank(creator);
+        (address token, ) = factory.createToken{value: minEth}("Min ETH", "METH", "");
+        
+        assertGt(token.code.length, 0, "Token should be deployed");
+    }
+
+    function test_CreatorRecordedCorrectly() public {
+        vm.prank(user);
+        (address token, ) = factory.createToken{value: 0.1 ether}("User Token", "USRT", "");
+
+        // Check in locker
+        (, address lockerCreator) = locker.getPosition(token);
+        assertEq(lockerCreator, user, "Locker should record correct creator");
+
+        // Check in token
+        PumpClawToken pumpToken = PumpClawToken(token);
+        assertEq(pumpToken.creator(), user, "Token should record correct creator");
+
+        // Check in registry
+        PumpClawFactory.TokenInfo memory info = factory.getTokenInfo(token);
+        assertEq(info.creator, user, "Registry should record correct creator");
+    }
+
+    function test_PositionIdIncrementsCorrectly() public {
+        vm.startPrank(creator);
+        
+        (, uint256 pos1) = factory.createToken{value: 0.1 ether}("Token 1", "T1", "");
+        (, uint256 pos2) = factory.createToken{value: 0.1 ether}("Token 2", "T2", "");
+        (, uint256 pos3) = factory.createToken{value: 0.1 ether}("Token 3", "T3", "");
+        
+        vm.stopPrank();
+
+        // Position IDs should be sequential (from Uniswap)
+        assertTrue(pos2 > pos1, "pos2 should be greater than pos1");
+        assertTrue(pos3 > pos2, "pos3 should be greater than pos2");
+    }
+
+    function test_AdminTransferCancelledByNewTransfer() public {
+        address newAdmin1 = makeAddr("newAdmin1");
+        address newAdmin2 = makeAddr("newAdmin2");
+        
+        // Initiate transfer to newAdmin1
+        vm.prank(ADMIN);
+        locker.transferAdmin(newAdmin1);
+        
+        // Before newAdmin1 accepts, initiate transfer to newAdmin2
+        vm.prank(ADMIN);
+        locker.transferAdmin(newAdmin2);
+        
+        // newAdmin1 can no longer accept
+        vm.prank(newAdmin1);
+        vm.expectRevert("Only pending admin");
+        locker.acceptAdmin();
+        
+        // newAdmin2 can accept
+        vm.prank(newAdmin2);
+        locker.acceptAdmin();
+        
+        assertEq(locker.admin(), newAdmin2);
+    }
+
+    function test_FactoryConstants() public view {
+        assertEq(factory.DEFAULT_TOKEN_SUPPLY(), 1_000_000_000e18);
+        assertEq(factory.MIN_TOKEN_SUPPLY(), 1_000_000e18);
+        assertEq(factory.MAX_TOKEN_SUPPLY(), 1_000_000_000_000e18);
+        assertEq(factory.MIN_ETH(), 0.0001 ether);
+        assertEq(factory.LP_FEE(), 10000);
+        assertEq(factory.TICK_SPACING(), 200);
+    }
+
+    function test_LockerConstants() public view {
+        assertEq(locker.CREATOR_FEE_BPS(), 8000);
+        assertEq(locker.BPS(), 10000);
+    }
+
+    function test_TransferAdminToZeroReverts() public {
+        vm.prank(ADMIN);
+        vm.expectRevert("Invalid new admin");
+        locker.transferAdmin(address(0));
+    }
+
+    function test_SetFactoryToZeroReverts() public {
+        // Deploy a new locker without factory set
+        PumpClawLPLocker newLocker = new PumpClawLPLocker(POSITION_MANAGER, ADMIN);
+        
+        vm.expectRevert("Invalid factory");
+        newLocker.setFactory(address(0));
+    }
 }
