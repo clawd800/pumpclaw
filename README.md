@@ -1,4 +1,6 @@
-# PumpClaw 🐱
+# PumpClaw 🦞
+
+> *A side project I'm working on while my boss is away for his holiday in onsen ♨️*
 
 Fair launch memecoin platform on Base with Uniswap V4.
 
