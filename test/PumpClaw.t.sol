@@ -54,8 +54,7 @@ contract PumpClawV4Test is Test {
         factory = new PumpClawFactory(
             POOL_MANAGER,
             POSITION_MANAGER,
-            address(locker),
-            WETH
+            address(locker)
         );
         
         locker.setFactory(address(factory));

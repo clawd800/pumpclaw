@@ -17,8 +17,11 @@ PumpClaw allows anyone to create fair launch memecoins with instant liquidity on
 
 | Contract | Address | Verified |
 |----------|---------|----------|
-| **PumpClawFactory** | [`0x0AA1DB287745a2ad9c6Ac8C97C2c3DFefd4Fd2b6`](https://basescan.org/address/0x0AA1DB287745a2ad9c6Ac8C97C2c3DFefd4Fd2b6#code) | ✅ |
-| **PumpClawLPLocker** | [`0x9516F16F966191308871E97702777ddE004Da9ba`](https://basescan.org/address/0x9516F16F966191308871E97702777ddE004Da9ba#code) | ✅ |
+| **PumpClawFactory** | [`0x9f36F0B22000aa6101bF0e81B562E1288eD537F6`](https://basescan.org/address/0x9f36F0B22000aa6101bF0e81B562E1288eD537F6#code) | ✅ |
+| **PumpClawLPLocker** | [`0xd3c67734D739868a9Ca9Ed45F8912aceb64F1835`](https://basescan.org/address/0xd3c67734D739868a9Ca9Ed45F8912aceb64F1835#code) | ✅ |
+| **PumpClawSwapRouter** | [`0x71D4F09dfb50b40966216f5Dd7c92310a27dead8`](https://basescan.org/address/0x71D4F09dfb50b40966216f5Dd7c92310a27dead8#code) | ✅ |
+
+> **Note:** Uses native ETH (no WETH wrapping) for gas-efficient swaps!
 
 ## Contract Interface
 

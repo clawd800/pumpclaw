@@ -33,7 +33,9 @@ contract PumpClawFactory is ReentrancyGuard {
     IPoolManager public immutable poolManager;
     IPositionManager public immutable positionManager;
     IPumpClawLPLocker public immutable lpLocker;
-    address public immutable weth;
+    
+    // Native ETH represented as address(0) in Uniswap V4
+    address constant NATIVE_ETH = address(0);
 
     struct TokenInfo {
         address token;
@@ -65,13 +67,11 @@ contract PumpClawFactory is ReentrancyGuard {
     constructor(
         address _poolManager,
         address _positionManager,
-        address _lpLocker,
-        address _weth
+        address _lpLocker
     ) {
         poolManager = IPoolManager(_poolManager);
         positionManager = IPositionManager(_positionManager);
         lpLocker = IPumpClawLPLocker(_lpLocker);
-        weth = _weth;
     }
 
     /// @notice Create a new token with concentrated liquidity pool
@@ -104,9 +104,10 @@ contract PumpClawFactory is ReentrancyGuard {
         token = address(newToken);
 
         // Determine token order (V4 requires currency0 < currency1)
-        bool tokenIsToken0 = token < weth;
-        Currency currency0 = tokenIsToken0 ? Currency.wrap(token) : Currency.wrap(weth);
-        Currency currency1 = tokenIsToken0 ? Currency.wrap(weth) : Currency.wrap(token);
+        // Native ETH (address(0)) is always < any token address, so ETH is always currency0
+        bool tokenIsToken0 = token < NATIVE_ETH; // Always false since address(0) < any address
+        Currency currency0 = Currency.wrap(NATIVE_ETH); // ETH
+        Currency currency1 = Currency.wrap(token);      // Token
 
         PoolKey memory poolKey = PoolKey({
             currency0: currency0,
@@ -117,78 +118,47 @@ contract PumpClawFactory is ReentrancyGuard {
         });
 
         // Calculate ticks for concentrated liquidity
-        // We want single-sided token liquidity, so we position the range such that
-        // at the initial price, we only need to deposit tokens (not WETH)
-        //
-        // If Token is token0: at lower tick bound, position holds 100% token0
-        // If Token is token1: at upper tick bound, position holds 100% token1
+        // ETH is always currency0 (address(0) < any token address)
+        // Token is always currency1
+        // 
+        // price = token1/token0 = Token/ETH (tokens per ETH)
+        // Low price = few tokens per ETH = token is valuable
+        // At upper tick, position holds 100% token1 (Token)
+        // So we set current price at upper tick for single-sided token deposit
         
         int24 tickLower;
         int24 tickUpper;
         uint160 sqrtPriceX96;
         
-        if (tokenIsToken0) {
-            // Token is token0, WETH is token1
-            // price = token1/token0 = WETH/Token
-            // We want high price (lots of WETH per Token = token is valuable)
-            // At lower tick, we hold 100% token0 (Token)
-            // So we set current price at lower tick
-            
-            // sqrtPrice for FDV: price = FDV/supply (WETH per token)
-            sqrtPriceX96 = _calculateSqrtPrice(initialFdv, totalSupply);
-            tickLower = _getTickFromSqrtPrice(sqrtPriceX96);
-            tickLower = _alignTick(tickLower, TICK_SPACING);
-            
-            // Upper tick: 100x price range
-            int24 tickRange = _getTicksForMultiplier(PRICE_RANGE_MULTIPLIER);
-            tickUpper = tickLower + tickRange;
-            tickUpper = _alignTick(tickUpper, TICK_SPACING);
-            
-            // Ensure within bounds
-            if (tickUpper > TickMath.maxUsableTick(TICK_SPACING)) {
-                tickUpper = TickMath.maxUsableTick(TICK_SPACING);
-            }
-            
-            // Set initial price exactly at lower tick (single-sided token)
-            sqrtPriceX96 = TickMath.getSqrtPriceAtTick(tickLower);
-            
-        } else {
-            // WETH is token0, Token is token1
-            // price = token1/token0 = Token/WETH
-            // Low price = few tokens per WETH = token is valuable
-            // At upper tick, we hold 100% token1 (Token)
-            // So we set current price at upper tick
-            
-            // sqrtPrice for FDV: price = supply/FDV (tokens per WETH)
-            sqrtPriceX96 = _calculateSqrtPrice(totalSupply, initialFdv);
-            tickUpper = _getTickFromSqrtPrice(sqrtPriceX96);
-            tickUpper = _alignTick(tickUpper, TICK_SPACING);
-            
-            // Lower tick: 100x price range (price goes down = token more valuable)
-            int24 tickRange = _getTicksForMultiplier(PRICE_RANGE_MULTIPLIER);
-            tickLower = tickUpper - tickRange;
-            tickLower = _alignTick(tickLower, TICK_SPACING);
-            
-            // Ensure within bounds
-            if (tickLower < TickMath.minUsableTick(TICK_SPACING)) {
-                tickLower = TickMath.minUsableTick(TICK_SPACING);
-            }
-            
-            // Set initial price exactly at upper tick (single-sided token)
-            sqrtPriceX96 = TickMath.getSqrtPriceAtTick(tickUpper);
+        // sqrtPrice for FDV: price = supply/FDV (tokens per ETH)
+        sqrtPriceX96 = _calculateSqrtPrice(totalSupply, initialFdv);
+        tickUpper = _getTickFromSqrtPrice(sqrtPriceX96);
+        tickUpper = _alignTick(tickUpper, TICK_SPACING);
+        
+        // Lower tick: 100x price range (price goes down = token more valuable)
+        int24 tickRange = _getTicksForMultiplier(PRICE_RANGE_MULTIPLIER);
+        tickLower = tickUpper - tickRange;
+        tickLower = _alignTick(tickLower, TICK_SPACING);
+        
+        // Ensure within bounds
+        if (tickLower < TickMath.minUsableTick(TICK_SPACING)) {
+            tickLower = TickMath.minUsableTick(TICK_SPACING);
         }
+        
+        // Set initial price exactly at upper tick (single-sided token)
+        sqrtPriceX96 = TickMath.getSqrtPriceAtTick(tickUpper);
 
         // Initialize pool at the boundary price
         positionManager.initializePool(poolKey, sqrtPriceX96);
 
         // Calculate liquidity for single-sided deposit
-        // At boundary, we deposit 100% tokens
+        // At upper tick boundary, we deposit 100% token1 (Token), 0% ETH
         uint128 liquidity = LiquidityAmounts.getLiquidityForAmounts(
             sqrtPriceX96,
             TickMath.getSqrtPriceAtTick(tickLower),
             TickMath.getSqrtPriceAtTick(tickUpper),
-            tokenIsToken0 ? totalSupply : 0,
-            tokenIsToken0 ? 0 : totalSupply
+            0,           // amount0 (ETH) = 0
+            totalSupply  // amount1 (Token) = full supply
         );
 
         // Transfer tokens to PositionManager
