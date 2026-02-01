@@ -14,9 +14,8 @@ PumpClaw allows anyone to create fair launch memecoins with instant liquidity on
 
 | Contract | Address | Verified |
 |----------|---------|----------|
-| **PumpClawFactory** | [`0x8B37984800bA8a2f050cB6FfAf082a7c34C1F243`](https://basescan.org/address/0x8B37984800bA8a2f050cB6FfAf082a7c34C1F243#code) | ✅ |
-| **PumpClawLPLocker** | [`0x1aC10d4F4f8d37C5A4cC5032188Ec11c98F3998F`](https://basescan.org/address/0x1aC10d4F4f8d37C5A4cC5032188Ec11c98F3998F#code) | ✅ |
-| SwapRouter | [`0x0c7eefbf31597254fe72d0fbb19667d5cd5d5752`](https://basescan.org/address/0x0c7eefbf31597254fe72d0fbb19667d5cd5d5752) | - |
+| **PumpClawFactory** | [`0x492372BAD3CBdfB07fAe07e73E50801aAfA289FD`](https://basescan.org/address/0x492372BAD3CBdfB07fAe07e73E50801aAfA289FD#code) | ✅ |
+| **PumpClawLPLocker** | [`0x8c4d636a6733F21442D2129D2d6995D091710525`](https://basescan.org/address/0x8c4d636a6733F21442D2129D2d6995D091710525#code) | ✅ |
 
 ## CLI Usage
 

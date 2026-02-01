@@ -13,7 +13,7 @@ import { privateKeyToAccount } from "viem/accounts";
 import {
   CONTRACTS,
   BASE_RPC,
-  FACTORY_V4_ABI,
+  FACTORY_ABI,
   LOCKER_ABI,
   TOKEN_ABI,
   SWAP_ROUTER_ABI,
@@ -56,8 +56,8 @@ program
   .action(async (opts) => {
     try {
       const count = await publicClient.readContract({
-        address: CONTRACTS.FACTORY_V4,
-        abi: FACTORY_V4_ABI,
+        address: CONTRACTS.FACTORY,
+        abi: FACTORY_ABI,
         functionName: "getTokenCount",
       });
 
@@ -70,8 +70,8 @@ program
       const end = Math.min(offset + limit, Number(count));
 
       const tokens = await publicClient.readContract({
-        address: CONTRACTS.FACTORY_V4,
-        abi: FACTORY_V4_ABI,
+        address: CONTRACTS.FACTORY,
+        abi: FACTORY_ABI,
         functionName: "getTokens",
         args: [BigInt(offset), BigInt(end)],
       });
@@ -98,14 +98,14 @@ program
   .action(async (tokenAddress) => {
     try {
       const info = await publicClient.readContract({
-        address: CONTRACTS.FACTORY_V4,
-        abi: FACTORY_V4_ABI,
+        address: CONTRACTS.FACTORY,
+        abi: FACTORY_ABI,
         functionName: "getTokenInfo",
         args: [tokenAddress as `0x${string}`],
       });
 
       const [positionId, creator] = await publicClient.readContract({
-        address: CONTRACTS.LP_LOCKER_V4,
+        address: CONTRACTS.LP_LOCKER,
         abi: LOCKER_ABI,
         functionName: "getPosition",
         args: [tokenAddress as `0x${string}`],
@@ -161,8 +161,8 @@ program
       if (opts.creator) {
         // Custom creator with FDV
         hash = await walletClient.writeContract({
-          address: CONTRACTS.FACTORY_V4,
-          abi: FACTORY_V4_ABI,
+          address: CONTRACTS.FACTORY,
+          abi: FACTORY_ABI,
           functionName: "createTokenFor",
           args: [
             opts.name,
@@ -175,16 +175,16 @@ program
       } else if (opts.fdv) {
         // Custom FDV
         hash = await walletClient.writeContract({
-          address: CONTRACTS.FACTORY_V4,
-          abi: FACTORY_V4_ABI,
+          address: CONTRACTS.FACTORY,
+          abi: FACTORY_ABI,
           functionName: "createTokenWithFdv",
           args: [opts.name, opts.symbol, opts.image, fdv],
         });
       } else {
         // Default (20 ETH FDV)
         hash = await walletClient.writeContract({
-          address: CONTRACTS.FACTORY_V4,
-          abi: FACTORY_V4_ABI,
+          address: CONTRACTS.FACTORY,
+          abi: FACTORY_ABI,
           functionName: "createToken",
           args: [opts.name, opts.symbol, opts.image],
         });
@@ -198,14 +198,14 @@ program
       if (receipt.status === "success") {
         // Get token address from logs
         const count = await publicClient.readContract({
-          address: CONTRACTS.FACTORY_V4,
-          abi: FACTORY_V4_ABI,
+          address: CONTRACTS.FACTORY,
+          abi: FACTORY_ABI,
           functionName: "getTokenCount",
         });
 
         const [token] = await publicClient.readContract({
-          address: CONTRACTS.FACTORY_V4,
-          abi: FACTORY_V4_ABI,
+          address: CONTRACTS.FACTORY,
+          abi: FACTORY_ABI,
           functionName: "getTokens",
           args: [count - 1n, count],
         });
@@ -234,7 +234,7 @@ program
       console.log(`Claiming fees for: ${tokenAddress}`);
 
       const hash = await walletClient.writeContract({
-        address: CONTRACTS.LP_LOCKER_V4,
+        address: CONTRACTS.LP_LOCKER,
         abi: LOCKER_ABI,
         functionName: "claimFees",
         args: [tokenAddress as `0x${string}`],
@@ -263,8 +263,8 @@ program
   .action(async (creatorAddress) => {
     try {
       const indices = await publicClient.readContract({
-        address: CONTRACTS.FACTORY_V4,
-        abi: FACTORY_V4_ABI,
+        address: CONTRACTS.FACTORY,
+        abi: FACTORY_ABI,
         functionName: "getTokensByCreator",
         args: [creatorAddress as `0x${string}`],
       });
@@ -273,8 +273,8 @@ program
 
       for (const idx of indices) {
         const token = await publicClient.readContract({
-          address: CONTRACTS.FACTORY_V4,
-          abi: FACTORY_V4_ABI,
+          address: CONTRACTS.FACTORY,
+          abi: FACTORY_ABI,
           functionName: "tokens",
           args: [idx],
         });
@@ -297,33 +297,33 @@ program
   .action(async () => {
     try {
       const defaultFdv = await publicClient.readContract({
-        address: CONTRACTS.FACTORY_V4,
-        abi: FACTORY_V4_ABI,
+        address: CONTRACTS.FACTORY,
+        abi: FACTORY_ABI,
         functionName: "DEFAULT_FDV",
       });
 
       const tokenSupply = await publicClient.readContract({
-        address: CONTRACTS.FACTORY_V4,
-        abi: FACTORY_V4_ABI,
+        address: CONTRACTS.FACTORY,
+        abi: FACTORY_ABI,
         functionName: "TOKEN_SUPPLY",
       });
 
       const priceRange = await publicClient.readContract({
-        address: CONTRACTS.FACTORY_V4,
-        abi: FACTORY_V4_ABI,
+        address: CONTRACTS.FACTORY,
+        abi: FACTORY_ABI,
         functionName: "PRICE_RANGE_MULTIPLIER",
       });
 
       const creatorFeeBps = await publicClient.readContract({
-        address: CONTRACTS.LP_LOCKER_V4,
+        address: CONTRACTS.LP_LOCKER,
         abi: LOCKER_ABI,
         functionName: "CREATOR_FEE_BPS",
       });
 
       console.log("PumpClaw V4 Contracts (Base Mainnet)");
       console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-      console.log(`Factory V4: ${CONTRACTS.FACTORY_V4}`);
-      console.log(`LP Locker:  ${CONTRACTS.LP_LOCKER_V4}`);
+      console.log(`Factory V4: ${CONTRACTS.FACTORY}`);
+      console.log(`LP Locker:  ${CONTRACTS.LP_LOCKER}`);
       console.log(`Swap Router: ${CONTRACTS.SWAP_ROUTER}`);
       console.log(`WETH:       ${CONTRACTS.WETH}`);
       console.log("");
