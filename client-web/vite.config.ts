@@ -4,8 +4,8 @@ import { resolve } from "path";
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
-  // GitHub Pages base path - repo name
-  base: "/pumpclaw/",
+  // Custom domain - use root path
+  base: "/",
   plugins: [react(), tailwindcss()],
   define: {
     "process.env": {},
