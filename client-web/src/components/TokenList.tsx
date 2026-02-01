@@ -1,6 +1,58 @@
 import { useLatestTokens, useTokenImageUrl, type TokenInfo } from "@/hooks/useTokens";
 import { formatEther } from "viem";
 import { useState } from "react";
+import { useReadContract } from "wagmi";
+import { CONTRACTS } from "@/configs/constants";
+import { ERC20_ABI } from "@/configs/abis";
+
+// Total supply ABI for reading token supply
+const TOTAL_SUPPLY_ABI = [
+  {
+    type: "function",
+    name: "totalSupply",
+    inputs: [],
+    outputs: [{ name: "", type: "uint256" }],
+    stateMutability: "view",
+  },
+] as const;
+
+function ProgressBar({ tokenAddress }: { tokenAddress: `0x${string}` }) {
+  // Get total supply
+  const { data: totalSupply } = useReadContract({
+    address: tokenAddress,
+    abi: TOTAL_SUPPLY_ABI,
+    functionName: "totalSupply",
+  });
+
+  // Get pool balance (tokens remaining in PoolManager)
+  const { data: poolBalance } = useReadContract({
+    address: tokenAddress,
+    abi: ERC20_ABI,
+    functionName: "balanceOf",
+    args: [CONTRACTS.POOL_MANAGER as `0x${string}`],
+  });
+
+  if (!totalSupply || !poolBalance) return null;
+
+  // Calculate percentage purchased
+  const purchased = totalSupply - poolBalance;
+  const percentPurchased = Number((purchased * 100n) / totalSupply);
+  
+  return (
+    <div className="mt-3">
+      <div className="flex justify-between text-xs text-green-600 mb-1">
+        <span>Purchased</span>
+        <span>{percentPurchased.toFixed(1)}%</span>
+      </div>
+      <div className="h-2 bg-green-900/30 border border-green-900/50 overflow-hidden">
+        <div 
+          className="h-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)] transition-all duration-500"
+          style={{ width: `${Math.min(percentPurchased, 100)}%` }}
+        />
+      </div>
+    </div>
+  );
+}
 
 function CopyButton({ text }: { text: string }) {
   const [copied, setCopied] = useState(false);
@@ -99,6 +151,9 @@ function TokenCard({ token }: { token: TokenInfo }) {
             <CopyButton text={token.creator} />
           </div>
         </div>
+        
+        {/* Progress bar showing purchased % */}
+        <ProgressBar tokenAddress={token.token} />
       </div>
 
       {/* Action buttons */}
