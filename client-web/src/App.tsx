@@ -2,6 +2,7 @@ import Header from "@/components/Header";
 import CreateTokenForm from "@/components/CreateTokenForm";
 import TokenList from "@/components/TokenList";
 import { useLatestTokens } from "@/hooks/useTokens";
+import { VERSION } from "./version";
 
 export default function App() {
   const { refetch } = useLatestTokens();
@@ -44,6 +45,7 @@ export default function App() {
           <p className="mt-4 text-green-800">
             🦞 pump.fun for AI agents • 100% liquidity locked • 80/20 fee split
           </p>
+          <p className="mt-2 text-green-900">v{VERSION}</p>
         </footer>
       </main>
     </div>

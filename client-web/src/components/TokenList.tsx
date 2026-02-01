@@ -15,10 +15,10 @@ function TokenCard({ token }: { token: TokenInfo }) {
   const dexScreenerUrl = `https://dexscreener.com/base/${token.token}`;
 
   return (
-    <div className="border border-green-900/50 bg-black/40 p-5 hover:border-green-500/50 transition-all hover:bg-black/60 rounded-lg">
+    <div className="border border-green-900/50 bg-black/40 p-5 hover:border-green-500/50 transition-all hover:bg-black/60">
       {/* Header with logo */}
       <div className="flex items-center gap-4 mb-4">
-        <div className="flex-shrink-0 w-14 h-14 rounded-full overflow-hidden bg-green-900/30 border-2 border-green-800/50">
+        <div className="flex-shrink-0 w-14 h-14 overflow-hidden bg-green-900/30 border-2 border-green-800/50">
           {imageUrl ? (
             <img 
               src={imageUrl} 
@@ -37,7 +37,7 @@ function TokenCard({ token }: { token: TokenInfo }) {
         
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
-            <h3 className="font-bold text-green-300 text-lg truncate">{token.name}</h3>
+            <h3 className="font-bold text-green-300 text-lg break-all">{token.name}</h3>
             <span className="text-xs text-green-700 flex-shrink-0">{timeAgo}</span>
           </div>
           <p className="text-green-500 font-mono">${token.symbol}</p>
@@ -69,7 +69,7 @@ function TokenCard({ token }: { token: TokenInfo }) {
           href={`https://basescan.org/token/${token.token}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex-1 py-2 text-center text-sm font-medium bg-green-900/30 border border-green-800/50 text-green-500 hover:bg-green-900/50 hover:text-green-400 transition-all rounded"
+          className="flex-1 py-2 text-center text-sm font-medium bg-green-900/30 border border-green-800/50 text-green-500 hover:bg-green-900/50 hover:text-green-400 transition-all"
         >
           BaseScan
         </a>
@@ -77,15 +77,15 @@ function TokenCard({ token }: { token: TokenInfo }) {
           href={dexScreenerUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex-1 py-2 text-center text-sm font-medium bg-purple-900/30 border border-purple-800/50 text-purple-400 hover:bg-purple-900/50 hover:text-purple-300 transition-all rounded"
+          className="flex-1 py-2 text-center text-sm font-medium bg-purple-900/30 border border-purple-800/50 text-purple-400 hover:bg-purple-900/50 hover:text-purple-300 transition-all"
         >
           DexScreener
         </a>
         <a
-          href={`https://app.uniswap.org/swap?outputCurrency=${token.token}&chain=base`}
+          href={`https://matcha.xyz/tokens/base/${token.token}?sellChain=8453&sellAddress=0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee`}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex-1 py-2 text-center text-sm font-medium bg-green-600/20 border border-green-500/50 text-green-400 hover:bg-green-600/30 hover:text-green-300 transition-all rounded"
+          className="flex-1 py-2 text-center text-sm font-medium bg-green-600/20 border border-green-500/50 text-green-400 hover:bg-green-600/30 hover:text-green-300 transition-all"
         >
           Trade
         </a>
@@ -107,7 +107,7 @@ export default function TokenList() {
   const { data: tokens, isLoading, count, refetch } = useLatestTokens(20);
 
   return (
-    <div className="border border-green-900/50 bg-black/30 p-6 rounded-lg">
+    <div className="border border-green-900/50 bg-black/30 p-6">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-xl font-bold text-green-400 flex items-center gap-2">
           <span>📋</span> Recent Launches
@@ -119,7 +119,7 @@ export default function TokenList() {
         </h2>
         <button
           onClick={() => refetch()}
-          className="text-sm text-green-600 hover:text-green-400 transition-colors px-3 py-1 border border-green-900/50 rounded hover:border-green-700/50"
+          className="text-sm text-green-600 hover:text-green-400 transition-colors px-3 py-1 border border-green-900/50 hover:border-green-700/50"
         >
           ↻ Refresh
         </button>
@@ -132,7 +132,7 @@ export default function TokenList() {
           No tokens launched yet. Be the first! 🦞
         </div>
       ) : (
-        <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid gap-5 lg:grid-cols-2">
           {tokens.map((token) => (
             <TokenCard key={token.token} token={token} />
           ))}
