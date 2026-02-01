@@ -9,13 +9,32 @@ PumpClaw allows anyone to create fair launch memecoins with instant liquidity on
 - Creator only receives fee revenue
 - Immutable LP - liquidity is locked forever
 - 1% swap fee distributed to creators and protocol
+- **Configurable supply and FDV** - customize your token economics
 
 ## Contracts (Base Mainnet)
 
 | Contract | Address | Verified |
 |----------|---------|----------|
-| **PumpClawFactory** | [`0x492372BAD3CBdfB07fAe07e73E50801aAfA289FD`](https://basescan.org/address/0x492372BAD3CBdfB07fAe07e73E50801aAfA289FD#code) | ✅ |
-| **PumpClawLPLocker** | [`0x8c4d636a6733F21442D2129D2d6995D091710525`](https://basescan.org/address/0x8c4d636a6733F21442D2129D2d6995D091710525#code) | ✅ |
+| **PumpClawFactory** | [`0x0AA1DB287745a2ad9c6Ac8C97C2c3DFefd4Fd2b6`](https://basescan.org/address/0x0AA1DB287745a2ad9c6Ac8C97C2c3DFefd4Fd2b6#code) | ✅ |
+| **PumpClawLPLocker** | [`0x9516F16F966191308871E97702777ddE004Da9ba`](https://basescan.org/address/0x9516F16F966191308871E97702777ddE004Da9ba#code) | ✅ |
+
+## Contract Interface
+
+```solidity
+// Single function for token creation - all params configurable
+function createToken(
+    string name,
+    string symbol,
+    string imageUrl,
+    uint256 totalSupply,  // e.g., 1_000_000_000e18 for 1B
+    uint256 initialFdv,   // e.g., 20e18 for 20 ETH
+    address creator       // receives fee claims
+) returns (address token, uint256 positionId)
+```
+
+**Defaults (set in clients):**
+- Supply: 1 billion tokens
+- Initial FDV: 20 ETH
 
 ## CLI Usage
 
@@ -35,6 +54,9 @@ npx tsx src/cli.ts create --name "My Token" --symbol "MTK"
 # Create with custom FDV (default: 20 ETH)
 npx tsx src/cli.ts create --name "My Token" --symbol "MTK" --fdv 50
 
+# Create with custom supply
+npx tsx src/cli.ts create --name "My Token" --symbol "MTK" --supply 21000000
+
 # Buy tokens with ETH
 npx tsx src/cli.ts buy <token_address> -e 0.001
 
@@ -43,6 +65,37 @@ npx tsx src/cli.ts sell <token_address> -a 1000000
 
 # List all created tokens
 npx tsx src/cli.ts list
+```
+
+## Shared Module
+
+Common utilities for all clients in `/shared`:
+
+```typescript
+import { 
+  CONTRACTS, 
+  TOKEN_DEFAULTS,
+  createClient,
+  buildCreateTokenArgs,
+  formatSupply,
+  getTokenInfo 
+} from '../shared';
+
+// Use defaults
+const args = buildCreateTokenArgs({
+  name: "My Token",
+  symbol: "MTK",
+  creator: "0x..."
+});
+
+// Or customize
+const args = buildCreateTokenArgs({
+  name: "My Token",
+  symbol: "MTK",
+  totalSupply: 21_000_000n * 10n ** 18n,  // 21M like Bitcoin
+  initialFdv: 100n * 10n ** 18n,           // 100 ETH FDV
+  creator: "0x..."
+});
 ```
 
 ## Architecture
@@ -61,10 +114,10 @@ PumpClawSwapRouter
 
 ## Token Economics
 
-- **Total Supply**: 1 billion tokens
-- **Initial Price**: ~0.000000001 ETH per token
+- **Total Supply**: Configurable (default: 1 billion)
+- **Initial FDV**: Configurable (default: 20 ETH)
 - **LP Fee**: 1% on all swaps
-- **Fee Distribution**: 0.5% to creator, 0.5% to protocol
+- **Fee Distribution**: 80% to creator, 20% to protocol
 
 ## Development
 
@@ -80,11 +133,15 @@ forge test
 
 # Deploy (requires PRIVATE_KEY env)
 forge script script/Deploy.s.sol --rpc-url $BASE_RPC --broadcast
+
+# Verify on Basescan
+forge verify-contract <address> src/core/PumpClawFactory.sol:PumpClawFactory \
+  --chain base --etherscan-api-key $BASESCAN_API_KEY
 ```
 
 ## Links
 
-- Web App: Coming soon
+- Web App: [pumpclaw.vercel.app](https://pumpclaw.vercel.app)
 - Telegram Bot: Coming soon
 - Docs: Coming soon
 
