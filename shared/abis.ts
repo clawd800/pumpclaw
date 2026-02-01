@@ -8,20 +8,6 @@ export const FACTORY_ABI = [
   // Constants
   {
     type: "function",
-    name: "DEFAULT_FDV",
-    inputs: [],
-    outputs: [{ name: "", type: "uint256" }],
-    stateMutability: "view",
-  },
-  {
-    type: "function",
-    name: "TOKEN_SUPPLY",
-    inputs: [],
-    outputs: [{ name: "", type: "uint256" }],
-    stateMutability: "view",
-  },
-  {
-    type: "function",
     name: "PRICE_RANGE_MULTIPLIER",
     inputs: [],
     outputs: [{ name: "", type: "uint256" }],
@@ -41,7 +27,7 @@ export const FACTORY_ABI = [
     outputs: [{ name: "", type: "int24" }],
     stateMutability: "view",
   },
-  // Token creation
+  // Token creation (single function, all params configurable)
   {
     type: "function",
     name: "createToken",
@@ -49,35 +35,7 @@ export const FACTORY_ABI = [
       { name: "name", type: "string" },
       { name: "symbol", type: "string" },
       { name: "imageUrl", type: "string" },
-    ],
-    outputs: [
-      { name: "token", type: "address" },
-      { name: "positionId", type: "uint256" },
-    ],
-    stateMutability: "nonpayable",
-  },
-  {
-    type: "function",
-    name: "createTokenWithFdv",
-    inputs: [
-      { name: "name", type: "string" },
-      { name: "symbol", type: "string" },
-      { name: "imageUrl", type: "string" },
-      { name: "initialFdv", type: "uint256" },
-    ],
-    outputs: [
-      { name: "token", type: "address" },
-      { name: "positionId", type: "uint256" },
-    ],
-    stateMutability: "nonpayable",
-  },
-  {
-    type: "function",
-    name: "createTokenFor",
-    inputs: [
-      { name: "name", type: "string" },
-      { name: "symbol", type: "string" },
-      { name: "imageUrl", type: "string" },
+      { name: "totalSupply", type: "uint256" },
       { name: "initialFdv", type: "uint256" },
       { name: "creator", type: "address" },
     ],
@@ -110,6 +68,7 @@ export const FACTORY_ABI = [
           { name: "token", type: "address" },
           { name: "creator", type: "address" },
           { name: "positionId", type: "uint256" },
+          { name: "totalSupply", type: "uint256" },
           { name: "initialFdv", type: "uint256" },
           { name: "createdAt", type: "uint256" },
           { name: "name", type: "string" },
@@ -131,6 +90,7 @@ export const FACTORY_ABI = [
           { name: "token", type: "address" },
           { name: "creator", type: "address" },
           { name: "positionId", type: "uint256" },
+          { name: "totalSupply", type: "uint256" },
           { name: "initialFdv", type: "uint256" },
           { name: "createdAt", type: "uint256" },
           { name: "name", type: "string" },
@@ -155,6 +115,7 @@ export const FACTORY_ABI = [
       { name: "token", type: "address" },
       { name: "creator", type: "address" },
       { name: "positionId", type: "uint256" },
+      { name: "totalSupply", type: "uint256" },
       { name: "initialFdv", type: "uint256" },
       { name: "createdAt", type: "uint256" },
       { name: "name", type: "string" },
@@ -208,6 +169,7 @@ export const FACTORY_ABI = [
       { name: "name", type: "string", indexed: false },
       { name: "symbol", type: "string", indexed: false },
       { name: "positionId", type: "uint256", indexed: false },
+      { name: "totalSupply", type: "uint256", indexed: false },
       { name: "initialFdv", type: "uint256", indexed: false },
       { name: "tickLower", type: "int24", indexed: false },
       { name: "tickUpper", type: "int24", indexed: false },

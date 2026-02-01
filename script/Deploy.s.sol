@@ -37,8 +37,8 @@ contract Deploy is Script {
         console2.log("Factory linked to locker");
 
         // Log config
-        console2.log("DEFAULT_FDV:", factory.DEFAULT_FDV());
-        console2.log("TOKEN_SUPPLY:", factory.TOKEN_SUPPLY());
+        console2.log("LP_FEE:", factory.LP_FEE());
+        console2.log("PRICE_RANGE_MULTIPLIER:", factory.PRICE_RANGE_MULTIPLIER());
 
         vm.stopBroadcast();
     }

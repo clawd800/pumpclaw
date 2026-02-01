@@ -24,8 +24,6 @@ import {IPumpClawLPLocker} from "../interfaces/IPumpClawLPLocker.sol";
 contract PumpClawFactory is ReentrancyGuard {
     using SafeERC20 for IERC20;
 
-    uint256 public constant TOKEN_SUPPLY = 1_000_000_000e18; // Fixed 1B supply
-    uint256 public constant DEFAULT_FDV = 20 ether; // Default 20 ETH FDV
     uint256 public constant PRICE_RANGE_MULTIPLIER = 100; // Price can go up to 100x FDV
     uint24 public constant LP_FEE = 10000; // 1% fee
     int24 public constant TICK_SPACING = 200;
@@ -41,6 +39,7 @@ contract PumpClawFactory is ReentrancyGuard {
         address token;
         address creator;
         uint256 positionId;
+        uint256 totalSupply;
         uint256 initialFdv;
         uint256 createdAt;
         string name;
@@ -57,6 +56,7 @@ contract PumpClawFactory is ReentrancyGuard {
         string name,
         string symbol,
         uint256 positionId,
+        uint256 totalSupply,
         uint256 initialFdv,
         int24 tickLower,
         int24 tickUpper
@@ -74,44 +74,22 @@ contract PumpClawFactory is ReentrancyGuard {
         weth = _weth;
     }
 
-    /// @notice Create token with default FDV (20 ETH)
+    /// @notice Create a new token with concentrated liquidity pool
+    /// @param name Token name
+    /// @param symbol Token symbol  
+    /// @param imageUrl Token image URL
+    /// @param totalSupply Total token supply (e.g., 1_000_000_000e18)
+    /// @param initialFdv Initial fully diluted valuation in wei (e.g., 20e18 for 20 ETH)
+    /// @param creator Address that receives creator rights (fee claims)
     function createToken(
         string calldata name,
         string calldata symbol,
-        string calldata imageUrl
-    ) external returns (address token, uint256 positionId) {
-        return _createToken(name, symbol, imageUrl, DEFAULT_FDV, msg.sender);
-    }
-
-    /// @notice Create token with custom FDV
-    /// @param initialFdv Initial fully diluted valuation in ETH (e.g., 20 ether)
-    function createTokenWithFdv(
-        string calldata name,
-        string calldata symbol,
         string calldata imageUrl,
-        uint256 initialFdv
-    ) external returns (address token, uint256 positionId) {
-        return _createToken(name, symbol, imageUrl, initialFdv, msg.sender);
-    }
-
-    /// @notice Create token on behalf of creator
-    function createTokenFor(
-        string calldata name,
-        string calldata symbol,
-        string calldata imageUrl,
+        uint256 totalSupply,
         uint256 initialFdv,
         address creator
-    ) external returns (address token, uint256 positionId) {
-        return _createToken(name, symbol, imageUrl, initialFdv, creator);
-    }
-
-    function _createToken(
-        string calldata name,
-        string calldata symbol,
-        string calldata imageUrl,
-        uint256 initialFdv,
-        address creator
-    ) internal nonReentrant returns (address token, uint256 positionId) {
+    ) external nonReentrant returns (address token, uint256 positionId) {
+        require(totalSupply > 0, "Supply required");
         require(initialFdv > 0, "FDV required");
         require(creator != address(0), "Invalid creator");
 
@@ -119,7 +97,7 @@ contract PumpClawFactory is ReentrancyGuard {
         PumpClawToken newToken = new PumpClawToken(
             name,
             symbol,
-            TOKEN_SUPPLY,
+            totalSupply,
             creator,
             imageUrl
         );
@@ -157,7 +135,7 @@ contract PumpClawFactory is ReentrancyGuard {
             // So we set current price at lower tick
             
             // sqrtPrice for FDV: price = FDV/supply (WETH per token)
-            sqrtPriceX96 = _calculateSqrtPrice(initialFdv, TOKEN_SUPPLY);
+            sqrtPriceX96 = _calculateSqrtPrice(initialFdv, totalSupply);
             tickLower = _getTickFromSqrtPrice(sqrtPriceX96);
             tickLower = _alignTick(tickLower, TICK_SPACING);
             
@@ -182,7 +160,7 @@ contract PumpClawFactory is ReentrancyGuard {
             // So we set current price at upper tick
             
             // sqrtPrice for FDV: price = supply/FDV (tokens per WETH)
-            sqrtPriceX96 = _calculateSqrtPrice(TOKEN_SUPPLY, initialFdv);
+            sqrtPriceX96 = _calculateSqrtPrice(totalSupply, initialFdv);
             tickUpper = _getTickFromSqrtPrice(sqrtPriceX96);
             tickUpper = _alignTick(tickUpper, TICK_SPACING);
             
@@ -209,12 +187,12 @@ contract PumpClawFactory is ReentrancyGuard {
             sqrtPriceX96,
             TickMath.getSqrtPriceAtTick(tickLower),
             TickMath.getSqrtPriceAtTick(tickUpper),
-            tokenIsToken0 ? TOKEN_SUPPLY : 0,
-            tokenIsToken0 ? 0 : TOKEN_SUPPLY
+            tokenIsToken0 ? totalSupply : 0,
+            tokenIsToken0 ? 0 : totalSupply
         );
 
         // Transfer tokens to PositionManager
-        IERC20(token).safeTransfer(address(positionManager), TOKEN_SUPPLY);
+        IERC20(token).safeTransfer(address(positionManager), totalSupply);
 
         // Build actions - NO WRAP needed since no ETH
         bytes memory actions = abi.encodePacked(
@@ -258,6 +236,7 @@ contract PumpClawFactory is ReentrancyGuard {
             token: token,
             creator: creator,
             positionId: positionId,
+            totalSupply: totalSupply,
             initialFdv: initialFdv,
             createdAt: block.timestamp,
             name: name,
@@ -266,7 +245,7 @@ contract PumpClawFactory is ReentrancyGuard {
         tokenIndex[token] = tokens.length;
         tokensByCreator[creator].push(tokens.length - 1);
 
-        emit TokenCreated(token, creator, name, symbol, positionId, initialFdv, tickLower, tickUpper);
+        emit TokenCreated(token, creator, name, symbol, positionId, totalSupply, initialFdv, tickLower, tickUpper);
     }
 
     // View functions
