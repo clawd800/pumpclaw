@@ -1,5 +1,26 @@
 import { useLatestTokens, useTokenImageUrl, type TokenInfo } from "@/hooks/useTokens";
 import { formatEther } from "viem";
+import { useState } from "react";
+
+function CopyButton({ text }: { text: string }) {
+  const [copied, setCopied] = useState(false);
+  
+  const handleCopy = async () => {
+    await navigator.clipboard.writeText(text);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1500);
+  };
+  
+  return (
+    <button
+      onClick={handleCopy}
+      className="ml-1 text-green-700 hover:text-green-400 transition-colors"
+      title="Copy to clipboard"
+    >
+      {copied ? "✓" : "📋"}
+    </button>
+  );
+}
 
 function TokenCard({ token }: { token: TokenInfo }) {
   const { data: imageUrl } = useTokenImageUrl(token.token);
@@ -51,15 +72,32 @@ function TokenCard({ token }: { token: TokenInfo }) {
           <span className="text-green-300 font-semibold">{displayFdv} ETH</span>
         </div>
         <div className="flex justify-between items-center">
+          <span className="text-green-600 text-sm">Token CA</span>
+          <div className="flex items-center">
+            <a
+              href={`https://basescan.org/token/${token.token}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-green-400 hover:text-green-300 font-mono text-sm transition-colors"
+            >
+              {token.token.slice(0, 6)}...{token.token.slice(-4)}
+            </a>
+            <CopyButton text={token.token} />
+          </div>
+        </div>
+        <div className="flex justify-between items-center">
           <span className="text-green-600 text-sm">Creator</span>
-          <a
-            href={`https://basescan.org/address/${token.creator}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-green-400 hover:text-green-300 font-mono text-sm transition-colors"
-          >
-            {token.creator.slice(0, 6)}...{token.creator.slice(-4)}
-          </a>
+          <div className="flex items-center">
+            <a
+              href={`https://basescan.org/address/${token.creator}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-green-400 hover:text-green-300 font-mono text-sm transition-colors"
+            >
+              {token.creator.slice(0, 6)}...{token.creator.slice(-4)}
+            </a>
+            <CopyButton text={token.creator} />
+          </div>
         </div>
       </div>
 
@@ -69,7 +107,7 @@ function TokenCard({ token }: { token: TokenInfo }) {
           href={`https://basescan.org/token/${token.token}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex-1 py-2 text-center text-sm font-medium bg-green-900/30 border border-green-800/50 text-green-500 hover:bg-green-900/50 hover:text-green-400 transition-all"
+          className="flex-1 py-2 text-center text-xs font-medium bg-green-900/30 border border-green-800/50 text-green-500 hover:bg-green-900/50 hover:text-green-400 transition-all"
         >
           BaseScan
         </a>
@@ -77,7 +115,7 @@ function TokenCard({ token }: { token: TokenInfo }) {
           href={dexScreenerUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex-1 py-2 text-center text-sm font-medium bg-purple-900/30 border border-purple-800/50 text-purple-400 hover:bg-purple-900/50 hover:text-purple-300 transition-all"
+          className="flex-1 py-2 text-center text-xs font-medium bg-green-900/30 border border-green-800/50 text-green-500 hover:bg-green-900/50 hover:text-green-400 transition-all"
         >
           DexScreener
         </a>
@@ -85,7 +123,7 @@ function TokenCard({ token }: { token: TokenInfo }) {
           href={`https://matcha.xyz/tokens/base/${token.token}?sellChain=8453&sellAddress=0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee`}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex-1 py-2 text-center text-sm font-medium bg-green-600/20 border border-green-500/50 text-green-400 hover:bg-green-600/30 hover:text-green-300 transition-all"
+          className="flex-1 py-2 text-center text-xs font-medium bg-green-600/20 border border-green-500/50 text-green-400 hover:bg-green-600/30 hover:text-green-300 transition-all"
         >
           Trade
         </a>
