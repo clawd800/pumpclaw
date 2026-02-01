@@ -33,6 +33,7 @@ function createToken(
     string name,
     string symbol,
     string imageUrl,
+    string websiteUrl,
     uint256 totalSupply,  // e.g., 1_000_000_000e18 for 1B
     uint256 initialFdv,   // e.g., 20e18 for 20 ETH
     address creator       // receives fee claims
@@ -154,9 +155,8 @@ forge verify-contract <address> src/core/PumpClawFactory.sol:PumpClawFactory \
 
 ## Links
 
-- Web App: [pumpclaw.vercel.app](https://pumpclaw.vercel.app)
-- Telegram Bot: Coming soon
-- Docs: Coming soon
+- Web App: [pumpclaw.com](https://pumpclaw.com)
+- GitHub: [github.com/pumpclawxyz/pumpclaw](https://github.com/pumpclawxyz/pumpclaw)
 
 ## License
 

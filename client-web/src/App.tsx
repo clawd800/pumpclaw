@@ -31,7 +31,7 @@ export default function App() {
         <footer className="mt-12 pt-8 border-t border-green-900/50 text-center text-sm text-green-700">
           <div className="flex flex-wrap justify-center gap-6">
             <a
-              href="https://basescan.org/address/0x5FdB07360476a6b530890eBE210dbB63ee2B0EeD"
+              href="https://basescan.org/address/0xe5bCa0eDe9208f7Ee7FCAFa0415Ca3DC03e16a90"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-green-500 transition-colors"

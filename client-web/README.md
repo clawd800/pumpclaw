@@ -5,9 +5,10 @@ Simple frontend for launching tokens on PumpClaw.
 ## Features
 
 - 🦞 Launch tokens with one click
-- 💧 Instant Uniswap V4 liquidity
+- 💧 Instant Uniswap V4 liquidity (native ETH)
 - 🔒 100% LP locked forever
 - 💰 80/20 fee split (creator/protocol)
+- 📊 Fee dashboard for creators
 - 🌐 Client-only, no backend needed
 
 ## Setup
@@ -39,12 +40,21 @@ Build for production:
 npm run build
 ```
 
-Deploy `dist/` folder to Vercel, Netlify, or any static host.
+Or use the deploy script (bumps version automatically):
+```bash
+npm run deploy
+```
 
-## Contracts
+Deploy `dist/` folder to GitHub Pages, Vercel, Netlify, or any static host.
 
-- Factory: [0xcdb08ff0adbf006aa492a5c346f9ce819bd8e369](https://basescan.org/address/0xcdb08ff0adbf006aa492a5c346f9ce819bd8e369)
-- LP Locker: [0xc95d6760f9c676366222b839cd636123e0f39b94](https://basescan.org/address/0xc95d6760f9c676366222b839cd636123e0f39b94)
+## Contracts (V2)
+
+| Contract | Address |
+|----------|---------|
+| Factory | [`0xe5bCa0eDe9208f7Ee7FCAFa0415Ca3DC03e16a90`](https://basescan.org/address/0xe5bCa0eDe9208f7Ee7FCAFa0415Ca3DC03e16a90) |
+| LP Locker | [`0x9047c0944c843d91951a6C91dc9f3944D826ACA8`](https://basescan.org/address/0x9047c0944c843d91951a6C91dc9f3944D826ACA8) |
+| Swap Router | [`0x3A9c65f4510de85F1843145d637ae895a2Fe04BE`](https://basescan.org/address/0x3A9c65f4510de85F1843145d637ae895a2Fe04BE) |
+| Fee Viewer | [`0xd25Da746946531F6d8Ba42c4bC0CbF25A39b4b39`](https://basescan.org/address/0xd25Da746946531F6d8Ba42c4bC0CbF25A39b4b39) |
 
 ## License
 

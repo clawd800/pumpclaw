@@ -1,245 +1,116 @@
 # PumpClaw Architecture
 
-> pump.fun for AI agents - A simplified Clanker V4 fork
+> pump.fun for AI agents on Base with Uniswap V4
 
 ## Overview
 
-PumpClaw lets AI agents (and humans) deploy tokens on Base with automatic liquidity, locked LP, and fee distribution. Strip away Clanker's complexity, keep the battle-tested core.
+PumpClaw lets anyone deploy tokens on Base with automatic liquidity, locked LP, and fee distribution. Uses native ETH (no WETH wrapping) for gas-efficient swaps.
 
 ## Core Contracts
 
-### 1. PumpClaw.sol (Factory)
-The main entry point. Deploys tokens and orchestrates everything.
+### 1. PumpClawFactory.sol
+The main entry point. Deploys tokens and creates Uniswap V4 pools.
 
 ```solidity
-// Simplified from Clanker's DeploymentConfig
-struct TokenConfig {
-    string name;
-    string symbol;
-    string image;        // IPFS or URL
-    string metadata;     // JSON metadata
-    address creator;     // Fee recipient
-    bytes32 salt;        // For deterministic addresses
-}
-
-struct PoolConfig {
-    address pairedToken; // Usually WETH
-    uint24 fee;          // Static fee tier (3000 = 0.3%)
-    int24 initialTick;   // Starting price
-}
-
-function deployToken(
-    TokenConfig calldata token,
-    PoolConfig calldata pool
-) external payable returns (
-    address tokenAddress,
-    address poolAddress
-);
+function createToken(
+    string name,
+    string symbol,
+    string imageUrl,
+    string websiteUrl,
+    uint256 totalSupply,  // e.g., 1_000_000_000e18
+    uint256 initialFdv,   // e.g., 20e18 for 20 ETH
+    address creator       // receives 80% of fees
+) returns (address token, uint256 positionId)
 ```
 
-**Responsibilities:**
-- Deploy new ERC20 token (PumpClawToken)
-- Create Uniswap V4 pool with static fee hook
-- Mint total supply to pool (or configurable split)
-- Register with LpLocker for fee collection
-- Emit events for indexing
+**What it does:**
+1. Deploy new ERC20 token (PumpClawToken)
+2. Create Uniswap V4 pool with ETH/Token pair
+3. Mint entire supply and add as single-sided liquidity
+4. Transfer LP NFT to LPLocker (locked forever)
+5. Register creator for fee claims
 
-### 2. PumpClawToken.sol (ERC20)
-Standard ERC20 with metadata. Based on Clanker's ClankerToken.
+### 2. PumpClawToken.sol
+Standard ERC20 with metadata and creator-only setters.
 
 ```solidity
-contract PumpClawToken is ERC20 {
-    string public image;
-    string public metadata;
-    address public creator;
-    uint256 public deployedAt;
+contract PumpClawToken is ERC20, ERC20Permit, ERC20Burnable {
+    address public immutable creator;
+    string public imageUrl;
+    string public websiteUrl;
     
-    // Immutable after deployment
-    constructor(
-        string memory _name,
-        string memory _symbol,
-        string memory _image,
-        string memory _metadata,
-        address _creator,
-        uint256 _totalSupply
-    );
+    function setImageUrl(string newUrl) external;    // creator only
+    function setWebsiteUrl(string newUrl) external;  // creator only
 }
 ```
 
-### 3. PumpClawLpLocker.sol
-Manages LP positions and collects fees. Simplified from ClankerLpLockerFeeConversion.
+### 3. PumpClawLPLocker.sol
+Holds LP positions forever and distributes fees.
 
 ```solidity
-struct LockedPosition {
-    address token;
-    address creator;
-    uint256 positionId;    // Uniswap V4 position NFT
-    uint256 lockedUntil;   // Permanent lock = type(uint256).max
-    uint16 creatorFeeBps;  // e.g., 8000 = 80% to creator
-    uint16 protocolFeeBps; // e.g., 2000 = 20% to protocol
-}
-
-// Called by Factory after pool creation
-function lockPosition(
-    address token,
-    address creator,
-    uint256 positionId
-) external;
-
-// Anyone can trigger fee collection (gas incentive?)
-function collectFees(address token) external;
-
-// Creator claims accumulated fees
-function claimFees(address token) external;
-```
-
-**Fee Flow:**
-1. Swaps happen on Uniswap → fees accrue to LP position
-2. `collectFees()` harvests from Uniswap → splits to FeeLocker
-3. Creator calls `claimFees()` to withdraw their share
-
-### 4. PumpClawFeeLocker.sol
-Accumulates and distributes fees. From ClankerFeeLocker.
-
-```solidity
-// Tracks claimable fees per token per recipient
-mapping(address token => mapping(address recipient => uint256)) public claimable;
-
-// Called by LpLocker when fees collected
-function depositFees(
-    address token,
-    address recipient,
-    uint256 amount
-) external;
-
-// Recipient withdraws their fees
-function claim(address token) external;
-
-// View pending fees
-function pendingFees(address token, address recipient) external view returns (uint256);
-```
-
-### 5. PumpClawHook.sol (Uniswap V4 Hook)
-Static fee hook. Simplified from ClankerHookStaticFee.
-
-```solidity
-// Implements IHooks for Uniswap V4
-contract PumpClawHook is BaseHook {
-    // Fixed fee for all PumpClaw pools
-    uint24 public constant SWAP_FEE = 10000; // 1%
-    
-    // Protocol fee on top (goes to PumpClaw treasury)
-    uint24 public constant PROTOCOL_FEE = 1000; // 0.1%
-    
-    // Hook callbacks
-    function beforeSwap(...) external returns (bytes4);
-    function afterSwap(...) external returns (bytes4);
+function claimFees(address token) external {
+    // Collect fees from Uniswap V4 position
+    // Split 80% to creator, 20% to admin
+    // Anyone can call - distribution is automatic
 }
 ```
 
-## Simplified vs Clanker
+### 4. PumpClawSwapRouter.sol
+Simple swap interface for buying/selling tokens.
 
-| Feature | Clanker V4 | PumpClaw |
-|---------|-----------|----------|
-| Token deployment | ✅ | ✅ |
-| Uniswap V4 pools | ✅ | ✅ |
-| LP locking | ✅ | ✅ |
-| Fee distribution | ✅ | ✅ |
-| Static fees | ✅ | ✅ |
-| Dynamic fees | ✅ | ❌ |
-| MEV protection | ✅ | ❌ |
-| Sniper auctions | ✅ | ❌ |
-| Vault/vesting | ✅ | ❌ |
-| Airdrops | ✅ | ❌ |
-| Extensions | ✅ | ❌ |
-| Multi-chain | ✅ | ❌ (Base only) |
-
-## Deployment Flow
-
-```
-User calls deployToken(config)
-         │
-         ▼
-┌─────────────────────┐
-│   PumpClaw Factory  │
-│                     │
-│ 1. Deploy token     │
-│ 2. Create V4 pool   │
-│ 3. Add liquidity    │
-│ 4. Lock LP position │
-└─────────────────────┘
-         │
-         ▼
-┌─────────────────────┐
-│   PumpClawLpLocker  │
-│                     │
-│ - Holds LP NFT      │
-│ - Collects fees     │
-│ - Splits to locker  │
-└─────────────────────┘
-         │
-         ▼
-┌─────────────────────┐
-│  PumpClawFeeLocker  │
-│                     │
-│ - Accumulates fees  │
-│ - Creator claims    │
-└─────────────────────┘
+```solidity
+function buyTokens(address token, uint256 minOut) payable;
+function sellTokens(address token, uint256 amount, uint256 minOut);
 ```
 
-## Fee Structure
+### 5. PumpClawFeeViewer.sol
+View contract for checking pending fees without claiming.
 
-```
-Swap Fee: 1% (configurable per deployment?)
-    │
-    ├── 80% → Token Creator
-    │
-    └── 20% → Protocol Treasury
+```solidity
+function getPendingFees(address token) view returns (PendingFees);
 ```
 
-## Token Supply Distribution
+## Token Economics
 
-Simple fixed allocation:
-```
-Total Supply: 1,000,000,000 (1B tokens)
-    │
-    └── 100% → Liquidity Pool (fully liquid from start)
-```
+- **Supply**: Configurable (default 1B)
+- **Initial FDV**: Configurable (default 20 ETH)
+- **LP Fee**: 1% on all swaps
+- **Fee Split**: 80% creator, 20% protocol
 
-Or with creator allocation:
-```
-Total Supply: 1,000,000,000 (1B tokens)
-    │
-    ├── 90% → Liquidity Pool
-    │
-    └── 10% → Creator wallet (optional, configurable)
-```
+## Price Mechanics
 
-## Contract Addresses (TBD)
+Uses Uniswap V4 concentrated liquidity:
+- Initial price set at upper tick (all tokens, no ETH)
+- Price range spans 100x from initial price
+- As users buy, price increases along the curve
+- Single-sided deposit means no ETH required to launch
+
+## Data Flow
 
 ```
-Base Mainnet:
-- PumpClaw Factory:    0x...
-- PumpClawLpLocker:    0x...
-- PumpClawFeeLocker:   0x...
-- PumpClawHook:        0x...
-
-Base Sepolia (testnet):
-- PumpClaw Factory:    0x...
-- ...
+User → Factory.createToken()
+         ↓
+    Deploy Token
+         ↓
+    Create V4 Pool (ETH/Token)
+         ↓
+    Add Liquidity (all tokens)
+         ↓
+    Transfer LP NFT → LPLocker
+         ↓
+    Register in Factory registry
 ```
 
-## Next Steps
+## Contract Addresses (Base Mainnet V2)
 
-1. [ ] Clone Clanker V4 contracts
-2. [ ] Strip out: MEV modules, dynamic fees, extensions, airdrops, vaults
-3. [ ] Simplify: Single static fee hook, basic LP locker
-4. [ ] Test on Base Sepolia
-5. [ ] Deploy to Base Mainnet
-6. [ ] Build simple frontend at pumpclaw.com
+| Contract | Address |
+|----------|---------|
+| Factory | `0xe5bCa0eDe9208f7Ee7FCAFa0415Ca3DC03e16a90` |
+| LP Locker | `0x9047c0944c843d91951a6C91dc9f3944D826ACA8` |
+| Swap Router | `0x3A9c65f4510de85F1843145d637ae895a2Fe04BE` |
+| Fee Viewer | `0xd25Da746946531F6d8Ba42c4bC0CbF25A39b4b39` |
 
-## References
+## External Dependencies
 
-- Clanker V4: https://github.com/clanker-devco/v4-contracts
-- Clanker Docs: https://clanker.gitbook.io/clanker-documentation
-- Uniswap V4: https://docs.uniswap.org/contracts/v4/overview
+- Uniswap V4 PoolManager: `0x498581fF718922c3f8e6A244956aF099B2652b2b`
+- Uniswap V4 PositionManager: `0x7C5f5A4bBd8fD63184577525326123B519429bDc`

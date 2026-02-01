@@ -8,6 +8,7 @@ PumpClaw is a token launcher that:
 - Creates ERC20 tokens with 100% liquidity on Uniswap V4
 - Locks LP forever (no rugs)
 - Splits trading fees 80% creator / 20% protocol
+- No ETH deposit required to create tokens!
 
 ## Setup
 
@@ -29,14 +30,17 @@ npx tsx pumpclaw.ts info <token_address>
 
 ### Create token
 ```bash
-# Basic (1B supply, 0.001 ETH liquidity)
+# Basic (1B supply, 20 ETH FDV)
 npx tsx pumpclaw.ts create --name "Token Name" --symbol "TKN"
 
 # With image
 npx tsx pumpclaw.ts create --name "Token" --symbol "TKN" --image "https://..."
 
-# Custom ETH
-npx tsx pumpclaw.ts create --name "Token" --symbol "TKN" --eth 0.01
+# With website
+npx tsx pumpclaw.ts create --name "Token" --symbol "TKN" --website "https://..."
+
+# Custom FDV
+npx tsx pumpclaw.ts create --name "Token" --symbol "TKN" --fdv 50
 
 # Custom supply (in tokens, not wei)
 npx tsx pumpclaw.ts create --name "Token" --symbol "TKN" --supply 500000000
@@ -45,9 +49,20 @@ npx tsx pumpclaw.ts create --name "Token" --symbol "TKN" --supply 500000000
 npx tsx pumpclaw.ts create --name "Token" --symbol "TKN" --creator 0x...
 ```
 
+### Check pending fees
+```bash
+npx tsx pumpclaw.ts fees <token_address>
+```
+
 ### Claim fees
 ```bash
 npx tsx pumpclaw.ts claim <token_address>
+```
+
+### Buy/Sell tokens
+```bash
+npx tsx pumpclaw.ts buy <token_address> --eth 0.01
+npx tsx pumpclaw.ts sell <token_address> --amount 1000000
 ```
 
 ### Tokens by creator
@@ -55,12 +70,14 @@ npx tsx pumpclaw.ts claim <token_address>
 npx tsx pumpclaw.ts by-creator <address>
 ```
 
-## Contract Addresses (Base Mainnet)
+## Contract Addresses (Base Mainnet V2)
 
 | Contract | Address |
 |----------|---------|
-| Factory | `0x5FdB07360476a6b530890eBE210dbB63ee2B0EeD` |
-| LP Locker | `0x5b23417DE66C7795bCB294c4e0BfaBd1c290d0f3` |
+| Factory | `0xe5bCa0eDe9208f7Ee7FCAFa0415Ca3DC03e16a90` |
+| LP Locker | `0x9047c0944c843d91951a6C91dc9f3944D826ACA8` |
+| Swap Router | `0x3A9c65f4510de85F1843145d637ae895a2Fe04BE` |
+| Fee Viewer | `0xd25Da746946531F6d8Ba42c4bC0CbF25A39b4b39` |
 
 ## Token Features
 
@@ -68,6 +85,8 @@ npx tsx pumpclaw.ts by-creator <address>
 - Burnable
 - Immutable creator address stored on token
 - Image URL stored on-chain
+- Website URL stored on-chain
+- Creator can update image/website via `setImageUrl()` / `setWebsiteUrl()`
 
 ## Fee Structure
 
@@ -80,12 +99,18 @@ npx tsx pumpclaw.ts by-creator <address>
 
 1. **Create token:**
    ```bash
-   npx tsx pumpclaw.ts create --name "DOGE 2.0" --symbol "DOGE2" --eth 0.01
+   npx tsx pumpclaw.ts create --name "DOGE 2.0" --symbol "DOGE2" --image "https://..." --website "https://..."
    ```
 
 2. **Share the token address** - users can trade immediately on Uniswap
 
-3. **Claim fees periodically:**
+3. **Check and claim fees periodically:**
    ```bash
+   npx tsx pumpclaw.ts fees 0x...tokenAddress
    npx tsx pumpclaw.ts claim 0x...tokenAddress
    ```
+
+## Links
+
+- Website: https://pumpclaw.com
+- GitHub: https://github.com/pumpclawxyz/pumpclaw

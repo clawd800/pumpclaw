@@ -7,7 +7,6 @@ Command-line interface for PumpClaw - token launcher on Base.
 ```bash
 cd client-cli
 npm install
-npm run build
 ```
 
 ## Usage
@@ -32,14 +31,17 @@ npx tsx src/cli.ts info 0x...tokenAddress
 
 **Create a token:**
 ```bash
-# Basic (1B supply, 0.001 ETH)
+# Basic (1B supply, 20 ETH FDV)
 npx tsx src/cli.ts create -n "My Token" -s "MTK"
 
 # With image
 npx tsx src/cli.ts create -n "My Token" -s "MTK" -i "https://example.com/image.png"
 
-# With custom ETH
-npx tsx src/cli.ts create -n "My Token" -s "MTK" -e 0.01
+# With website
+npx tsx src/cli.ts create -n "My Token" -s "MTK" -w "https://mytoken.com"
+
+# With custom FDV
+npx tsx src/cli.ts create -n "My Token" -s "MTK" -f 50
 
 # With custom supply
 npx tsx src/cli.ts create -n "My Token" -s "MTK" --supply 500000000
@@ -48,9 +50,24 @@ npx tsx src/cli.ts create -n "My Token" -s "MTK" --supply 500000000
 npx tsx src/cli.ts create -n "My Token" -s "MTK" --creator 0x...
 ```
 
+**Check pending fees:**
+```bash
+npx tsx src/cli.ts fees 0x...tokenAddress
+```
+
 **Claim LP fees:**
 ```bash
 npx tsx src/cli.ts claim 0x...tokenAddress
+```
+
+**Buy tokens:**
+```bash
+npx tsx src/cli.ts buy 0x...tokenAddress -e 0.01
+```
+
+**Sell tokens:**
+```bash
+npx tsx src/cli.ts sell 0x...tokenAddress -a 1000000
 ```
 
 **List tokens by creator:**
@@ -63,7 +80,11 @@ npx tsx src/cli.ts by-creator 0x...creatorAddress
 npx tsx src/cli.ts constants
 ```
 
-## Contracts
+## Contracts (V2)
 
-- Factory: `0x5FdB07360476a6b530890eBE210dbB63ee2B0EeD`
-- LP Locker: `0x5b23417DE66C7795bCB294c4e0BfaBd1c290d0f3`
+| Contract | Address |
+|----------|---------|
+| Factory | `0xe5bCa0eDe9208f7Ee7FCAFa0415Ca3DC03e16a90` |
+| LP Locker | `0x9047c0944c843d91951a6C91dc9f3944D826ACA8` |
+| Swap Router | `0x3A9c65f4510de85F1843145d637ae895a2Fe04BE` |
+| Fee Viewer | `0xd25Da746946531F6d8Ba42c4bC0CbF25A39b4b39` |
