@@ -53,9 +53,9 @@ function ProgressBar({ tokenAddress }: { tokenAddress: `0x${string}` }) {
 
   if (!totalSupply || !poolBalance) return null;
 
-  // Calculate percentage purchased
+  // Calculate percentage purchased (use 10000n for 2 decimal precision, then divide by 100)
   const purchased = totalSupply - poolBalance;
-  const percentPurchased = Number((purchased * 100n) / totalSupply);
+  const percentPurchased = Number((purchased * 10000n) / totalSupply) / 100;
   
   return (
     <div className="mt-3">
