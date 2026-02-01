@@ -20,6 +20,7 @@ import {
   DEFAULT_FDV,
   DEFAULT_SUPPLY,
 } from "./constants.js";
+import { FEE_VIEWER_ABI } from "../../shared/abis.js";
 
 const publicClient = createPublicClient({
   chain: base,
@@ -195,6 +196,40 @@ program
         console.log(`Basescan: https://basescan.org/token/${token.token}`);
       } else {
         console.log("❌ Transaction failed");
+      }
+    } catch (error: any) {
+      console.error("Error:", error.message);
+      process.exit(1);
+    }
+  });
+
+// Check pending fees
+program
+  .command("fees <token>")
+  .description("Check pending fees for a token")
+  .action(async (tokenAddress) => {
+    try {
+      const fees = await publicClient.readContract({
+        address: CONTRACTS.FEE_VIEWER as `0x${string}`,
+        abi: FEE_VIEWER_ABI,
+        functionName: "getPendingFees",
+        args: [tokenAddress as `0x${string}`],
+      });
+
+      // token0 is ETH (address(0)), token1 is the token
+      const ethFees = fees.amount0;
+      const tokenFees = fees.amount1;
+
+      console.log(`Pending fees for: ${tokenAddress}`);
+      console.log(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
+      console.log(`Total ETH fees:     ${formatEther(ethFees)} ETH`);
+      console.log(`  Creator (80%):    ${formatEther(fees.creatorAmount0)} ETH`);
+      console.log(`  Admin (20%):      ${formatEther(fees.adminAmount0)} ETH`);
+      
+      if (tokenFees > 0n) {
+        console.log(`\nToken fees:         ${formatEther(tokenFees)}`);
+        console.log(`  Creator (80%):    ${formatEther(fees.creatorAmount1)}`);
+        console.log(`  Admin (20%):      ${formatEther(fees.adminAmount1)}`);
       }
     } catch (error: any) {
       console.error("Error:", error.message);

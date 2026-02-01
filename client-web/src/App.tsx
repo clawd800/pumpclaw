@@ -1,6 +1,7 @@
 import Header from "@/components/Header";
 import CreateTokenForm from "@/components/CreateTokenForm";
 import TokenList from "@/components/TokenList";
+import FeesDashboard from "@/components/FeesDashboard";
 import { useLatestTokens } from "@/hooks/useTokens";
 import { VERSION } from "./version";
 
@@ -19,6 +20,11 @@ export default function App() {
           <div>
             <TokenList />
           </div>
+        </div>
+
+        {/* Fee Dashboard */}
+        <div className="mt-8">
+          <FeesDashboard />
         </div>
 
         {/* Stats footer */}

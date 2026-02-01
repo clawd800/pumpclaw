@@ -433,3 +433,51 @@ export const ERC20_ABI = [
     stateMutability: "nonpayable",
   },
 ] as const;
+
+// FeeViewer ABI for checking pending fees
+export const FEE_VIEWER_ABI = [
+  {
+    type: "function",
+    name: "getPendingFees",
+    inputs: [{ name: "token", type: "address" }],
+    outputs: [
+      {
+        name: "fees",
+        type: "tuple",
+        components: [
+          { name: "token0", type: "address" },
+          { name: "token1", type: "address" },
+          { name: "amount0", type: "uint256" },
+          { name: "amount1", type: "uint256" },
+          { name: "creatorAmount0", type: "uint256" },
+          { name: "creatorAmount1", type: "uint256" },
+          { name: "adminAmount0", type: "uint256" },
+          { name: "adminAmount1", type: "uint256" },
+        ],
+      },
+    ],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "getPendingFeesBatch",
+    inputs: [{ name: "tokens", type: "address[]" }],
+    outputs: [
+      {
+        name: "fees",
+        type: "tuple[]",
+        components: [
+          { name: "token0", type: "address" },
+          { name: "token1", type: "address" },
+          { name: "amount0", type: "uint256" },
+          { name: "amount1", type: "uint256" },
+          { name: "creatorAmount0", type: "uint256" },
+          { name: "creatorAmount1", type: "uint256" },
+          { name: "adminAmount0", type: "uint256" },
+          { name: "adminAmount1", type: "uint256" },
+        ],
+      },
+    ],
+    stateMutability: "view",
+  },
+] as const;
