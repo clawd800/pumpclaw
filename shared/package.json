@@ -1,0 +1,9 @@
+{
+  "name": "@pumpclaw/shared",
+  "version": "1.0.0",
+  "type": "module",
+  "exports": {
+    ".": "./contracts.ts",
+    "./contracts": "./contracts.ts"
+  }
+}

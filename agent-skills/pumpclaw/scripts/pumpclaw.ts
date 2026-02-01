@@ -14,15 +14,9 @@ import {
 } from "viem";
 import { base } from "viem/chains";
 import { privateKeyToAccount } from "viem/accounts";
+import { CONTRACTS, CHAIN } from "../../../shared/contracts.js";
 
-// Contract addresses (Base Mainnet)
-const CONTRACTS = {
-  FACTORY: "0x492372BAD3CBdfB07fAe07e73E50801aAfA289FD",
-  LP_LOCKER: "0x8c4d636a6733F21442D2129D2d6995D091710525",
-  WETH: "0x4200000000000000000000000000000000000006",
-} as const;
-
-const BASE_RPC = "https://base-rpc.publicnode.com";
+const BASE_RPC = CHAIN.RPC;
 
 // ABIs
 const FACTORY_ABI = [
