@@ -78,6 +78,7 @@ contract PumpClawFactory is ReentrancyGuard {
     /// @param name Token name
     /// @param symbol Token symbol  
     /// @param imageUrl Token image URL
+    /// @param websiteUrl Token website URL
     /// @param totalSupply Total token supply (e.g., 1_000_000_000e18)
     /// @param initialFdv Initial fully diluted valuation in wei (e.g., 20e18 for 20 ETH)
     /// @param creator Address that receives creator rights (fee claims)
@@ -85,6 +86,7 @@ contract PumpClawFactory is ReentrancyGuard {
         string calldata name,
         string calldata symbol,
         string calldata imageUrl,
+        string calldata websiteUrl,
         uint256 totalSupply,
         uint256 initialFdv,
         address creator
@@ -99,7 +101,8 @@ contract PumpClawFactory is ReentrancyGuard {
             symbol,
             totalSupply,
             creator,
-            imageUrl
+            imageUrl,
+            websiteUrl
         );
         token = address(newToken);
 

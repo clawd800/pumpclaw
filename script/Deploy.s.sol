@@ -12,7 +12,8 @@ contract Deploy is Script {
     address constant POSITION_MANAGER = 0x7C5f5A4bBd8fD63184577525326123B519429bDc;
 
     function run() external {
-        address admin = msg.sender;
+        // Use the designated admin address for fee collection
+        address admin = 0x261368f0EC280766B84Bfa7a9B23FD53c774878D;
         
         vm.startBroadcast();
 

@@ -35,6 +35,7 @@ export const FACTORY_ABI = [
       { name: "name", type: "string" },
       { name: "symbol", type: "string" },
       { name: "imageUrl", type: "string" },
+      { name: "websiteUrl", type: "string" },
       { name: "totalSupply", type: "uint256" },
       { name: "initialFdv", type: "uint256" },
       { name: "creator", type: "address" },
@@ -372,8 +373,31 @@ export const TOKEN_ABI = [
     stateMutability: "nonpayable",
   },
   {
+    type: "function",
+    name: "websiteUrl",
+    inputs: [],
+    outputs: [{ name: "", type: "string" }],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "setWebsiteUrl",
+    inputs: [{ name: "newWebsiteUrl", type: "string" }],
+    outputs: [],
+    stateMutability: "nonpayable",
+  },
+  {
     type: "event",
     name: "ImageUrlUpdated",
+    inputs: [
+      { name: "oldUrl", type: "string", indexed: false },
+      { name: "newUrl", type: "string", indexed: false },
+    ],
+    anonymous: false,
+  },
+  {
+    type: "event",
+    name: "WebsiteUrlUpdated",
     inputs: [
       { name: "oldUrl", type: "string", indexed: false },
       { name: "newUrl", type: "string", indexed: false },

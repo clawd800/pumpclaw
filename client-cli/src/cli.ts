@@ -143,6 +143,7 @@ program
   .requiredOption("-n, --name <name>", "Token name")
   .requiredOption("-s, --symbol <symbol>", "Token symbol")
   .option("-i, --image <url>", "Image URL", "")
+  .option("-w, --website <url>", "Website URL", "")
   .option("-f, --fdv <amount>", "Initial FDV in ETH (default: 20)")
   .option("--supply <amount>", "Total supply in whole tokens (default: 1B)")
   .option("--creator <address>", "Creator address (defaults to sender)")
@@ -166,7 +167,7 @@ program
         address: CONTRACTS.FACTORY,
         abi: FACTORY_ABI,
         functionName: "createToken",
-        args: [opts.name, opts.symbol, opts.image, supply, fdv, creator],
+        args: [opts.name, opts.symbol, opts.image, opts.website, supply, fdv, creator],
       });
 
       console.log(`Transaction: ${hash}`);

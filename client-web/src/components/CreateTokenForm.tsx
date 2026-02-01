@@ -10,6 +10,7 @@ export default function CreateTokenForm({ onSuccess }: { onSuccess?: () => void 
   const [name, setName] = useState("");
   const [symbol, setSymbol] = useState("");
   const [imageUrl, setImageUrl] = useState("");
+  const [websiteUrl, setWebsiteUrl] = useState("");
   const [supply, setSupply] = useState(DEFAULT_SUPPLY);
   const [fdv, setFdv] = useState(DEFAULT_FDV);
   const [showAdvanced, setShowAdvanced] = useState(false);
@@ -22,6 +23,7 @@ export default function CreateTokenForm({ onSuccess }: { onSuccess?: () => void 
       name,
       symbol,
       imageUrl: imageUrl || "",
+      websiteUrl: websiteUrl || "",
       totalSupply: supply,
       initialFdv: fdv,
       creator: address,
@@ -33,6 +35,7 @@ export default function CreateTokenForm({ onSuccess }: { onSuccess?: () => void 
     setName("");
     setSymbol("");
     setImageUrl("");
+    setWebsiteUrl("");
     setSupply(DEFAULT_SUPPLY);
     setFdv(DEFAULT_FDV);
     onSuccess?.();
@@ -77,6 +80,17 @@ export default function CreateTokenForm({ onSuccess }: { onSuccess?: () => void 
             value={imageUrl}
             onChange={(e) => setImageUrl(e.target.value)}
             placeholder="https://example.com/token.png"
+            className="w-full px-3 py-2 bg-black/50 border border-green-900/50 text-green-400 placeholder-green-800 focus:border-green-500 focus:outline-none"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm text-green-600 mb-1">Website URL</label>
+          <input
+            type="url"
+            value={websiteUrl}
+            onChange={(e) => setWebsiteUrl(e.target.value)}
+            placeholder="https://example.com"
             className="w-full px-3 py-2 bg-black/50 border border-green-900/50 text-green-400 placeholder-green-800 focus:border-green-500 focus:outline-none"
           />
         </div>

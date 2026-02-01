@@ -7,6 +7,7 @@ export interface CreateTokenParams {
   name: string;
   symbol: string;
   imageUrl: string;
+  websiteUrl: string;
   totalSupply: string; // In whole tokens (e.g., "1000000000" for 1B)
   initialFdv: string;  // In ETH (e.g., "20")
   creator: Address;
@@ -20,7 +21,7 @@ export function useCreateToken() {
   });
 
   const createToken = async (params: CreateTokenParams) => {
-    const { name, symbol, imageUrl, totalSupply, initialFdv, creator } = params;
+    const { name, symbol, imageUrl, websiteUrl, totalSupply, initialFdv, creator } = params;
 
     // Parse supply with 18 decimals
     const supply = parseUnits(totalSupply, 18);
@@ -31,7 +32,7 @@ export function useCreateToken() {
       address: CONTRACTS.FACTORY as Address,
       abi: FACTORY_ABI,
       functionName: "createToken",
-      args: [name, symbol, imageUrl, supply, fdv, creator],
+      args: [name, symbol, imageUrl, websiteUrl, supply, fdv, creator],
     });
   };
 

@@ -76,6 +76,7 @@ contract PumpClawV4Test is Test {
             "Zero ETH Token",
             "ZERO",
             "https://example.com/img.png",
+            "https://example.com",
             DEFAULT_SUPPLY,
             DEFAULT_FDV,
             creator
@@ -108,6 +109,7 @@ contract PumpClawV4Test is Test {
             "Custom Supply",
             "CSUP",
             "",
+            "",
             customSupply,
             DEFAULT_FDV,
             creator
@@ -128,6 +130,7 @@ contract PumpClawV4Test is Test {
             "Custom FDV",
             "CFDV",
             "",
+            "",
             DEFAULT_SUPPLY,
             customFdv,
             creator
@@ -142,7 +145,7 @@ contract PumpClawV4Test is Test {
         uint256 lowFdv = 1 ether;
         
         vm.prank(creator);
-        (address token, ) = factory.createToken("Low FDV", "LFDV", "", DEFAULT_SUPPLY, lowFdv, creator);
+        (address token, ) = factory.createToken("Low FDV", "LFDV", "", "", DEFAULT_SUPPLY, lowFdv, creator);
         
         PumpClawFactory.TokenInfo memory info = factory.getTokenInfo(token);
         assertEq(info.initialFdv, lowFdv);
@@ -153,7 +156,7 @@ contract PumpClawV4Test is Test {
         uint256 highFdv = 1000 ether;
         
         vm.prank(creator);
-        (address token, ) = factory.createToken("High FDV", "HFDV", "", DEFAULT_SUPPLY, highFdv, creator);
+        (address token, ) = factory.createToken("High FDV", "HFDV", "", "", DEFAULT_SUPPLY, highFdv, creator);
         
         PumpClawFactory.TokenInfo memory info = factory.getTokenInfo(token);
         assertEq(info.initialFdv, highFdv);
@@ -166,6 +169,7 @@ contract PumpClawV4Test is Test {
         (address token, ) = factory.createToken(
             "Relayed Token",
             "RELAY",
+            "",
             "",
             DEFAULT_SUPPLY,
             30 ether,
@@ -184,7 +188,7 @@ contract PumpClawV4Test is Test {
     function test_BuyTokensWithETH() public {
         // Create token
         vm.prank(creator);
-        (address token, ) = factory.createToken("Buy Test", "BUY", "", DEFAULT_SUPPLY, DEFAULT_FDV, creator);
+        (address token, ) = factory.createToken("Buy Test", "BUY", "", "", DEFAULT_SUPPLY, DEFAULT_FDV, creator);
 
         // Build pool key
         bool tokenIsToken0 = token < WETH;
@@ -232,7 +236,7 @@ contract PumpClawV4Test is Test {
 
     function test_SellTokensForETH() public {
         vm.prank(creator);
-        (address token, ) = factory.createToken("Sell Test", "SELL", "", DEFAULT_SUPPLY, DEFAULT_FDV, creator);
+        (address token, ) = factory.createToken("Sell Test", "SELL", "", "", DEFAULT_SUPPLY, DEFAULT_FDV, creator);
 
         bool tokenIsToken0 = token < WETH;
         PoolKey memory poolKey = PoolKey({
@@ -291,7 +295,7 @@ contract PumpClawV4Test is Test {
 
     function test_FeesGeneratedAndClaimable() public {
         vm.prank(creator);
-        (address token, ) = factory.createToken("Fee Test", "FEE", "", DEFAULT_SUPPLY, DEFAULT_FDV, creator);
+        (address token, ) = factory.createToken("Fee Test", "FEE", "", "", DEFAULT_SUPPLY, DEFAULT_FDV, creator);
 
         bool tokenIsToken0 = token < WETH;
         PoolKey memory poolKey = PoolKey({
@@ -375,27 +379,27 @@ contract PumpClawV4Test is Test {
     function test_RevertWhen_ZeroSupply() public {
         vm.prank(creator);
         vm.expectRevert("Supply required");
-        factory.createToken("Zero Supply", "ZSUP", "", 0, DEFAULT_FDV, creator);
+        factory.createToken("Zero Supply", "ZSUP", "", "", 0, DEFAULT_FDV, creator);
     }
 
     function test_RevertWhen_ZeroFDV() public {
         vm.prank(creator);
         vm.expectRevert("FDV required");
-        factory.createToken("Zero FDV", "ZFDV", "", DEFAULT_SUPPLY, 0, creator);
+        factory.createToken("Zero FDV", "ZFDV", "", "", DEFAULT_SUPPLY, 0, creator);
     }
 
     function test_RevertWhen_ZeroCreator() public {
         vm.prank(user);
         vm.expectRevert("Invalid creator");
-        factory.createToken("Bad", "BAD", "", DEFAULT_SUPPLY, DEFAULT_FDV, address(0));
+        factory.createToken("Bad", "BAD", "", "", DEFAULT_SUPPLY, DEFAULT_FDV, address(0));
     }
 
     function test_MultipleTokensFromSameCreator() public {
         vm.startPrank(creator);
         
-        (address token1, ) = factory.createToken("Token 1", "T1", "", DEFAULT_SUPPLY, 10 ether, creator);
-        (address token2, ) = factory.createToken("Token 2", "T2", "", DEFAULT_SUPPLY, 50 ether, creator);
-        (address token3, ) = factory.createToken("Token 3", "T3", "", DEFAULT_SUPPLY, 100 ether, creator);
+        (address token1, ) = factory.createToken("Token 1", "T1", "", "", DEFAULT_SUPPLY, 10 ether, creator);
+        (address token2, ) = factory.createToken("Token 2", "T2", "", "", DEFAULT_SUPPLY, 50 ether, creator);
+        (address token3, ) = factory.createToken("Token 3", "T3", "", "", DEFAULT_SUPPLY, 100 ether, creator);
         
         vm.stopPrank();
 
@@ -419,9 +423,9 @@ contract PumpClawV4Test is Test {
         uint256 supply2 = 1_000_000_000e18;  // 1B
         uint256 supply3 = 21_000_000e18;     // 21M (Bitcoin-like)
         
-        (address token1, ) = factory.createToken("Small", "SMOL", "", supply1, DEFAULT_FDV, creator);
-        (address token2, ) = factory.createToken("Billion", "BILL", "", supply2, DEFAULT_FDV, creator);
-        (address token3, ) = factory.createToken("Bitcoin", "BTC21", "", supply3, DEFAULT_FDV, creator);
+        (address token1, ) = factory.createToken("Small", "SMOL", "", "", supply1, DEFAULT_FDV, creator);
+        (address token2, ) = factory.createToken("Billion", "BILL", "", "", supply2, DEFAULT_FDV, creator);
+        (address token3, ) = factory.createToken("Bitcoin", "BTC21", "", "", supply3, DEFAULT_FDV, creator);
         
         vm.stopPrank();
 
@@ -437,7 +441,7 @@ contract PumpClawV4Test is Test {
 
     function test_TokenSupplyIsCorrect() public {
         vm.prank(creator);
-        (address token, ) = factory.createToken("Supply Check", "SUP", "", DEFAULT_SUPPLY, DEFAULT_FDV, creator);
+        (address token, ) = factory.createToken("Supply Check", "SUP", "", "", DEFAULT_SUPPLY, DEFAULT_FDV, creator);
 
         PumpClawToken pumpToken = PumpClawToken(token);
         
@@ -456,6 +460,7 @@ contract PumpClawV4Test is Test {
             factory.createToken(
                 string(abi.encodePacked("Token", i)),
                 string(abi.encodePacked("T", i)),
+                "",
                 "",
                 DEFAULT_SUPPLY,
                 (i + 1) * 10 ether,
@@ -492,7 +497,7 @@ contract PumpClawV4Test is Test {
 
     function test_FirstBuyerGetsReasonableAmount() public {
         vm.prank(creator);
-        (address token, ) = factory.createToken("Fair Test", "FAIR", "", DEFAULT_SUPPLY, DEFAULT_FDV, creator);
+        (address token, ) = factory.createToken("Fair Test", "FAIR", "", "", DEFAULT_SUPPLY, DEFAULT_FDV, creator);
 
         bool tokenIsToken0 = token < WETH;
         PoolKey memory poolKey = PoolKey({
