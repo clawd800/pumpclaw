@@ -1,15 +1,28 @@
 import { useReadContract } from "wagmi";
 import { CONTRACTS } from "@/configs/constants";
-import { FACTORY_ABI } from "@/configs/abis";
+import { FACTORY_ABI, TOKEN_ABI } from "@/configs/abis";
 
 export interface TokenInfo {
   token: `0x${string}`;
   creator: `0x${string}`;
   positionId: bigint;
+  totalSupply: bigint;
   initialFdv: bigint;
   createdAt: bigint;
   name: string;
   symbol: string;
+}
+
+// Fetch imageUrl from token contract
+export function useTokenImageUrl(tokenAddress: `0x${string}` | undefined) {
+  return useReadContract({
+    address: tokenAddress,
+    abi: TOKEN_ABI,
+    functionName: "imageUrl",
+    query: {
+      enabled: !!tokenAddress,
+    },
+  });
 }
 
 export function useTokenCount() {
