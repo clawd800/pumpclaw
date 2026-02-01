@@ -119,6 +119,15 @@ program
         functionName: "imageUrl",
       });
 
+      let websiteUrl = "";
+      try {
+        websiteUrl = await publicClient.readContract({
+          address: tokenAddress as `0x${string}`,
+          abi: [{ type: "function", name: "websiteUrl", inputs: [], outputs: [{ type: "string" }], stateMutability: "view" }],
+          functionName: "websiteUrl",
+        }) as string;
+      } catch {}
+
       const date = new Date(Number(info.createdAt) * 1000);
 
       console.log(`${info.symbol} (${info.name})`);
@@ -126,10 +135,15 @@ program
       console.log(`Token:      ${info.token}`);
       console.log(`Creator:    ${info.creator}`);
       console.log(`FDV:        ${formatEther(info.initialFdv)} ETH`);
+      console.log(`Supply:     ${formatEther(info.totalSupply)} tokens`);
       console.log(`Position:   ${positionId}`);
       console.log(`Created:    ${date.toISOString()}`);
       if (imageUrl) console.log(`Image:      ${imageUrl}`);
-      console.log(`\nBasescan:   https://basescan.org/token/${info.token}`);
+      if (websiteUrl) console.log(`Website:    ${websiteUrl}`);
+      console.log(`\nLinks:`);
+      console.log(`  Basescan:     https://basescan.org/token/${info.token}`);
+      console.log(`  DexScreener:  https://dexscreener.com/base/${info.token}`);
+      console.log(`  Trade:        https://matcha.xyz/tokens/base/${info.token}`);
     } catch (error: any) {
       console.error("Error:", error.message);
       process.exit(1);
@@ -210,6 +224,14 @@ program
   .description("Check pending fees for a token")
   .action(async (tokenAddress) => {
     try {
+      // Get token info first
+      const tokenInfo = await publicClient.readContract({
+        address: CONTRACTS.FACTORY,
+        abi: FACTORY_ABI,
+        functionName: "getTokenInfo",
+        args: [tokenAddress as `0x${string}`],
+      });
+
       const fees = await publicClient.readContract({
         address: CONTRACTS.FEE_VIEWER as `0x${string}`,
         abi: FEE_VIEWER_ABI,
@@ -221,9 +243,12 @@ program
       const ethFees = fees.amount0;
       const tokenFees = fees.amount1;
 
-      console.log(`Pending fees for: ${tokenAddress}`);
+      console.log(`\n${tokenInfo.symbol} (${tokenInfo.name})`);
       console.log(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
-      console.log(`Total ETH fees:     ${formatEther(ethFees)} ETH`);
+      console.log(`Token:              ${tokenAddress}`);
+      console.log(`Creator:            ${tokenInfo.creator}`);
+      console.log(`\nPending Fees:`);
+      console.log(`  Total ETH:        ${formatEther(ethFees)} ETH`);
       console.log(`  Creator (80%):    ${formatEther(fees.creatorAmount0)} ETH`);
       console.log(`  Admin (20%):      ${formatEther(fees.adminAmount0)} ETH`);
       
@@ -231,6 +256,12 @@ program
         console.log(`\nToken fees:         ${formatEther(tokenFees)}`);
         console.log(`  Creator (80%):    ${formatEther(fees.creatorAmount1)}`);
         console.log(`  Admin (20%):      ${formatEther(fees.adminAmount1)}`);
+      }
+
+      if (ethFees > 0n) {
+        console.log(`\n💡 Run 'pumpclaw claim ${tokenAddress}' to claim fees`);
+      } else {
+        console.log(`\n💡 No fees to claim yet`);
       }
     } catch (error: any) {
       console.error("Error:", error.message);
@@ -325,12 +356,12 @@ program
         functionName: "CREATOR_FEE_BPS",
       });
 
-      console.log("PumpClaw V4 Contracts (Base Mainnet)");
+      console.log("PumpClaw V2 Contracts (Base Mainnet)");
       console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
       console.log(`Factory:     ${CONTRACTS.FACTORY}`);
       console.log(`LP Locker:   ${CONTRACTS.LP_LOCKER}`);
       console.log(`Swap Router: ${CONTRACTS.SWAP_ROUTER}`);
-      console.log(`WETH:        ${CONTRACTS.WETH}`);
+      console.log(`Fee Viewer:  ${CONTRACTS.FEE_VIEWER}`);
       console.log("");
       console.log("Defaults (configurable per token)");
       console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
