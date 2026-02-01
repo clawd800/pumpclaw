@@ -17,8 +17,8 @@ import { privateKeyToAccount } from "viem/accounts";
 
 // Contract addresses (Base Mainnet)
 const CONTRACTS = {
-  FACTORY: "0x5FdB07360476a6b530890eBE210dbB63ee2B0EeD",
-  LP_LOCKER: "0x5b23417DE66C7795bCB294c4e0BfaBd1c290d0f3",
+  FACTORY: "0x492372BAD3CBdfB07fAe07e73E50801aAfA289FD",
+  LP_LOCKER: "0x8c4d636a6733F21442D2129D2d6995D091710525",
   WETH: "0x4200000000000000000000000000000000000006",
 } as const;
 
@@ -38,7 +38,7 @@ const FACTORY_ABI = [
       { name: "token", type: "address" },
       { name: "positionId", type: "uint256" },
     ],
-    stateMutability: "payable",
+    stateMutability: "nonpayable",
   },
   {
     type: "function",
@@ -53,7 +53,7 @@ const FACTORY_ABI = [
       { name: "token", type: "address" },
       { name: "positionId", type: "uint256" },
     ],
-    stateMutability: "payable",
+    stateMutability: "nonpayable",
   },
   {
     type: "function",
@@ -68,7 +68,7 @@ const FACTORY_ABI = [
       { name: "token", type: "address" },
       { name: "positionId", type: "uint256" },
     ],
-    stateMutability: "payable",
+    stateMutability: "nonpayable",
   },
   {
     type: "function",
@@ -84,7 +84,7 @@ const FACTORY_ABI = [
       { name: "token", type: "address" },
       { name: "positionId", type: "uint256" },
     ],
-    stateMutability: "payable",
+    stateMutability: "nonpayable",
   },
   {
     type: "function",
