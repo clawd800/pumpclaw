@@ -18,6 +18,7 @@ import {
   TOKEN_ABI,
   SWAP_ROUTER_ABI,
   DEFAULT_FDV,
+  DEFAULT_SUPPLY,
 } from "./constants.js";
 
 const publicClient = createPublicClient({
@@ -142,6 +143,7 @@ program
   .requiredOption("-s, --symbol <symbol>", "Token symbol")
   .option("-i, --image <url>", "Image URL", "")
   .option("-f, --fdv <amount>", "Initial FDV in ETH (default: 20)")
+  .option("--supply <amount>", "Total supply in whole tokens (default: 1B)")
   .option("--creator <address>", "Creator address (defaults to sender)")
   .action(async (opts) => {
     try {
@@ -149,46 +151,22 @@ program
       const account = walletClient.account!;
 
       const fdv = opts.fdv ? parseEther(opts.fdv) : DEFAULT_FDV;
+      const supply = opts.supply ? parseEther(opts.supply) : DEFAULT_SUPPLY;
+      const creator = (opts.creator || account.address) as `0x${string}`;
 
       console.log(`Creating token: ${opts.name} (${opts.symbol})`);
-      console.log(`Creator: ${opts.creator || account.address}`);
+      console.log(`Supply: ${formatUnits(supply, 18)} tokens`);
       console.log(`Initial FDV: ${formatEther(fdv)} ETH`);
+      console.log(`Creator: ${creator}`);
       console.log(`(No ETH deposit required!)`);
       console.log("");
 
-      let hash: `0x${string}`;
-
-      if (opts.creator) {
-        // Custom creator with FDV
-        hash = await walletClient.writeContract({
-          address: CONTRACTS.FACTORY,
-          abi: FACTORY_ABI,
-          functionName: "createTokenFor",
-          args: [
-            opts.name,
-            opts.symbol,
-            opts.image,
-            fdv,
-            opts.creator as `0x${string}`,
-          ],
-        });
-      } else if (opts.fdv) {
-        // Custom FDV
-        hash = await walletClient.writeContract({
-          address: CONTRACTS.FACTORY,
-          abi: FACTORY_ABI,
-          functionName: "createTokenWithFdv",
-          args: [opts.name, opts.symbol, opts.image, fdv],
-        });
-      } else {
-        // Default (20 ETH FDV)
-        hash = await walletClient.writeContract({
-          address: CONTRACTS.FACTORY,
-          abi: FACTORY_ABI,
-          functionName: "createToken",
-          args: [opts.name, opts.symbol, opts.image],
-        });
-      }
+      const hash = await walletClient.writeContract({
+        address: CONTRACTS.FACTORY,
+        abi: FACTORY_ABI,
+        functionName: "createToken",
+        args: [opts.name, opts.symbol, opts.image, supply, fdv, creator],
+      });
 
       console.log(`Transaction: ${hash}`);
       console.log("Waiting for confirmation...");
@@ -212,6 +190,7 @@ program
 
         console.log(`\n✅ Token created!`);
         console.log(`Token: ${token.token}`);
+        console.log(`Supply: ${formatUnits(token.totalSupply, 18)}`);
         console.log(`FDV: ${formatEther(token.initialFdv)} ETH`);
         console.log(`Basescan: https://basescan.org/token/${token.token}`);
       } else {
@@ -279,9 +258,11 @@ program
           args: [idx],
         });
 
-        console.log(`${token[5]} (${token[6]})`); // name, symbol
+        // token: [token, creator, positionId, totalSupply, initialFdv, createdAt, name, symbol]
+        console.log(`${token[6]} (${token[7]})`); // name, symbol
         console.log(`  Token: ${token[0]}`);
-        console.log(`  FDV: ${formatEther(token[3])} ETH`);
+        console.log(`  Supply: ${formatUnits(token[3], 18)}`);
+        console.log(`  FDV: ${formatEther(token[4])} ETH`);
         console.log("");
       }
     } catch (error: any) {
@@ -296,18 +277,6 @@ program
   .description("Show contract addresses and constants")
   .action(async () => {
     try {
-      const defaultFdv = await publicClient.readContract({
-        address: CONTRACTS.FACTORY,
-        abi: FACTORY_ABI,
-        functionName: "DEFAULT_FDV",
-      });
-
-      const tokenSupply = await publicClient.readContract({
-        address: CONTRACTS.FACTORY,
-        abi: FACTORY_ABI,
-        functionName: "TOKEN_SUPPLY",
-      });
-
       const priceRange = await publicClient.readContract({
         address: CONTRACTS.FACTORY,
         abi: FACTORY_ABI,
@@ -322,15 +291,18 @@ program
 
       console.log("PumpClaw V4 Contracts (Base Mainnet)");
       console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-      console.log(`Factory V4: ${CONTRACTS.FACTORY}`);
-      console.log(`LP Locker:  ${CONTRACTS.LP_LOCKER}`);
+      console.log(`Factory:     ${CONTRACTS.FACTORY}`);
+      console.log(`LP Locker:   ${CONTRACTS.LP_LOCKER}`);
       console.log(`Swap Router: ${CONTRACTS.SWAP_ROUTER}`);
-      console.log(`WETH:       ${CONTRACTS.WETH}`);
+      console.log(`WETH:        ${CONTRACTS.WETH}`);
       console.log("");
-      console.log("Constants");
+      console.log("Defaults (configurable per token)");
       console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
-      console.log(`Default FDV:    ${formatEther(defaultFdv)} ETH`);
-      console.log(`Token Supply:   ${formatUnits(tokenSupply, 18)}`);
+      console.log(`Default FDV:    ${formatEther(DEFAULT_FDV)} ETH`);
+      console.log(`Default Supply: ${formatUnits(DEFAULT_SUPPLY, 18)}`);
+      console.log("");
+      console.log("Fixed Protocol Constants");
+      console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
       console.log(`Price Range:    ${priceRange}x`);
       console.log(`Creator Fee:    ${Number(creatorFeeBps) / 100}%`);
       console.log("");
