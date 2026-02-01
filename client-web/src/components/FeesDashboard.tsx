@@ -80,7 +80,7 @@ export default function FeesDashboard() {
   const [showAll, setShowAll] = useState(false);
 
   // Admin address (protocol owner)
-  const ADMIN_ADDRESS = "0xB3c1750da9aEaa75A6F456Db4b31D06575e75A6".toLowerCase();
+  const ADMIN_ADDRESS = "0x261368f0EC280766B84Bfa7a9B23FD53c774878D".toLowerCase();
   
   const isAdmin = address?.toLowerCase() === ADMIN_ADDRESS;
 
