@@ -1,27 +1,30 @@
 import { useState } from "react";
 import { useAccount } from "wagmi";
 import { useCreateToken } from "@/hooks/useCreateToken";
-import { formatEther } from "viem";
-import { MIN_ETH } from "@/configs/constants";
+import { DEFAULT_SUPPLY, DEFAULT_FDV } from "@/configs/constants";
 
 export default function CreateTokenForm({ onSuccess }: { onSuccess?: () => void }) {
-  const { isConnected } = useAccount();
+  const { address, isConnected } = useAccount();
   const { createToken, isPending, isConfirming, isSuccess, error, hash } = useCreateToken();
 
   const [name, setName] = useState("");
   const [symbol, setSymbol] = useState("");
   const [imageUrl, setImageUrl] = useState("");
-  const [ethAmount, setEthAmount] = useState("0.001");
+  const [supply, setSupply] = useState(DEFAULT_SUPPLY);
+  const [fdv, setFdv] = useState(DEFAULT_FDV);
+  const [showAdvanced, setShowAdvanced] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !symbol || !ethAmount) return;
+    if (!name || !symbol || !address) return;
 
     await createToken({
       name,
       symbol,
       imageUrl: imageUrl || "",
-      ethAmount,
+      totalSupply: supply,
+      initialFdv: fdv,
+      creator: address,
     });
   };
 
@@ -30,11 +33,10 @@ export default function CreateTokenForm({ onSuccess }: { onSuccess?: () => void 
     setName("");
     setSymbol("");
     setImageUrl("");
-    setEthAmount("0.001");
+    setSupply(DEFAULT_SUPPLY);
+    setFdv(DEFAULT_FDV);
     onSuccess?.();
   }
-
-  const minEth = formatEther(MIN_ETH);
 
   return (
     <div className="border border-green-900/50 bg-black/30 p-6">
@@ -79,24 +81,46 @@ export default function CreateTokenForm({ onSuccess }: { onSuccess?: () => void 
           />
         </div>
 
-        <div>
-          <label className="block text-sm text-green-600 mb-1">
-            Initial ETH (min {minEth}) *
-          </label>
-          <input
-            type="number"
-            value={ethAmount}
-            onChange={(e) => setEthAmount(e.target.value)}
-            placeholder="0.001"
-            step="0.0001"
-            min={minEth}
-            className="w-full px-3 py-2 bg-black/50 border border-green-900/50 text-green-400 placeholder-green-800 focus:border-green-500 focus:outline-none"
-            required
-          />
-          <p className="text-xs text-green-700 mt-1">
-            This ETH pairs with your tokens for initial liquidity
-          </p>
-        </div>
+        <button
+          type="button"
+          onClick={() => setShowAdvanced(!showAdvanced)}
+          className="text-sm text-green-600 hover:text-green-400 flex items-center gap-1"
+        >
+          {showAdvanced ? "▼" : "▶"} Advanced Options
+        </button>
+
+        {showAdvanced && (
+          <div className="space-y-4 border-l-2 border-green-900/30 pl-4">
+            <div>
+              <label className="block text-sm text-green-600 mb-1">
+                Total Supply (default: 1B)
+              </label>
+              <input
+                type="text"
+                value={supply}
+                onChange={(e) => setSupply(e.target.value.replace(/[^0-9]/g, ""))}
+                placeholder="1000000000"
+                className="w-full px-3 py-2 bg-black/50 border border-green-900/50 text-green-400 placeholder-green-800 focus:border-green-500 focus:outline-none"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm text-green-600 mb-1">
+                Initial FDV in ETH (default: 20)
+              </label>
+              <input
+                type="text"
+                value={fdv}
+                onChange={(e) => setFdv(e.target.value)}
+                placeholder="20"
+                className="w-full px-3 py-2 bg-black/50 border border-green-900/50 text-green-400 placeholder-green-800 focus:border-green-500 focus:outline-none"
+              />
+              <p className="text-xs text-green-700 mt-1">
+                Higher FDV = lower starting price per token
+              </p>
+            </div>
+          </div>
+        )}
 
         {error && (
           <div className="text-red-400 text-sm bg-red-900/20 border border-red-900/50 p-2">
@@ -133,7 +157,8 @@ export default function CreateTokenForm({ onSuccess }: { onSuccess?: () => void 
       </form>
 
       <div className="mt-4 text-xs text-green-700 space-y-1">
-        <p>• 1B tokens minted (100% to liquidity)</p>
+        <p>• <strong>No ETH required</strong> - gas only!</p>
+        <p>• 100% of tokens go to liquidity pool</p>
         <p>• LP permanently locked</p>
         <p>• 1% swap fee (80% to you, 20% protocol)</p>
       </div>
