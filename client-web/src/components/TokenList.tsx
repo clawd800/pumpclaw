@@ -1,10 +1,10 @@
 import { useLatestTokens, type TokenInfo } from "@/hooks/useTokens";
-import { formatUnits } from "viem";
+import { formatEther } from "viem";
 
 function TokenCard({ token }: { token: TokenInfo }) {
-  const formattedSupply = formatUnits(token.supply, 18);
-  const displaySupply = parseFloat(formattedSupply).toLocaleString(undefined, {
-    maximumFractionDigits: 0,
+  const fdvEth = parseFloat(formatEther(token.initialFdv));
+  const displayFdv = fdvEth.toLocaleString(undefined, {
+    maximumFractionDigits: 2,
   });
 
   const createdDate = new Date(Number(token.createdAt) * 1000);
@@ -22,8 +22,8 @@ function TokenCard({ token }: { token: TokenInfo }) {
 
       <div className="space-y-2 text-sm">
         <div className="flex justify-between text-green-600">
-          <span>Supply:</span>
-          <span className="text-green-400">{displaySupply}</span>
+          <span>Initial FDV:</span>
+          <span className="text-green-400">{displayFdv} ETH</span>
         </div>
         <div className="flex justify-between text-green-600">
           <span>Creator:</span>

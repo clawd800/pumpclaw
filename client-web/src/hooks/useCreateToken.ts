@@ -1,14 +1,13 @@
 import { useWriteContract, useWaitForTransactionReceipt } from "wagmi";
 import { parseEther } from "viem";
-import { CONTRACTS, DEFAULT_TOKEN_SUPPLY } from "@/configs/constants";
+import { CONTRACTS, TOKEN_CONFIG } from "@/configs/constants";
 import { FACTORY_ABI } from "@/configs/abis";
 
 export interface CreateTokenParams {
   name: string;
   symbol: string;
   imageUrl: string;
-  ethAmount: string; // ETH amount as string (e.g., "0.01")
-  supply?: bigint; // Optional custom supply
+  initialFdv?: string; // Optional FDV in ETH (default: 20 ETH)
 }
 
 export function useCreateToken() {
@@ -19,24 +18,23 @@ export function useCreateToken() {
   });
 
   const createToken = async (params: CreateTokenParams) => {
-    const { name, symbol, imageUrl, ethAmount, supply } = params;
-    const value = parseEther(ethAmount);
+    const { name, symbol, imageUrl, initialFdv } = params;
 
-    if (supply && supply !== DEFAULT_TOKEN_SUPPLY) {
+    if (initialFdv) {
+      const fdv = parseEther(initialFdv);
       writeContract({
-        address: CONTRACTS.FACTORY,
+        address: CONTRACTS.FACTORY as `0x${string}`,
         abi: FACTORY_ABI,
-        functionName: "createTokenWithSupply",
-        args: [name, symbol, imageUrl, supply],
-        value,
+        functionName: "createTokenWithFdv",
+        args: [name, symbol, imageUrl, fdv],
       });
     } else {
+      // Use default FDV (20 ETH)
       writeContract({
-        address: CONTRACTS.FACTORY,
+        address: CONTRACTS.FACTORY as `0x${string}`,
         abi: FACTORY_ABI,
         functionName: "createToken",
         args: [name, symbol, imageUrl],
-        value,
       });
     }
   };

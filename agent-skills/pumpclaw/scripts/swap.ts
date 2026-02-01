@@ -13,14 +13,15 @@ import {
 } from "viem";
 import { base } from "viem/chains";
 import { privateKeyToAccount } from "viem/accounts";
+import { CONTRACTS, CHAIN } from "../../../shared/contracts.js";
+import { ERC20_ABI } from "../../../shared/abis.js";
 
-const BASE_RPC = "https://base-rpc.publicnode.com";
-const WETH = "0x4200000000000000000000000000000000000006";
 const UNIVERSAL_ROUTER = "0x6fF5693b99212Da76ad316178A184AB56D299b43"; // Uniswap Universal Router on Base
+const SWAP_ROUTER = "0x2626664c2603336E57B271c5C0b26F421741e481"; // SwapRouter02 on Base
 
 const publicClient = createPublicClient({
   chain: base,
-  transport: http(BASE_RPC),
+  transport: http(CHAIN.RPC),
 });
 
 function getWalletClient() {
@@ -34,11 +35,11 @@ function getWalletClient() {
   return createWalletClient({
     account,
     chain: base,
-    transport: http(BASE_RPC),
+    transport: http(CHAIN.RPC),
   });
 }
 
-// V4 swap via Universal Router
+// V4 swap via SwapRouter02
 async function swapExactETHForTokens(tokenOut: string, ethAmount: string) {
   const walletClient = getWalletClient();
   const account = walletClient.account!;
@@ -48,26 +49,14 @@ async function swapExactETHForTokens(tokenOut: string, ethAmount: string) {
   console.log(`Swapping ${ethAmount} ETH for ${tokenOut}`);
   console.log(`From: ${account.address}`);
   
-  // For V4, we need to use the PoolManager directly or Universal Router
-  // This is a simplified approach using WETH wrap + V4 swap
-  
   // Get token balance before
   const balanceBefore = await publicClient.readContract({
     address: tokenOut as `0x${string}`,
-    abi: [{
-      type: "function",
-      name: "balanceOf",
-      inputs: [{ name: "account", type: "address" }],
-      outputs: [{ name: "", type: "uint256" }],
-      stateMutability: "view",
-    }],
+    abi: ERC20_ABI,
     functionName: "balanceOf",
     args: [account.address],
   });
 
-  // Use SwapRouter02 for simpler interface (supports V4)
-  const SWAP_ROUTER = "0x2626664c2603336E57B271c5C0b26F421741e481"; // SwapRouter02 on Base
-  
   // exactInputSingle for V4
   const hash = await walletClient.sendTransaction({
     to: SWAP_ROUTER,
@@ -94,7 +83,7 @@ async function swapExactETHForTokens(tokenOut: string, ethAmount: string) {
       }],
       functionName: "exactInputSingle",
       args: [{
-        tokenIn: WETH,
+        tokenIn: CONTRACTS.WETH as `0x${string}`,
         tokenOut: tokenOut as `0x${string}`,
         fee: 10000, // 1% fee (matches PumpClaw pool)
         recipient: account.address,
@@ -111,13 +100,7 @@ async function swapExactETHForTokens(tokenOut: string, ethAmount: string) {
   if (receipt.status === "success") {
     const balanceAfter = await publicClient.readContract({
       address: tokenOut as `0x${string}`,
-      abi: [{
-        type: "function",
-        name: "balanceOf",
-        inputs: [{ name: "account", type: "address" }],
-        outputs: [{ name: "", type: "uint256" }],
-        stateMutability: "view",
-      }],
+      abi: ERC20_ABI,
       functionName: "balanceOf",
       args: [account.address],
     });

@@ -15,181 +15,12 @@ import {
 import { base } from "viem/chains";
 import { privateKeyToAccount } from "viem/accounts";
 import { CONTRACTS, CHAIN } from "../../../shared/contracts.js";
-
-const BASE_RPC = CHAIN.RPC;
-
-// ABIs
-const FACTORY_ABI = [
-  {
-    type: "function",
-    name: "createToken",
-    inputs: [
-      { name: "name", type: "string" },
-      { name: "symbol", type: "string" },
-      { name: "imageUrl", type: "string" },
-    ],
-    outputs: [
-      { name: "token", type: "address" },
-      { name: "positionId", type: "uint256" },
-    ],
-    stateMutability: "nonpayable",
-  },
-  {
-    type: "function",
-    name: "createTokenFor",
-    inputs: [
-      { name: "name", type: "string" },
-      { name: "symbol", type: "string" },
-      { name: "imageUrl", type: "string" },
-      { name: "creator", type: "address" },
-    ],
-    outputs: [
-      { name: "token", type: "address" },
-      { name: "positionId", type: "uint256" },
-    ],
-    stateMutability: "nonpayable",
-  },
-  {
-    type: "function",
-    name: "createTokenWithSupply",
-    inputs: [
-      { name: "name", type: "string" },
-      { name: "symbol", type: "string" },
-      { name: "imageUrl", type: "string" },
-      { name: "supply", type: "uint256" },
-    ],
-    outputs: [
-      { name: "token", type: "address" },
-      { name: "positionId", type: "uint256" },
-    ],
-    stateMutability: "nonpayable",
-  },
-  {
-    type: "function",
-    name: "createTokenWithSupplyFor",
-    inputs: [
-      { name: "name", type: "string" },
-      { name: "symbol", type: "string" },
-      { name: "imageUrl", type: "string" },
-      { name: "supply", type: "uint256" },
-      { name: "creator", type: "address" },
-    ],
-    outputs: [
-      { name: "token", type: "address" },
-      { name: "positionId", type: "uint256" },
-    ],
-    stateMutability: "nonpayable",
-  },
-  {
-    type: "function",
-    name: "getTokenCount",
-    inputs: [],
-    outputs: [{ name: "", type: "uint256" }],
-    stateMutability: "view",
-  },
-  {
-    type: "function",
-    name: "getTokens",
-    inputs: [
-      { name: "startIndex", type: "uint256" },
-      { name: "endIndex", type: "uint256" },
-    ],
-    outputs: [
-      {
-        name: "",
-        type: "tuple[]",
-        components: [
-          { name: "token", type: "address" },
-          { name: "creator", type: "address" },
-          { name: "positionId", type: "uint256" },
-          { name: "supply", type: "uint256" },
-          { name: "createdAt", type: "uint256" },
-          { name: "name", type: "string" },
-          { name: "symbol", type: "string" },
-        ],
-      },
-    ],
-    stateMutability: "view",
-  },
-  {
-    type: "function",
-    name: "getTokenInfo",
-    inputs: [{ name: "token", type: "address" }],
-    outputs: [
-      {
-        name: "",
-        type: "tuple",
-        components: [
-          { name: "token", type: "address" },
-          { name: "creator", type: "address" },
-          { name: "positionId", type: "uint256" },
-          { name: "supply", type: "uint256" },
-          { name: "createdAt", type: "uint256" },
-          { name: "name", type: "string" },
-          { name: "symbol", type: "string" },
-        ],
-      },
-    ],
-    stateMutability: "view",
-  },
-  {
-    type: "function",
-    name: "getTokensByCreator",
-    inputs: [{ name: "creator", type: "address" }],
-    outputs: [{ name: "", type: "uint256[]" }],
-    stateMutability: "view",
-  },
-  {
-    type: "function",
-    name: "tokens",
-    inputs: [{ name: "index", type: "uint256" }],
-    outputs: [
-      { name: "token", type: "address" },
-      { name: "creator", type: "address" },
-      { name: "positionId", type: "uint256" },
-      { name: "supply", type: "uint256" },
-      { name: "createdAt", type: "uint256" },
-      { name: "name", type: "string" },
-      { name: "symbol", type: "string" },
-    ],
-    stateMutability: "view",
-  },
-] as const;
-
-const LOCKER_ABI = [
-  {
-    type: "function",
-    name: "claimFees",
-    inputs: [{ name: "token", type: "address" }],
-    outputs: [],
-    stateMutability: "nonpayable",
-  },
-  {
-    type: "function",
-    name: "getPosition",
-    inputs: [{ name: "token", type: "address" }],
-    outputs: [
-      { name: "positionId", type: "uint256" },
-      { name: "creator", type: "address" },
-    ],
-    stateMutability: "view",
-  },
-] as const;
-
-const TOKEN_ABI = [
-  {
-    type: "function",
-    name: "imageUrl",
-    inputs: [],
-    outputs: [{ name: "", type: "string" }],
-    stateMutability: "view",
-  },
-] as const;
+import { FACTORY_ABI, LP_LOCKER_ABI, TOKEN_ABI } from "../../../shared/abis.js";
 
 // Clients
 const publicClient = createPublicClient({
   chain: base,
-  transport: http(BASE_RPC),
+  transport: http(CHAIN.RPC),
 });
 
 function getWalletClient() {
@@ -203,14 +34,14 @@ function getWalletClient() {
   return createWalletClient({
     account,
     chain: base,
-    transport: http(BASE_RPC),
+    transport: http(CHAIN.RPC),
   });
 }
 
 // Commands
 async function list(limit = 10, offset = 0) {
   const count = await publicClient.readContract({
-    address: CONTRACTS.FACTORY,
+    address: CONTRACTS.FACTORY as `0x${string}`,
     abi: FACTORY_ABI,
     functionName: "getTokenCount",
   });
@@ -221,7 +52,7 @@ async function list(limit = 10, offset = 0) {
 
   const end = Math.min(offset + limit, Number(count));
   const tokens = await publicClient.readContract({
-    address: CONTRACTS.FACTORY,
+    address: CONTRACTS.FACTORY as `0x${string}`,
     abi: FACTORY_ABI,
     functionName: "getTokens",
     args: [BigInt(offset), BigInt(end)],
@@ -230,21 +61,22 @@ async function list(limit = 10, offset = 0) {
   console.log("");
   for (const token of tokens) {
     const date = new Date(Number(token.createdAt) * 1000);
-    console.log(`${token.symbol} | ${token.token} | ${date.toISOString().split("T")[0]}`);
+    const fdvEth = formatEther(token.initialFdv);
+    console.log(`${token.symbol} | ${token.token} | FDV: ${fdvEth} ETH | ${date.toISOString().split("T")[0]}`);
   }
 }
 
 async function info(tokenAddress: string) {
   const token = await publicClient.readContract({
-    address: CONTRACTS.FACTORY,
+    address: CONTRACTS.FACTORY as `0x${string}`,
     abi: FACTORY_ABI,
     functionName: "getTokenInfo",
     args: [tokenAddress as `0x${string}`],
   });
 
   const [positionId, creator] = await publicClient.readContract({
-    address: CONTRACTS.LP_LOCKER,
-    abi: LOCKER_ABI,
+    address: CONTRACTS.LP_LOCKER as `0x${string}`,
+    abi: LP_LOCKER_ABI,
     functionName: "getPosition",
     args: [tokenAddress as `0x${string}`],
   });
@@ -264,7 +96,7 @@ async function info(tokenAddress: string) {
   console.log(`Symbol: ${token.symbol}`);
   console.log(`Token: ${token.token}`);
   console.log(`Creator: ${token.creator}`);
-  console.log(`Supply: ${formatUnits(token.supply, 18)}`);
+  console.log(`Initial FDV: ${formatEther(token.initialFdv)} ETH`);
   console.log(`Position ID: ${positionId}`);
   console.log(`Created: ${date.toISOString()}`);
   if (imageUrl) console.log(`Image: ${imageUrl}`);
@@ -275,59 +107,56 @@ async function create(opts: {
   name: string;
   symbol: string;
   image?: string;
-  eth?: string;
-  supply?: string;
+  fdv?: string;
   creator?: string;
 }) {
   const walletClient = getWalletClient();
   const account = walletClient.account!;
 
-  const value = parseEther(opts.eth || "0.001");
   const image = opts.image || "";
+  const fdv = opts.fdv ? parseEther(opts.fdv) : undefined;
 
   console.log(`Creating: ${opts.name} (${opts.symbol})`);
   console.log(`Creator: ${opts.creator || account.address}`);
-  console.log(`ETH: ${formatEther(value)}`);
+  if (fdv) console.log(`Initial FDV: ${opts.fdv} ETH`);
 
   let hash: `0x${string}`;
 
-  if (opts.supply && opts.creator) {
+  if (fdv && opts.creator) {
     hash = await walletClient.writeContract({
-      address: CONTRACTS.FACTORY,
+      address: CONTRACTS.FACTORY as `0x${string}`,
       abi: FACTORY_ABI,
-      functionName: "createTokenWithSupplyFor",
+      functionName: "createTokenFor",
       args: [
         opts.name,
         opts.symbol,
         image,
-        parseEther(opts.supply),
+        fdv,
         opts.creator as `0x${string}`,
       ],
-      value,
     });
-  } else if (opts.supply) {
+  } else if (fdv) {
     hash = await walletClient.writeContract({
-      address: CONTRACTS.FACTORY,
+      address: CONTRACTS.FACTORY as `0x${string}`,
       abi: FACTORY_ABI,
-      functionName: "createTokenWithSupply",
-      args: [opts.name, opts.symbol, image, parseEther(opts.supply)],
-      value,
+      functionName: "createTokenWithFdv",
+      args: [opts.name, opts.symbol, image, fdv],
     });
   } else if (opts.creator) {
+    // Use default FDV (20 ETH) for createTokenFor
+    const defaultFdv = parseEther("20");
     hash = await walletClient.writeContract({
-      address: CONTRACTS.FACTORY,
+      address: CONTRACTS.FACTORY as `0x${string}`,
       abi: FACTORY_ABI,
       functionName: "createTokenFor",
-      args: [opts.name, opts.symbol, image, opts.creator as `0x${string}`],
-      value,
+      args: [opts.name, opts.symbol, image, defaultFdv, opts.creator as `0x${string}`],
     });
   } else {
     hash = await walletClient.writeContract({
-      address: CONTRACTS.FACTORY,
+      address: CONTRACTS.FACTORY as `0x${string}`,
       abi: FACTORY_ABI,
       functionName: "createToken",
       args: [opts.name, opts.symbol, image],
-      value,
     });
   }
 
@@ -336,13 +165,13 @@ async function create(opts: {
 
   if (receipt.status === "success") {
     const count = await publicClient.readContract({
-      address: CONTRACTS.FACTORY,
+      address: CONTRACTS.FACTORY as `0x${string}`,
       abi: FACTORY_ABI,
       functionName: "getTokenCount",
     });
 
     const [token] = await publicClient.readContract({
-      address: CONTRACTS.FACTORY,
+      address: CONTRACTS.FACTORY as `0x${string}`,
       abi: FACTORY_ABI,
       functionName: "getTokens",
       args: [count - 1n, count],
@@ -361,8 +190,8 @@ async function claim(tokenAddress: string) {
   console.log(`Claiming fees for: ${tokenAddress}`);
 
   const hash = await walletClient.writeContract({
-    address: CONTRACTS.LP_LOCKER,
-    abi: LOCKER_ABI,
+    address: CONTRACTS.LP_LOCKER as `0x${string}`,
+    abi: LP_LOCKER_ABI,
     functionName: "claimFees",
     args: [tokenAddress as `0x${string}`],
   });
@@ -379,7 +208,7 @@ async function claim(tokenAddress: string) {
 
 async function byCreator(creatorAddress: string) {
   const indices = await publicClient.readContract({
-    address: CONTRACTS.FACTORY,
+    address: CONTRACTS.FACTORY as `0x${string}`,
     abi: FACTORY_ABI,
     functionName: "getTokensByCreator",
     args: [creatorAddress as `0x${string}`],
@@ -389,12 +218,12 @@ async function byCreator(creatorAddress: string) {
 
   for (const idx of indices) {
     const token = await publicClient.readContract({
-      address: CONTRACTS.FACTORY,
+      address: CONTRACTS.FACTORY as `0x${string}`,
       abi: FACTORY_ABI,
       functionName: "tokens",
       args: [idx],
     });
-    console.log(`${token[5]} (${token[6]}) - ${token[0]}`);
+    console.log(`${token.name} (${token.symbol}) - ${token.token}`);
   }
 }
 
@@ -429,7 +258,7 @@ async function main() {
       case "create": {
         const opts = parseArgs(args.slice(1));
         if (!opts.name || !opts.symbol) {
-          console.error("Usage: pumpclaw.ts create --name <name> --symbol <symbol> [--image <url>] [--eth <amount>] [--supply <amount>] [--creator <address>]");
+          console.error("Usage: pumpclaw.ts create --name <name> --symbol <symbol> [--image <url>] [--fdv <eth>] [--creator <address>]");
           process.exit(1);
         }
         await create(opts as any);
@@ -447,11 +276,14 @@ async function main() {
         console.log("PumpClaw CLI");
         console.log("");
         console.log("Commands:");
-        console.log("  list [--limit N] [--offset N]  List tokens");
-        console.log("  info <token>                   Get token info");
-        console.log("  create --name <n> --symbol <s> Create token");
-        console.log("  claim <token>                  Claim LP fees");
-        console.log("  by-creator <address>           Tokens by creator");
+        console.log("  list [--limit N] [--offset N]   List tokens");
+        console.log("  info <token>                    Get token info");
+        console.log("  create --name <n> --symbol <s>  Create token");
+        console.log("    [--image <url>]               Token image URL");
+        console.log("    [--fdv <eth>]                 Initial FDV (default: 20 ETH)");
+        console.log("    [--creator <address>]         Creator address");
+        console.log("  claim <token>                   Claim LP fees");
+        console.log("  by-creator <address>            Tokens by creator");
     }
   } catch (error: any) {
     console.error("Error:", error.message);

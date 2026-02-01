@@ -6,7 +6,7 @@ export interface TokenInfo {
   token: `0x${string}`;
   creator: `0x${string}`;
   positionId: bigint;
-  supply: bigint;
+  initialFdv: bigint;
   createdAt: bigint;
   name: string;
   symbol: string;
@@ -14,7 +14,7 @@ export interface TokenInfo {
 
 export function useTokenCount() {
   return useReadContract({
-    address: CONTRACTS.FACTORY,
+    address: CONTRACTS.FACTORY as `0x${string}`,
     abi: FACTORY_ABI,
     functionName: "getTokenCount",
   });
@@ -24,7 +24,7 @@ export function useTokens(startIndex: number, endIndex: number) {
   const { data: count } = useTokenCount();
   
   return useReadContract({
-    address: CONTRACTS.FACTORY,
+    address: CONTRACTS.FACTORY as `0x${string}`,
     abi: FACTORY_ABI,
     functionName: "getTokens",
     args: [BigInt(startIndex), BigInt(Math.min(endIndex, Number(count ?? 0)))],
@@ -36,7 +36,7 @@ export function useTokens(startIndex: number, endIndex: number) {
 
 export function useTokenInfo(tokenAddress: `0x${string}` | undefined) {
   return useReadContract({
-    address: CONTRACTS.FACTORY,
+    address: CONTRACTS.FACTORY as `0x${string}`,
     abi: FACTORY_ABI,
     functionName: "getTokenInfo",
     args: tokenAddress ? [tokenAddress] : undefined,
@@ -48,7 +48,7 @@ export function useTokenInfo(tokenAddress: `0x${string}` | undefined) {
 
 export function useTokensByCreator(creator: `0x${string}` | undefined) {
   return useReadContract({
-    address: CONTRACTS.FACTORY,
+    address: CONTRACTS.FACTORY as `0x${string}`,
     abi: FACTORY_ABI,
     functionName: "getTokensByCreator",
     args: creator ? [creator] : undefined,
