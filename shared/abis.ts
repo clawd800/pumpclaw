@@ -364,6 +364,22 @@ export const TOKEN_ABI = [
     outputs: [{ name: "", type: "string" }],
     stateMutability: "view",
   },
+  {
+    type: "function",
+    name: "setImageUrl",
+    inputs: [{ name: "newImageUrl", type: "string" }],
+    outputs: [],
+    stateMutability: "nonpayable",
+  },
+  {
+    type: "event",
+    name: "ImageUrlUpdated",
+    inputs: [
+      { name: "oldUrl", type: "string", indexed: false },
+      { name: "newUrl", type: "string", indexed: false },
+    ],
+    anonymous: false,
+  },
   // Events
   {
     type: "event",

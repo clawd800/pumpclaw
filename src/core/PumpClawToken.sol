@@ -12,6 +12,10 @@ contract PumpClawToken is ERC20, ERC20Permit, ERC20Burnable {
     address public immutable creator;
     string private _imageUrl;
 
+    event ImageUrlUpdated(string oldUrl, string newUrl);
+
+    error OnlyCreator();
+
     constructor(
         string memory name_,
         string memory symbol_,
@@ -26,5 +30,14 @@ contract PumpClawToken is ERC20, ERC20Permit, ERC20Burnable {
 
     function imageUrl() external view returns (string memory) {
         return _imageUrl;
+    }
+
+    /// @notice Update the token image URL (creator only)
+    /// @param newImageUrl New image URL
+    function setImageUrl(string calldata newImageUrl) external {
+        if (msg.sender != creator) revert OnlyCreator();
+        string memory oldUrl = _imageUrl;
+        _imageUrl = newImageUrl;
+        emit ImageUrlUpdated(oldUrl, newImageUrl);
     }
 }

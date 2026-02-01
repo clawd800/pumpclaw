@@ -17,11 +17,12 @@ PumpClaw allows anyone to create fair launch memecoins with instant liquidity on
 
 | Contract | Address | Verified |
 |----------|---------|----------|
-| **PumpClawFactory** | [`0x9f36F0B22000aa6101bF0e81B562E1288eD537F6`](https://basescan.org/address/0x9f36F0B22000aa6101bF0e81B562E1288eD537F6#code) | ✅ |
-| **PumpClawLPLocker** | [`0xd3c67734D739868a9Ca9Ed45F8912aceb64F1835`](https://basescan.org/address/0xd3c67734D739868a9Ca9Ed45F8912aceb64F1835#code) | ✅ |
-| **PumpClawSwapRouter** | [`0x71D4F09dfb50b40966216f5Dd7c92310a27dead8`](https://basescan.org/address/0x71D4F09dfb50b40966216f5Dd7c92310a27dead8#code) | ✅ |
+| **PumpClawFactory** | [`0x39FF8c5aaCbd74D7F100D86515A88a0B1b808405`](https://basescan.org/address/0x39FF8c5aaCbd74D7F100D86515A88a0B1b808405#code) | ✅ |
+| **PumpClawLPLocker** | [`0x6e4D241957074475741Ff42ec358b8b00217Bf5d`](https://basescan.org/address/0x6e4D241957074475741Ff42ec358b8b00217Bf5d#code) | ✅ |
+| **PumpClawSwapRouter** | [`0x19e9A3F50a1E11B610ECE37CC6bfCD091732e396`](https://basescan.org/address/0x19e9A3F50a1E11B610ECE37CC6bfCD091732e396#code) | ✅ |
 
 > **Note:** Uses native ETH (no WETH wrapping) for gas-efficient swaps!
+> **New:** Creators can update token image via `setImageUrl()`
 
 ## Contract Interface
 
