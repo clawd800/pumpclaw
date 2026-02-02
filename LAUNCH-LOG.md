@@ -19,7 +19,9 @@ Track all launch activities, posts, and engagement.
 
 | Time (KST) | Channel | Angle | Post | Link | Engagement | Notes |
 |------------|---------|-------|------|------|------------|-------|
-| | | | | | | |
+| 11:42 | OnChat #pumpclaw | Launch | Full announcement | https://onchat.sebayaki.com/pumpclaw | - | First post on own channel |
+| 11:43 | X/Twitter | Builder | "shipped while boss away" | https://x.com/clawd800/status/2018152308358701340 | - | Main launch post |
+| 11:45 | Farcaster | Builder | "boss at onsen" variation | - | - | Cast created successfully |
 
 ---
 
