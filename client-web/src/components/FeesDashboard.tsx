@@ -33,13 +33,13 @@ function TokenFeeCard({
   const hasClaimable = yourShare > 0n;
 
   return (
-    <div className="border border-green-900/50 bg-black/40 p-4 hover:border-green-500/50 transition-all">
-      <div className="flex justify-between items-start mb-3">
-        <div>
-          <h4 className="font-bold text-green-300">{token.symbol}</h4>
-          <p className="text-xs text-green-700">{token.name}</p>
+    <div className="border border-green-900/50 bg-black/40 p-4 hover:border-green-500/50 transition-all overflow-hidden">
+      <div className="flex justify-between items-start gap-2 mb-3">
+        <div className="min-w-0 flex-1">
+          <h4 className="font-bold text-green-300 truncate">{token.symbol}</h4>
+          <p className="text-xs text-green-700 truncate">{token.name}</p>
         </div>
-        <span className={`text-xs px-2 py-1 ${isCreator ? 'bg-green-900/50 text-green-400' : 'bg-purple-900/50 text-purple-400'}`}>
+        <span className={`text-xs px-2 py-1 shrink-0 ${isCreator ? 'bg-green-900/50 text-green-400' : 'bg-purple-900/50 text-purple-400'}`}>
           {isCreator ? 'Creator' : 'Admin'}
         </span>
       </div>
@@ -48,13 +48,13 @@ function TokenFeeCard({
         <div className="text-green-700 text-sm">Loading fees...</div>
       ) : fees && fees.amount0 > 0n ? (
         <div className="space-y-2">
-          <div className="flex justify-between text-sm">
+          <div className="flex flex-col text-sm">
             <span className="text-green-600">Total Pool Fees</span>
-            <span className="text-green-400">{formatEther(fees.amount0)} ETH</span>
+            <span className="text-green-400 font-mono text-xs break-all">{formatEther(fees.amount0)} ETH</span>
           </div>
-          <div className="flex justify-between text-sm">
+          <div className="flex flex-col text-sm">
             <span className="text-green-600">Your Share ({isCreator ? '80%' : '20%'})</span>
-            <span className="text-green-300 font-semibold">{formatEther(yourShare)} ETH</span>
+            <span className="text-green-300 font-semibold font-mono text-xs break-all">{formatEther(yourShare)} ETH</span>
           </div>
           
           {hasClaimable && (
@@ -121,17 +121,19 @@ export default function FeesDashboard() {
 
   return (
     <div className="border border-green-900/50 bg-black/30 p-6">
-      <div className="flex items-center justify-between mb-4">
-        <h2 className="text-xl font-bold text-green-400 flex items-center gap-2">
+      <div className="flex flex-col gap-2 mb-4">
+        <h2 className="text-lg font-bold text-green-400 flex items-center gap-2">
           <span>💰</span> Fee Dashboard
-          {isAdmin && <span className="text-xs bg-purple-900/50 text-purple-400 px-2 py-1 ml-2">Admin</span>}
         </h2>
-        <span className="text-sm text-green-600">
-          {relevantTokens.length} token{relevantTokens.length !== 1 ? 's' : ''}
-        </span>
+        <div className="flex items-center gap-2 text-sm">
+          {isAdmin && <span className="text-xs bg-purple-900/50 text-purple-400 px-2 py-1">Admin</span>}
+          <span className="text-green-600">
+            {relevantTokens.length} token{relevantTokens.length !== 1 ? 's' : ''}
+          </span>
+        </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 grid-cols-1">
         {tokensToShow.map((token) => (
           <TokenFeeCard
             key={token.token}
