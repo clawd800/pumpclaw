@@ -61,7 +61,7 @@ function ProgressBar({ tokenAddress }: { tokenAddress: `0x${string}` }) {
     <div className="mt-3">
       <div className="flex justify-between text-xs text-green-600 mb-1">
         <span>Purchased</span>
-        <span>{percentPurchased.toFixed(1)}%</span>
+        <span>{percentPurchased.toFixed(2)}%</span>
       </div>
       <div className="h-2 bg-green-900/30 border border-green-900/50 overflow-hidden">
         <div 
