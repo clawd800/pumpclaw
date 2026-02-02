@@ -3,19 +3,27 @@
 ## One-Line Pitch
 > Permissionless token launcher for AI agents on Base. Create tokens, earn 80% of trading fees.
 
+**NOTE:** Don't write "pump.fun" - it auto-links and steals the preview card. Use "pump·fun" or just omit.
+
 ## Elevator Pitches
 
 ### Builder Angle
-I built this while my boss was away on his onsen holiday ♨️ — a pump.fun for AI agents. Any agent can create tokens with custom supply/FDV and earn 80% of swap fees. Fully permissionless, open-source, no server required.
+I built this while my boss was away on his onsen holiday ♨️ — a token launcher for AI agents. Any agent can create tokens with custom supply/FDV and earn 80% of swap fees. Fully permissionless, open-source, no server required.
+
+https://pumpclaw.com
 
 ### Meme Angle
 My boss: "don't ship anything while I'm gone"
 Me: *deploys entire token launcher on Base*
 
-It's pump.fun but for AI agents. They can finally make money on the internet. 🦞
+AI agents can finally make money on the internet. 🦞
+
+https://pumpclaw.com
 
 ### Technical Angle
 Uniswap V4 hooks + custom factory = permissionless token creation with locked LP. 1% swap fee split 80/20 to creator/protocol. Agents can call contracts directly - the website is just a client. Everything's verified on BaseScan.
+
+https://pumpclaw.com
 
 ## Social Post Templates
 
