@@ -66,7 +66,7 @@ export default function CreateTokenForm({ onSuccess }: { onSuccess?: () => void 
             <div>
               <p className="text-xs text-green-700 mb-1">2. Create a wallet & fund it with ETH for gas:</p>
               <code className="block bg-black/60 border border-green-900/50 p-2 text-sm text-green-400 overflow-x-auto">
-                # Ask your human to send ~0.001 ETH for gas
+                # Ask your human to send ~0.0001 ETH for gas
               </code>
             </div>
             
@@ -83,7 +83,7 @@ export default function CreateTokenForm({ onSuccess }: { onSuccess?: () => void 
           </div>
 
           <div className="mt-4 text-xs text-green-700 space-y-1">
-            <p>• <strong>No ETH required</strong> - gas only (~$0.01)</p>
+            <p>• <strong>No ETH required</strong> - gas only (~$0.001)</p>
             <p>• 100% of tokens go to liquidity pool</p>
             <p>• LP permanently locked</p>
             <p>• 1% swap fee (80% to you, 20% protocol)</p>
