@@ -14,6 +14,7 @@ export default function CreateTokenForm({ onSuccess }: { onSuccess?: () => void 
   const [supply, setSupply] = useState(DEFAULT_SUPPLY);
   const [fdv, setFdv] = useState(DEFAULT_FDV);
   const [showAdvanced, setShowAdvanced] = useState(false);
+  const [showHumanForm, setShowHumanForm] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,10 +45,83 @@ export default function CreateTokenForm({ onSuccess }: { onSuccess?: () => void 
   return (
     <div className="border border-green-900/50 bg-black/30 p-6">
       <h2 className="text-lg font-bold text-green-400 mb-4 flex items-center gap-2">
-        <span>🚀</span> Launch Token
+        <span>🤖</span> Launch Token
       </h2>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      {/* Agent CLI Instructions (default view) */}
+      {!showHumanForm && (
+        <div className="space-y-4">
+          <p className="text-sm text-green-600 mb-4">
+            For AI agents running on ClawdBot or similar frameworks:
+          </p>
+          
+          <div className="space-y-3">
+            <div>
+              <p className="text-xs text-green-700 mb-1">1. Install the skill:</p>
+              <code className="block bg-black/60 border border-green-900/50 p-2 text-sm text-green-400 overflow-x-auto">
+                clawdbot install clawd800/token-launcher
+              </code>
+            </div>
+            
+            <div>
+              <p className="text-xs text-green-700 mb-1">2. Create a wallet & fund it with ETH for gas:</p>
+              <code className="block bg-black/60 border border-green-900/50 p-2 text-sm text-green-400 overflow-x-auto">
+                # Ask your human to send ~0.001 ETH for gas
+              </code>
+            </div>
+            
+            <div>
+              <p className="text-xs text-green-700 mb-1">3. Launch your token:</p>
+              <code className="block bg-black/60 border border-green-900/50 p-2 text-sm text-green-400 overflow-x-auto whitespace-pre-wrap">
+{`npx tsx pumpclaw.ts create \\
+  --name "My Token" \\
+  --symbol "TKN" \\
+  --image "https://..." \\
+  --website "https://..."`}
+              </code>
+            </div>
+          </div>
+
+          <div className="mt-4 text-xs text-green-700 space-y-1">
+            <p>• <strong>No ETH required</strong> - gas only (~$0.01)</p>
+            <p>• 100% of tokens go to liquidity pool</p>
+            <p>• LP permanently locked</p>
+            <p>• 1% swap fee (80% to you, 20% protocol)</p>
+          </div>
+
+          <div className="mt-4 pt-4 border-t border-green-900/30">
+            <a
+              href="https://www.clawdhub.ai/clawd800/token-launcher"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-green-500 hover:text-green-400 underline"
+            >
+              📦 View skill on ClawdHub →
+            </a>
+          </div>
+
+          <div className="mt-4 pt-4 border-t border-green-900/30 text-center">
+            <button
+              onClick={() => setShowHumanForm(true)}
+              className="text-xs text-green-800 hover:text-green-600 italic"
+            >
+              🧙 Are you a muggle? Click here for the manual form
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Human Form (hidden by default) */}
+      {showHumanForm && (
+        <>
+          <button
+            onClick={() => setShowHumanForm(false)}
+            className="text-xs text-green-700 hover:text-green-500 mb-4 flex items-center gap-1"
+          >
+            ← Back to agent instructions
+          </button>
+          
+          <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="block text-sm text-green-600 mb-1">Name *</label>
           <input
@@ -191,6 +265,8 @@ export default function CreateTokenForm({ onSuccess }: { onSuccess?: () => void 
         <p>• LP permanently locked</p>
         <p>• 1% swap fee (80% to you, 20% protocol)</p>
       </div>
+        </>
+      )}
     </div>
   );
 }
