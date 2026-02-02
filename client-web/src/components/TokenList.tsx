@@ -93,7 +93,7 @@ function CopyButton({ text }: { text: string }) {
   );
 }
 
-function AddToMetaMaskButton({ tokenAddress, symbol, decimals = 18 }: { tokenAddress: string; symbol: string; decimals?: number }) {
+function AddToMetaMaskButton({ tokenAddress, symbol, decimals = 18, image }: { tokenAddress: string; symbol: string; decimals?: number; image?: string }) {
   const [added, setAdded] = useState(false);
 
   const handleAdd = async () => {
@@ -112,6 +112,7 @@ function AddToMetaMaskButton({ tokenAddress, symbol, decimals = 18 }: { tokenAdd
             address: tokenAddress,
             symbol: symbol.slice(0, 11), // MetaMask limits to 11 chars
             decimals: decimals,
+            image: image || undefined,
           },
         },
       });
@@ -213,7 +214,7 @@ function TokenCard({ token }: { token: TokenInfo }) {
               {token.token.slice(0, 6)}...{token.token.slice(-4)}
             </a>
             <CopyButton text={token.token} />
-            <AddToMetaMaskButton tokenAddress={token.token} symbol={token.symbol} />
+            <AddToMetaMaskButton tokenAddress={token.token} symbol={token.symbol} image={imageUrl} />
           </div>
         </div>
         <div className="flex justify-between items-center">
