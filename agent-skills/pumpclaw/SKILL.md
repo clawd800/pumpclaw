@@ -65,6 +65,15 @@ npx tsx pumpclaw.ts buy <token_address> --eth 0.01
 npx tsx pumpclaw.ts sell <token_address> --amount 1000000
 ```
 
+### Update image/website (creator only)
+```bash
+# Set token image
+npx tsx pumpclaw.ts set-image <token_address> --url "https://example.com/image.png"
+
+# Set token website  
+npx tsx pumpclaw.ts set-website <token_address> --url "https://mytoken.com"
+```
+
 ### Tokens by creator
 ```bash
 npx tsx pumpclaw.ts by-creator <address>

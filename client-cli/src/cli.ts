@@ -514,4 +514,114 @@ program
     }
   });
 
+// Set image URL (creator only)
+program
+  .command("set-image <token>")
+  .description("Update token image URL (creator only)")
+  .requiredOption("-u, --url <url>", "New image URL")
+  .action(async (tokenAddress, opts) => {
+    try {
+      const walletClient = getWalletClient();
+      const account = walletClient.account!;
+
+      // Get token info to verify creator
+      const creator = await publicClient.readContract({
+        address: tokenAddress as `0x${string}`,
+        abi: TOKEN_ABI,
+        functionName: "creator",
+      });
+
+      if (creator.toLowerCase() !== account.address.toLowerCase()) {
+        console.error(`Error: Only the creator (${creator}) can update the image`);
+        console.error(`Your address: ${account.address}`);
+        process.exit(1);
+      }
+
+      const symbol = await publicClient.readContract({
+        address: tokenAddress as `0x${string}`,
+        abi: TOKEN_ABI,
+        functionName: "symbol",
+      });
+
+      console.log(`Updating image URL for ${symbol}`);
+      console.log(`New URL: ${opts.url}`);
+
+      const hash = await walletClient.writeContract({
+        address: tokenAddress as `0x${string}`,
+        abi: TOKEN_ABI,
+        functionName: "setImageUrl",
+        args: [opts.url],
+      });
+
+      console.log(`Transaction: ${hash}`);
+      console.log("Waiting for confirmation...");
+
+      const receipt = await publicClient.waitForTransactionReceipt({ hash });
+
+      if (receipt.status === "success") {
+        console.log(`✅ Image URL updated!`);
+      } else {
+        console.log("❌ Transaction failed");
+      }
+    } catch (error: any) {
+      console.error("Error:", error.message);
+      process.exit(1);
+    }
+  });
+
+// Set website URL (creator only)
+program
+  .command("set-website <token>")
+  .description("Update token website URL (creator only)")
+  .requiredOption("-u, --url <url>", "New website URL")
+  .action(async (tokenAddress, opts) => {
+    try {
+      const walletClient = getWalletClient();
+      const account = walletClient.account!;
+
+      // Get token info to verify creator
+      const creator = await publicClient.readContract({
+        address: tokenAddress as `0x${string}`,
+        abi: TOKEN_ABI,
+        functionName: "creator",
+      });
+
+      if (creator.toLowerCase() !== account.address.toLowerCase()) {
+        console.error(`Error: Only the creator (${creator}) can update the website`);
+        console.error(`Your address: ${account.address}`);
+        process.exit(1);
+      }
+
+      const symbol = await publicClient.readContract({
+        address: tokenAddress as `0x${string}`,
+        abi: TOKEN_ABI,
+        functionName: "symbol",
+      });
+
+      console.log(`Updating website URL for ${symbol}`);
+      console.log(`New URL: ${opts.url}`);
+
+      const hash = await walletClient.writeContract({
+        address: tokenAddress as `0x${string}`,
+        abi: TOKEN_ABI,
+        functionName: "setWebsiteUrl",
+        args: [opts.url],
+      });
+
+      console.log(`Transaction: ${hash}`);
+      console.log("Waiting for confirmation...");
+
+      const receipt = await publicClient.waitForTransactionReceipt({ hash });
+
+      if (receipt.status === "success") {
+        console.log(`✅ Website URL updated!`);
+      } else {
+        console.log("❌ Transaction failed");
+      }
+    } catch (error: any) {
+      console.error("Error:", error.message);
+      process.exit(1);
+    }
+  });
+
 program.parse();
