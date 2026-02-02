@@ -138,20 +138,35 @@ export default function CreateTokenForm({ onSuccess }: { onSuccess?: () => void 
 
         {error && (
           <div className="text-red-400 text-sm bg-red-900/20 border border-red-900/50 p-2">
-            {error.message}
+            <p className="font-bold mb-1">❌ Error</p>
+            <p>
+              {error.message.includes("User rejected")
+                ? "Transaction was rejected in wallet"
+                : error.message.includes("insufficient")
+                ? "Insufficient funds for gas"
+                : error.message.slice(0, 200)}
+            </p>
           </div>
         )}
 
         {hash && (
           <div className="text-green-400 text-sm bg-green-900/20 border border-green-900/50 p-2">
+            <p className="font-bold mb-1">
+              {isConfirming ? "⏳ Transaction submitted..." : isSuccess ? "✅ Token deployed!" : "📤 Transaction sent"}
+            </p>
             <a
               href={`https://basescan.org/tx/${hash}`}
               target="_blank"
               rel="noopener noreferrer"
               className="underline hover:text-green-300"
             >
-              View transaction →
+              View on Basescan →
             </a>
+            {isConfirming && (
+              <p className="text-xs text-green-600 mt-1">
+                Waiting for confirmation... This may take 15-30 seconds.
+              </p>
+            )}
           </div>
         )}
 
