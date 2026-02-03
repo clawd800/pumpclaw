@@ -5,6 +5,47 @@ import { useReadContract } from "wagmi";
 import { CONTRACTS } from "@/configs/constants";
 import { ERC20_ABI } from "@/configs/abis";
 
+// ERC-8004 Registry on Base
+const ERC8004_REGISTRY = "0x8004A169FB4a3325136EB29fA0ceB6D2e539a432" as const;
+
+// ERC-721 balanceOf ABI for checking registration
+const ERC721_BALANCE_ABI = [
+  {
+    type: "function",
+    name: "balanceOf",
+    inputs: [{ name: "owner", type: "address" }],
+    outputs: [{ name: "", type: "uint256" }],
+    stateMutability: "view",
+  },
+] as const;
+
+// Hook to check if address is ERC-8004 registered
+function useIsERC8004Registered(address: `0x${string}`) {
+  const { data: balance } = useReadContract({
+    address: ERC8004_REGISTRY,
+    abi: ERC721_BALANCE_ABI,
+    functionName: "balanceOf",
+    args: [address],
+  });
+  return balance !== undefined && balance > 0n;
+}
+
+// ERC-8004 Verified Badge Component
+function ERC8004Badge() {
+  return (
+    <a
+      href="https://eips.ethereum.org/EIPS/eip-8004"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="inline-flex items-center gap-1 px-1.5 py-0.5 text-[10px] font-medium bg-blue-900/40 border border-blue-500/50 text-blue-400 hover:bg-blue-900/60 transition-colors ml-1"
+      title="ERC-8004 Verified Agent"
+    >
+      <span>✓</span>
+      <span>8004</span>
+    </a>
+  );
+}
+
 // Total supply ABI for reading token supply
 const TOTAL_SUPPLY_ABI = [
   {
@@ -155,6 +196,7 @@ function AddToMetaMaskButton({ tokenAddress, symbol, decimals = 18, image }: { t
 function TokenCard({ token }: { token: TokenInfo }) {
   const { data: imageUrl } = useTokenImageUrl(token.token);
   const { data: websiteUrl } = useWebsiteUrl(token.token);
+  const isERC8004Registered = useIsERC8004Registered(token.creator);
   
   const fdvEth = parseFloat(formatEther(token.initialFdv));
   const displayFdv = fdvEth.toLocaleString(undefined, {
@@ -229,6 +271,7 @@ function TokenCard({ token }: { token: TokenInfo }) {
               {token.creator.slice(0, 6)}...{token.creator.slice(-4)}
             </a>
             <CopyButton text={token.creator} />
+            {isERC8004Registered && <ERC8004Badge />}
           </div>
         </div>
         
