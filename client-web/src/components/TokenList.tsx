@@ -62,6 +62,61 @@ function useERC8004Statuses(addresses: `0x${string}`[]) {
   return statusMap;
 }
 
+// Hook to batch get pool balances for market cap calculation
+function usePoolBalances(tokens: TokenInfo[]) {
+  const contracts = tokens.map((token) => ({
+    address: token.token,
+    abi: ERC20_ABI,
+    functionName: "balanceOf" as const,
+    args: [CONTRACTS.POOL_MANAGER as `0x${string}`] as const,
+  }));
+
+  const { data } = useReadContracts({
+    contracts,
+    query: {
+      enabled: tokens.length > 0,
+    },
+  });
+
+  // Calculate market cap for each token
+  // Market Cap = initialFdv * (totalSupply / poolBalance) when poolBalance < totalSupply
+  // This reflects the bonding curve: as more tokens are bought, price increases
+  const marketCapMap = useMemo(() => {
+    const map = new Map<string, bigint>();
+    if (data) {
+      tokens.forEach((token, i) => {
+        const result = data[i];
+        const poolBalance = result?.status === 'success' ? (result.result as bigint) : token.totalSupply;
+        
+        // If pool has all tokens, market cap = initial FDV
+        // If pool has 0 tokens (all sold), market cap = much higher (theoretically infinite on bonding curve)
+        // Approximation: marketCap = initialFdv * (totalSupply / poolBalance)
+        // But we need to handle edge cases
+        
+        if (poolBalance > 0n && token.totalSupply > 0n) {
+          // Calculate purchased amount
+          const purchased = token.totalSupply - poolBalance;
+          const purchasedPct = Number((purchased * 10000n) / token.totalSupply) / 100;
+          
+          // Simple bonding curve approximation:
+          // Price increases linearly with purchased %, so average price is higher
+          // Market Cap ≈ initialFdv * (1 + purchasedPct/100)
+          // This gives a rough estimate that increases as more is purchased
+          const multiplier = 1 + (purchasedPct / 100);
+          const marketCap = BigInt(Math.floor(Number(token.initialFdv) * multiplier));
+          map.set(token.token.toLowerCase(), marketCap);
+        } else {
+          // Fallback to initial FDV
+          map.set(token.token.toLowerCase(), token.initialFdv);
+        }
+      });
+    }
+    return map;
+  }, [data, tokens]);
+
+  return marketCapMap;
+}
+
 // ERC-8004 Verified Badge Component
 function ERC8004Badge() {
   return (
@@ -371,7 +426,7 @@ function getTimeAgo(date: Date): string {
   return `${Math.floor(seconds / 86400)}d ago`;
 }
 
-type SortOption = 'recent' | 'fdv';
+type SortOption = 'recent' | 'marketcap';
 
 export default function TokenList() {
   const { data: tokens, isLoading, count, refetch } = useLatestTokens(50);
@@ -386,6 +441,9 @@ export default function TokenList() {
   // Batch check ERC-8004 status
   const erc8004StatusMap = useERC8004Statuses(creatorAddresses);
 
+  // Batch get pool balances for market cap calculation
+  const marketCapMap = usePoolBalances(tokens);
+
   // Sort and filter tokens
   const displayedTokens = useMemo(() => {
     let result = [...tokens];
@@ -396,18 +454,20 @@ export default function TokenList() {
     }
 
     // Sort
-    if (sortBy === 'fdv') {
+    if (sortBy === 'marketcap') {
       result.sort((a, b) => {
-        // Sort by initialFdv descending (highest first)
-        if (b.initialFdv > a.initialFdv) return 1;
-        if (b.initialFdv < a.initialFdv) return -1;
+        const mcapA = marketCapMap.get(a.token.toLowerCase()) ?? a.initialFdv;
+        const mcapB = marketCapMap.get(b.token.toLowerCase()) ?? b.initialFdv;
+        // Sort by market cap descending (highest first)
+        if (mcapB > mcapA) return 1;
+        if (mcapB < mcapA) return -1;
         return 0;
       });
     }
     // 'recent' is already the default order from the hook
 
     return result;
-  }, [tokens, sortBy, filterERC8004, erc8004StatusMap]);
+  }, [tokens, sortBy, filterERC8004, erc8004StatusMap, marketCapMap]);
 
   return (
     <div className="sm:border sm:border-green-900/50 bg-black/30 p-2 sm:p-6">
@@ -440,7 +500,7 @@ export default function TokenList() {
             className="bg-black/60 border border-green-900/50 text-green-400 text-sm px-3 py-1.5 focus:outline-none focus:border-green-500/50 cursor-pointer"
           >
             <option value="recent">Recent Launches</option>
-            <option value="fdv">Highest FDV</option>
+            <option value="marketcap">Highest Market Cap</option>
           </select>
         </div>
 
