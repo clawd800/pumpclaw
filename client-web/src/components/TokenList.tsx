@@ -1,7 +1,7 @@
 import { useLatestTokens, useTokenImageUrl, type TokenInfo } from "@/hooks/useTokens";
 import { formatEther } from "viem";
-import { useState } from "react";
-import { useReadContract } from "wagmi";
+import { useState, useMemo } from "react";
+import { useReadContract, useReadContracts } from "wagmi";
 import { CONTRACTS } from "@/configs/constants";
 import { ERC20_ABI } from "@/configs/abis";
 
@@ -19,7 +19,7 @@ const ERC721_BALANCE_ABI = [
   },
 ] as const;
 
-// Hook to check if address is ERC-8004 registered
+// Hook to check if address is ERC-8004 registered (single)
 function useIsERC8004Registered(address: `0x${string}`) {
   const { data: balance } = useReadContract({
     address: ERC8004_REGISTRY,
@@ -28,6 +28,38 @@ function useIsERC8004Registered(address: `0x${string}`) {
     args: [address],
   });
   return balance !== undefined && balance > 0n;
+}
+
+// Hook to batch check ERC-8004 registration for multiple addresses
+function useERC8004Statuses(addresses: `0x${string}`[]) {
+  const contracts = addresses.map((address) => ({
+    address: ERC8004_REGISTRY,
+    abi: ERC721_BALANCE_ABI,
+    functionName: "balanceOf" as const,
+    args: [address] as const,
+  }));
+
+  const { data } = useReadContracts({
+    contracts,
+    query: {
+      enabled: addresses.length > 0,
+    },
+  });
+
+  // Create a map of address -> isRegistered
+  const statusMap = useMemo(() => {
+    const map = new Map<string, boolean>();
+    if (data) {
+      addresses.forEach((addr, i) => {
+        const result = data[i];
+        const balance = result?.status === 'success' ? (result.result as bigint) : 0n;
+        map.set(addr.toLowerCase(), balance > 0n);
+      });
+    }
+    return map;
+  }, [data, addresses]);
+
+  return statusMap;
 }
 
 // ERC-8004 Verified Badge Component
@@ -193,10 +225,14 @@ function AddToMetaMaskButton({ tokenAddress, symbol, decimals = 18, image }: { t
   );
 }
 
-function TokenCard({ token }: { token: TokenInfo }) {
+interface TokenCardProps {
+  token: TokenInfo;
+  isERC8004Registered: boolean;
+}
+
+function TokenCard({ token, isERC8004Registered }: TokenCardProps) {
   const { data: imageUrl } = useTokenImageUrl(token.token);
   const { data: websiteUrl } = useWebsiteUrl(token.token);
-  const isERC8004Registered = useIsERC8004Registered(token.creator);
   
   const fdvEth = parseFloat(formatEther(token.initialFdv));
   const displayFdv = fdvEth.toLocaleString(undefined, {
@@ -335,14 +371,50 @@ function getTimeAgo(date: Date): string {
   return `${Math.floor(seconds / 86400)}d ago`;
 }
 
+type SortOption = 'recent' | 'fdv';
+
 export default function TokenList() {
-  const { data: tokens, isLoading, count, refetch } = useLatestTokens(20);
+  const { data: tokens, isLoading, count, refetch } = useLatestTokens(50);
+  const [sortBy, setSortBy] = useState<SortOption>('recent');
+  const [filterERC8004, setFilterERC8004] = useState(false);
+
+  // Get all unique creator addresses for batch ERC-8004 check
+  const creatorAddresses = useMemo(() => {
+    return tokens.map(t => t.creator);
+  }, [tokens]);
+
+  // Batch check ERC-8004 status
+  const erc8004StatusMap = useERC8004Statuses(creatorAddresses);
+
+  // Sort and filter tokens
+  const displayedTokens = useMemo(() => {
+    let result = [...tokens];
+
+    // Filter by ERC-8004 if enabled
+    if (filterERC8004) {
+      result = result.filter(t => erc8004StatusMap.get(t.creator.toLowerCase()));
+    }
+
+    // Sort
+    if (sortBy === 'fdv') {
+      result.sort((a, b) => {
+        // Sort by initialFdv descending (highest first)
+        if (b.initialFdv > a.initialFdv) return 1;
+        if (b.initialFdv < a.initialFdv) return -1;
+        return 0;
+      });
+    }
+    // 'recent' is already the default order from the hook
+
+    return result;
+  }, [tokens, sortBy, filterERC8004, erc8004StatusMap]);
 
   return (
     <div className="border border-green-900/50 bg-black/30 p-6">
-      <div className="flex items-center justify-between mb-6">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <h2 className="text-xl font-bold text-green-400 flex items-center gap-2">
-          <span>📋</span> Recent Launches
+          <span>📋</span> Token List
           {count > 0 && (
             <span className="text-base font-normal text-green-600">
               ({count} total)
@@ -351,22 +423,65 @@ export default function TokenList() {
         </h2>
         <button
           onClick={() => refetch()}
-          className="text-sm text-green-600 hover:text-green-400 transition-colors px-3 py-1 border border-green-900/50 hover:border-green-700/50"
+          className="text-sm text-green-600 hover:text-green-400 transition-colors px-3 py-1 border border-green-900/50 hover:border-green-700/50 self-start sm:self-auto"
         >
           ↻ Refresh
         </button>
       </div>
 
+      {/* Sort & Filter Controls */}
+      <div className="flex flex-col sm:flex-row gap-4 mb-6 pb-4 border-b border-green-900/30">
+        {/* Sort Dropdown */}
+        <div className="flex items-center gap-2">
+          <span className="text-green-600 text-sm">Sort:</span>
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value as SortOption)}
+            className="bg-black/60 border border-green-900/50 text-green-400 text-sm px-3 py-1.5 focus:outline-none focus:border-green-500/50 cursor-pointer"
+          >
+            <option value="recent">Recent Launches</option>
+            <option value="fdv">Highest FDV</option>
+          </select>
+        </div>
+
+        {/* Filter Checkbox */}
+        <label className="flex items-center gap-2 cursor-pointer group">
+          <input
+            type="checkbox"
+            checked={filterERC8004}
+            onChange={(e) => setFilterERC8004(e.target.checked)}
+            className="w-4 h-4 bg-black/60 border border-green-900/50 text-green-500 focus:ring-green-500 focus:ring-offset-0 cursor-pointer accent-green-500"
+          />
+          <span className="text-green-600 text-sm group-hover:text-green-400 transition-colors flex items-center gap-1">
+            <span className="text-blue-400">✓ 8004</span> Registered Only
+          </span>
+        </label>
+
+        {/* Show filtered count */}
+        {filterERC8004 && displayedTokens.length !== tokens.length && (
+          <span className="text-green-700 text-sm self-center">
+            Showing {displayedTokens.length} of {tokens.length}
+          </span>
+        )}
+      </div>
+
       {isLoading ? (
         <div className="text-center py-12 text-green-600">Loading...</div>
-      ) : tokens.length === 0 ? (
+      ) : displayedTokens.length === 0 ? (
         <div className="text-center py-12 text-green-700">
-          No tokens launched yet. Be the first! 🦞
+          {filterERC8004 
+            ? "No ERC-8004 registered tokens found. Try removing the filter."
+            : "No tokens launched yet. Be the first! 🦞"
+          }
         </div>
       ) : (
         <div className="grid gap-5 lg:grid-cols-2">
-          {tokens.map((token) => (
-            <TokenCard key={token.token} token={token} />
+          {displayedTokens.map((token) => (
+            <TokenCard 
+              key={token.token} 
+              token={token} 
+              isERC8004Registered={erc8004StatusMap.get(token.creator.toLowerCase()) ?? false}
+            />
           ))}
         </div>
       )}
