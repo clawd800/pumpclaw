@@ -410,7 +410,7 @@ export default function TokenList() {
   }, [tokens, sortBy, filterERC8004, erc8004StatusMap]);
 
   return (
-    <div className="border border-green-900/50 bg-black/30 p-6">
+    <div className="sm:border sm:border-green-900/50 bg-black/30 p-2 sm:p-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <h2 className="text-xl font-bold text-green-400 flex items-center gap-2">
