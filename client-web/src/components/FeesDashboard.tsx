@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { useAccount } from "wagmi";
+import { useAccount, useReadContract } from "wagmi";
 import { formatEther } from "viem";
 import { usePendingFees } from "@/hooks/usePendingFees";
 import { useClaimFees } from "@/hooks/useClaimFees";
 import { useLatestTokens } from "@/hooks/useTokens";
 import { CONTRACTS } from "@/configs/constants";
+import { LP_LOCKER_ABI } from "@/configs/abis";
 
 function TokenFeeCard({ 
   token, 
@@ -79,10 +80,14 @@ export default function FeesDashboard() {
   const { data: tokens } = useLatestTokens(100); // Get more tokens to filter
   const [showAll, setShowAll] = useState(false);
 
-  // Admin address (protocol owner)
-  const ADMIN_ADDRESS = "0x261368f0EC280766B84Bfa7a9B23FD53c774878D".toLowerCase();
+  // Read admin address from LPLocker contract (on-chain)
+  const { data: adminAddress } = useReadContract({
+    address: CONTRACTS.LP_LOCKER as `0x${string}`,
+    abi: LP_LOCKER_ABI,
+    functionName: "admin",
+  });
   
-  const isAdmin = address?.toLowerCase() === ADMIN_ADDRESS;
+  const isAdmin = !!(address && adminAddress && address.toLowerCase() === (adminAddress as string).toLowerCase());
 
   // Filter tokens where user is creator or is admin
   const relevantTokens = tokens.filter(t => 
