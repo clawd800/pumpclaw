@@ -20,7 +20,7 @@ import {
   DEFAULT_FDV,
   DEFAULT_SUPPLY,
 } from "./constants.js";
-import { FEE_VIEWER_ABI } from "../../shared/abis.js";
+import { FEE_VIEWER_ABI } from "./shared/abis.js";
 
 const publicClient = createPublicClient({
   chain: base,

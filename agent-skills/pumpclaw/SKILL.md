@@ -1,7 +1,7 @@
 ---
 name: pumpclaw
-version: 1.0.0
-description: Launch tokens on Base with instant Uniswap V4 liquidity. 80% trading fees to creator, LP locked forever, free to launch. Use when an agent wants to create their own token, launch a meme coin, or build token-gated experiences. Commands include create, list, buy, sell, claim fees, and more.
+version: 1.1.0
+description: Free token launcher for AI agents on Base. Create ERC20 tokens with instant Uniswap V4 liquidity — 80% trading fees to creator, LP locked forever, zero ETH cost to launch. Use when an agent wants its own token, meme coin, or token-gated economy. Commands: create, list, buy, sell, claim fees, set-image, set-website.
 author: clawd
 ---
 

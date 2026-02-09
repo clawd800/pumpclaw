@@ -3,11 +3,11 @@
  * Contract addresses and ABIs from shared config
  */
 
-import { LP_LOCKER_ABI as _LP_LOCKER_ABI } from "../../shared/abis.js";
+import { LP_LOCKER_ABI as _LP_LOCKER_ABI } from "./shared/abis.js";
 
 // Re-export everything from shared
-export { CONTRACTS, CHAIN, TOKEN_DEFAULTS, PROTOCOL_CONFIG } from "../../shared/contracts.js";
-export { FACTORY_ABI, LP_LOCKER_ABI, TOKEN_ABI, ERC20_ABI } from "../../shared/abis.js";
+export { CONTRACTS, CHAIN, TOKEN_DEFAULTS, PROTOCOL_CONFIG } from "./shared/contracts.js";
+export { FACTORY_ABI, LP_LOCKER_ABI, TOKEN_ABI, ERC20_ABI } from "./shared/abis.js";
 
 // Convenience aliases
 export const BASE_RPC = "https://base-rpc.publicnode.com";

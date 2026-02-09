@@ -40,7 +40,7 @@ export default function App() {
               Factory Contract ↗
             </a>
             <a
-              href="https://github.com/pumpclawxyz/pumpclaw"
+              href="https://github.com/clawd800/pumpclaw"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-green-500 transition-colors"
