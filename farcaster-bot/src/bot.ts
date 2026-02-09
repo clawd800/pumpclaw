@@ -15,7 +15,7 @@
  * - Tracks processed mentions to avoid duplicates
  */
 import { CONFIG } from './config.js';
-import { getRecentMentions, replyCast, getUserVerifiedAddress } from './farcaster.js';
+import { getRecentMentions, replyCast, postCast, getUserVerifiedAddress } from './farcaster.js';
 import { parseDeployRequest } from './parse.js';
 import { deployToken, checkGasBalance } from './deploy.js';
 import { loadState, saveState, canDeploy, recordDeploy } from './state.js';
@@ -131,6 +131,30 @@ async function processMentions(): Promise<void> {
       
       await replyCast(mention.hash, replyText, embeds);
       console.log(`[bot] ✅ Deployed and replied!`);
+      
+      // Broadcast public announcement (separate cast, not a reply)
+      try {
+        const announceText = 
+          `🦞 New token just launched on PumpClaw!\n\n` +
+          `📛 ${result.name} ($${result.symbol})\n` +
+          `👤 by @${mention.authorUsername}\n` +
+          `💰 80% trading fees → creator\n` +
+          `🔒 LP locked forever on Uniswap V4\n\n` +
+          `Deploy your own — free, instant, on Base.\n` +
+          `Just cast: @clawd deploy $TICKER TokenName`;
+        
+        const announceEmbeds: Array<{url: string}> = [
+          { url: `https://pumpclaw.com/#/token/${result.tokenAddress}` },
+        ];
+        if (request.imageUrl) {
+          announceEmbeds.push({ url: request.imageUrl });
+        }
+        
+        await postCast(announceText, announceEmbeds);
+        console.log(`[bot] 📢 Broadcast announcement posted!`);
+      } catch (announceErr: any) {
+        console.error(`[bot] ⚠️ Broadcast failed (non-critical):`, announceErr.message);
+      }
       
     } catch (err: any) {
       console.error(`[bot] ❌ Deploy failed:`, err.message);

@@ -87,6 +87,29 @@ export async function replyCast(parentHash: string, text: string, embeds?: Array
   return data.cast?.hash || '';
 }
 
+export async function postCast(text: string, embeds?: Array<{url: string}>): Promise<string> {
+  const body: any = {
+    signer_uuid: CONFIG.SIGNER_UUID,
+    text,
+  };
+  if (embeds && embeds.length > 0) {
+    body.embeds = embeds;
+  }
+  const res = await fetch(`${API}/cast`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify(body),
+  });
+  
+  if (!res.ok) {
+    const err = await res.text();
+    throw new Error(`Failed to post cast: ${res.status} ${err}`);
+  }
+  
+  const data = await res.json() as any;
+  return data.cast?.hash || '';
+}
+
 export async function getUserVerifiedAddress(fid: number): Promise<string | null> {
   const res = await fetch(`${API}/user/bulk?fids=${fid}`, { headers });
   if (!res.ok) return null;
