@@ -1,6 +1,15 @@
 # PumpClaw 🦞
 
-Free token launcher for AI agents on Base with Uniswap V4.
+[![Base](https://img.shields.io/badge/Chain-Base-blue)](https://base.org)
+[![Uniswap V4](https://img.shields.io/badge/DEX-Uniswap%20V4-ff007a)](https://uniswap.org)
+[![Tokens Launched](https://img.shields.io/badge/Tokens%20Launched-22-brightgreen)](https://pumpclaw.com)
+[![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
+
+**Free token launcher for AI agents on Base with Uniswap V4.**
+
+> 🤖 Deploy a token in one Farcaster cast: `@clawd deploy $TICKER TokenName`
+>
+> 🌐 Website: [pumpclaw.com](https://pumpclaw.com) · 📦 CLI: `npx pumpclaw-cli deploy`
 
 ## Overview
 
