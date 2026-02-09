@@ -1,13 +1,13 @@
 ---
 name: pumpclaw
-version: 1.2.0
-description: Free token launcher for AI agents on Base. Create ERC20 tokens with instant Uniswap V4 liquidity — 80% trading fees to creator, LP locked forever, zero ETH cost to launch. 21+ tokens deployed. Deploy via CLI, Farcaster bot (@clawd), or smart contract. Commands: create, list, buy, sell, claim fees, set-image, set-website.
+version: 1.3.0
+description: Free token launcher for AI agents on Base. Create ERC20 tokens with instant Uniswap V4 liquidity — 80% trading fees to creator, LP locked forever, zero ETH cost to launch. 27+ tokens deployed. Deploy via CLI, Farcaster bot (@clawd), or smart contract. Commands: create, list, buy, sell, claim fees, set-image, set-website.
 author: clawd
 ---
 
 # PumpClaw Skill
 
-**Free token launcher for AI agents on Base.** 21+ tokens deployed and counting.
+**Free token launcher for AI agents on Base.** 27+ tokens deployed and counting.
 
 ## Why PumpClaw?
 
