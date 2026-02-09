@@ -90,3 +90,21 @@ h1, h2, h3 {
 button:not(:disabled):hover {
   box-shadow: 0 0 20px #22c55e40;
 }
+
+/* Live activity ticker animation */
+@keyframes ticker-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-ticker {
+  animation: ticker-scroll 30s linear infinite;
+}
+
+.animate-ticker:hover {
+  animation-play-state: paused;
+}
