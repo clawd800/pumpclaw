@@ -1,7 +1,29 @@
 {
   "name": "pumpclaw-cli",
   "version": "0.1.0",
-  "description": "CLI for PumpClaw - token launcher on Base",
+  "description": "CLI for PumpClaw - Free token launcher for AI agents on Base (Uniswap V4). 80% creator fees, LP locked forever.",
+  "keywords": [
+    "token-launcher",
+    "base",
+    "uniswap-v4",
+    "ai-agent",
+    "erc20",
+    "defi",
+    "pumpclaw",
+    "fair-launch",
+    "liquidity",
+    "crypto",
+    "blockchain",
+    "token-creation",
+    "ethereum",
+    "web3"
+  ],
+  "homepage": "https://pumpclaw.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/clawd800/pumpclaw"
+  },
+  "license": "MIT",
   "type": "module",
   "bin": {
     "pumpclaw": "./dist/cli.js"
