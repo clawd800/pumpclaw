@@ -44,11 +44,17 @@ async function processMentions(): Promise<void> {
   console.log(`[bot] Found ${newMentions.length} new mentions`);
   
   for (const mention of newMentions.reverse()) { // Process oldest first
-    console.log(`[bot] Processing: @${mention.authorUsername}: "${mention.text.slice(0, 80)}..."`);
+    console.log(`[bot] Processing: @${mention.authorUsername} (fid:${mention.authorFid}): "${mention.text.slice(0, 80)}..."`);
     
     // Mark as processed regardless of outcome
     state.processedHashes.push(mention.hash);
     state.lastProcessedTimestamp = mention.timestamp;
+    
+    // CRITICAL: Skip self-mentions (prevents announce → deploy → announce loop)
+    if (mention.authorFid === CONFIG.BOT_FID) {
+      console.log(`[bot] Skipping self-mention from @${mention.authorUsername} (our own cast)`);
+      continue;
+    }
     
     // Parse deploy request
     const request = parseDeployRequest(mention.text);
@@ -140,8 +146,8 @@ async function processMentions(): Promise<void> {
           `👤 by @${mention.authorUsername}\n` +
           `💰 80% trading fees → creator\n` +
           `🔒 LP locked forever on Uniswap V4\n\n` +
-          `Deploy your own — free, instant, on Base.\n` +
-          `Just cast: @clawd deploy $TICKER TokenName`;
+          `Deploy yours free on Base 🔥\n` +
+          `Mention @clawd with your ticker to launch!`;
         
         const announceEmbeds: Array<{url: string}> = [
           { url: `https://pumpclaw.com/#/token/${result.tokenAddress}` },
