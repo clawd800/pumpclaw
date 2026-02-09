@@ -63,15 +63,19 @@ export async function getRecentMentions(cursor?: string): Promise<{
   };
 }
 
-export async function replyCast(parentHash: string, text: string): Promise<string> {
+export async function replyCast(parentHash: string, text: string, embeds?: Array<{url: string}>): Promise<string> {
+  const body: any = {
+    signer_uuid: CONFIG.SIGNER_UUID,
+    text,
+    parent: parentHash,
+  };
+  if (embeds && embeds.length > 0) {
+    body.embeds = embeds;
+  }
   const res = await fetch(`${API}/cast`, {
     method: 'POST',
     headers,
-    body: JSON.stringify({
-      signer_uuid: CONFIG.SIGNER_UUID,
-      text,
-      parent: parentHash,
-    }),
+    body: JSON.stringify(body),
   });
   
   if (!res.ok) {

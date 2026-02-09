@@ -120,10 +120,16 @@ async function processMentions(): Promise<void> {
         `👤 Creator: ${creatorAddress.slice(0, 6)}...${creatorAddress.slice(-4)}\n` +
         `💰 80% trading fees → you\n` +
         `🔒 LP locked forever on Uniswap V4\n\n` +
-        `🔄 Trade: ${tradeUrl}\n` +
+        `🔄 Trade on Matcha ↗\n` +
         `📊 Details: ${tokenPageUrl}`;
       
-      await replyCast(mention.hash, replyText);
+      // Embed trade URL for rich link preview + token image if available
+      const embeds: Array<{url: string}> = [{ url: tradeUrl }];
+      if (request.imageUrl) {
+        embeds.push({ url: request.imageUrl });
+      }
+      
+      await replyCast(mention.hash, replyText, embeds);
       console.log(`[bot] ✅ Deployed and replied!`);
       
     } catch (err: any) {
