@@ -95,8 +95,11 @@ function ShareButtons({ token }: { token: TokenInfo }) {
           𝕏 Share on X
         </a>
         <button
-          onClick={() => {
+          onClick={(e) => {
             navigator.clipboard.writeText(tokenUrl);
+            const btn = e.currentTarget;
+            btn.textContent = 'Copied! ✅';
+            setTimeout(() => { btn.textContent = '🔗 Copy Link'; }, 1500);
           }}
           className="flex-1 py-3 text-center text-sm font-medium bg-green-900/30 border border-green-800/50 text-green-400 hover:bg-green-900/50 hover:text-green-300 transition-all"
         >
@@ -415,7 +418,7 @@ export default function TokenDetailPage({
             🚀 Launch on pumpclaw.com
           </button>
           <a
-            href="https://farcaster.xyz/clawd"
+            href="https://warpcast.com/~/compose?text=%40clawd%20deploy%20%24TICKER%20TokenName"
             target="_blank"
             rel="noopener noreferrer"
             className="px-6 py-3 bg-purple-600/20 border border-purple-500/50 text-purple-300 hover:bg-purple-600/30 transition-all text-sm font-medium"

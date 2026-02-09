@@ -388,9 +388,12 @@ function TokenCard({ token, isERC8004Registered }: TokenCardProps) {
             DexScreener
           </a>
           <button
-            onClick={() => {
+            onClick={(e) => {
               const url = `https://pumpclaw.com/#/token/${token.token}`;
               navigator.clipboard.writeText(url);
+              const btn = e.currentTarget;
+              btn.textContent = 'Copied! ✅';
+              setTimeout(() => { btn.textContent = 'Share 🔗'; }, 1500);
             }}
             className="flex-1 py-2 text-center text-xs font-medium bg-green-900/30 border border-green-800/50 text-green-500 hover:bg-green-900/50 hover:text-green-400 transition-all"
           >
