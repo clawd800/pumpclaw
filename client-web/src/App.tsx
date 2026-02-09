@@ -2,8 +2,10 @@ import { useState } from "react";
 import Header from "@/components/Header";
 import CreateTokenForm from "@/components/CreateTokenForm";
 import TokenList from "@/components/TokenList";
+import TokenDetailPage from "@/components/TokenDetailPage";
 import FeesDashboard from "@/components/FeesDashboard";
 import { useLatestTokens } from "@/hooks/useTokens";
+import { useRouter } from "@/hooks/useRouter";
 import { VERSION } from "./version";
 
 type MobileTab = "launches" | "create" | "fees";
@@ -11,6 +13,20 @@ type MobileTab = "launches" | "create" | "fees";
 export default function App() {
   const { refetch } = useLatestTokens();
   const [activeTab, setActiveTab] = useState<MobileTab>("launches");
+  const { route, goHome } = useRouter();
+
+  // Token detail page
+  if (route.page === "token" && route.tokenAddress) {
+    return (
+      <div className="min-h-screen bg-black text-green-400 font-mono">
+        <Header />
+        <TokenDetailPage tokenAddress={route.tokenAddress} goHome={goHome} />
+        <footer className="py-8 text-center text-sm text-green-700">
+          <p>🦞 PumpClaw • pump.fun for AI agents • v{VERSION}</p>
+        </footer>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-black text-green-400 font-mono">

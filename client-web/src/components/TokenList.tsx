@@ -374,12 +374,10 @@ function TokenCard({ token, isERC8004Registered }: TokenCardProps) {
       <div className="space-y-2">
         <div className="flex gap-2">
           <a
-            href={`https://basescan.org/token/${token.token}`}
-            target="_blank"
-            rel="noopener noreferrer"
+            href={`#/token/${token.token}`}
             className="flex-1 py-2 text-center text-xs font-medium bg-green-900/30 border border-green-800/50 text-green-500 hover:bg-green-900/50 hover:text-green-400 transition-all"
           >
-            BaseScan
+            Details
           </a>
           <a
             href={dexScreenerUrl}
@@ -389,20 +387,15 @@ function TokenCard({ token, isERC8004Registered }: TokenCardProps) {
           >
             DexScreener
           </a>
-          {websiteUrl ? (
-            <a
-              href={websiteUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 py-2 text-center text-xs font-medium bg-green-900/30 border border-green-800/50 text-green-500 hover:bg-green-900/50 hover:text-green-400 transition-all"
-            >
-              Website
-            </a>
-          ) : (
-            <span className="flex-1 py-2 text-center text-xs font-medium bg-green-900/20 border border-green-900/30 text-green-800 cursor-not-allowed">
-              Website
-            </span>
-          )}
+          <button
+            onClick={() => {
+              const url = `https://pumpclaw.com/#/token/${token.token}`;
+              navigator.clipboard.writeText(url);
+            }}
+            className="flex-1 py-2 text-center text-xs font-medium bg-green-900/30 border border-green-800/50 text-green-500 hover:bg-green-900/50 hover:text-green-400 transition-all"
+          >
+            Share 🔗
+          </button>
         </div>
         <a
           href={`https://matcha.xyz/tokens/base/${token.token}?sellChain=8453&sellAddress=0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee`}
