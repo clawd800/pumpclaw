@@ -53,7 +53,7 @@ program
 program
   .command("list")
   .description("List all tokens")
-  .option("-l, --limit <number>", "Number of tokens to show", "10")
+  .option("-l, --limit <number>", "Number of tokens to show (0=all)", "0")
   .option("-o, --offset <number>", "Starting offset", "0")
   .action(async (opts) => {
     try {
@@ -67,7 +67,8 @@ program
 
       if (count === 0n) return;
 
-      const limit = Math.min(parseInt(opts.limit), Number(count));
+      const rawLimit = parseInt(opts.limit);
+      const limit = rawLimit === 0 ? Number(count) : Math.min(rawLimit, Number(count));
       const offset = parseInt(opts.offset);
       const end = Math.min(offset + limit, Number(count));
 
