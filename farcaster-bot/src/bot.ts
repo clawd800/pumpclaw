@@ -111,6 +111,8 @@ async function processMentions(): Promise<void> {
       
       recordDeploy(state);
       
+      const tradeUrl = `https://matcha.xyz/tokens/base/${result.tokenAddress}?sellChain=8453&sellAddress=0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee`;
+      const tokenPageUrl = `https://pumpclaw.com/#/token/${result.tokenAddress}`;
       const replyText = 
         `🦞 Token deployed!\n\n` +
         `📛 ${result.name} ($${result.symbol})\n` +
@@ -118,8 +120,8 @@ async function processMentions(): Promise<void> {
         `👤 Creator: ${creatorAddress.slice(0, 6)}...${creatorAddress.slice(-4)}\n` +
         `💰 80% trading fees → you\n` +
         `🔒 LP locked forever on Uniswap V4\n\n` +
-        `🔗 pumpclaw.com\n` +
-        `📊 basescan.org/token/${result.tokenAddress}`;
+        `🔄 Trade: ${tradeUrl}\n` +
+        `📊 Details: ${tokenPageUrl}`;
       
       await replyCast(mention.hash, replyText);
       console.log(`[bot] ✅ Deployed and replied!`);
