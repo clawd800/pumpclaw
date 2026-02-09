@@ -60,7 +60,8 @@ function CopyButton({ text, label }: { text: string; label?: string }) {
 }
 
 function ShareButtons({ token }: { token: TokenInfo }) {
-  const tokenUrl = `https://pumpclaw.com/#/token/${token.token}`;
+  // Use static URL for social sharing (crawlers read OG tags from static page)
+  const tokenUrl = `https://pumpclaw.com/token/${token.token}/`;
   const tradeUrl = `https://matcha.xyz/tokens/base/${token.token}?sellChain=8453&sellAddress=0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee`;
   
   // Farcaster compose intent

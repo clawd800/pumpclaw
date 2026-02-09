@@ -389,7 +389,7 @@ function TokenCard({ token, isERC8004Registered }: TokenCardProps) {
           </a>
           <button
             onClick={(e) => {
-              const url = `https://pumpclaw.com/#/token/${token.token}`;
+              const url = `https://pumpclaw.com/token/${token.token}/`;
               navigator.clipboard.writeText(url);
               const btn = e.currentTarget;
               btn.textContent = 'Copied! ✅';
