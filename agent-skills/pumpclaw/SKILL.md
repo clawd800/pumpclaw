@@ -1,30 +1,59 @@
 ---
 name: pumpclaw
-version: 1.1.0
-description: Free token launcher for AI agents on Base. Create ERC20 tokens with instant Uniswap V4 liquidity — 80% trading fees to creator, LP locked forever, zero ETH cost to launch. Use when an agent wants its own token, meme coin, or token-gated economy. Commands: create, list, buy, sell, claim fees, set-image, set-website.
+version: 1.2.0
+description: Free token launcher for AI agents on Base. Create ERC20 tokens with instant Uniswap V4 liquidity — 80% trading fees to creator, LP locked forever, zero ETH cost to launch. 21+ tokens deployed. Deploy via CLI, Farcaster bot (@clawd), or smart contract. Commands: create, list, buy, sell, claim fees, set-image, set-website.
 author: clawd
 ---
 
 # PumpClaw Skill
 
-Launch tokens with instant liquidity on Base via Uniswap V4.
+**Free token launcher for AI agents on Base.** 21+ tokens deployed and counting.
 
-## Overview
+## Why PumpClaw?
 
-PumpClaw is a token launcher that:
-- Creates ERC20 tokens with 100% liquidity on Uniswap V4
-- Locks LP forever (no rugs)
-- Splits trading fees 80% creator / 20% protocol
-- No ETH deposit required to create tokens!
+| Feature | PumpClaw | Clanker | pump.fun |
+|---------|----------|---------|----------|
+| **Creator fee share** | **80%** | 40% | varies |
+| **LP locked** | Forever | Forever | varies |
+| **Chain** | Base | Base | Solana |
+| **Cost to launch** | **$0** | ~$10 | varies |
+| **Agent-native** | ✅ CLI + API | ❌ | ❌ |
+
+## Quick Start (30 seconds)
+
+```bash
+# Set your wallet private key
+export BASE_PRIVATE_KEY="0x..."
+
+# Deploy your token (one command!)
+cd scripts && npx tsx pumpclaw.ts create --name "My Token" --symbol "MTK"
+```
+
+That's it. Your token is live on Uniswap V4 with full liquidity, tradeable immediately.
+
+## 3 Ways to Deploy
+
+### 1. This Skill (Recommended for OpenClaw agents)
+```bash
+cd scripts && npx tsx pumpclaw.ts create --name "Token Name" --symbol "TKN"
+```
+
+### 2. Farcaster Bot
+Mention `@clawd deploy $TICKER TokenName` on Farcaster — bot auto-deploys and replies with your token.
+
+### 3. npm CLI
+```bash
+npx pumpclaw-cli deploy
+```
 
 ## Setup
 
-1. Set `BASE_PRIVATE_KEY` in your environment
-2. The scripts are in `scripts/`
+1. Set `BASE_PRIVATE_KEY` in your environment (any Base wallet with ~0.001 ETH for gas)
+2. Scripts are in `scripts/`
 
 ## Commands
 
-### List tokens
+### List all tokens
 ```bash
 cd scripts && npx tsx pumpclaw.ts list
 npx tsx pumpclaw.ts list --limit 5
@@ -52,17 +81,13 @@ npx tsx pumpclaw.ts create --name "Token" --symbol "TKN" --fdv 50
 # Custom supply (in tokens, not wei)
 npx tsx pumpclaw.ts create --name "Token" --symbol "TKN" --supply 500000000
 
-# On behalf of another creator
+# On behalf of another creator (relayer pattern)
 npx tsx pumpclaw.ts create --name "Token" --symbol "TKN" --creator 0x...
 ```
 
-### Check pending fees
+### Check & claim trading fees
 ```bash
 npx tsx pumpclaw.ts fees <token_address>
-```
-
-### Claim fees
-```bash
 npx tsx pumpclaw.ts claim <token_address>
 ```
 
@@ -72,12 +97,9 @@ npx tsx pumpclaw.ts buy <token_address> --eth 0.01
 npx tsx pumpclaw.ts sell <token_address> --amount 1000000
 ```
 
-### Update image/website (creator only)
+### Update token metadata (creator only)
 ```bash
-# Set token image
 npx tsx pumpclaw.ts set-image <token_address> --url "https://example.com/image.png"
-
-# Set token website  
 npx tsx pumpclaw.ts set-website <token_address> --url "https://mytoken.com"
 ```
 
@@ -86,7 +108,7 @@ npx tsx pumpclaw.ts set-website <token_address> --url "https://mytoken.com"
 npx tsx pumpclaw.ts by-creator <address>
 ```
 
-## Contract Addresses (Base Mainnet V2)
+## Contract Addresses (Base Mainnet)
 
 | Contract | Address |
 |----------|---------|
@@ -100,33 +122,39 @@ npx tsx pumpclaw.ts by-creator <address>
 - Standard ERC20 with ERC20Permit (gasless approvals)
 - Burnable
 - Immutable creator address stored on token
-- Image URL stored on-chain
-- Website URL stored on-chain
-- Creator can update image/website via `setImageUrl()` / `setWebsiteUrl()`
+- Image URL + Website URL stored on-chain
+- Creator can update image/website anytime
+- Full-range Uniswap V4 liquidity, LP locked forever
 
 ## Fee Structure
 
 - LP Fee: 1% on all trades
-- Creator: 80% of LP fees
-- Protocol: 20% of LP fees
-- Anyone can call `claimFees()` - it always distributes correctly
+- **Creator gets 80%** of LP fees
+- Protocol gets 20% of LP fees
+- Anyone can call `claimFees()` — distributes correctly regardless of caller
 
-## Example Workflow
+## Example: Agent Token Economy
 
-1. **Create token:**
+1. **Create your agent's token:**
    ```bash
-   npx tsx pumpclaw.ts create --name "DOGE 2.0" --symbol "DOGE2" --image "https://..." --website "https://..."
+   npx tsx pumpclaw.ts create --name "AgentCoin" --symbol "AGT" \
+     --image "https://..." --website "https://myagent.com"
    ```
 
-2. **Share the token address** - users can trade immediately on Uniswap
+2. **Share the token** — tradeable immediately on Uniswap V4
 
-3. **Check and claim fees periodically:**
+3. **Earn from trading activity:**
    ```bash
-   npx tsx pumpclaw.ts fees 0x...tokenAddress
-   npx tsx pumpclaw.ts claim 0x...tokenAddress
+   npx tsx pumpclaw.ts fees 0x...tokenAddress  # Check pending
+   npx tsx pumpclaw.ts claim 0x...tokenAddress  # Claim to wallet
    ```
+
+4. **Build token utility** — gate features, reward users, create your economy
 
 ## Links
 
-- Website: https://pumpclaw.com
-- GitHub: https://github.com/pumpclawxyz/pumpclaw
+- **Website**: https://pumpclaw.com
+- **GitHub**: https://github.com/clawd800/pumpclaw
+- **npm CLI**: https://www.npmjs.com/package/pumpclaw-cli
+- **Farcaster**: @clawd (mention to deploy)
+- **ERC-8004 Agent ID**: 1144
