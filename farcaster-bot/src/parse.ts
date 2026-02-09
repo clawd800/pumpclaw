@@ -13,17 +13,26 @@ export interface DeployRequest {
 }
 
 export function parseDeployRequest(text: string): DeployRequest | null {
-  // Only parse the FIRST LINE as the deploy command
-  // Subsequent lines are metadata/instructions, not token name
-  const firstLine = text.split(/\n/)[0];
-  // Normalize whitespace within the first line only
-  const t = firstLine.replace(/\s+/g, ' ').trim();
+  // Find the line containing the deploy command
+  // Could be any line in the cast, not just the first
+  const lines = text.split(/\n/).map(l => l.trim()).filter(l => l.length > 0);
   
-  // Must mention @clawd and contain a deploy-related keyword
-  if (!/@clawd/i.test(t)) return null;
-  
+  // Find the line with @clawd + deploy keyword
   const deployKeywords = /\b(deploy|launch|create|mint|make)\b/i;
-  if (!deployKeywords.test(t)) return null;
+  const deployLine = lines.find(l => /@clawd/i.test(l) && deployKeywords.test(l));
+  
+  if (!deployLine) {
+    // Fallback: check if any single line has the deploy pattern
+    // (handles cases where @clawd is on a different line than the command)
+    const fullText = text.replace(/\s+/g, ' ').trim();
+    if (!/@clawd/i.test(fullText) || !deployKeywords.test(fullText)) return null;
+    // Use the full normalized text as fallback
+    var t = fullText;
+  } else {
+    var t = deployLine.replace(/\s+/g, ' ').trim();
+  }
+  
+  // At this point t contains the relevant deploy text (already checked)
   
   // Extract $SYMBOL (ticker)
   const symbolMatch = t.match(/\$([A-Z0-9]{1,10})\b/i);
