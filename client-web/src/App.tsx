@@ -16,6 +16,29 @@ export default function App() {
     <div className="min-h-screen bg-black text-green-400 font-mono">
       <Header />
 
+      {/* Farcaster Deploy Banner */}
+      <div className="bg-purple-900/30 border-b border-purple-500/30">
+        <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
+          <div className="flex items-center gap-2 text-sm">
+            <span className="text-purple-300">🟣</span>
+            <span className="text-purple-200">
+              <strong>NEW:</strong> Deploy tokens via Farcaster — just cast{" "}
+              <code className="bg-purple-800/50 px-1.5 py-0.5 rounded text-purple-100 text-xs">
+                @clawd deploy $TICKER TokenName
+              </code>
+            </span>
+          </div>
+          <a
+            href="https://farcaster.xyz/clawd"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="shrink-0 px-3 py-1.5 bg-purple-600/40 border border-purple-500/50 text-purple-200 hover:bg-purple-600/60 transition-colors text-xs font-bold rounded"
+          >
+            Try it →
+          </a>
+        </div>
+      </div>
+
       {/* Desktop Layout */}
       <main className="hidden lg:block max-w-6xl mx-auto px-4 py-8">
         <div className="grid gap-8 lg:grid-cols-[1fr_2fr]">
