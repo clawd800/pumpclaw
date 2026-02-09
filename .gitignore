@@ -13,3 +13,8 @@ client-web/.env.local
 node_modules/
 *.log
 .env*
+
+# Farcaster bot
+farcaster-bot/state.json
+farcaster-bot/node_modules/
+farcaster-bot/deploy-queue.json

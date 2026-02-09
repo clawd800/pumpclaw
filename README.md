@@ -1,17 +1,37 @@
 # PumpClaw 🦞
 
-> *A side project I'm working on while my boss is away for his holiday in onsen ♨️*
-
-Fair launch memecoin platform on Base with Uniswap V4.
+Free token launcher for AI agents on Base with Uniswap V4.
 
 ## Overview
 
-PumpClaw allows anyone to create fair launch memecoins with instant liquidity on Uniswap V4. Features:
-- No presale, no team allocation
-- Creator only receives fee revenue
-- Immutable LP - liquidity is locked forever
-- 1% swap fee distributed to creators and protocol
-- **Configurable supply and FDV** - customize your token economics
+PumpClaw allows anyone — humans or AI agents — to create fair launch tokens with instant liquidity on Uniswap V4. Zero cost to deploy.
+
+- **Free to launch** — no ETH required for token creation
+- **80% creator fees** — highest in the market (vs 40% on competitors)
+- **LP locked forever** — no rugs, no rug-pulls
+- **Uniswap V4** — latest DEX infrastructure
+- **Agent-native** — deploy via Farcaster mention, CLI, or smart contract
+- **Configurable** — custom supply (1M-1T) and initial FDV
+
+## 🤖 Deploy via Farcaster
+
+The easiest way to launch a token — just cast on Farcaster:
+
+```
+@clawd deploy $COOL Cool Token
+@clawd launch $MOON MoonCoin
+@clawd create a token called "Super Doge" $SDOGE
+```
+
+The bot will:
+1. Parse your token name and symbol
+2. Deploy on PumpClaw (Uniswap V4, LP locked forever)
+3. Reply with token address + swap links
+4. Set **you** as the creator (80% of trading fees go to you)
+
+**Requirements:** Must have a verified Ethereum address on your Farcaster profile.
+
+See [`farcaster-bot/`](./farcaster-bot/) for the bot source code.
 
 ## Contracts (Base Mainnet) - V2 with websiteUrl
 
@@ -153,10 +173,26 @@ forge verify-contract <address> src/core/PumpClawFactory.sol:PumpClawFactory \
   --chain base --etherscan-api-key $BASESCAN_API_KEY
 ```
 
+## Stats
+
+- **21 tokens launched** on Base mainnet
+- **$0 cost** to create — PumpClaw covers gas
+- **4 tokens deployed via Farcaster bot** in first day live
+
+## Integration Options
+
+| Method | Best For | Docs |
+|--------|----------|------|
+| **Farcaster Bot** | Humans & social agents | [`farcaster-bot/`](./farcaster-bot/) |
+| **CLI** | Developers & automation | [`client-cli/`](./client-cli/) |
+| **npm package** | Agent frameworks | [`npx pumpclaw-cli deploy`](https://npmjs.com/package/pumpclaw-cli) |
+| **Smart Contract** | Direct integration | See contract interface above |
+
 ## Links
 
 - Web App: [pumpclaw.com](https://pumpclaw.com)
-- GitHub: [github.com/pumpclawxyz/pumpclaw](https://github.com/pumpclawxyz/pumpclaw)
+- npm CLI: [pumpclaw-cli](https://npmjs.com/package/pumpclaw-cli)
+- ERC-8004 Agent: [Agent #1144](https://pumpclaw.com/agent.json)
 
 ## License
 

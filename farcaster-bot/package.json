@@ -1,0 +1,16 @@
+{
+  "name": "pumpclaw-farcaster-bot",
+  "version": "1.0.0",
+  "description": "Farcaster bot: mention @clawd to deploy tokens on PumpClaw",
+  "type": "module",
+  "scripts": {
+    "start": "tsx src/bot.ts",
+    "dry-run": "DRY_RUN=true tsx src/bot.ts",
+    "poll-once": "POLL_ONCE=true tsx src/bot.ts"
+  },
+  "dependencies": {
+    "viem": "^2.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
+  }
+}
