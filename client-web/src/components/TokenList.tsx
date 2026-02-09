@@ -297,7 +297,7 @@ function TokenCard({ token, isERC8004Registered }: TokenCardProps) {
   const createdDate = new Date(Number(token.createdAt) * 1000);
   const timeAgo = getTimeAgo(createdDate);
 
-  const dexScreenerUrl = `https://dexscreener.com/base/${token.token}`;
+  const geckoUrl = `https://www.geckoterminal.com/base/tokens/${token.token}`;
 
   return (
     <div className="border border-green-900/50 bg-black/40 p-5 hover:border-green-500/50 transition-all hover:bg-black/60">
@@ -380,12 +380,12 @@ function TokenCard({ token, isERC8004Registered }: TokenCardProps) {
             Details
           </a>
           <a
-            href={dexScreenerUrl}
+            href={geckoUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="flex-1 py-2 text-center text-xs font-medium bg-green-900/30 border border-green-800/50 text-green-500 hover:bg-green-900/50 hover:text-green-400 transition-all"
           >
-            DexScreener
+            GeckoTerminal
           </a>
           <button
             onClick={(e) => {

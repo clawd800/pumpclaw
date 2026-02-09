@@ -4,6 +4,7 @@ import { formatEther } from "viem";
 import { useState } from "react";
 import { CONTRACTS } from "@/configs/constants";
 import { ERC20_ABI } from "@/configs/abis";
+import { useTokenPrice, useEthUsdPrice } from "@/hooks/useTokenPrice";
 
 // ERC-8004 Registry on Base
 const ERC8004_REGISTRY = "0x8004A169FB4a3325136EB29fA0ceB6D2e539a432" as const;
@@ -150,6 +151,78 @@ function DetailProgressBar({ tokenAddress }: { tokenAddress: `0x${string}` }) {
   );
 }
 
+function MarketStats({ tokenAddress, totalSupply }: { tokenAddress: `0x${string}`; totalSupply: bigint }) {
+  const { ethPerToken, isLoading: priceLoading } = useTokenPrice(tokenAddress);
+  const ethUsd = useEthUsdPrice();
+  
+  if (priceLoading || ethPerToken === null) {
+    return (
+      <div className="border border-green-900/50 bg-black/40 p-6">
+        <h2 className="text-green-500 text-sm font-semibold uppercase tracking-wider mb-3">📊 Live Market Data</h2>
+        <div className="text-green-700 text-sm animate-pulse">Reading V4 pool...</div>
+      </div>
+    );
+  }
+
+  const totalSupplyNum = Number(formatEther(totalSupply));
+  const mcapEth = ethPerToken * totalSupplyNum;
+  const priceUsd = ethUsd ? ethPerToken * ethUsd : null;
+  const mcapUsd = ethUsd ? mcapEth * ethUsd : null;
+
+  const formatPrice = (usd: number) => {
+    if (usd < 0.00001) return `$${usd.toExponential(2)}`;
+    if (usd < 0.01) return `$${usd.toFixed(6)}`;
+    if (usd < 1) return `$${usd.toFixed(4)}`;
+    return `$${usd.toFixed(2)}`;
+  };
+
+  const formatMcap = (usd: number) => {
+    if (usd >= 1_000_000) return `$${(usd / 1_000_000).toFixed(2)}M`;
+    if (usd >= 1_000) return `$${(usd / 1_000).toFixed(1)}K`;
+    return `$${usd.toFixed(0)}`;
+  };
+
+  return (
+    <div className="border border-green-900/50 bg-black/40 p-6 space-y-4">
+      <div className="flex items-center justify-between">
+        <h2 className="text-green-500 text-sm font-semibold uppercase tracking-wider">📊 Live Market Data</h2>
+        <span className="text-green-800 text-xs">via Uniswap V4</span>
+      </div>
+      
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <div className="text-green-700 text-xs uppercase mb-1">Price</div>
+          <div className="text-green-300 text-xl font-bold font-mono">
+            {priceUsd !== null ? formatPrice(priceUsd) : `${ethPerToken.toExponential(2)} ETH`}
+          </div>
+          {priceUsd !== null && (
+            <div className="text-green-700 text-xs font-mono mt-0.5">
+              {ethPerToken.toExponential(3)} ETH
+            </div>
+          )}
+        </div>
+        <div>
+          <div className="text-green-700 text-xs uppercase mb-1">Market Cap</div>
+          <div className="text-green-300 text-xl font-bold font-mono">
+            {mcapUsd !== null ? formatMcap(mcapUsd) : `${mcapEth.toFixed(2)} ETH`}
+          </div>
+          {mcapUsd !== null && (
+            <div className="text-green-700 text-xs font-mono mt-0.5">
+              {mcapEth.toFixed(2)} ETH
+            </div>
+          )}
+        </div>
+      </div>
+      
+      <div className="pt-2 border-t border-green-900/30">
+        <p className="text-green-800 text-xs">
+          ⚡ Live from V4 PoolManager — not available on DexScreener or GeckoTerminal
+        </p>
+      </div>
+    </div>
+  );
+}
+
 export default function TokenDetailPage({ 
   tokenAddress, 
   goHome 
@@ -269,6 +342,9 @@ export default function TokenDetailPage({
         🔄 Trade ${token.symbol}
       </a>
 
+      {/* Live Market Data */}
+      <MarketStats tokenAddress={token.token} totalSupply={token.totalSupply} />
+
       {/* Progress */}
       <div className="border border-green-900/50 bg-black/40 p-6">
         <DetailProgressBar tokenAddress={token.token} />
@@ -382,12 +458,12 @@ export default function TokenDetailPage({
           BaseScan ↗
         </a>
         <a
-          href={dexScreenerUrl}
+          href={`https://www.geckoterminal.com/base/tokens/${token.token}`}
           target="_blank"
           rel="noopener noreferrer"
           className="py-3 text-center text-sm font-medium bg-green-900/30 border border-green-800/50 text-green-500 hover:bg-green-900/50 hover:text-green-400 transition-all"
         >
-          DexScreener ↗
+          GeckoTerminal ↗
         </a>
         <a
           href={`https://app.uniswap.org/swap?chain=base&outputCurrency=${token.token}`}
