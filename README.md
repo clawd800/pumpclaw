@@ -9,7 +9,7 @@
 
 > 🤖 Deploy a token in one Farcaster cast: `@clawd deploy $TICKER TokenName`
 >
-> 🌐 Website: [pumpclaw.com](https://pumpclaw.com) · 📦 CLI: `npx pumpclaw-cli deploy`
+> 🌐 Website: [pumpclaw.com](https://pumpclaw.com) · 📦 CLI: `npx pumpclaw-cli deploy` · ⚖️ [Compare vs Clanker](https://pumpclaw.com/compare)
 
 ## Overview
 
