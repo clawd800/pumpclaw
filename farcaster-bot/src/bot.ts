@@ -46,13 +46,13 @@ async function processMentions(): Promise<void> {
   for (const mention of newMentions.reverse()) { // Process oldest first
     console.log(`[bot] Processing: @${mention.authorUsername} (fid:${mention.authorFid}): "${mention.text.slice(0, 80)}..."`);
     
-    // Mark as processed regardless of outcome
-    state.processedHashes.push(mention.hash);
+    // Update timestamp cursor (always advance to avoid reprocessing non-deploy mentions)
     state.lastProcessedTimestamp = mention.timestamp;
     
     // CRITICAL: Skip self-mentions (prevents announce → deploy → announce loop)
     if (mention.authorFid === CONFIG.BOT_FID) {
       console.log(`[bot] Skipping self-mention from @${mention.authorUsername} (our own cast)`);
+      state.processedHashes.push(mention.hash);
       continue;
     }
     
@@ -60,6 +60,7 @@ async function processMentions(): Promise<void> {
     const request = parseDeployRequest(mention.text);
     if (!request) {
       console.log('[bot] Not a deploy request, skipping');
+      state.processedHashes.push(mention.hash);
       continue;
     }
     
@@ -75,6 +76,7 @@ async function processMentions(): Promise<void> {
     const rateCheck = canDeploy(state);
     if (!rateCheck.allowed) {
       console.log(`[bot] Rate limited: ${rateCheck.reason}`);
+      // Don't mark as processed — retry when rate limit resets
       await replyCast(mention.hash, 
         `🦞 PumpClaw is rate-limited right now (${rateCheck.reason}). Try again in a bit!\n\nOr deploy directly at pumpclaw.com`
       );
@@ -89,6 +91,7 @@ async function processMentions(): Promise<void> {
     
     if (!creatorAddress) {
       console.log(`[bot] No verified ETH address for @${mention.authorUsername}`);
+      state.processedHashes.push(mention.hash); // Terminal — user needs to verify address
       await replyCast(mention.hash,
         `🦞 To deploy a token, you need a verified Ethereum address on Farcaster.\n\nVerify at: warpcast.com/~/settings/verified-addresses\n\nOr deploy directly at pumpclaw.com`
       );
@@ -98,6 +101,7 @@ async function processMentions(): Promise<void> {
     // DRY RUN mode
     if (CONFIG.DRY_RUN) {
       console.log(`[bot] 🏜️ DRY RUN - Would deploy: ${request.name} ($${request.symbol}) for ${creatorAddress}`);
+      state.processedHashes.push(mention.hash);
       await replyCast(mention.hash,
         `🦞 [DRY RUN] Would deploy:\n\n` +
         `📛 ${request.name} ($${request.symbol})\n` +
@@ -115,6 +119,7 @@ async function processMentions(): Promise<void> {
       console.log(`[bot] 🚀 Deploying token...`);
       const result = await deployToken(request, creatorAddress as `0x${string}`);
       
+      state.processedHashes.push(mention.hash); // Mark processed only on SUCCESS
       recordDeploy(state);
       
       const tradeUrl = `https://matcha.xyz/tokens/base/${result.tokenAddress}?sellChain=8453&sellAddress=0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee`;
@@ -164,8 +169,10 @@ async function processMentions(): Promise<void> {
       
     } catch (err: any) {
       console.error(`[bot] ❌ Deploy failed:`, err.message);
+      // Do NOT mark as processed — will retry on next poll
+      console.log(`[bot] Will retry ${mention.hash} on next poll`);
       await replyCast(mention.hash,
-        `🦞 Oops, deployment hit an error. Try again or deploy directly at pumpclaw.com\n\nError: ${err.message?.slice(0, 100)}`
+        `🦞 Oops, deployment hit an error. Will retry automatically!\n\nOr deploy directly at pumpclaw.com\n\nError: ${err.message?.slice(0, 100)}`
       );
     }
   }
