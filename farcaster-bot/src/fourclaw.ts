@@ -21,7 +21,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 // ─── 4claw Config ───
 const FOURCLAW_API = 'https://www.4claw.org/api/v1';
 const FOURCLAW_STATE_FILE = join(__dirname, '../fourclaw-state.json');
-const SERVICE_THREAD_ID = 'f2efca74-3743-48b6-abca-9fee5185051d';
+const SERVICE_THREAD_ID = 'dc1eaf50-8396-4d92-96f9-fb9dc7732955';
 const OUR_AGENT_NAME = 'PumpClaw';
 
 function getFourclawKey(): string {
