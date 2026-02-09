@@ -48,7 +48,7 @@ export default function App() {
             </span>
           </div>
           <a
-            href="https://warpcast.com/~/compose?text=%40clawd%20deploy%20%24TICKER%20TokenName"
+            href="https://farcaster.xyz/~/compose?text=%40clawd%20deploy%20%24TICKER%20TokenName"
             target="_blank"
             rel="noopener noreferrer"
             className="shrink-0 px-3 py-1.5 bg-purple-600/40 border border-purple-500/50 text-purple-200 hover:bg-purple-600/60 transition-colors text-xs font-bold rounded"

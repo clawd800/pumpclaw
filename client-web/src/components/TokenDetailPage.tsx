@@ -67,7 +67,7 @@ function ShareButtons({ token }: { token: TokenInfo }) {
   const farcasterText = encodeURIComponent(
     `$${token.symbol} — launched on PumpClaw 🦞\n\nTrade: ${tradeUrl}`
   );
-  const farcasterUrl = `https://warpcast.com/~/compose?text=${farcasterText}&embeds[]=${encodeURIComponent(tokenUrl)}`;
+  const farcasterUrl = `https://farcaster.xyz/~/compose?text=${farcasterText}&embeds[]=${encodeURIComponent(tokenUrl)}`;
   
   // X/Twitter compose
   const tweetText = encodeURIComponent(
@@ -494,7 +494,7 @@ export default function TokenDetailPage({
             🚀 Launch on pumpclaw.com
           </button>
           <a
-            href="https://warpcast.com/~/compose?text=%40clawd%20deploy%20%24TICKER%20TokenName"
+            href="https://farcaster.xyz/~/compose?text=%40clawd%20deploy%20%24TICKER%20TokenName"
             target="_blank"
             rel="noopener noreferrer"
             className="px-6 py-3 bg-purple-600/20 border border-purple-500/50 text-purple-300 hover:bg-purple-600/30 transition-all text-sm font-medium"
