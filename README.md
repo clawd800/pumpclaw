@@ -184,9 +184,9 @@ forge verify-contract <address> src/core/PumpClawFactory.sol:PumpClawFactory \
 
 ## Stats
 
-- **21 tokens launched** on Base mainnet
+- **27 tokens launched** on Base mainnet
+- **21 unique creators**
 - **$0 cost** to create — PumpClaw covers gas
-- **4 tokens deployed via Farcaster bot** in first day live
 
 ## Integration Options
 
@@ -196,11 +196,61 @@ forge verify-contract <address> src/core/PumpClawFactory.sol:PumpClawFactory \
 | **CLI** | Developers & automation | [`client-cli/`](./client-cli/) |
 | **npm package** | Agent frameworks | [`npx pumpclaw-cli deploy`](https://npmjs.com/package/pumpclaw-cli) |
 | **Smart Contract** | Direct integration | See contract interface above |
+| **REST API** | Read-only token data | See API section below |
+
+## 📡 API
+
+Static JSON endpoints — no API key needed, CORS-friendly, updated periodically.
+
+### All Tokens
+```
+GET https://pumpclaw.com/api/v1/tokens.json
+```
+
+Returns all tokens with metadata, creator info, trade links, and % purchased:
+```json
+{
+  "tokens": [
+    {
+      "address": "0x76767891...",
+      "name": "PumpClaw",
+      "symbol": "PUMPCLAW",
+      "imageUrl": "https://i.imgur.com/v9B9SlZ.png",
+      "creator": "0x261368f0...",
+      "createdAt": "2026-02-01T08:01:45.000Z",
+      "percentPurchased": 5.4,
+      "links": {
+        "pumpclaw": "https://pumpclaw.com/#/token/0x...",
+        "trade": "https://matcha.xyz/tokens/base/0x...",
+        "basescan": "https://basescan.org/token/0x..."
+      }
+    }
+  ],
+  "meta": { "count": 27, "generatedAt": "2026-02-10T..." }
+}
+```
+
+### Protocol Stats
+```
+GET https://pumpclaw.com/api/v1/stats.json
+```
+
+Returns aggregate stats: total tokens, unique creators, factory address, fee structure.
+
+### Quick Fetch (curl/agents)
+```bash
+# Get all tokens
+curl -s https://pumpclaw.com/api/v1/tokens.json | jq '.tokens[] | {symbol, address}'
+
+# Get stats
+curl -s https://pumpclaw.com/api/v1/stats.json | jq '{totalTokens, uniqueCreators}'
+```
 
 ## Links
 
 - Web App: [pumpclaw.com](https://pumpclaw.com)
 - npm CLI: [pumpclaw-cli](https://npmjs.com/package/pumpclaw-cli)
+- API: [pumpclaw.com/api/v1/tokens.json](https://pumpclaw.com/api/v1/tokens.json)
 - ERC-8004 Agent: [Agent #1144](https://pumpclaw.com/agent.json)
 
 ## License
