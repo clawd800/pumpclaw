@@ -2,8 +2,8 @@
 
 [![Base](https://img.shields.io/badge/Chain-Base-blue)](https://base.org)
 [![Uniswap V4](https://img.shields.io/badge/DEX-Uniswap%20V4-ff007a)](https://uniswap.org)
-[![Tokens Launched](https://img.shields.io/badge/Tokens%20Launched-38-brightgreen)](https://pumpclaw.com)
-[![Unique Creators](https://img.shields.io/badge/Creators-29-blue)](https://pumpclaw.com)
+[![Tokens Launched](https://img.shields.io/badge/Tokens%20Launched-53-brightgreen)](https://pumpclaw.com)
+[![Unique Creators](https://img.shields.io/badge/Creators-38-blue)](https://pumpclaw.com)
 [![npm CLI](https://img.shields.io/npm/dw/pumpclaw-cli?label=CLI%20downloads)](https://www.npmjs.com/package/pumpclaw-cli)
 [![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
 
