@@ -327,18 +327,14 @@ export default function TokenDetailPage({
         </div>
       </div>
 
-      {/* Trade CTA */}
-      <a
-        href={tradeUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="block w-full py-4 text-center text-lg font-bold bg-green-600/20 border-2 border-green-500/50 text-green-400 hover:bg-green-600/30 hover:text-green-300 hover:border-green-400/60 transition-all"
-      >
-        🔄 Trade ${token.symbol}
-      </a>
+      {/* In-App Swap */}
+      <SwapPanel tokenAddress={token.token} tokenSymbol={token.symbol} />
 
       {/* Live Market Data */}
       <MarketStats tokenAddress={token.token} totalSupply={token.totalSupply} />
+
+      {/* Chart */}
+      <ChartEmbed tokenAddress={token.token} />
 
       {/* Progress */}
       <div className="border border-green-900/50 bg-black/40 p-6">
@@ -443,7 +439,15 @@ export default function TokenDetailPage({
       </div>
 
       {/* External Links */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <a
+          href={tradeUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="py-3 text-center text-sm font-medium bg-green-900/30 border border-green-800/50 text-green-500 hover:bg-green-900/50 hover:text-green-400 transition-all"
+        >
+          Matcha ↗
+        </a>
         <a
           href={`https://basescan.org/token/${token.token}`}
           target="_blank"
@@ -453,18 +457,18 @@ export default function TokenDetailPage({
           BaseScan ↗
         </a>
         <a
-          href={`https://www.geckoterminal.com/base/tokens/${token.token}`}
+          href={dexScreenerUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="py-3 text-center text-sm font-medium bg-green-900/30 border border-green-800/50 text-green-500 hover:bg-green-900/50 hover:text-green-400 transition-all"
         >
-          GeckoTerminal ↗
+          DexScreener ↗
         </a>
         <a
           href={`https://app.uniswap.org/swap?chain=base&outputCurrency=${token.token}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="py-3 text-center text-sm font-medium bg-green-900/30 border border-green-800/50 text-green-500 hover:bg-green-900/50 hover:text-green-400 transition-all col-span-2 sm:col-span-1"
+          className="py-3 text-center text-sm font-medium bg-green-900/30 border border-green-800/50 text-green-500 hover:bg-green-900/50 hover:text-green-400 transition-all"
         >
           Uniswap ↗
         </a>

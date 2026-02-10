@@ -5,6 +5,7 @@ import { useReadContract, useReadContracts } from "wagmi";
 import { CONTRACTS } from "@/configs/constants";
 import { TokenMedia } from "./TokenMedia";
 import { ERC20_ABI } from "@/configs/abis";
+import { useTokenPrice, useEthUsdPrice } from "@/hooks/useTokenPrice";
 
 // ERC-8004 Registry on Base
 const ERC8004_REGISTRY = "0x8004A169FB4a3325136EB29fA0ceB6D2e539a432" as const;
@@ -19,17 +20,6 @@ const ERC721_BALANCE_ABI = [
     stateMutability: "view",
   },
 ] as const;
-
-// Hook to check if address is ERC-8004 registered (single)
-function useIsERC8004Registered(address: `0x${string}`) {
-  const { data: balance } = useReadContract({
-    address: ERC8004_REGISTRY,
-    abi: ERC721_BALANCE_ABI,
-    functionName: "balanceOf",
-    args: [address],
-  });
-  return balance !== undefined && balance > 0n;
-}
 
 // Hook to batch check ERC-8004 registration for multiple addresses
 function useERC8004Statuses(addresses: `0x${string}`[]) {
@@ -144,25 +134,6 @@ const TOTAL_SUPPLY_ABI = [
     stateMutability: "view",
   },
 ] as const;
-
-// Website URL ABI
-const WEBSITE_URL_ABI = [
-  {
-    type: "function",
-    name: "websiteUrl",
-    inputs: [],
-    outputs: [{ name: "", type: "string" }],
-    stateMutability: "view",
-  },
-] as const;
-
-function useWebsiteUrl(tokenAddress: `0x${string}`) {
-  return useReadContract({
-    address: tokenAddress,
-    abi: WEBSITE_URL_ABI,
-    functionName: "websiteUrl",
-  });
-}
 
 function ProgressBar({ tokenAddress }: { tokenAddress: `0x${string}` }) {
   // Get total supply
@@ -281,6 +252,28 @@ function AddToMetaMaskButton({ tokenAddress, symbol, decimals = 18, image }: { t
   );
 }
 
+function TokenPriceBadge({ tokenAddress }: { tokenAddress: `0x${string}` }) {
+  const { ethPerToken } = useTokenPrice(tokenAddress);
+  const ethUsd = useEthUsdPrice();
+  
+  if (ethPerToken === null) return null;
+
+  const priceUsd = ethUsd ? ethPerToken * ethUsd : null;
+
+  const formatPrice = (usd: number) => {
+    if (usd < 0.00001) return `$${usd.toExponential(1)}`;
+    if (usd < 0.01) return `$${usd.toFixed(6)}`;
+    if (usd < 1) return `$${usd.toFixed(4)}`;
+    return `$${usd.toFixed(2)}`;
+  };
+
+  return (
+    <span className="text-green-300 font-mono text-sm font-semibold">
+      {priceUsd !== null ? formatPrice(priceUsd) : `${ethPerToken.toExponential(1)} ETH`}
+    </span>
+  );
+}
+
 interface TokenCardProps {
   token: TokenInfo;
   isERC8004Registered: boolean;
@@ -288,7 +281,6 @@ interface TokenCardProps {
 
 function TokenCard({ token, isERC8004Registered }: TokenCardProps) {
   const { data: imageUrl } = useTokenImageUrl(token.token);
-  const { data: websiteUrl } = useWebsiteUrl(token.token);
   
   const fdvEth = parseFloat(formatEther(token.initialFdv));
   const displayFdv = fdvEth.toLocaleString(undefined, {
@@ -297,111 +289,92 @@ function TokenCard({ token, isERC8004Registered }: TokenCardProps) {
 
   const createdDate = new Date(Number(token.createdAt) * 1000);
   const timeAgo = getTimeAgo(createdDate);
-
-  const geckoUrl = `https://www.geckoterminal.com/base/tokens/${token.token}`;
+  const dateStr = createdDate.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 
   return (
-    <div className="border border-green-900/50 bg-black/40 p-5 hover:border-green-500/50 transition-all hover:bg-black/60">
-      {/* Header with logo */}
-      <div className="flex items-center gap-4 mb-4">
-        <div className="flex-shrink-0 w-14 h-14 overflow-hidden bg-green-900/30 border-2 border-green-800/50">
-          {imageUrl ? (
-            <TokenMedia src={imageUrl} alt={token.symbol} />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center text-green-600 text-2xl">
-              🦞
+    <div className="border border-green-900/50 bg-black/40 hover:border-green-500/50 transition-all hover:bg-black/60 group">
+      {/* Clickable header area */}
+      <a href={`#/token/${token.token}`} className="block p-5 pb-3">
+        {/* Header with logo */}
+        <div className="flex items-start gap-4 mb-3">
+          <div className="flex-shrink-0 w-14 h-14 overflow-hidden bg-green-900/30 border-2 border-green-800/50 group-hover:border-green-600/50 transition-colors">
+            {imageUrl ? (
+              <TokenMedia src={imageUrl} alt={token.symbol} />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center text-green-600 text-2xl">
+                🦞
+              </div>
+            )}
+          </div>
+          
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 flex-wrap">
+              <h3 className="font-bold text-green-300 text-lg break-all group-hover:text-green-200 transition-colors">{token.name}</h3>
+              {isERC8004Registered && <ERC8004Badge />}
             </div>
-          )}
-        </div>
-        
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2">
-            <h3 className="font-bold text-green-300 text-lg break-all">{token.name}</h3>
-            <span className="text-xs text-green-700 flex-shrink-0">{timeAgo}</span>
+            <div className="flex items-center gap-2 mt-0.5">
+              <span className="text-green-500 font-mono">${token.symbol}</span>
+              <span className="text-green-800 text-xs">•</span>
+              <span className="text-green-700 text-xs" title={createdDate.toLocaleString()}>{timeAgo}</span>
+            </div>
           </div>
-          <p className="text-green-500 font-mono">${token.symbol}</p>
-        </div>
-      </div>
 
-      {/* Stats */}
-      <div className="space-y-2 mb-4">
-        <div className="flex justify-between items-center">
-          <span className="text-green-600 text-sm">Initial FDV</span>
-          <span className="text-green-300 font-semibold">{displayFdv} ETH</span>
-        </div>
-        <div className="flex justify-between items-center">
-          <span className="text-green-600 text-sm">Token CA</span>
-          <div className="flex items-center">
-            <a
-              href={`https://basescan.org/token/${token.token}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-green-400 hover:text-green-300 font-mono text-sm transition-colors"
-            >
-              {token.token.slice(0, 6)}...{token.token.slice(-4)}
-            </a>
-            <CopyButton text={token.token} />
-            <AddToMetaMaskButton tokenAddress={token.token} symbol={token.symbol} image={imageUrl} />
+          {/* Price badge (top right) */}
+          <div className="flex-shrink-0 text-right">
+            <TokenPriceBadge tokenAddress={token.token} />
           </div>
         </div>
-        <div className="flex justify-between items-center">
-          <span className="text-green-600 text-sm">Creator</span>
-          <div className="flex items-center">
-            <a
-              href={`https://basescan.org/address/${token.creator}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-green-400 hover:text-green-300 font-mono text-sm transition-colors"
-            >
-              {token.creator.slice(0, 6)}...{token.creator.slice(-4)}
-            </a>
-            <CopyButton text={token.creator} />
-            {isERC8004Registered && <ERC8004Badge />}
+
+        {/* Compact stats row */}
+        <div className="flex items-center gap-3 text-xs mb-3">
+          <div className="flex items-center gap-1">
+            <span className="text-green-700">FDV:</span>
+            <span className="text-green-400 font-semibold">{displayFdv} ETH</span>
+          </div>
+          <span className="text-green-900">|</span>
+          <div className="flex items-center gap-1">
+            <span className="text-green-700">Created:</span>
+            <span className="text-green-500">{dateStr}</span>
+          </div>
+          <span className="text-green-900">|</span>
+          <div className="flex items-center gap-1">
+            <span className="text-green-700">By:</span>
+            <span className="text-green-500 font-mono">{token.creator.slice(0, 6)}...{token.creator.slice(-4)}</span>
           </div>
         </div>
-        
+
         {/* Progress bar showing purchased % */}
         <ProgressBar tokenAddress={token.token} />
-      </div>
+      </a>
 
-      {/* Action buttons */}
-      <div className="space-y-2">
+      {/* Action buttons - outside the link */}
+      <div className="px-5 pb-4 pt-2">
         <div className="flex gap-2">
           <a
             href={`#/token/${token.token}`}
-            className="flex-1 py-2 text-center text-xs font-medium bg-green-900/30 border border-green-800/50 text-green-500 hover:bg-green-900/50 hover:text-green-400 transition-all"
+            className="flex-1 py-2 text-center text-xs font-medium bg-green-600/20 border border-green-500/50 text-green-400 hover:bg-green-600/30 hover:text-green-300 transition-all"
           >
-            Details
+            🔄 Trade
           </a>
-          <a
-            href={geckoUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex-1 py-2 text-center text-xs font-medium bg-green-900/30 border border-green-800/50 text-green-500 hover:bg-green-900/50 hover:text-green-400 transition-all"
-          >
-            GeckoTerminal
-          </a>
+          <div className="flex items-center gap-1">
+            <CopyButton text={token.token} />
+            <AddToMetaMaskButton tokenAddress={token.token} symbol={token.symbol} image={imageUrl} />
+          </div>
           <button
             onClick={(e) => {
+              e.preventDefault();
               const url = `https://pumpclaw.com/token/${token.token}/`;
               navigator.clipboard.writeText(url);
               const btn = e.currentTarget;
               btn.textContent = 'Copied! ✅';
-              setTimeout(() => { btn.textContent = 'Share 🔗'; }, 1500);
+              setTimeout(() => { btn.textContent = '🔗'; }, 1500);
             }}
-            className="flex-1 py-2 text-center text-xs font-medium bg-green-900/30 border border-green-800/50 text-green-500 hover:bg-green-900/50 hover:text-green-400 transition-all"
+            className="px-3 py-2 text-xs font-medium bg-green-900/30 border border-green-800/50 text-green-500 hover:bg-green-900/50 hover:text-green-400 transition-all"
+            title="Copy share link"
           >
-            Share 🔗
+            🔗
           </button>
         </div>
-        <a
-          href={`https://matcha.xyz/tokens/base/${token.token}?sellChain=8453&sellAddress=0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block w-full py-2 text-center text-xs font-medium bg-green-600/20 border border-green-500/50 text-green-400 hover:bg-green-600/30 hover:text-green-300 transition-all"
-        >
-          Trade
-        </a>
       </div>
     </div>
   );
