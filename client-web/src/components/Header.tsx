@@ -42,7 +42,7 @@ export default function Header() {
   };
 
   return (
-    <header className="border-b border-green-900/50 bg-black/50 backdrop-blur-sm">
+    <header className="border-b border-green-900/50 bg-black/50 backdrop-blur-sm relative z-50">
       <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <span className="text-2xl">🦞</span>
@@ -52,7 +52,7 @@ export default function Header() {
           </span>
         </div>
 
-        <div className="relative">
+        <div className="relative z-50">
           {isConnected && address ? (
             <button
               onClick={() => disconnect()}

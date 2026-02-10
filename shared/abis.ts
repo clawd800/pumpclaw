@@ -505,3 +505,27 @@ export const FEE_VIEWER_ABI = [
     stateMutability: "view",
   },
 ] as const;
+
+export const SWAP_ROUTER_ABI = [
+  {
+    type: "function",
+    name: "buyTokens",
+    inputs: [
+      { name: "token", type: "address" },
+      { name: "minTokensOut", type: "uint256" },
+    ],
+    outputs: [{ name: "tokensOut", type: "uint256" }],
+    stateMutability: "payable",
+  },
+  {
+    type: "function",
+    name: "sellTokens",
+    inputs: [
+      { name: "token", type: "address" },
+      { name: "tokensIn", type: "uint256" },
+      { name: "minEthOut", type: "uint256" },
+    ],
+    outputs: [{ name: "ethOut", type: "uint256" }],
+    stateMutability: "nonpayable",
+  },
+] as const;
