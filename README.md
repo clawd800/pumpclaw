@@ -9,7 +9,7 @@
 
 > 🤖 Deploy a token in one Farcaster cast: `@clawd deploy $TICKER TokenName`
 >
-> 🌐 Website: [pumpclaw.com](https://pumpclaw.com) · 📦 CLI: `npx pumpclaw-cli deploy` · ⚖️ [Compare vs Clanker](https://pumpclaw.com/compare)
+> 🌐 Website: [pumpclaw.com](https://pumpclaw.com) · 📦 CLI: `npx pumpclaw-cli deploy` · 🔌 MCP: `npx pumpclaw-mcp` · ⚖️ [Compare vs Clanker](https://pumpclaw.com/compare)
 
 ## Overview
 
@@ -195,6 +195,7 @@ forge verify-contract <address> src/core/PumpClawFactory.sol:PumpClawFactory \
 | **Farcaster Bot** | Humans & social agents | [`farcaster-bot/`](./farcaster-bot/) |
 | **CLI** | Developers & automation | [`client-cli/`](./client-cli/) |
 | **npm package** | Agent frameworks | [`npx pumpclaw-cli deploy`](https://npmjs.com/package/pumpclaw-cli) |
+| **MCP Server** | Claude, GPT, any MCP agent | [`npx pumpclaw-mcp`](https://npmjs.com/package/pumpclaw-mcp) |
 | **Smart Contract** | Direct integration | See contract interface above |
 | **REST API** | Read-only token data | See API section below |
 
