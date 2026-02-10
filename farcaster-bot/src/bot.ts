@@ -16,7 +16,7 @@
  */
 import { CONFIG } from './config.js';
 import { getRecentMentions, replyCast, postCast, getUserVerifiedAddress } from './farcaster.js';
-import { parseDeployRequest } from './parse.js';
+import { aiParseDeployRequest, isDeployRequest } from './ai-parse.js';
 import { deployToken, checkGasBalance } from './deploy.js';
 import { loadState, saveState, canDeploy, recordDeploy } from './state.js';
 import { formatEther } from 'viem';
@@ -56,15 +56,26 @@ async function processMentions(): Promise<void> {
       continue;
     }
     
-    // Parse deploy request
-    const request = parseDeployRequest(mention.text);
-    if (!request) {
+    // Quick check: is this a deploy request?
+    if (!isDeployRequest(mention.text)) {
       console.log('[bot] Not a deploy request, skipping');
       state.processedHashes.push(mention.hash);
       continue;
     }
     
-    // Attach image from cast embeds if not already set
+    // AI-powered parsing: understands context to extract name, symbol, imageUrl
+    const request = await aiParseDeployRequest(
+      mention.text,
+      undefined, // embeds passed via mention.imageUrl fallback
+      mention.authorUsername,
+    );
+    if (!request) {
+      console.log('[bot] AI could not parse deploy request, skipping');
+      state.processedHashes.push(mention.hash);
+      continue;
+    }
+    
+    // Attach image from cast embeds if AI didn't find one
     if (!request.imageUrl && mention.imageUrl) {
       request.imageUrl = mention.imageUrl;
       console.log(`[bot] Using cast embed image: ${mention.imageUrl}`);
