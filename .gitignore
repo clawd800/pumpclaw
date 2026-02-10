@@ -21,3 +21,4 @@ farcaster-bot/deploy-queue.json
 mcp-server/.mcpregistry_*
 farcaster-bot/state.json.bak
 pumpclaw-action/
+broadcast/
