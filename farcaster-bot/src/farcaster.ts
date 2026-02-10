@@ -64,8 +64,11 @@ export async function getRecentMentions(cursor?: string): Promise<{
         break;
       }
       
-      // 4. Video embeds — Farcaster does NOT provide thumbnails for videos
-      //    stream.farcaster.xyz has no thumbnail endpoint. Skip.
+      // 4. Video embeds — store video URL directly as imageUrl
+      //    Frontend will detect .m3u8 and render as video player
+      if ((ct === 'application/vnd.apple.mpegurl' || meta.video) && url) {
+        if (!imageUrl) imageUrl = url;
+      }
       
       // 5. OG image from link embeds
       if (!imageUrl && meta.html?.ogImage?.[0]?.url) {
