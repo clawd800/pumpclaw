@@ -2,7 +2,7 @@
 
 [![Base](https://img.shields.io/badge/Chain-Base-blue)](https://base.org)
 [![Uniswap V4](https://img.shields.io/badge/DEX-Uniswap%20V4-ff007a)](https://uniswap.org)
-[![Tokens Launched](https://img.shields.io/badge/Tokens%20Launched-27-brightgreen)](https://pumpclaw.com)
+[![Tokens Launched](https://img.shields.io/badge/Tokens%20Launched-29-brightgreen)](https://pumpclaw.com)
 [![TVL](https://img.shields.io/badge/TVL-%2489K-green)](https://dexscreener.com/base/0x263bdb1b7c6f05f2d1f487b450fcb5358fece5c2eb2264bf606291b3e3c5747a)
 [![npm CLI](https://img.shields.io/npm/dw/pumpclaw-cli?label=CLI%20downloads)](https://www.npmjs.com/package/pumpclaw-cli)
 [![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
@@ -11,7 +11,7 @@
 
 > 🤖 Deploy a token in one Farcaster cast: `@clawd deploy $TICKER TokenName`
 >
-> 🌐 Website: [pumpclaw.com](https://pumpclaw.com) · 📦 CLI: `npx pumpclaw-cli deploy` · 🔌 MCP: `npx pumpclaw-mcp` · 🧩 ElizaOS: `npm i elizaos-plugin-pumpclaw` · ⚖️ [Compare vs Clanker](https://pumpclaw.com/compare)
+> 🌐 Website: [pumpclaw.com](https://pumpclaw.com) · 📦 CLI: `npx pumpclaw-cli deploy` · 🔌 MCP: `npx pumpclaw-mcp` · 🧩 ElizaOS: `npm i elizaos-plugin-pumpclaw` · 🎬 [GitHub Action](https://github.com/clawd800/pumpclaw-action) · ⚖️ [Compare vs Clanker](https://pumpclaw.com/compare)
 
 ## Overview
 
