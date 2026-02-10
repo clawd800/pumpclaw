@@ -142,25 +142,28 @@ export default function SwapPanel({ tokenAddress, tokenSymbol }: SwapPanelProps)
     query: { enabled: !!txHash },
   });
 
+  const [pendingApproval, setPendingApproval] = useState(false);
+
   useEffect(() => {
-    if (receipt) {
-      if (receipt.status === "success") {
-        if (txStatus === "approving") {
-          // Approval done, now execute swap
-          refetchAllowance().then(() => {
-            executeSell();
-          });
-        } else {
-          setTxStatus("success");
-          setAmount("");
-          // Refresh balances
-          refetchEthBalance();
-          refetchTokenBalance();
-        }
+    if (!receipt) return;
+    if (receipt.status === "success") {
+      if (pendingApproval) {
+        // Approval done, now execute swap
+        setPendingApproval(false);
+        refetchAllowance().then(() => {
+          executeSell();
+        });
       } else {
-        setTxStatus("failed");
-        setErrorMsg("Transaction reverted");
+        setTxStatus("success");
+        setAmount("");
+        // Refresh balances
+        refetchEthBalance();
+        refetchTokenBalance();
       }
+    } else {
+      setTxStatus("failed");
+      setErrorMsg("Transaction reverted");
+      setPendingApproval(false);
     }
   }, [receipt]);
 
@@ -252,6 +255,7 @@ export default function SwapPanel({ tokenAddress, tokenSymbol }: SwapPanelProps)
     setTxStatus("approving");
     setTxHash(undefined);
     setErrorMsg("");
+    setPendingApproval(true);
     resetWrite();
 
     writeContract({
@@ -279,6 +283,7 @@ export default function SwapPanel({ tokenAddress, tokenSymbol }: SwapPanelProps)
     setTxStatus("idle");
     setTxHash(undefined);
     setErrorMsg("");
+    setPendingApproval(false);
     resetWrite();
   };
 
