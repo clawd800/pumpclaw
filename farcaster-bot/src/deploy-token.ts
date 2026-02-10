@@ -73,10 +73,9 @@ async function main() {
       `👤 Creator: ${params.creator.slice(0, 6)}...${params.creator.slice(-4)}\n` +
       `💰 80% trading fees → you\n` +
       `🔒 LP locked forever on Uniswap V4\n\n` +
-      `🔄 Trade on Matcha ↗\n` +
-      `📊 Details: ${tokenPageUrl}`;
+      `🔄 Trade: ${tradeUrl}`;
     
-    const embeds: Array<{url: string}> = [{ url: tradeUrl }];
+    const embeds: Array<{url: string}> = [{ url: tokenPageUrl }];
     if (params.image) embeds.push({ url: params.image });
     
     await replyCast(params.replyTo, replyText, embeds);
