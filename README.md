@@ -2,7 +2,7 @@
 
 [![Base](https://img.shields.io/badge/Chain-Base-blue)](https://base.org)
 [![Uniswap V4](https://img.shields.io/badge/DEX-Uniswap%20V4-ff007a)](https://uniswap.org)
-[![Tokens Launched](https://img.shields.io/badge/Tokens%20Launched-29-brightgreen)](https://pumpclaw.com)
+[![Tokens Launched](https://img.shields.io/badge/Tokens%20Launched-37-brightgreen)](https://pumpclaw.com)
 [![TVL](https://img.shields.io/badge/TVL-%2489K-green)](https://dexscreener.com/base/0x263bdb1b7c6f05f2d1f487b450fcb5358fece5c2eb2264bf606291b3e3c5747a)
 [![npm CLI](https://img.shields.io/npm/dw/pumpclaw-cli?label=CLI%20downloads)](https://www.npmjs.com/package/pumpclaw-cli)
 [![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
@@ -184,10 +184,28 @@ forge verify-contract <address> src/core/PumpClawFactory.sol:PumpClawFactory \
   --chain base --etherscan-api-key $BASESCAN_API_KEY
 ```
 
+## PumpClaw vs Clanker
+
+| Feature | PumpClaw 🦞 | Clanker |
+|---------|-------------|---------|
+| **Creator Fee Share** | **80%** | 40% |
+| **Launch Cost** | **$0** (free) | Gas fees |
+| **DEX** | Uniswap V4 | Uniswap V3 |
+| **LP Lock** | Forever (immutable) | Varies |
+| **Agent Integration** | CLI, MCP, ElizaOS, Farcaster bot | Farcaster only |
+| **Custom Supply** | 1M–1T configurable | Fixed |
+| **Custom FDV** | Configurable | Fixed |
+| **On-chain Registry** | Yes (no indexer needed) | No |
+| **REST API** | Free, CORS, no key | No |
+| **Open Source** | MIT | No |
+
+> **TL;DR:** PumpClaw gives creators **2× the fees**, more integration options, and full configurability — all at zero cost.
+
 ## Stats
 
-- **27 tokens launched** on Base mainnet
-- **21 unique creators**
+- **37 tokens launched** on Base mainnet
+- **25+ unique creators**
+- **$89K+ TVL** across active pools
 - **$0 cost** to create — PumpClaw covers gas
 
 ## Integration Options
