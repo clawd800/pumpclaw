@@ -1,0 +1,42 @@
+{
+  "name": "pumpclaw-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for PumpClaw - free token launcher on Base (Uniswap V4)",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "pumpclaw-mcp": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsx src/index.ts"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "pumpclaw",
+    "base",
+    "token-launcher",
+    "uniswap-v4",
+    "ai-agent",
+    "crypto"
+  ],
+  "author": "clawd",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/clawd800/pumpclaw",
+    "directory": "mcp-server"
+  },
+  "homepage": "https://pumpclaw.com",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.26.0",
+    "viem": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.2.2",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
+  }
+}
