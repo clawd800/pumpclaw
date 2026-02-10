@@ -1,0 +1,36 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.clawd800/pumpclaw",
+  "description": "Free token launcher on Base. Deploy ERC-20 tokens via Uniswap V4 with 80% creator fees.",
+  "repository": {
+    "url": "https://github.com/clawd800/pumpclaw",
+    "source": "github"
+  },
+  "version": "1.0.1",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "pumpclaw-mcp",
+      "version": "1.0.1",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "description": "Private key for the Base wallet used to deploy tokens (only needed for deploy_token tool)",
+          "isRequired": false,
+          "format": "string",
+          "isSecret": true,
+          "name": "BASE_PRIVATE_KEY"
+        },
+        {
+          "description": "Base RPC URL (defaults to https://base-rpc.publicnode.com)",
+          "isRequired": false,
+          "format": "string",
+          "isSecret": false,
+          "name": "BASE_RPC_URL"
+        }
+      ]
+    }
+  ]
+}
