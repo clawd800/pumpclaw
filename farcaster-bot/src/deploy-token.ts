@@ -67,13 +67,13 @@ async function main() {
     const tokenPageUrl = `https://pumpclaw.com/#/token/${result.tokenAddress}`;
     
     const replyText =
-      `🦞 Token deployed!\n\n` +
-      `📛 ${result.name} ($${result.symbol})\n` +
-      `📍 ${result.tokenAddress}\n` +
-      `👤 Creator: ${params.creator.slice(0, 6)}...${params.creator.slice(-4)}\n` +
-      `💰 80% trading fees → you\n` +
-      `🔒 LP locked forever on Uniswap V4\n\n` +
-      `🔄 Trade: ${tradeUrl}`;
+      `Token deployed!\n\n` +
+      `${result.name} ($${result.symbol})\n` +
+      `${result.tokenAddress}\n\n` +
+      `Creator: ${params.creator}\n` +
+      `80% trading fees go to you\n` +
+      `LP locked forever on Uniswap V4\n\n` +
+      `Trade: ${tradeUrl}`;
     
     const embeds: Array<{url: string}> = [{ url: tokenPageUrl }];
     if (params.image) embeds.push({ url: params.image });
@@ -85,12 +85,12 @@ async function main() {
   if (params.announce) {
     try {
       const announceText =
-        `🦞 New token launched on PumpClaw!\n\n` +
-        `📛 ${result.name} ($${result.symbol})\n` +
-        (params.authorUsername ? `👤 by @${params.authorUsername}\n` : '') +
-        `💰 80% trading fees → creator\n` +
-        `🔒 LP locked forever on Uniswap V4\n\n` +
-        `Deploy yours free — mention @clawd with your ticker!`;
+        `New token launched on PumpClaw!\n\n` +
+        `${result.name} ($${result.symbol})\n` +
+        (params.authorUsername ? `by @${params.authorUsername}\n` : '') +
+        `80% trading fees to creator\n` +
+        `LP locked forever on Uniswap V4\n\n` +
+        `Deploy yours free - mention @clawd with your ticker!`;
       
       const embedsA: Array<{url: string}> = [
         { url: `https://pumpclaw.com/#/token/${result.tokenAddress}` },
