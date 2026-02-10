@@ -4,6 +4,8 @@ MCP (Model Context Protocol) server for [PumpClaw](https://pumpclaw.com) — the
 
 Connect any MCP-compatible AI agent (Claude, GPT, OpenClaw, etc.) to deploy and manage tokens on Base blockchain.
 
+**Traction:** 27 tokens launched · $89K+ TVL · Active trading on DexScreener · 74+ CLI downloads
+
 ## Features
 
 - 🔍 **list_tokens** — Browse all tokens launched on PumpClaw
