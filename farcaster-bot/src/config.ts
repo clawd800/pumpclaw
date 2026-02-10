@@ -31,14 +31,15 @@ export const CONFIG = {
   
   // Wallet
   PRIVATE_KEY: (() => {
-    let key = process.env.BASE_PRIVATE_KEY || (() => {
-      try {
-        const envPath = join(__dirname, '../../.env');
-        const envContent = readFileSync(envPath, 'utf8');
-        const match = envContent.match(/BASE_PRIVATE_KEY=(.+)/);
-        return match ? match[1].trim() : '';
-      } catch { return ''; }
-    })();
+    // .env file takes priority over environment variable (env var may be stale)
+    let key = '';
+    try {
+      const envPath = join(__dirname, '../../.env');
+      const envContent = readFileSync(envPath, 'utf8');
+      const match = envContent.match(/BASE_PRIVATE_KEY=(.+)/);
+      key = match ? match[1].trim() : '';
+    } catch { /* fall through */ }
+    if (!key) key = process.env.BASE_PRIVATE_KEY || '';
     if (key && !key.startsWith('0x')) key = `0x${key}`;
     return key;
   })(),
