@@ -64,15 +64,8 @@ export async function getRecentMentions(cursor?: string): Promise<{
         break;
       }
       
-      // 4. Video thumbnail — construct from stream URL
-      if (ct === 'application/vnd.apple.mpegurl' || meta.video) {
-        // Farcaster video thumbnails: replace .m3u8 with /thumbnail.jpg
-        const thumbUrl = url.replace(/\.m3u8$/, '/thumbnail.jpg');
-        if (thumbUrl !== url) {
-          imageUrl = thumbUrl;
-          // Don't break — prefer actual images if there are more embeds
-        }
-      }
+      // 4. Video embeds — Farcaster does NOT provide thumbnails for videos
+      //    stream.farcaster.xyz has no thumbnail endpoint. Skip.
       
       // 5. OG image from link embeds
       if (!imageUrl && meta.html?.ogImage?.[0]?.url) {
