@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PumpClaw vs Clanker — Base Token Launcher Comparison</title>
-    <meta name="description" content="Compare PumpClaw and Clanker: two token launchers on Base. See fees, features, agent integration, and why PumpClaw gives creators 80% of trading fees for free.">
-    <meta property="og:title" content="PumpClaw vs Clanker — Token Launcher Comparison">
-    <meta property="og:description" content="80% creator fees vs 40%. Free launch vs protocol fee. Uniswap V4 vs V3. See the full comparison.">
+    <title>PumpClaw vs Clanker vs Bankr — Base Token Launcher Comparison 2026</title>
+    <meta name="description" content="Compare PumpClaw, Clanker, and Bankr: the top token launchers on Base. See fees, features, agent integration, and why PumpClaw gives creators 80% of trading fees for free.">
+    <meta property="og:title" content="PumpClaw vs Clanker vs Bankr — Token Launcher Comparison">
+    <meta property="og:description" content="80% creator fees vs 57% (Bankr) vs 40% (Clanker). Free launch, Uniswap V4. The definitive comparison.">
     <meta property="og:image" content="https://pumpclaw.com/og-image.jpg">
     <meta property="og:url" content="https://pumpclaw.com/compare">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="PumpClaw vs Clanker — Base Token Launcher Comparison">
-    <meta name="twitter:description" content="80% creator fees vs 40%. Free launch vs protocol fee. Full comparison of Base token launchers.">
+    <meta name="twitter:title" content="PumpClaw vs Clanker vs Bankr — Base Token Launcher Comparison 2026">
+    <meta name="twitter:description" content="80% creator fees vs 57% vs 40%. Free launch, Uniswap V4. The definitive Base token launcher comparison.">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -224,8 +224,8 @@
     {
         "@context": "https://schema.org",
         "@type": "WebPage",
-        "name": "PumpClaw vs Clanker — Base Token Launcher Comparison",
-        "description": "Side-by-side comparison of PumpClaw and Clanker token launchers on Base L2",
+        "name": "PumpClaw vs Clanker vs Bankr — Base Token Launcher Comparison 2026",
+        "description": "Side-by-side comparison of PumpClaw, Clanker, and Bankr token launchers on Base L2",
         "url": "https://pumpclaw.com/compare",
         "mainEntity": {
             "@type": "ItemList",
@@ -244,6 +244,13 @@
                     "applicationCategory": "DeFi Token Launcher",
                     "operatingSystem": "Base L2",
                     "url": "https://clanker.world"
+                },
+                {
+                    "@type": "SoftwareApplication",
+                    "name": "Bankr",
+                    "applicationCategory": "DeFi Token Launcher",
+                    "operatingSystem": "Base L2",
+                    "url": "https://bankr.bot"
                 }
             ]
         }
@@ -253,8 +260,8 @@
 <body>
 
 <div class="hero">
-    <h1>PumpClaw vs <span>Clanker</span></h1>
-    <p>Two token launchers on Base. One gives you 80% of fees and costs nothing. Here's the full breakdown.</p>
+    <h1>PumpClaw vs <span>Clanker</span> vs <span style="color:#a78bfa">Bankr</span></h1>
+    <p>Three token launchers on Base. One gives you 80% of fees and costs nothing. Here's the full breakdown.</p>
 </div>
 
 <div class="container">
@@ -265,66 +272,97 @@
                 <th>Feature</th>
                 <th>🦞 PumpClaw</th>
                 <th>Clanker</th>
+                <th>Bankr</th>
             </tr>
         </thead>
         <tbody>
             <tr>
                 <td>Creator Fee Share</td>
-                <td class="highlight">80% <span class="winner">2×</span></td>
+                <td class="highlight">80% <span class="winner">Best</span></td>
                 <td class="dim">40%</td>
+                <td>57% (of 1.2%)</td>
+            </tr>
+            <tr>
+                <td>Total Swap Fee</td>
+                <td>1%</td>
+                <td>1%</td>
+                <td>1.2%</td>
+            </tr>
+            <tr>
+                <td>Effective Creator Revenue</td>
+                <td class="highlight">0.80% per swap <span class="winner">Best</span></td>
+                <td class="dim">0.40% per swap</td>
+                <td>0.684% per swap</td>
             </tr>
             <tr>
                 <td>Launch Cost</td>
                 <td class="highlight">Free (0 ETH)</td>
+                <td class="dim">Protocol fee</td>
                 <td class="dim">Protocol fee</td>
             </tr>
             <tr>
                 <td>DEX</td>
                 <td class="highlight">Uniswap V4</td>
                 <td class="dim">Uniswap V3</td>
+                <td>Uniswap V4 (Doppler)</td>
+            </tr>
+            <tr>
+                <td>Token Standard</td>
+                <td>Standard ERC-20</td>
+                <td>Standard ERC-20</td>
+                <td>DERC20 (custom)</td>
             </tr>
             <tr>
                 <td>LP Lock</td>
                 <td>Locked forever</td>
                 <td>Locked forever</td>
+                <td>Ownership → 0xdead</td>
             </tr>
             <tr>
                 <td>Agent Integration</td>
                 <td class="highlight">CLI + REST API + Skill</td>
                 <td class="dim">Farcaster mention only</td>
+                <td class="dim">Farcaster @bankr only</td>
             </tr>
             <tr>
                 <td>Launch Method</td>
-                <td class="highlight">Web / CLI / API / Smart Contract</td>
+                <td class="highlight">Web / CLI / API / Contract</td>
                 <td class="dim">Farcaster post to @clanker</td>
+                <td class="dim">Farcaster post to @bankr</td>
             </tr>
             <tr>
                 <td>Open Source</td>
                 <td class="highlight">Yes (GitHub)</td>
+                <td class="dim">No</td>
                 <td class="dim">No</td>
             </tr>
             <tr>
                 <td>Configurable Supply</td>
                 <td class="highlight">1M — 1T tokens</td>
                 <td class="dim">Fixed</td>
+                <td class="dim">Fixed</td>
             </tr>
             <tr>
                 <td>Custom Creator Address</td>
                 <td class="highlight">Yes (relayer-friendly)</td>
+                <td class="dim">Farcaster wallet only</td>
                 <td class="dim">Farcaster wallet only</td>
             </tr>
             <tr>
                 <td>Token Image</td>
                 <td class="highlight">Updateable anytime</td>
                 <td class="dim">Set at creation</td>
+                <td class="dim">Set at creation</td>
             </tr>
             <tr>
                 <td>ERC-8004</td>
                 <td class="highlight">Registered ✓</td>
                 <td class="dim">—</td>
+                <td class="dim">—</td>
             </tr>
             <tr>
                 <td>Chain</td>
+                <td>Base</td>
                 <td>Base</td>
                 <td>Base</td>
             </tr>
@@ -333,8 +371,8 @@
 
     <h2>Why the Difference Matters</h2>
 
-    <h3>💰 80% Creator Fees — Double the Revenue</h3>
-    <p>Every swap on your token generates LP fees. On PumpClaw, <strong>80% goes to the creator</strong> (you or your agent). On Clanker, you get 40%. Same trading volume, twice the earnings. For a token doing $10K daily volume, that's the difference between ~$24/day and ~$12/day in fees.</p>
+    <h3>💰 80% Creator Fees — Best in Class</h3>
+    <p>Every swap on your token generates LP fees. On PumpClaw, <strong>80% goes to the creator</strong> (you or your agent). Bankr gives 57% of a slightly higher fee (1.2%), netting you 0.684%. Clanker gives 40%. For a token doing $10K daily volume, PumpClaw earns ~$80/day vs ~$68 (Bankr) vs ~$40 (Clanker).</p>
 
     <h3>🆓 Zero Cost to Launch</h3>
     <p>PumpClaw deploys tokens for free — no upfront ETH required beyond gas. There's no protocol fee, no minimum stake, no hidden costs. If you're an agent running on a budget, this is the difference between launching and not launching.</p>
@@ -383,6 +421,15 @@ npx pumpclaw-cli deploy --name "MyToken" --symbol "TKN" --image "https://..."</c
         <li><strong>Simplicity:</strong> For non-technical users, "just mention @clanker" is about as simple as it gets.</li>
     </ul>
 
+    <h2>When to Use Bankr</h2>
+    <p>Bankr (powered by Whetstone/Doppler) offers a middle ground:</p>
+    <ul>
+        <li><strong>V4 infrastructure:</strong> Like PumpClaw, Bankr uses Uniswap V4 — more gas efficient than Clanker's V3.</li>
+        <li><strong>Decent creator fees:</strong> 57% of 1.2% = 0.684% effective — better than Clanker but still below PumpClaw's 0.80%.</li>
+        <li><strong>DERC20 tokens:</strong> Uses a custom token standard with built-in inflation controls (can be disabled via <code>migrate()</code>).</li>
+    </ul>
+    <p><strong>The catch:</strong> Bankr uses non-standard DERC20 tokens, Farcaster-only launch, and still takes a larger protocol cut than PumpClaw. If you want standard ERC-20s with maximum creator revenue, PumpClaw wins.</p>
+
     <h2>When to Use PumpClaw</h2>
     <ul>
         <li><strong>You want maximum fees</strong> — 80% vs 40%, no contest</li>
@@ -422,7 +469,7 @@ PumpClawFactory(0xe5bC...16a90).createToken(name, symbol, imageUrl, supply, fdv)
 </div>
 
 <div class="footer">
-    <p><a href="https://pumpclaw.com">PumpClaw</a> · <a href="https://github.com/clawd800/pumpclaw">GitHub</a> · Built on <a href="https://base.org">Base</a> · Updated February 2026</p>
+    <p><a href="https://pumpclaw.com">PumpClaw</a> · <a href="https://github.com/clawd800/pumpclaw">GitHub</a> · Built on <a href="https://base.org">Base</a> · Updated February 11, 2026</p>
 </div>
 
 </body>
