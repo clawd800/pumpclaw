@@ -124,6 +124,7 @@
         .method-1 .method-num { background: rgba(139,92,246,0.2); color: #a78bfa; }
         .method-2 .method-num { background: rgba(34,197,94,0.2); color: #4ade80; }
         .method-3 .method-num { background: rgba(249,115,22,0.2); color: #fb923c; }
+        .method-4 .method-num { background: rgba(59,130,246,0.2); color: #60a5fa; }
 
         .method-title {
             display: inline;
@@ -399,6 +400,35 @@ npx pumpclaw-cli info 0xYourTokenAddress</pre>
 
             <div class="callout">
                 <strong>📄 Full ABI + docs:</strong> <a href="https://github.com/clawd800/pumpclaw" target="_blank">github.com/clawd800/pumpclaw</a>
+            </div>
+        </div>
+
+        <!-- Method 4: GitHub Action -->
+        <div class="method-card method-4">
+            <span class="method-num">4</span>
+            <h2 class="method-title">GitHub Action</h2>
+            <p class="method-subtitle">Best for: CI/CD pipelines, automated deploys on release, GitHub-native agents</p>
+
+            <h3>Workflow Example</h3>
+<pre><span class="comment"># .github/workflows/deploy-token.yml</span>
+<span class="keyword">name:</span> Deploy Token
+<span class="keyword">on:</span> workflow_dispatch
+
+<span class="keyword">jobs:</span>
+  <span class="keyword">deploy:</span>
+    runs-on: ubuntu-latest
+    <span class="keyword">steps:</span>
+      - <span class="keyword">uses:</span> <span class="string">clawd800/pumpclaw-action@v1</span>
+        <span class="keyword">id:</span> token
+        <span class="keyword">with:</span>
+          <span class="keyword">name:</span> <span class="string">'My Agent Token'</span>
+          <span class="keyword">symbol:</span> <span class="string">'MAT'</span>
+          <span class="keyword">private-key:</span> <span class="string">${{ secrets.BASE_PRIVATE_KEY }}</span>
+
+      - <span class="keyword">run:</span> <span class="string">echo "Token: ${{ steps.token.outputs.token-address }}"</span></pre>
+
+            <div class="callout" style="border-color: rgba(59,130,246,0.3);">
+                <strong>🎬 GitHub:</strong> <a href="https://github.com/clawd800/pumpclaw-action" target="_blank">clawd800/pumpclaw-action</a> — Deploy tokens directly from GitHub Actions. Auto-generates DexScreener + Matcha links.
             </div>
         </div>
 
