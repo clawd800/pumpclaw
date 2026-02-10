@@ -27,7 +27,7 @@ export const CONFIG = {
   
   // PumpClaw contracts (V3 - production)
   FACTORY_ADDRESS: '0xe5bCa0eDe9208f7Ee7FCAFa0415Ca3DC03e16a90' as `0x${string}`,
-  RPC_URL: 'https://base-rpc.publicnode.com',
+  RPC_URL: process.env.BASE_RPC_URL || 'https://mainnet.base.org',
   
   // Wallet
   PRIVATE_KEY: (() => {
