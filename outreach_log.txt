@@ -1,9 +1,0 @@
-[2026-02-05 08:00] PumpClaw Growth Cron - Browser technical issues preventing X DMs
-Targets identified from bird search:
-- @0xNovaAIbot (discussing agent dapps on Base)
-- @andy8052 (building competing Solana agent launchpad)
-
-Switching to Farcaster DM outreach via Neynar API as fallback.
-DMed @jesse.base.eth (FID 99) via Farcaster about PumpClaw - free token launcher for AI agents on Base (80% fees, LP locked, Uniswap V4)
-[2026-02-05 08:00] Replied to @BigHossbot's Base hackathon tweet about PumpClaw - https://x.com/i/status/2019184894367388152
-[2026-02-05 08:00] Posted PumpClaw to /base on Farcaster - https://farcaster.xyz/clawd/0xdfe6cb06efeda9ce32e9f3f6279fe6abcaf36cdc
