@@ -1,8 +1,8 @@
 // Deploy token via PumpClaw factory contract
-import { createPublicClient, createWalletClient, http, formatEther } from 'viem';
+import { createPublicClient, createWalletClient, formatEther } from 'viem';
 import { base } from 'viem/chains';
 import { privateKeyToAccount } from 'viem/accounts';
-import { CONFIG } from './config.js';
+import { CONFIG, baseTransport } from './config.js';
 import type { DeployRequest } from './parse.js';
 
 const FACTORY_ABI = [
@@ -52,13 +52,13 @@ export async function deployToken(
   
   const publicClient = createPublicClient({
     chain: base,
-    transport: http(CONFIG.RPC_URL),
+    transport: baseTransport,
   });
   
   const walletClient = createWalletClient({
     account,
     chain: base,
-    transport: http(CONFIG.RPC_URL),
+    transport: baseTransport,
   });
   
   // Check balance
@@ -119,7 +119,7 @@ export async function checkGasBalance(): Promise<bigint> {
   const account = privateKeyToAccount(CONFIG.PRIVATE_KEY as `0x${string}`);
   const publicClient = createPublicClient({
     chain: base,
-    transport: http(CONFIG.RPC_URL),
+    transport: baseTransport,
   });
   return publicClient.getBalance({ address: account.address });
 }

@@ -2,8 +2,32 @@
 import { readFileSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { fallback, http } from 'viem';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+
+/** Base mainnet RPC endpoints for viem fallback transport */
+export const BASE_RPC_ENDPOINTS = [
+  'https://base-rpc.publicnode.com',
+  'https://mainnet.base.org',
+  'https://developer-access-mainnet.base.org',
+  'https://base-mainnet.public.blastapi.io',
+  'https://base-public.nodies.app',
+  'https://rpc.poolz.finance/base',
+  'https://base.meowrpc.com',
+  'https://api.zan.top/base-mainnet',
+  'https://1rpc.io/base',
+  'https://endpoints.omniatech.io/v1/base/mainnet/public',
+  'https://rpc.owlracle.info/base/70d38ce1826c4a60bb2a8e05a6c8b20f',
+  'https://base.public.blockpi.network/v1/rpc/public',
+  'https://base.drpc.org',
+  'https://base.llamarpc.com',
+] as const;
+
+/** Viem fallback transport that tries all RPCs in order */
+export const baseTransport = fallback(
+  BASE_RPC_ENDPOINTS.map(url => http(url))
+);
 
 export const CONFIG = {
   // Neynar API (set via env or .env file)
