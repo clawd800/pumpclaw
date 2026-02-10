@@ -2,8 +2,8 @@
 
 [![Base](https://img.shields.io/badge/Chain-Base-blue)](https://base.org)
 [![Uniswap V4](https://img.shields.io/badge/DEX-Uniswap%20V4-ff007a)](https://uniswap.org)
-[![Tokens Launched](https://img.shields.io/badge/Tokens%20Launched-37-brightgreen)](https://pumpclaw.com)
-[![TVL](https://img.shields.io/badge/TVL-%2489K-green)](https://dexscreener.com/base/0x263bdb1b7c6f05f2d1f487b450fcb5358fece5c2eb2264bf606291b3e3c5747a)
+[![Tokens Launched](https://img.shields.io/badge/Tokens%20Launched-38-brightgreen)](https://pumpclaw.com)
+[![Unique Creators](https://img.shields.io/badge/Creators-29-blue)](https://pumpclaw.com)
 [![npm CLI](https://img.shields.io/npm/dw/pumpclaw-cli?label=CLI%20downloads)](https://www.npmjs.com/package/pumpclaw-cli)
 [![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
 
@@ -203,10 +203,10 @@ forge verify-contract <address> src/core/PumpClawFactory.sol:PumpClawFactory \
 
 ## Stats
 
-- **37 tokens launched** on Base mainnet
-- **25+ unique creators**
-- **$89K+ TVL** across active pools
+- **38 tokens launched** on Base mainnet (11 in one day — record!)
+- **29 unique creators**
 - **$0 cost** to create — PumpClaw covers gas
+- **5 integration methods** — Farcaster bot, CLI, MCP, ElizaOS, direct contract
 
 ## Integration Options
 
