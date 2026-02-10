@@ -1,5 +1,6 @@
 import { useLatestTokens, useTokenImageUrl, type TokenInfo } from "@/hooks/useTokens";
 import { useEffect, useState, useMemo } from "react";
+import { TokenMedia } from "./TokenMedia";
 
 function getTimeAgo(date: Date): string {
   const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
@@ -14,14 +15,7 @@ function TokenLogo({ token }: { token: TokenInfo }) {
   return (
     <div className="w-6 h-6 flex-shrink-0 overflow-hidden rounded-full bg-green-900/30 border border-green-800/50">
       {imageUrl ? (
-        <img
-          src={imageUrl}
-          alt={token.symbol}
-          className="w-full h-full object-cover"
-          onError={(e) => {
-            (e.target as HTMLImageElement).style.display = "none";
-          }}
-        />
+        <TokenMedia src={imageUrl} alt={token.symbol} />
       ) : (
         <div className="w-full h-full flex items-center justify-center text-[10px]">🦞</div>
       )}

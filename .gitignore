@@ -18,3 +18,5 @@ node_modules/
 farcaster-bot/state.json
 farcaster-bot/node_modules/
 farcaster-bot/deploy-queue.json
+mcp-server/.mcpregistry_*
+farcaster-bot/state.json.bak

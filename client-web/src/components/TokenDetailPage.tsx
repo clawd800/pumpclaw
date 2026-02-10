@@ -3,6 +3,7 @@ import { useReadContract } from "wagmi";
 import { formatEther } from "viem";
 import { useState } from "react";
 import { CONTRACTS } from "@/configs/constants";
+import { TokenMedia } from "./TokenMedia";
 import { ERC20_ABI } from "@/configs/abis";
 import { useTokenPrice, useEthUsdPrice } from "@/hooks/useTokenPrice";
 
@@ -299,14 +300,7 @@ export default function TokenDetailPage({
           {/* Token Logo */}
           <div className="flex-shrink-0 w-24 h-24 sm:w-32 sm:h-32 overflow-hidden bg-green-900/30 border-2 border-green-800/50">
             {imageUrl ? (
-              <img 
-                src={imageUrl} 
-                alt={token.symbol}
-                className="w-full h-full object-cover"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).style.display = "none";
-                }}
-              />
+              <TokenMedia src={imageUrl} alt={token.symbol} />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-green-600 text-5xl">
                 🦞
