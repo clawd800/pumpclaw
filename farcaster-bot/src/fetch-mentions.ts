@@ -27,7 +27,7 @@ async function main() {
     return true;
   });
   
-  // Enrich with verified addresses
+  // Enrich with verified addresses and full embed data
   const enriched = [];
   for (const m of newMentions) {
     let wallet = m.verifiedAddresses[0];
@@ -42,6 +42,7 @@ async function main() {
       timestamp: m.timestamp,
       wallet,
       imageUrl: m.imageUrl || null,
+      embeds: m.embeds || [],  // Pass ALL embeds for AI to inspect
     });
   }
   

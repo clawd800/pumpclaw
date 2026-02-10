@@ -16,7 +16,8 @@ export interface FarcasterNotification {
   timestamp: string;
   parentHash?: string;
   verifiedAddresses: string[];
-  imageUrl?: string; // First image embed from the cast
+  imageUrl?: string; // Best image URL extracted from embeds
+  embeds: any[];     // Raw embed data for AI parsing
 }
 
 export async function getRecentMentions(cursor?: string): Promise<{
@@ -35,14 +36,60 @@ export async function getRecentMentions(cursor?: string): Promise<{
   const data = await res.json() as any;
   
   const mentions: FarcasterNotification[] = (data.notifications || []).map((n: any) => {
-    // Extract first image URL from cast embeds
     const embeds: any[] = n.cast?.embeds || [];
-    const imageEmbed = embeds.find((e: any) => 
-      e.metadata?.content_type?.startsWith('image/') || 
-      e.url?.match(/\.(png|jpg|jpeg|gif|webp|svg)(\?|$)/i) ||
-      e.metadata?.image
-    );
-    const imageUrl = imageEmbed?.url || imageEmbed?.metadata?.image?.url || undefined;
+    
+    // Extract best image URL from embeds (priority order)
+    let imageUrl: string | undefined;
+    
+    for (const e of embeds) {
+      const meta = e.metadata || {};
+      const ct = meta.content_type || '';
+      const url = e.url || '';
+      
+      // 1. Direct image upload (highest priority)
+      if (ct.startsWith('image/') || url.match(/\.(png|jpg|jpeg|gif|webp|svg)(\?|$)/i)) {
+        imageUrl = url;
+        break;
+      }
+      
+      // 2. Image in metadata
+      if (meta.image?.url) {
+        imageUrl = meta.image.url;
+        break;
+      }
+      
+      // 3. imagedelivery.net URLs (Farcaster CDN, may not have extension)
+      if (/imagedelivery\.net/i.test(url) && !ct.includes('video')) {
+        imageUrl = url;
+        break;
+      }
+      
+      // 4. Video thumbnail — construct from stream URL
+      if (ct === 'application/vnd.apple.mpegurl' || meta.video) {
+        // Farcaster video thumbnails: replace .m3u8 with /thumbnail.jpg
+        const thumbUrl = url.replace(/\.m3u8$/, '/thumbnail.jpg');
+        if (thumbUrl !== url) {
+          imageUrl = thumbUrl;
+          // Don't break — prefer actual images if there are more embeds
+        }
+      }
+      
+      // 5. OG image from link embeds
+      if (!imageUrl && meta.html?.ogImage?.[0]?.url) {
+        imageUrl = meta.html.ogImage[0].url;
+      }
+    }
+    
+    // Build compact embed summary for AI parsing
+    const embedSummary = embeds.map((e: any) => {
+      const meta = e.metadata || {};
+      const result: any = { url: e.url };
+      if (meta.content_type) result.type = meta.content_type;
+      if (meta.image) result.image = meta.image;
+      if (meta.video) result.video = { duration_s: meta.video.duration_s };
+      if (meta.html?.ogImage?.[0]?.url) result.ogImage = meta.html.ogImage[0].url;
+      return result;
+    });
     
     return {
       type: n.type,
@@ -54,6 +101,7 @@ export async function getRecentMentions(cursor?: string): Promise<{
       parentHash: n.cast?.parent_hash,
       verifiedAddresses: n.cast?.author?.verified_addresses?.eth_addresses || [],
       imageUrl,
+      embeds: embedSummary,
     };
   });
   
