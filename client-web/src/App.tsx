@@ -5,6 +5,7 @@ import TokenList from "@/components/TokenList";
 import TokenDetailPage from "@/components/TokenDetailPage";
 import FeesDashboard from "@/components/FeesDashboard";
 import LiveActivityTicker from "@/components/LiveActivityTicker";
+import ProtocolStats from "@/components/ProtocolStats";
 import { useLatestTokens } from "@/hooks/useTokens";
 import { useRouter } from "@/hooks/useRouter";
 import { VERSION } from "./version";
@@ -21,6 +22,7 @@ export default function App() {
     return (
       <div className="min-h-screen bg-black text-green-400 font-mono">
         <Header />
+        <ProtocolStats />
         <LiveActivityTicker />
         <TokenDetailPage tokenAddress={route.tokenAddress} goHome={goHome} />
         <footer className="py-8 text-center text-sm text-green-700">
@@ -33,6 +35,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-black text-green-400 font-mono">
       <Header />
+      <ProtocolStats />
       <LiveActivityTicker />
 
       {/* Farcaster Deploy Banner */}
