@@ -361,16 +361,6 @@ export default function TokenDetailPage({
         </button>
       </div>
 
-      {/* Quick Buy CTA — one-click to Matcha */}
-      <a
-        href={tradeUrl}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="block w-full py-4 text-center text-lg font-bold bg-gradient-to-r from-green-600 to-emerald-500 text-white hover:from-green-500 hover:to-emerald-400 transition-all shadow-lg shadow-green-900/30 rounded-sm"
-      >
-        🛒 Buy ${token.symbol} on Matcha
-      </a>
-
       {/* In-App Swap */}
       <SwapPanel tokenAddress={token.token} tokenSymbol={token.symbol} />
 
