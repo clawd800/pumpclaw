@@ -1,9 +1,10 @@
 import { useState, useEffect, useCallback } from "react";
-import { useAccount, useBalance, useReadContract, useWriteContract, useWaitForTransactionReceipt, useSimulateContract } from "wagmi";
-import { parseEther, formatEther, maxUint256 } from "viem";
+import { useAccount, useBalance, useReadContract, useWriteContract, useWaitForTransactionReceipt, useSimulateContract, usePublicClient } from "wagmi";
+import { parseEther, formatEther, maxUint256, keccak256, encodeAbiParameters, toHex, encodeFunctionData, decodeFunctionResult } from "viem";
+import { useQuery } from "@tanstack/react-query";
 import { CONTRACTS } from "@/configs/constants";
 import { SWAP_ROUTER_ABI, ERC20_ABI } from "@/configs/abis";
-import { useEthUsdPrice, useTokenPrice } from "@/hooks/useTokenPrice";
+import { useEthUsdPrice } from "@/hooks/useTokenPrice";
 
 type SwapTab = "buy" | "sell";
 type TxStatus = "idle" | "approving" | "pending" | "success" | "failed";
@@ -87,6 +88,7 @@ export default function SwapPanel({ tokenAddress, tokenSymbol }: SwapPanelProps)
   const [errorMsg, setErrorMsg] = useState("");
 
   const { address, isConnected } = useAccount();
+  const publicClient = usePublicClient();
   const ethUsd = useEthUsdPrice();
 
   // ETH balance
@@ -205,19 +207,57 @@ export default function SwapPanel({ tokenAddress, tokenSymbol }: SwapPanelProps)
     query: { enabled: tab === "buy" && !!parsedAmount },
   } as any);
 
-  // Sell estimation: use pool price (ethPerToken) for instant estimation
-  // More reliable than stateOverride simulation which Base RPCs don't support well
-  const { ethPerToken } = useTokenPrice(tokenAddress);
+  // Sell estimation via raw eth_call with stateOverride
+  // viem's simulateContract doesn't properly pass stateOverride to eth_call,
+  // so we use client.request() directly which works correctly
+  const { data: sellEstimate, isFetching: isSellEstimating } = useQuery({
+    queryKey: ['sellEstimate', tokenAddress, parsedAmount?.toString(), address],
+    queryFn: async () => {
+      if (!publicClient || !parsedAmount || !address) return null;
 
-  const sellEstimate = (() => {
-    if (tab !== "sell" || !parsedAmount || ethPerToken === null) return null;
-    const tokensFloat = parseFloat(formatEther(parsedAmount));
-    // ethOut = tokens * ethPerToken (pool price already reflects the curve)
-    const ethOut = tokensFloat * ethPerToken;
-    if (ethOut <= 0) return null;
-    return parseEther(ethOut.toFixed(18));
-  })();
-  const isSellEstimating = false;
+      // Compute allowance storage slot (OZ ERC20: _allowances at slot 1)
+      const allowanceInner = keccak256(
+        encodeAbiParameters([{ type: 'address' }, { type: 'uint256' }], [address, 1n])
+      );
+      const allowSlot = keccak256(
+        encodeAbiParameters([{ type: 'address' }, { type: 'uint256' }], [CONTRACTS.SWAP_ROUTER as `0x${string}`, BigInt(allowanceInner)])
+      );
+
+      const calldata = encodeFunctionData({
+        abi: SWAP_ROUTER_ABI,
+        functionName: 'sellTokens',
+        args: [tokenAddress, parsedAmount, 0n],
+      });
+
+      try {
+        const rawResult = await publicClient.request({
+          method: 'eth_call',
+          params: [{
+            from: address,
+            to: CONTRACTS.SWAP_ROUTER as `0x${string}`,
+            data: calldata,
+          }, 'latest', {
+            [tokenAddress]: {
+              stateDiff: {
+                [allowSlot]: toHex(maxUint256, { size: 32 }),
+              },
+            },
+          }],
+        });
+        const decoded = decodeFunctionResult({
+          abi: SWAP_ROUTER_ABI,
+          functionName: 'sellTokens',
+          data: rawResult as `0x${string}`,
+        });
+        return decoded as bigint;
+      } catch (e) {
+        console.warn('Sell estimation failed:', e);
+        return null;
+      }
+    },
+    enabled: tab === 'sell' && !!parsedAmount && !!address && !!publicClient,
+    retry: false,
+  });
 
   const isEstimating = (tab === "buy" && isBuyEstimating) || (tab === "sell" && isSellEstimating);
 

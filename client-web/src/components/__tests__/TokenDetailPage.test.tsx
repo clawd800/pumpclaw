@@ -94,7 +94,18 @@ vi.mock("wagmi", () => ({
   useSimulateContract: vi.fn(() => ({
     data: { result: 990_000_000_000_000_000_000_000n },
   })),
+  usePublicClient: vi.fn(() => ({
+    simulateContract: vi.fn().mockResolvedValue({ result: 500_000_000_000_000n }),
+  })),
 }));
+
+vi.mock("@tanstack/react-query", async () => {
+  const actual = await vi.importActual("@tanstack/react-query");
+  return {
+    ...actual,
+    useQuery: vi.fn(() => ({ data: null, isFetching: false })),
+  };
+});
 
 vi.mock("@/configs/constants", () => ({
   CONTRACTS: {
