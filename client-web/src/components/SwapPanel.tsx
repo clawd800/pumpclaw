@@ -179,10 +179,12 @@ export default function SwapPanel({ tokenAddress, tokenSymbol }: SwapPanelProps)
 
   // Check if sell needs approval (must be defined before simulation hooks)
   const needsApproval = useCallback(() => {
-    if (tab !== "sell" || !amount || !allowance) return false;
+    if (tab !== "sell" || !amount) return false;
+    // allowance can be 0n (falsy in JS) — treat undefined/null as "no data yet"
+    if (allowance == null) return false;
     try {
       const amountWei = parseEther(amount);
-      return allowance < amountWei;
+      return (allowance as bigint) < amountWei;
     } catch {
       return false;
     }
