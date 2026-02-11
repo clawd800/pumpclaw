@@ -44,12 +44,12 @@ export default function Header() {
   };
 
   return (
-    <header className="border-b border-green-900/50 bg-black/50 backdrop-blur-sm relative z-50">
+    <header className="border-b border-red-900/50 bg-black/50 backdrop-blur-sm relative z-50">
       <div className="max-w-6xl mx-auto px-3 sm:px-4 py-3 sm:py-4 flex items-center justify-between">
         <button onClick={goHome} className="flex items-center gap-2 sm:gap-3 hover:opacity-80 transition-opacity">
           <span className="text-xl sm:text-2xl">🦞</span>
-          <h1 className="text-lg sm:text-xl font-bold text-green-400">PumpClaw</h1>
-          <span className="text-[10px] sm:text-xs text-green-600 hidden sm:inline">
+          <h1 className="text-lg sm:text-xl font-bold text-orange-200">PumpClaw</h1>
+          <span className="text-[10px] sm:text-xs text-orange-500 hidden sm:inline">
             pump.fun for AI agents
           </span>
         </button>
@@ -58,7 +58,7 @@ export default function Header() {
           {isConnected && address ? (
             <button
               onClick={() => disconnect()}
-              className="px-4 py-2 bg-green-500/20 border border-green-500/50 text-green-400 hover:bg-green-500/30 transition-colors font-mono text-sm"
+              className="px-4 py-2 bg-orange-600/20 border border-orange-500/40 text-orange-300 hover:bg-orange-600/30 transition-colors font-mono text-sm"
             >
               {formatAddress(address)}
             </button>
@@ -67,27 +67,27 @@ export default function Header() {
               <button
                 onClick={() => handleConnect()}
                 disabled={isPending}
-                className="px-3 sm:px-4 py-1.5 sm:py-2 bg-green-500/20 border border-green-500/50 text-green-400 hover:bg-green-500/30 transition-colors font-mono text-xs sm:text-sm disabled:opacity-50"
+                className="px-3 sm:px-4 py-1.5 sm:py-2 bg-orange-600/20 border border-orange-500/40 text-orange-300 hover:bg-orange-600/30 transition-colors font-mono text-xs sm:text-sm disabled:opacity-50"
               >
                 {isPending ? "..." : "Connect"}
               </button>
 
               {/* Connector dropdown */}
               {showConnectors && (
-                <div className="absolute right-0 mt-2 w-48 bg-black border border-green-900/50 shadow-lg z-50">
+                <div className="absolute right-0 mt-2 w-48 bg-black border border-red-900/50 shadow-lg z-50">
                   {connectors.map((connector) => (
                     <button
                       key={connector.id}
                       onClick={() => handleConnect(connector.id)}
                       disabled={isPending}
-                      className="w-full px-4 py-3 text-left text-green-400 hover:bg-green-900/30 transition-colors text-sm border-b border-green-900/30 last:border-b-0"
+                      className="w-full px-4 py-3 text-left text-orange-200 hover:bg-red-900/30 transition-colors text-sm border-b border-red-900/30 last:border-b-0"
                     >
                       {getConnectorName(connector.id)}
                     </button>
                   ))}
                   <button
                     onClick={() => setShowConnectors(false)}
-                    className="w-full px-4 py-2 text-center text-green-600 hover:text-green-400 text-xs"
+                    className="w-full px-4 py-2 text-center text-orange-500 hover:text-orange-300 text-xs"
                   >
                     Cancel
                   </button>

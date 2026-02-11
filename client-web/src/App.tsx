@@ -20,12 +20,12 @@ export default function App() {
   // Token detail page
   if (route.page === "token" && route.tokenAddress) {
     return (
-      <div className="min-h-screen bg-black text-green-400 font-mono">
+      <div className="min-h-screen bg-black text-orange-200 font-mono">
         <Header />
         <ProtocolStats />
         <LiveActivityTicker />
         <TokenDetailPage tokenAddress={route.tokenAddress} goHome={goHome} />
-        <footer className="py-8 text-center text-sm text-green-700">
+        <footer className="py-8 text-center text-sm text-neutral-500">
           <p>🦞 PumpClaw • pump.fun for AI agents • v{VERSION}</p>
         </footer>
       </div>
@@ -33,7 +33,7 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-green-400 font-mono">
+    <div className="min-h-screen bg-black text-orange-200 font-mono">
       <Header />
       <ProtocolStats />
       <LiveActivityTicker />
@@ -74,13 +74,13 @@ export default function App() {
         </div>
 
         {/* Stats footer */}
-        <footer className="mt-12 pt-8 border-t border-green-900/50 text-center text-sm text-green-700">
+        <footer className="mt-12 pt-8 border-t border-red-900/50 text-center text-sm text-neutral-500">
           <div className="flex flex-wrap justify-center gap-6">
             <a
               href="https://basescan.org/address/0xe5bCa0eDe9208f7Ee7FCAFa0415Ca3DC03e16a90"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-green-500 transition-colors"
+              className="hover:text-orange-400 transition-colors"
             >
               Factory Contract ↗
             </a>
@@ -88,7 +88,7 @@ export default function App() {
               href="https://github.com/clawd800/pumpclaw"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-green-500 transition-colors"
+              className="hover:text-orange-400 transition-colors"
             >
               GitHub ↗
             </a>
@@ -96,7 +96,7 @@ export default function App() {
               href="https://pumpclaw.com/tokenlist.json"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-green-500 transition-colors"
+              className="hover:text-orange-400 transition-colors"
             >
               Token List ↗
             </a>
@@ -104,16 +104,16 @@ export default function App() {
               href="https://pumpclaw.com/api/tokens.json"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-green-500 transition-colors"
+              className="hover:text-orange-400 transition-colors"
             >
               API ↗
             </a>
             <span>Built on Base 🔵</span>
           </div>
-          <p className="mt-4 text-green-800">
+          <p className="mt-4 text-neutral-600">
             🦞 pump.fun for AI agents • 100% liquidity locked • 80/20 fee split
           </p>
-          <p className="mt-2 text-green-900">v{VERSION}</p>
+          <p className="mt-2 text-neutral-700">v{VERSION}</p>
         </footer>
       </main>
 
@@ -127,21 +127,21 @@ export default function App() {
 
         {/* Mobile footer - only show on launches tab */}
         {activeTab === "launches" && (
-          <footer className="px-4 py-4 text-center text-xs text-green-800">
+          <footer className="px-4 py-4 text-center text-xs text-neutral-600">
             <p>🦞 pump.fun for AI agents • v{VERSION}</p>
           </footer>
         )}
       </main>
 
       {/* Mobile Bottom Tab Bar */}
-      <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-black border-t border-green-900/50">
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-black border-t border-red-900/50">
         <div className="flex">
           <button
             onClick={() => setActiveTab("launches")}
             className={`flex-1 py-4 text-center transition-colors ${
               activeTab === "launches"
-                ? "text-green-400 bg-green-900/20"
-                : "text-green-700 hover:text-green-500"
+                ? "text-orange-200 bg-red-900/20"
+                : "text-neutral-500 hover:text-orange-400"
             }`}
           >
             <span className="text-lg">📋</span>
@@ -151,8 +151,8 @@ export default function App() {
             onClick={() => setActiveTab("create")}
             className={`flex-1 py-4 text-center transition-colors ${
               activeTab === "create"
-                ? "text-green-400 bg-green-900/20"
-                : "text-green-700 hover:text-green-500"
+                ? "text-orange-200 bg-red-900/20"
+                : "text-neutral-500 hover:text-orange-400"
             }`}
           >
             <span className="text-lg">🚀</span>
@@ -162,8 +162,8 @@ export default function App() {
             onClick={() => setActiveTab("fees")}
             className={`flex-1 py-4 text-center transition-colors ${
               activeTab === "fees"
-                ? "text-green-400 bg-green-900/20"
-                : "text-green-700 hover:text-green-500"
+                ? "text-orange-200 bg-red-900/20"
+                : "text-neutral-500 hover:text-orange-400"
             }`}
           >
             <span className="text-lg">💰</span>

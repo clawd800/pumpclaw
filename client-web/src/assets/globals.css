@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 
 /* ============================================================================
-   PumpClaw - Main App Styles
+   PumpClaw - Main App Styles (🦞 Lobster Theme)
    ============================================================================ */
 
 * {
@@ -25,7 +25,7 @@ body {
   font-size: 14px;
   line-height: 1.6;
   background: #000000;
-  color: #4ade80;
+  color: #fdba74;
 }
 
 /* Scrollbar styling */
@@ -39,25 +39,25 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #166534;
+  background: #7f1d1d;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #22c55e;
+  background: #ea580c;
 }
 
 /* Selection */
 ::selection {
-  background: #22c55e40;
-  color: #4ade80;
+  background: #ea580c40;
+  color: #fdba74;
 }
 
 /* Focus styles */
 input:focus,
 button:focus {
   outline: none;
-  box-shadow: 0 0 0 2px #22c55e40;
+  box-shadow: 0 0 0 2px #ea580c40;
 }
 
 /* Clickable elements */
@@ -71,38 +71,9 @@ a {
   text-decoration: none;
 }
 
-/* CRT scanline effect (subtle, disabled on mobile for perf) */
-@media (min-width: 640px) {
-  body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    pointer-events: none;
-    background: repeating-linear-gradient(
-      0deg,
-      rgba(0, 0, 0, 0.15),
-      rgba(0, 0, 0, 0.15) 1px,
-      transparent 1px,
-      transparent 2px
-    );
-    z-index: 9999;
-    opacity: 0.3;
-  }
-}
-
-/* Glow effect for headers (desktop only) */
-@media (min-width: 640px) {
-  h1, h2, h3 {
-    text-shadow: 0 0 10px currentColor;
-  }
-}
-
 /* Button hover glow */
 button:not(:disabled):hover {
-  box-shadow: 0 0 20px #22c55e40;
+  box-shadow: 0 0 20px #ea580c40;
 }
 
 /* Live activity ticker animation */

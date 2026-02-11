@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
-import { useAccount, useBalance, useReadContract, useWriteContract, useWaitForTransactionReceipt, useSimulateContract, usePublicClient } from "wagmi";
+import { useAccount, useBalance, useReadContract, useWriteContract, useWaitForTransactionReceipt, useSimulateContract } from "wagmi";
 import { parseEther, formatEther, maxUint256, keccak256, encodeAbiParameters, toHex } from "viem";
-import { useQuery } from "@tanstack/react-query";
 import { CONTRACTS } from "@/configs/constants";
 import { SWAP_ROUTER_ABI, ERC20_ABI } from "@/configs/abis";
 import { useEthUsdPrice } from "@/hooks/useTokenPrice";
@@ -40,7 +39,7 @@ function SlippageSelector({ slippage, onChange }: { slippage: number; onChange: 
     <div className="space-y-2">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-1.5 text-green-700 hover:text-green-500 transition-colors text-xs"
+        className="flex items-center gap-1.5 text-neutral-500 hover:text-orange-400 transition-colors text-xs"
       >
         <span>⚙️</span>
         <span>Slippage: {slippage}%</span>
@@ -55,8 +54,8 @@ function SlippageSelector({ slippage, onChange }: { slippage: number; onChange: 
                 onClick={() => { onChange(p); setShowCustom(false); }}
                 className={`flex-1 py-1.5 text-xs font-medium border transition-all ${
                   slippage === p && !showCustom
-                    ? "bg-green-600/30 border-green-500/60 text-green-300"
-                    : "bg-black/40 border-green-900/50 text-green-600 hover:border-green-700/50"
+                    ? "bg-orange-600/30 border-orange-500/60 text-red-400"
+                    : "bg-black/40 border-red-900/50 text-orange-500 hover:border-orange-500/40"
                 }`}
               >
                 {p}%
@@ -66,8 +65,8 @@ function SlippageSelector({ slippage, onChange }: { slippage: number; onChange: 
               onClick={() => setShowCustom(!showCustom)}
               className={`flex-1 py-1.5 text-xs font-medium border transition-all ${
                 showCustom
-                  ? "bg-green-600/30 border-green-500/60 text-green-300"
-                  : "bg-black/40 border-green-900/50 text-green-600 hover:border-green-700/50"
+                  ? "bg-orange-600/30 border-orange-500/60 text-red-400"
+                  : "bg-black/40 border-red-900/50 text-orange-500 hover:border-orange-500/40"
               }`}
             >
               Custom
@@ -84,9 +83,9 @@ function SlippageSelector({ slippage, onChange }: { slippage: number; onChange: 
                   if (!isNaN(val) && val > 0 && val <= 50) onChange(val);
                 }}
                 placeholder="e.g. 7.5"
-                className="flex-1 bg-black/60 border border-green-900/50 text-green-300 text-sm px-3 py-1.5 font-mono focus:outline-none focus:border-green-500/50"
+                className="flex-1 bg-black/60 border border-red-900/50 text-red-400 text-sm px-3 py-1.5 font-mono focus:outline-none focus:border-orange-500/50"
               />
-              <span className="text-green-600 text-sm">%</span>
+              <span className="text-orange-500 text-sm">%</span>
             </div>
           )}
         </div>
@@ -104,7 +103,6 @@ export default function SwapPanel({ tokenAddress, tokenSymbol }: SwapPanelProps)
   const [errorMsg, setErrorMsg] = useState("");
 
   const { address, isConnected } = useAccount();
-  const publicClient = usePublicClient();
   const ethUsd = useEthUsdPrice();
 
   // ETH balance
@@ -223,46 +221,28 @@ export default function SwapPanel({ tokenAddress, tokenSymbol }: SwapPanelProps)
     query: { enabled: tab === "buy" && !!parsedAmount },
   } as any);
 
-  // Sell estimation via direct publicClient call (bypasses wagmi hook for reliable stateOverride)
-  const { data: sellEstimate, isFetching: isSellEstimating } = useQuery({
-    queryKey: ['sellEstimate', tokenAddress, parsedAmount?.toString(), address],
-    queryFn: async () => {
-      if (!publicClient || !parsedAmount || !address) return null;
-      // Try with stateOverride to bypass approval requirement
-      try {
-        const result = await publicClient.simulateContract({
-          account: address,
-          address: CONTRACTS.SWAP_ROUTER as `0x${string}`,
-          abi: SWAP_ROUTER_ABI,
-          functionName: 'sellTokens',
-          args: [tokenAddress, parsedAmount, 0n],
-          stateOverride: [{
-            address: tokenAddress,
-            stateDiff: {
-              [allowanceSlot(address, CONTRACTS.SWAP_ROUTER as `0x${string}`)]: toHex(maxUint256, { size: 32 }),
-            },
-          }],
-        });
-        return result.result as bigint;
-      } catch {
-        // Fallback: try without stateOverride (works if user already approved)
-        try {
-          const result = await publicClient.simulateContract({
-            account: address,
-            address: CONTRACTS.SWAP_ROUTER as `0x${string}`,
-            abi: SWAP_ROUTER_ABI,
-            functionName: 'sellTokens',
-            args: [tokenAddress, parsedAmount, 0n],
-          });
-          return result.result as bigint;
-        } catch {
-          return null;
-        }
-      }
-    },
-    enabled: tab === 'sell' && !!parsedAmount && !!address && !!publicClient,
-    retry: false,
-  });
+  // Compute sell stateOverride (guard against invalid addresses in test env)
+  const sellStateOverride = (() => {
+    if (!parsedAmount || !address) return undefined;
+    try {
+      return [{
+        address: tokenAddress,
+        stateDiff: {
+          [allowanceSlot(address, CONTRACTS.SWAP_ROUTER as `0x${string}`)]: toHex(maxUint256, { size: 32 }),
+        },
+      }];
+    } catch { return undefined; }
+  })();
+
+  // Simulate sellTokens via eth_call (stateOverride bypasses approval check)
+  const { data: sellSimulation, isFetching: isSellEstimating } = useSimulateContract({
+    address: CONTRACTS.SWAP_ROUTER as `0x${string}`,
+    abi: SWAP_ROUTER_ABI,
+    functionName: "sellTokens",
+    args: [tokenAddress, parsedAmount ?? 0n, 0n],
+    stateOverride: sellStateOverride,
+    query: { enabled: tab === "sell" && !!parsedAmount && !!address },
+  } as any);
 
   const isEstimating = (tab === "buy" && isBuyEstimating) || (tab === "sell" && isSellEstimating);
 
@@ -272,8 +252,8 @@ export default function SwapPanel({ tokenAddress, tokenSymbol }: SwapPanelProps)
     if (tab === "buy" && buySimulation?.result !== undefined) {
       return parseFloat(formatEther(buySimulation.result as bigint));
     }
-    if (tab === "sell" && sellEstimate != null) {
-      return parseFloat(formatEther(sellEstimate));
+    if (tab === "sell" && sellSimulation?.result !== undefined) {
+      return parseFloat(formatEther(sellSimulation.result as bigint));
     }
     return null;
   })();
@@ -283,8 +263,8 @@ export default function SwapPanel({ tokenAddress, tokenSymbol }: SwapPanelProps)
     if (tab === "buy" && buySimulation?.result !== undefined) {
       return buySimulation.result as bigint;
     }
-    if (tab === "sell" && sellEstimate != null) {
-      return sellEstimate;
+    if (tab === "sell" && sellSimulation?.result !== undefined) {
+      return sellSimulation.result as bigint;
     }
     return null;
   })();
@@ -402,17 +382,17 @@ export default function SwapPanel({ tokenAddress, tokenSymbol }: SwapPanelProps)
   })();
 
   return (
-    <div className="border border-green-900/50 bg-black/40 p-6 space-y-5">
-      <h2 className="text-green-500 text-sm font-semibold uppercase tracking-wider">🔄 Swap</h2>
+    <div className="border border-red-900/50 bg-black/40 p-6 space-y-5">
+      <h2 className="text-orange-400 text-sm font-semibold uppercase tracking-wider">🔄 Swap</h2>
 
       {/* Tab Selector */}
-      <div className="flex border border-green-900/50">
+      <div className="flex border border-red-900/50">
         <button
           onClick={() => { setTab("buy"); resetState(); setAmount(""); }}
           className={`flex-1 py-2.5 text-sm font-semibold transition-all ${
             tab === "buy"
-              ? "bg-green-600/25 text-green-300 border-b-2 border-green-400"
-              : "text-green-700 hover:text-green-500"
+              ? "bg-orange-600/25 text-orange-200 border-b-2 border-orange-400"
+              : "text-neutral-500 hover:text-orange-400"
           }`}
         >
           Buy
@@ -422,7 +402,7 @@ export default function SwapPanel({ tokenAddress, tokenSymbol }: SwapPanelProps)
           className={`flex-1 py-2.5 text-sm font-semibold transition-all ${
             tab === "sell"
               ? "bg-red-600/15 text-red-300 border-b-2 border-red-400"
-              : "text-green-700 hover:text-green-500"
+              : "text-neutral-500 hover:text-orange-400"
           }`}
         >
           Sell
@@ -431,25 +411,25 @@ export default function SwapPanel({ tokenAddress, tokenSymbol }: SwapPanelProps)
 
       {!isConnected ? (
         <div className="text-center py-8 space-y-3">
-          <p className="text-green-600 text-sm">Connect your wallet to trade</p>
-          <p className="text-green-800 text-xs">Supports MetaMask, Coinbase Wallet, and other injected wallets</p>
+          <p className="text-orange-500 text-sm">Connect your wallet to trade</p>
+          <p className="text-neutral-600 text-xs">Supports MetaMask, Coinbase Wallet, and other injected wallets</p>
         </div>
       ) : (
         <>
           {/* Balances */}
           <div className="flex justify-between text-xs">
-            <span className="text-green-700">
-              ETH: <span className="text-green-500 font-mono">{formattedEthBalance}</span>
+            <span className="text-neutral-500">
+              ETH: <span className="text-orange-400 font-mono">{formattedEthBalance}</span>
             </span>
-            <span className="text-green-700">
-              ${tokenSymbol}: <span className="text-green-500 font-mono">{formattedTokenBalance}</span>
+            <span className="text-neutral-500">
+              ${tokenSymbol}: <span className="text-orange-400 font-mono">{formattedTokenBalance}</span>
             </span>
           </div>
 
           {/* Input */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <label className="text-green-600 text-xs uppercase tracking-wider">
+              <label className="text-orange-500 text-xs uppercase tracking-wider">
                 {tab === "buy" ? "ETH to spend" : `${tokenSymbol} to sell`}
               </label>
               <button
@@ -464,7 +444,7 @@ export default function SwapPanel({ tokenAddress, tokenSymbol }: SwapPanelProps)
                     setAmount(formatEther(tokenBalance as bigint));
                   }
                 }}
-                className="text-green-700 hover:text-green-400 text-xs transition-colors"
+                className="text-neutral-500 hover:text-orange-300 text-xs transition-colors"
               >
                 MAX
               </button>
@@ -477,9 +457,9 @@ export default function SwapPanel({ tokenAddress, tokenSymbol }: SwapPanelProps)
                 placeholder={tab === "buy" ? "0.01" : "1000000"}
                 step="any"
                 min="0"
-                className="w-full bg-black/60 border border-green-900/50 text-green-300 text-lg px-4 py-3 pr-16 font-mono focus:outline-none focus:border-green-500/50 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                className="w-full bg-black/60 border border-red-900/50 text-red-400 text-lg px-4 py-3 pr-16 font-mono focus:outline-none focus:border-orange-500/50 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
               />
-              <span className="absolute right-4 top-1/2 -translate-y-1/2 text-green-600 text-sm font-mono">
+              <span className="absolute right-4 top-1/2 -translate-y-1/2 text-orange-500 text-sm font-mono">
                 {tab === "buy" ? "ETH" : tokenSymbol}
               </span>
             </div>
@@ -487,21 +467,21 @@ export default function SwapPanel({ tokenAddress, tokenSymbol }: SwapPanelProps)
 
           {/* Estimated Output */}
           {isEstimating && parsedAmount ? (
-            <div className="bg-green-900/10 border border-green-900/30 p-3 space-y-2">
+            <div className="bg-red-950/20 border border-red-900/30 p-3 space-y-2">
               <div className="flex justify-between text-sm">
-                <span className="text-green-600">You receive (est.)</span>
-                <span className="h-5 w-32 bg-green-900/30 rounded animate-pulse" />
+                <span className="text-orange-500">You receive (est.)</span>
+                <span className="h-5 w-32 bg-red-900/30 rounded animate-pulse" />
               </div>
               <div className="flex justify-between text-xs">
-                <span className="text-green-800">≈ USD value</span>
-                <span className="h-4 w-20 bg-green-900/20 rounded animate-pulse" />
+                <span className="text-neutral-600">≈ USD value</span>
+                <span className="h-4 w-20 bg-red-900/20 rounded animate-pulse" />
               </div>
             </div>
           ) : estimatedOutput !== null ? (
-            <div className="bg-green-900/10 border border-green-900/30 p-3 space-y-1">
+            <div className="bg-red-950/20 border border-red-900/30 p-3 space-y-1">
               <div className="flex justify-between text-sm">
-                <span className="text-green-600">You receive (est.)</span>
-                <span className="text-green-300 font-mono">
+                <span className="text-orange-500">You receive (est.)</span>
+                <span className="text-red-400 font-mono">
                   {tab === "buy"
                     ? `${estimatedOutput.toLocaleString(undefined, { maximumFractionDigits: 2 })} ${tokenSymbol}`
                     : `${estimatedOutput.toFixed(6)} ETH`
@@ -510,8 +490,8 @@ export default function SwapPanel({ tokenAddress, tokenSymbol }: SwapPanelProps)
               </div>
               {estimatedUsd !== null && (
                 <div className="flex justify-between text-xs">
-                  <span className="text-green-800">≈ USD value</span>
-                  <span className="text-green-700 font-mono">${estimatedUsd.toFixed(2)}</span>
+                  <span className="text-neutral-600">≈ USD value</span>
+                  <span className="text-neutral-500 font-mono">${estimatedUsd.toFixed(2)}</span>
                 </div>
               )}
             </div>
@@ -528,7 +508,7 @@ export default function SwapPanel({ tokenAddress, tokenSymbol }: SwapPanelProps)
               insufficientBalance
                 ? "bg-red-900/20 border-2 border-red-800/50 text-red-400"
                 : tab === "buy"
-                  ? "bg-green-600/25 border-2 border-green-500/50 text-green-300 hover:bg-green-600/35 hover:text-green-200"
+                  ? "bg-gradient-to-r from-red-600/25 to-orange-500/25 border-2 border-orange-500/50 text-orange-200 hover:from-red-600/35 hover:to-orange-500/35 hover:text-orange-100"
                   : "bg-red-600/20 border-2 border-red-500/40 text-red-300 hover:bg-red-600/30 hover:text-red-200"
             }`}
           >
@@ -550,13 +530,13 @@ export default function SwapPanel({ tokenAddress, tokenSymbol }: SwapPanelProps)
 
           {/* TX Status */}
           {txStatus === "success" && txHash && (
-            <div className="bg-green-900/20 border border-green-600/40 p-3 space-y-1">
-              <p className="text-green-400 text-sm font-semibold">✅ Transaction Successful!</p>
+            <div className="bg-orange-900/20 border border-orange-600/40 p-3 space-y-1">
+              <p className="text-orange-300 text-sm font-semibold">✅ Transaction Successful!</p>
               <a
                 href={`https://basescan.org/tx/${txHash}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-green-500 hover:text-green-300 text-xs font-mono break-all transition-colors"
+                className="text-orange-400 hover:text-orange-200 text-xs font-mono break-all transition-colors"
               >
                 View on BaseScan ↗
               </a>

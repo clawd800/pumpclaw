@@ -161,11 +161,11 @@ describe("TokenList", () => {
 
   /* ---- Sort tabs ---- */
 
-  it("renders sort tabs with 'Recent' active by default", () => {
+  it("renders sort tabs with 'Hot' active by default", () => {
     render(<TokenList />);
-    const recentTab = screen.getByRole("button", { name: /recent/i });
-    expect(recentTab).toBeInTheDocument();
-    expect(recentTab.className).toContain("text-green-300");
+    const hotTab = screen.getByRole("button", { name: /hot/i });
+    expect(hotTab).toBeInTheDocument();
+    expect(hotTab.className).toContain("text-orange-300");
   });
 
   it("has 'Top MCap' tab button", () => {
@@ -180,7 +180,7 @@ describe("TokenList", () => {
 
     const mcapTab = screen.getByRole("button", { name: /top mcap/i });
     await user.click(mcapTab);
-    expect(mcapTab.className).toContain("text-green-300");
+    expect(mcapTab.className).toContain("text-red-400");
   });
 
   /* ---- 8004 filter ---- */

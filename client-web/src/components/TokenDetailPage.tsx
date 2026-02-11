@@ -54,7 +54,7 @@ function CopyButton({ text, label }: { text: string; label?: string }) {
   return (
     <button
       onClick={handleCopy}
-      className="text-green-600 hover:text-green-400 transition-colors text-sm"
+      className="text-orange-500 hover:text-orange-300 transition-colors text-sm"
       title={`Copy ${label || "to clipboard"}`}
     >
       {copied ? "✓ Copied!" : `📋 ${label || "Copy"}`}
@@ -81,7 +81,7 @@ function ShareButtons({ token }: { token: TokenInfo }) {
   
   return (
     <div className="space-y-3">
-      <h3 className="text-green-500 text-sm font-semibold uppercase tracking-wider">Share</h3>
+      <h3 className="text-orange-400 text-sm font-semibold uppercase tracking-wider">Share</h3>
       <div className="flex gap-2">
         <a
           href={farcasterUrl}
@@ -106,7 +106,7 @@ function ShareButtons({ token }: { token: TokenInfo }) {
             btn.textContent = '✅';
             setTimeout(() => { btn.textContent = '🔗 Link'; }, 1500);
           }}
-          className="flex-1 py-2 sm:py-3 text-center text-xs sm:text-sm font-medium bg-green-900/30 border border-green-800/50 text-green-400 hover:bg-green-900/50 hover:text-green-300 transition-all"
+          className="flex-1 py-2 sm:py-3 text-center text-xs sm:text-sm font-medium bg-red-900/30 border border-neutral-600/50 text-orange-300 hover:bg-red-900/50 hover:text-orange-200 transition-all"
         >
           🔗 Link
         </button>
@@ -139,16 +139,16 @@ function DetailProgressBar({ tokenAddress }: { tokenAddress: `0x${string}` }) {
   return (
     <div className="space-y-2">
       <div className="flex justify-between text-sm">
-        <span className="text-green-600">Tokens Purchased</span>
-        <span className="text-green-400 font-semibold">{percentPurchased.toFixed(2)}%</span>
+        <span className="text-orange-500">Tokens Purchased</span>
+        <span className="text-orange-200 font-semibold">{percentPurchased.toFixed(2)}%</span>
       </div>
-      <div className="h-4 bg-green-900/30 border border-green-900/50 overflow-hidden">
+      <div className="h-4 bg-red-900/30 border border-red-900/50 overflow-hidden">
         <div 
-          className="h-full bg-gradient-to-r from-green-600 to-green-400 shadow-[0_0_12px_rgba(34,197,94,0.5)] transition-all duration-700"
+          className="h-full bg-gradient-to-r from-red-500 to-orange-400 shadow-[0_0_12px_rgba(239,68,68,0.5)] transition-all duration-700"
           style={{ width: `${Math.min(percentPurchased, 100)}%` }}
         />
       </div>
-      <div className="text-xs text-green-700">
+      <div className="text-xs text-neutral-500">
         {formattedPurchased} / {formattedTotal} tokens
       </div>
     </div>
@@ -161,9 +161,9 @@ function MarketStats({ tokenAddress, totalSupply }: { tokenAddress: `0x${string}
   
   if (priceLoading || ethPerToken === null) {
     return (
-      <div className="border border-green-900/50 bg-black/40 p-6">
-        <h2 className="text-green-500 text-sm font-semibold uppercase tracking-wider mb-3">📊 Live Market Data</h2>
-        <div className="text-green-700 text-sm animate-pulse">Reading V4 pool...</div>
+      <div className="border border-red-900/50 bg-black/40 p-6">
+        <h2 className="text-orange-400 text-sm font-semibold uppercase tracking-wider mb-3">📊 Live Market Data</h2>
+        <div className="text-neutral-500 text-sm animate-pulse">Reading V4 pool...</div>
       </div>
     );
   }
@@ -187,31 +187,31 @@ function MarketStats({ tokenAddress, totalSupply }: { tokenAddress: `0x${string}
   };
 
   return (
-    <div className="border border-green-900/50 bg-black/40 p-6 space-y-4">
+    <div className="border border-red-900/50 bg-black/40 p-6 space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-green-500 text-sm font-semibold uppercase tracking-wider">📊 Live Market Data</h2>
-        <span className="text-green-800 text-xs">via Uniswap V4</span>
+        <h2 className="text-orange-400 text-sm font-semibold uppercase tracking-wider">📊 Live Market Data</h2>
+        <span className="text-neutral-600 text-xs">via Uniswap V4</span>
       </div>
       
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <div className="text-green-700 text-xs uppercase mb-1">Price</div>
-          <div className="text-green-300 text-xl font-bold font-mono">
+          <div className="text-neutral-500 text-xs uppercase mb-1">Price</div>
+          <div className="text-red-400 text-xl font-bold font-mono">
             {priceUsd !== null ? formatPrice(priceUsd) : `${ethPerToken.toExponential(2)} ETH`}
           </div>
           {priceUsd !== null && (
-            <div className="text-green-700 text-xs font-mono mt-0.5">
+            <div className="text-neutral-500 text-xs font-mono mt-0.5">
               {ethPerToken.toExponential(3)} ETH
             </div>
           )}
         </div>
         <div>
-          <div className="text-green-700 text-xs uppercase mb-1">Market Cap</div>
-          <div className="text-green-300 text-xl font-bold font-mono">
+          <div className="text-neutral-500 text-xs uppercase mb-1">Market Cap</div>
+          <div className="text-red-400 text-xl font-bold font-mono">
             {mcapUsd !== null ? formatMcap(mcapUsd) : `${mcapEth.toFixed(2)} ETH`}
           </div>
           {mcapUsd !== null && (
-            <div className="text-green-700 text-xs font-mono mt-0.5">
+            <div className="text-neutral-500 text-xs font-mono mt-0.5">
               {mcapEth.toFixed(2)} ETH
             </div>
           )}
@@ -250,7 +250,7 @@ export default function TokenDetailPage({
   if (isLoading) {
     return (
       <div className="min-h-[60vh] flex items-center justify-center">
-        <div className="text-green-600 text-lg">Loading token...</div>
+        <div className="text-orange-500 text-lg">Loading token...</div>
       </div>
     );
   }
@@ -260,13 +260,13 @@ export default function TokenDetailPage({
   if (!token || !token.token || token.token === "0x0000000000000000000000000000000000000000") {
     return (
       <div className="min-h-[60vh] flex flex-col items-center justify-center gap-4">
-        <div className="text-green-600 text-lg">Token not found</div>
-        <p className="text-green-800 text-sm">
-          Address: <code className="text-green-700">{tokenAddress}</code>
+        <div className="text-orange-500 text-lg">Token not found</div>
+        <p className="text-neutral-600 text-sm">
+          Address: <code className="text-neutral-500">{tokenAddress}</code>
         </p>
         <button
           onClick={goHome}
-          className="px-6 py-2 bg-green-900/30 border border-green-800/50 text-green-400 hover:bg-green-900/50 transition-all"
+          className="px-6 py-2 bg-red-900/30 border border-neutral-600/50 text-orange-200 hover:bg-red-900/50 transition-all"
         >
           ← Back to all tokens
         </button>
@@ -285,20 +285,20 @@ export default function TokenDetailPage({
       {/* Back button */}
       <button
         onClick={goHome}
-        className="text-green-600 hover:text-green-400 transition-colors text-xs sm:text-sm flex items-center gap-1"
+        className="text-orange-500 hover:text-orange-300 transition-colors text-xs sm:text-sm flex items-center gap-1"
       >
         ← Back
       </button>
 
       {/* Hero Section */}
-      <div className="border border-green-900/50 bg-black/40 p-4 sm:p-8 relative">
+      <div className="border border-red-900/50 bg-black/40 p-4 sm:p-8 relative">
         <div className="flex items-center gap-3 sm:gap-6">
           {/* Token Logo */}
-          <div className="flex-shrink-0 w-16 h-16 sm:w-32 sm:h-32 overflow-hidden bg-green-900/30 border-2 border-green-800/50 rounded-sm">
+          <div className="flex-shrink-0 w-16 h-16 sm:w-32 sm:h-32 overflow-hidden bg-red-900/30 border-2 border-neutral-600/50 rounded-sm">
             {imageUrl ? (
               <TokenMedia src={imageUrl} alt={token.symbol} />
             ) : (
-              <div className="w-full h-full flex items-center justify-center text-green-600 text-3xl sm:text-5xl">
+              <div className="w-full h-full flex items-center justify-center text-orange-500 text-3xl sm:text-5xl">
                 🦞
               </div>
             )}
@@ -306,11 +306,11 @@ export default function TokenDetailPage({
 
           {/* Token Info */}
           <div className="flex-1 min-w-0">
-            <h1 className="text-lg sm:text-3xl font-bold text-green-300 truncate">
+            <h1 className="text-lg sm:text-3xl font-bold text-red-400 truncate">
               {token.name}
             </h1>
-            <p className="text-green-500 text-base sm:text-xl font-mono mt-0.5">${token.symbol}</p>
-            <p className="text-green-700 text-[11px] sm:text-sm mt-1 sm:mt-2">
+            <p className="text-orange-400 text-base sm:text-xl font-mono mt-0.5">${token.symbol}</p>
+            <p className="text-neutral-500 text-[11px] sm:text-sm mt-1 sm:mt-2">
               {createdDate.toLocaleDateString("en-US", { 
                 month: "short", 
                 day: "numeric",
@@ -371,23 +371,23 @@ export default function TokenDetailPage({
       <ChartEmbed tokenAddress={token.token} />
 
       {/* Progress */}
-      <div className="border border-green-900/50 bg-black/40 p-6">
+      <div className="border border-red-900/50 bg-black/40 p-6">
         <DetailProgressBar tokenAddress={token.token} />
       </div>
 
       {/* Details Grid */}
-      <div className="border border-green-900/50 bg-black/40 p-3 sm:p-6 space-y-3 sm:space-y-4">
-        <h2 className="text-green-500 text-xs sm:text-sm font-semibold uppercase tracking-wider mb-2 sm:mb-4">Token Details</h2>
+      <div className="border border-red-900/50 bg-black/40 p-3 sm:p-6 space-y-3 sm:space-y-4">
+        <h2 className="text-orange-400 text-xs sm:text-sm font-semibold uppercase tracking-wider mb-2 sm:mb-4">Token Details</h2>
         
         <div className="space-y-3">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-            <span className="text-green-600 text-sm">Contract Address</span>
+            <span className="text-orange-500 text-sm">Contract Address</span>
             <div className="flex items-center gap-2">
               <a
                 href={`https://basescan.org/token/${token.token}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-green-400 hover:text-green-300 font-mono text-sm transition-colors break-all"
+                className="text-orange-200 hover:text-orange-100 font-mono text-sm transition-colors break-all"
               >
                 {token.token}
               </a>
@@ -395,16 +395,16 @@ export default function TokenDetailPage({
             </div>
           </div>
 
-          <div className="border-t border-green-900/30" />
+          <div className="border-t border-red-900/30" />
 
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-            <span className="text-green-600 text-sm">Creator</span>
+            <span className="text-orange-500 text-sm">Creator</span>
             <div className="flex items-center gap-2">
               <a
                 href={`https://basescan.org/address/${token.creator}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-green-400 hover:text-green-300 font-mono text-sm transition-colors"
+                className="text-orange-200 hover:text-orange-100 font-mono text-sm transition-colors"
               >
                 {token.creator.slice(0, 10)}...{token.creator.slice(-8)}
               </a>
@@ -423,46 +423,46 @@ export default function TokenDetailPage({
             </div>
           </div>
 
-          <div className="border-t border-green-900/30" />
+          <div className="border-t border-red-900/30" />
 
           <div className="flex items-center justify-between">
-            <span className="text-green-600 text-sm">Initial FDV</span>
-            <span className="text-green-300 font-semibold">{displayFdv} ETH</span>
+            <span className="text-orange-500 text-sm">Initial FDV</span>
+            <span className="text-red-400 font-semibold">{displayFdv} ETH</span>
           </div>
 
-          <div className="border-t border-green-900/30" />
+          <div className="border-t border-red-900/30" />
 
           <div className="flex items-center justify-between">
-            <span className="text-green-600 text-sm">Total Supply</span>
-            <span className="text-green-300 font-mono text-sm">
+            <span className="text-orange-500 text-sm">Total Supply</span>
+            <span className="text-red-400 font-mono text-sm">
               {Number(formatEther(token.totalSupply)).toLocaleString(undefined, { maximumFractionDigits: 0 })}
             </span>
           </div>
 
-          <div className="border-t border-green-900/30" />
+          <div className="border-t border-red-900/30" />
 
           <div className="flex items-center justify-between">
-            <span className="text-green-600 text-sm">LP Status</span>
-            <span className="text-green-300 text-sm">🔒 Locked Forever</span>
+            <span className="text-orange-500 text-sm">LP Status</span>
+            <span className="text-red-400 text-sm">🔒 Locked Forever</span>
           </div>
 
-          <div className="border-t border-green-900/30" />
+          <div className="border-t border-red-900/30" />
 
           <div className="flex items-center justify-between">
-            <span className="text-green-600 text-sm">Fee Split</span>
-            <span className="text-green-300 text-sm">80% Creator / 20% Protocol</span>
+            <span className="text-orange-500 text-sm">Fee Split</span>
+            <span className="text-red-400 text-sm">80% Creator / 20% Protocol</span>
           </div>
 
           {websiteUrl && (
             <>
-              <div className="border-t border-green-900/30" />
+              <div className="border-t border-red-900/30" />
               <div className="flex items-center justify-between">
-                <span className="text-green-600 text-sm">Website</span>
+                <span className="text-orange-500 text-sm">Website</span>
                 <a
                   href={websiteUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-green-400 hover:text-green-300 text-sm transition-colors"
+                  className="text-orange-200 hover:text-orange-100 text-sm transition-colors"
                 >
                   {websiteUrl} ↗
                 </a>
@@ -478,7 +478,7 @@ export default function TokenDetailPage({
           href={tradeUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="py-2 sm:py-3 text-center text-[10px] sm:text-sm font-medium bg-green-900/30 border border-green-800/50 text-green-500 hover:bg-green-900/50 hover:text-green-400 transition-all"
+          className="py-2 sm:py-3 text-center text-[10px] sm:text-sm font-medium bg-red-900/30 border border-neutral-600/50 text-orange-400 hover:bg-red-900/50 hover:text-orange-300 transition-all"
         >
           Matcha
         </a>
@@ -486,7 +486,7 @@ export default function TokenDetailPage({
           href={`https://basescan.org/token/${token.token}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="py-2 sm:py-3 text-center text-[10px] sm:text-sm font-medium bg-green-900/30 border border-green-800/50 text-green-500 hover:bg-green-900/50 hover:text-green-400 transition-all"
+          className="py-2 sm:py-3 text-center text-[10px] sm:text-sm font-medium bg-red-900/30 border border-neutral-600/50 text-orange-400 hover:bg-red-900/50 hover:text-orange-300 transition-all"
         >
           Scan
         </a>
@@ -494,7 +494,7 @@ export default function TokenDetailPage({
           href={dexScreenerUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="py-2 sm:py-3 text-center text-[10px] sm:text-sm font-medium bg-green-900/30 border border-green-800/50 text-green-500 hover:bg-green-900/50 hover:text-green-400 transition-all"
+          className="py-2 sm:py-3 text-center text-[10px] sm:text-sm font-medium bg-red-900/30 border border-neutral-600/50 text-orange-400 hover:bg-red-900/50 hover:text-orange-300 transition-all"
         >
           DexScr
         </a>
@@ -502,14 +502,14 @@ export default function TokenDetailPage({
           href={`https://app.uniswap.org/swap?chain=base&outputCurrency=${token.token}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="py-2 sm:py-3 text-center text-[10px] sm:text-sm font-medium bg-green-900/30 border border-green-800/50 text-green-500 hover:bg-green-900/50 hover:text-green-400 transition-all"
+          className="py-2 sm:py-3 text-center text-[10px] sm:text-sm font-medium bg-red-900/30 border border-neutral-600/50 text-orange-400 hover:bg-red-900/50 hover:text-orange-300 transition-all"
         >
           Uniswap
         </a>
       </div>
 
       {/* Share Section */}
-      <div className="border border-green-900/50 bg-black/40 p-6">
+      <div className="border border-red-900/50 bg-black/40 p-6">
         <ShareButtons token={token} />
       </div>
 
@@ -522,7 +522,7 @@ export default function TokenDetailPage({
         <div className="flex gap-2 sm:gap-3 justify-center mt-3">
           <button
             onClick={goHome}
-            className="flex-1 sm:flex-none px-4 sm:px-6 py-2 sm:py-3 bg-green-600/20 border border-green-500/50 text-green-400 hover:bg-green-600/30 transition-all text-xs sm:text-sm font-medium"
+            className="flex-1 sm:flex-none px-4 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-red-600 to-orange-500 text-white hover:from-red-500 hover:to-orange-400 transition-all text-xs sm:text-sm font-medium"
           >
             🚀 Launch
           </button>

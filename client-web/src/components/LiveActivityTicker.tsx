@@ -13,7 +13,7 @@ function getTimeAgo(date: Date): string {
 function TokenLogo({ token }: { token: TokenInfo }) {
   const { data: imageUrl } = useTokenImageUrl(token.token);
   return (
-    <div className="w-6 h-6 flex-shrink-0 overflow-hidden rounded-full bg-green-900/30 border border-green-800/50">
+    <div className="w-6 h-6 flex-shrink-0 overflow-hidden rounded-full bg-red-900/30 border border-neutral-600/50">
       {imageUrl ? (
         <TokenMedia src={imageUrl} alt={token.symbol} />
       ) : (
@@ -30,13 +30,13 @@ function TickerItem({ token }: { token: TokenInfo }) {
   return (
     <a
       href={`#/token/${token.token}`}
-      className="inline-flex items-center gap-2 px-4 py-1 hover:bg-green-900/20 transition-colors whitespace-nowrap group"
+      className="inline-flex items-center gap-2 px-4 py-1 hover:bg-red-900/20 transition-colors whitespace-nowrap group"
     >
       <TokenLogo token={token} />
-      <span className="text-green-300 font-semibold group-hover:text-green-200 transition-colors">
+      <span className="text-red-400 font-semibold group-hover:text-orange-200 transition-colors">
         ${token.symbol}
       </span>
-      <span className="text-green-700 text-xs">
+      <span className="text-neutral-500 text-xs">
         {timeAgo}
       </span>
     </a>
@@ -70,16 +70,16 @@ export default function LiveActivityTicker() {
   if (!tokens.length) return null;
 
   return (
-    <div className="bg-black/80 border-b border-green-900/30 overflow-hidden">
+    <div className="bg-black/80 border-b border-red-900/30 overflow-hidden">
       <div className="max-w-6xl mx-auto flex items-center">
         {/* Live badge */}
-        <div className="flex-shrink-0 flex items-center gap-1.5 px-2.5 sm:px-4 py-1.5 sm:py-2 border-r border-green-900/30">
+        <div className="flex-shrink-0 flex items-center gap-1.5 px-2.5 sm:px-4 py-1.5 sm:py-2 border-r border-red-900/30">
           <span
             className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full transition-opacity duration-700 ${
-              hasRecentActivity ? "bg-green-400 shadow-[0_0_6px_rgba(74,222,128,0.8)]" : "bg-green-700"
+              hasRecentActivity ? "bg-orange-400 shadow-[0_0_6px_rgba(251,146,60,0.8)]" : "bg-neutral-500"
             } ${isLive ? "opacity-100" : "opacity-40"}`}
           />
-          <span className="text-green-500 text-[10px] sm:text-xs font-bold tracking-wider uppercase">
+          <span className="text-orange-400 text-[10px] sm:text-xs font-bold tracking-wider uppercase">
             {count}
           </span>
         </div>
