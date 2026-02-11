@@ -483,6 +483,14 @@ export default function TokenDetailPage({
           Matcha
         </a>
         <a
+          href={`https://app.uniswap.org/swap?chain=base&outputCurrency=${token.token}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="py-2 sm:py-3 text-center text-[10px] sm:text-sm font-medium bg-red-900/30 border border-neutral-600/50 text-orange-400 hover:bg-red-900/50 hover:text-orange-300 transition-all"
+        >
+          Uniswap
+        </a>
+        <a
           href={dexScreenerUrl}
           target="_blank"
           rel="noopener noreferrer"
@@ -497,14 +505,6 @@ export default function TokenDetailPage({
           className="py-2 sm:py-3 text-center text-[10px] sm:text-sm font-medium bg-red-900/30 border border-neutral-600/50 text-orange-400 hover:bg-red-900/50 hover:text-orange-300 transition-all"
         >
           Gecko
-        </a>
-        <a
-          href={`https://app.uniswap.org/swap?chain=base&outputCurrency=${token.token}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="py-2 sm:py-3 text-center text-[10px] sm:text-sm font-medium bg-red-900/30 border border-neutral-600/50 text-orange-400 hover:bg-red-900/50 hover:text-orange-300 transition-all"
-        >
-          Uniswap
         </a>
         <a
           href={`https://basescan.org/token/${token.token}`}
