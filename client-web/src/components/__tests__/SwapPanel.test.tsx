@@ -94,7 +94,18 @@ vi.mock("wagmi", () => ({
   useSimulateContract: vi.fn(() => ({
     data: { result: 990_000_000_000_000_000_000_000n }, // 990,000 tokens
   })),
+  usePublicClient: vi.fn(() => ({
+    simulateContract: vi.fn().mockResolvedValue({ result: 500_000_000_000_000n }), // 0.0005 ETH
+  })),
 }));
+
+vi.mock("@tanstack/react-query", async () => {
+  const actual = await vi.importActual("@tanstack/react-query");
+  return {
+    ...actual,
+    useQuery: vi.fn(() => ({ data: null, isFetching: false })),
+  };
+});
 
 vi.mock("@/hooks/useTokenPrice", () => ({
   useEthUsdPrice: vi.fn(() => 2500),
