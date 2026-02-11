@@ -221,11 +221,11 @@ function TokenCard({ token, isERC8004Registered, volume24h, txns24h }: TokenCard
   const timeAgo = getTimeAgo(createdDate);
 
   return (
-    <div className="rounded-xl border border-neutral-800 bg-neutral-950/80 hover:border-orange-500/25 hover:bg-neutral-900/50 transition-all group flex flex-col">
+    <div className="border border-neutral-800 bg-neutral-950/80 hover:border-orange-500/25 hover:bg-neutral-900/50 transition-all group flex flex-col">
       <a href={`#/token/${token.token}`} className="block p-4 flex-1">
         {/* Row 1: Logo + Name/Symbol + Price */}
         <div className="flex gap-3 mb-3">
-          <div className="shrink-0 w-11 h-11 rounded-lg overflow-hidden bg-neutral-900 border border-neutral-800 group-hover:border-neutral-700 transition-colors">
+          <div className="shrink-0 w-11 h-11 overflow-hidden bg-neutral-900 border border-neutral-800 group-hover:border-neutral-700 transition-colors">
             {imageUrl ? (
               <TokenMedia src={imageUrl} alt={token.symbol} />
             ) : (
@@ -264,7 +264,7 @@ function TokenCard({ token, isERC8004Registered, volume24h, txns24h }: TokenCard
       <div className="px-4 pb-4 pt-1 flex gap-2">
         <a
           href={`#/token/${token.token}`}
-          className="flex-1 py-2 text-center text-xs font-medium rounded-lg bg-orange-500/10 border border-orange-500/20 text-orange-400 hover:bg-orange-500/20 hover:text-orange-300 transition-all"
+          className="flex-1 py-2 text-center text-xs font-medium bg-orange-500/10 border border-orange-500/20 text-orange-400 hover:bg-orange-500/20 hover:text-orange-300 transition-all"
         >
           Trade
         </a>
@@ -277,7 +277,7 @@ function TokenCard({ token, isERC8004Registered, volume24h, txns24h }: TokenCard
             btn.textContent = '✅';
             setTimeout(() => { btn.textContent = '🔗'; }, 1500);
           }}
-          className="px-3 py-2 rounded-lg bg-neutral-900 border border-neutral-800 text-neutral-500 hover:text-white hover:border-neutral-700 transition-all shrink-0"
+          className="px-3 py-2 bg-neutral-900 border border-neutral-800 text-neutral-500 hover:text-white hover:border-neutral-700 transition-all shrink-0"
           title="Copy share link"
         >
           🔗
@@ -359,7 +359,7 @@ export default function TokenList() {
         </h2>
         <button
           onClick={() => refetch()}
-          className="text-xs text-neutral-500 hover:text-white transition-colors px-2.5 py-1 rounded-lg border border-neutral-800 hover:border-neutral-700"
+          className="text-xs text-neutral-500 hover:text-white transition-colors px-2.5 py-1 border border-neutral-800 hover:border-neutral-700"
         >
           ↻ Refresh
         </button>
@@ -367,7 +367,7 @@ export default function TokenList() {
 
       {/* Sort Tabs & Filter */}
       <div className="flex items-center gap-3 mb-4 pb-4 border-b border-neutral-800/50">
-        <div className="flex gap-1 flex-1 bg-neutral-900/50 p-1 rounded-lg">
+        <div className="flex gap-1 flex-1 bg-neutral-900/50 p-1">
           {([
             { key: 'hot' as SortOption, label: '🔥 Hot' },
             { key: 'marketcap' as SortOption, label: 'Top MCap' },
@@ -376,7 +376,7 @@ export default function TokenList() {
             <button
               key={key}
               onClick={() => setSortBy(key)}
-              className={`flex-1 sm:flex-none px-3 py-1.5 text-xs sm:text-sm font-medium rounded-md transition-all ${
+              className={`flex-1 sm:flex-none px-3 py-1.5 text-xs sm:text-sm font-medium transition-all ${
                 sortBy === key
                   ? 'bg-orange-500/15 text-orange-300 shadow-sm'
                   : 'text-neutral-500 hover:text-neutral-300'
