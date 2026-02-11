@@ -1,40 +1,37 @@
 import { useState } from "react";
 
-type Provider = "dexscreener" | "geckoterminal";
-
 interface ChartEmbedProps {
   tokenAddress: string;
 }
 
-const PROVIDERS: { id: Provider; label: string }[] = [
-  { id: "dexscreener", label: "DexScreener" },
-  { id: "geckoterminal", label: "GeckoTerminal" },
-];
-
-function getEmbedUrl(provider: Provider, tokenAddress: string): string {
-  if (provider === "geckoterminal") {
-    return `https://www.geckoterminal.com/base/tokens/${tokenAddress}?embed=1&info=0&swaps=1`;
-  }
-  return `https://dexscreener.com/base/${tokenAddress}?embed=1&theme=dark&trades=0&info=0`;
-}
+type ChartProvider = "dexscreener" | "gecko";
 
 export default function ChartEmbed({ tokenAddress }: ChartEmbedProps) {
-  const [provider, setProvider] = useState<Provider>("dexscreener");
+  const [provider, setProvider] = useState<ChartProvider>("dexscreener");
   const [hasError, setHasError] = useState(false);
+
+  const dexScreenerUrl = `https://dexscreener.com/base/${tokenAddress}?embed=1&theme=dark&trades=0&info=0`;
+  const geckoUrl = `https://www.geckoterminal.com/base/tokens/${tokenAddress}?embed=1&info=0&swaps=1`;
+
+  const chartUrl = provider === "dexscreener" ? dexScreenerUrl : geckoUrl;
 
   if (hasError) {
     return (
-      <div className="border border-green-900/50 bg-black/40 p-6 space-y-4">
+      <div className="border border-green-900/50 bg-black/40 p-6 space-y-3">
         <h2 className="text-green-500 text-sm font-semibold uppercase tracking-wider">📈 Chart</h2>
-        <div className="text-center py-8 space-y-3">
-          <p className="text-green-600 text-sm">No chart data available yet</p>
-          <p className="text-green-800 text-xs">Charts appear once there is trading activity</p>
-          <div className="flex justify-center gap-3 mt-4">
+        <div className="flex flex-col items-center justify-center py-12 space-y-3">
+          <span className="text-4xl">📊</span>
+          <p className="text-green-600 text-sm">No chart data yet</p>
+          <p className="text-green-800 text-xs text-center max-w-sm">
+            Chart will appear after the token gets indexed by DexScreener or GeckoTerminal.
+            PumpClaw uses Uniswap V4 — indexing may take some time.
+          </p>
+          <div className="flex gap-2 mt-2">
             <a
               href={`https://dexscreener.com/base/${tokenAddress}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-4 py-2 text-xs bg-green-900/30 border border-green-800/50 text-green-500 hover:text-green-400 transition-colors"
+              className="px-3 py-1.5 text-xs font-medium bg-green-900/30 border border-green-800/50 text-green-500 hover:bg-green-900/50 hover:text-green-400 transition-all"
             >
               DexScreener ↗
             </a>
@@ -42,7 +39,7 @@ export default function ChartEmbed({ tokenAddress }: ChartEmbedProps) {
               href={`https://www.geckoterminal.com/base/tokens/${tokenAddress}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-4 py-2 text-xs bg-green-900/30 border border-green-800/50 text-green-500 hover:text-green-400 transition-colors"
+              className="px-3 py-1.5 text-xs font-medium bg-green-900/30 border border-green-800/50 text-green-500 hover:bg-green-900/50 hover:text-green-400 transition-all"
             >
               GeckoTerminal ↗
             </a>
@@ -53,34 +50,43 @@ export default function ChartEmbed({ tokenAddress }: ChartEmbedProps) {
   }
 
   return (
-    <div className="border border-green-900/50 bg-black/40 p-6 space-y-4">
-      <div className="flex items-center justify-between">
+    <div className="border border-green-900/50 bg-black/40 overflow-hidden">
+      {/* Header */}
+      <div className="flex items-center justify-between px-4 py-2.5 border-b border-green-900/30">
         <h2 className="text-green-500 text-sm font-semibold uppercase tracking-wider">📈 Chart</h2>
-        <div className="flex gap-1.5">
-          {PROVIDERS.map((p) => (
-            <button
-              key={p.id}
-              onClick={() => { setProvider(p.id); setHasError(false); }}
-              className={`px-3 py-1.5 text-xs font-medium border transition-all ${
-                provider === p.id
-                  ? "bg-green-600/30 border-green-500/60 text-green-300"
-                  : "bg-black/40 border-green-900/50 text-green-600 hover:border-green-700/50"
-              }`}
-            >
-              {p.label}
-            </button>
-          ))}
+        <div className="flex gap-1">
+          <button
+            onClick={() => { setProvider("dexscreener"); setHasError(false); }}
+            className={`px-2.5 py-1 text-xs font-medium transition-all ${
+              provider === "dexscreener"
+                ? "bg-green-600/25 text-green-300 border border-green-500/50"
+                : "text-green-700 border border-transparent hover:text-green-500"
+            }`}
+          >
+            DexScreener
+          </button>
+          <button
+            onClick={() => { setProvider("gecko"); setHasError(false); }}
+            className={`px-2.5 py-1 text-xs font-medium transition-all ${
+              provider === "gecko"
+                ? "bg-green-600/25 text-green-300 border border-green-500/50"
+                : "text-green-700 border border-transparent hover:text-green-500"
+            }`}
+          >
+            GeckoTerminal
+          </button>
         </div>
       </div>
-
-      <div className="aspect-[16/9] w-full">
+      
+      {/* Chart iframe */}
+      <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
         <iframe
           key={provider}
-          src={getEmbedUrl(provider, tokenAddress)}
+          src={chartUrl}
+          className="absolute inset-0 w-full h-full border-0"
           title={`${provider} chart`}
-          className="w-full h-full border-0"
-          loading="lazy"
           sandbox="allow-scripts allow-same-origin allow-popups"
+          loading="lazy"
           onError={() => setHasError(true)}
         />
       </div>

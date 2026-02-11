@@ -2,8 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://pumpclaw.com/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>
   <url><loc>https://pumpclaw.com/compare.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://pumpclaw.com/tokenlist.json</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
-  <url><loc>https://pumpclaw.com/api/tokens.json</loc><changefreq>daily</changefreq><priority>0.6</priority></url>
   <url><loc>https://pumpclaw.com/token/0x76767891Fe941e1934953e9bd63cDeD7b5c473Da/</loc><changefreq>daily</changefreq></url>
   <url><loc>https://pumpclaw.com/token/0xCE92aaC1ec6b83451986E39A149eA23f96CD42bb/</loc><changefreq>daily</changefreq></url>
   <url><loc>https://pumpclaw.com/token/0xf9C5d2a45240bDdB6439199fF1b882A4DC11a701/</loc><changefreq>daily</changefreq></url>

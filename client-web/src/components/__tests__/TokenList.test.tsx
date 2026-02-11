@@ -166,27 +166,29 @@ describe("TokenList", () => {
     expect(tokenDetailLinks.length).toBeGreaterThanOrEqual(2);
   });
 
-  /* ---- Sort dropdown ---- */
+  /* ---- Sort tabs ---- */
 
-  it("renders sort dropdown with default 'Recent' option", () => {
+  it("renders sort tabs with 'Recent Launches' active by default", () => {
     render(<TokenList />);
-    const select = screen.getByRole("combobox") as HTMLSelectElement;
-    expect(select.value).toBe("recent");
+    const recentTab = screen.getByRole("button", { name: /recent launches/i });
+    expect(recentTab).toBeInTheDocument();
+    expect(recentTab.className).toContain("text-green-300");
   });
 
-  it("has 'Highest Market Cap' sort option", () => {
+  it("has 'Highest Market Cap' tab button", () => {
     render(<TokenList />);
-    const option = screen.getByRole("option", { name: /highest market cap/i });
-    expect(option).toBeInTheDocument();
+    const tab = screen.getByRole("button", { name: /highest market cap/i });
+    expect(tab).toBeInTheDocument();
   });
 
-  it("changes sort when dropdown value changes", async () => {
+  it("switches sort when tab button is clicked", async () => {
     const user = userEvent.setup();
     render(<TokenList />);
 
-    const select = screen.getByRole("combobox");
-    await user.selectOptions(select, "marketcap");
-    expect((select as HTMLSelectElement).value).toBe("marketcap");
+    const mcapTab = screen.getByRole("button", { name: /highest market cap/i });
+    await user.click(mcapTab);
+    // Active tab should have the active styling class
+    expect(mcapTab.className).toContain("text-green-300");
   });
 
   /* ---- 8004 filter ---- */
