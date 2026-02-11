@@ -291,7 +291,7 @@ export default function TokenDetailPage({
       </button>
 
       {/* Hero Section */}
-      <div className="border border-green-900/50 bg-black/40 p-4 sm:p-8">
+      <div className="border border-green-900/50 bg-black/40 p-4 sm:p-8 relative">
         <div className="flex items-center gap-3 sm:gap-6">
           {/* Token Logo */}
           <div className="flex-shrink-0 w-16 h-16 sm:w-32 sm:h-32 overflow-hidden bg-green-900/30 border-2 border-green-800/50 rounded-sm">
@@ -320,6 +320,45 @@ export default function TokenDetailPage({
             </p>
           </div>
         </div>
+
+        {/* Add to MetaMask */}
+        <button
+          onClick={async () => {
+            try {
+              const ethereum = (window as any).ethereum;
+              if (!ethereum) { alert("MetaMask not detected"); return; }
+              await ethereum.request({
+                method: "wallet_watchAsset",
+                params: {
+                  type: "ERC20",
+                  options: {
+                    address: token.token,
+                    symbol: token.symbol.slice(0, 11),
+                    decimals: 18,
+                    image: imageUrl || "",
+                  },
+                },
+              });
+            } catch { /* user rejected */ }
+          }}
+          className="absolute top-3 right-3 sm:top-4 sm:right-4 p-1.5 sm:p-2 bg-orange-900/30 border border-orange-700/50 text-orange-400 hover:bg-orange-900/50 hover:text-orange-300 transition-all rounded-sm"
+          title="Add to MetaMask"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="sm:w-6 sm:h-6">
+            <path d="M21.3 2L13.1 8.2l1.5-3.6L21.3 2z" fill="#E17726" stroke="#E17726" strokeWidth="0.25"/>
+            <path d="M2.7 2l8.1 6.3-1.4-3.7L2.7 2zM18.4 16.8l-2.2 3.3 4.6 1.3 1.3-4.5-3.7-.1zM1.9 16.9l1.3 4.5 4.6-1.3-2.2-3.3-3.7.1z" fill="#E27625" stroke="#E27625" strokeWidth="0.25"/>
+            <path d="M7.5 10.5L6.2 12.5l4.5.2-.1-4.9-3.1 2.7zM16.5 10.5l-3.2-2.8-.1 5 4.5-.2-1.2-2zM7.8 20.1l2.7-1.3-2.3-1.8-.4 3.1zM13.5 18.8l2.7 1.3-.4-3.1-2.3 1.8z" fill="#E27625" stroke="#E27625" strokeWidth="0.25"/>
+            <path d="M16.2 20.1l-2.7-1.3.2 1.7v.7l2.5-1.1zM7.8 20.1l2.5 1.1v-.7l.2-1.7-2.7 1.3z" fill="#D5BFB2" stroke="#D5BFB2" strokeWidth="0.25"/>
+            <path d="M10.4 15.5l-2.2-.7 1.6-.7.6 1.4zM13.6 15.5l.6-1.4 1.6.7-2.2.7z" fill="#233447" stroke="#233447" strokeWidth="0.25"/>
+            <path d="M7.8 20.1l.4-3.3-2.6.1 2.2 3.2zM15.8 16.8l.4 3.3 2.2-3.2-2.6-.1zM17.7 12.5l-4.5.2.4 2.8.6-1.4 1.6.7 1.9-2.3zM8.2 14.8l1.6-.7.6 1.4.4-2.8-4.5-.2 1.9 2.3z" fill="#CC6228" stroke="#CC6228" strokeWidth="0.25"/>
+            <path d="M6.3 12.5l2 3.9-.1-1.6-1.9-2.3zM15.8 14.8l-.1 1.6 2-3.9-1.9 2.3zM10.8 12.7l-.4 2.8.5 2.6.1-3.5-.2-1.9zM13.2 12.7l-.2 1.9.1 3.5.5-2.6-.4-2.8z" fill="#E27525" stroke="#E27525" strokeWidth="0.25"/>
+            <path d="M13.6 15.5l-.5 2.6.4.3 2.3-1.8.1-1.6-2.3.5zM8.2 14.8l.1 1.8 2.3 1.8.4-.3-.5-2.6-2.3-.7z" fill="#F5841F" stroke="#F5841F" strokeWidth="0.25"/>
+            <path d="M13.7 21.2v-.7l-.2-.2H10.5l-.2.2v.7L7.8 20.1l.9.7 1.8 1.2h3.1l1.8-1.2.9-.7-2.6 1.1z" fill="#C0AC9D" stroke="#C0AC9D" strokeWidth="0.25"/>
+            <path d="M13.5 18.8l-.4-.3h-2.2l-.4.3-.2 1.7.2-.2h3l.2.2-.2-1.7z" fill="#161616" stroke="#161616" strokeWidth="0.25"/>
+            <path d="M21.7 8.6l.7-3.3L21.3 2l-7.8 5.8 3 2.5 4.2 1.2.9-1.1-.4-.3.6-.6-.5-.4.6-.5-.4-.3zM1.6 5.3l.7 3.3-.5.3.7.5-.5.4.7.6-.4.3.9 1.1 4.2-1.2 3-2.5L2.7 2l-1.1 3.3z" fill="#763E1A" stroke="#763E1A" strokeWidth="0.25"/>
+            <path d="M20.7 11.5l-4.2-1.2 1.2 2-2 3.9 2.7-.1h3.7l-1.4-4.6zM7.5 10.3l-4.2 1.2-1.4 4.6h3.7l2.7.1-2-3.9 1.2-2zM13.2 12.7l.3-4.9 1.1-3.2H9.4l1.1 3.2.3 4.9.1 2 .1 3.4h2.2l.1-3.4v-2z" fill="#F5841F" stroke="#F5841F" strokeWidth="0.25"/>
+          </svg>
+        </button>
       </div>
 
       {/* In-App Swap */}
