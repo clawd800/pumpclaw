@@ -6,6 +6,7 @@ import { CONTRACTS } from "@/configs/constants";
 import { TokenMedia } from "./TokenMedia";
 import { ERC20_ABI } from "@/configs/abis";
 import { useTokenPrice, useEthUsdPrice } from "@/hooks/useTokenPrice";
+import { useVolumeData } from "@/hooks/useVolumeData";
 
 // ERC-8004 Registry on Base
 const ERC8004_REGISTRY = "0x8004A169FB4a3325136EB29fA0ceB6D2e539a432" as const;
@@ -254,12 +255,32 @@ function TokenPriceBadge({ tokenAddress }: { tokenAddress: `0x${string}` }) {
   );
 }
 
+function VolumeBadge({ volume24h, txns }: { volume24h: number; txns: { buys: number; sells: number } }) {
+  if (volume24h <= 0) return null;
+  
+  const fmtVol = volume24h >= 1000
+    ? `$${(volume24h / 1000).toFixed(1)}K`
+    : `$${volume24h.toFixed(0)}`;
+  const totalTxns = txns.buys + txns.sells;
+  
+  return (
+    <div className="flex items-center gap-1 px-1.5 py-0.5 bg-orange-900/40 border border-orange-500/40 text-[10px] sm:text-xs">
+      <span className="text-orange-400">🔥</span>
+      <span className="text-orange-300 font-medium">{fmtVol}</span>
+      <span className="text-orange-600">•</span>
+      <span className="text-orange-400">{totalTxns} txn{totalTxns !== 1 ? 's' : ''}</span>
+    </div>
+  );
+}
+
 interface TokenCardProps {
   token: TokenInfo;
   isERC8004Registered: boolean;
+  volume24h?: number;
+  txns24h?: { buys: number; sells: number };
 }
 
-function TokenCard({ token, isERC8004Registered }: TokenCardProps) {
+function TokenCard({ token, isERC8004Registered, volume24h, txns24h }: TokenCardProps) {
   const { data: imageUrl } = useTokenImageUrl(token.token);
   
   const createdDate = new Date(Number(token.createdAt) * 1000);
@@ -292,8 +313,11 @@ function TokenCard({ token, isERC8004Registered }: TokenCardProps) {
             </div>
           </div>
 
-          <div className="flex-shrink-0 text-right">
+          <div className="flex-shrink-0 text-right flex flex-col items-end gap-1">
             <TokenPriceBadge tokenAddress={token.token} />
+            {volume24h != null && volume24h > 0 && txns24h && (
+              <VolumeBadge volume24h={volume24h} txns={txns24h} />
+            )}
           </div>
         </div>
 
@@ -339,12 +363,13 @@ function getTimeAgo(date: Date): string {
   return `${Math.floor(seconds / 86400)}d ago`;
 }
 
-type SortOption = 'recent' | 'marketcap';
+type SortOption = 'recent' | 'hot' | 'marketcap';
 
 export default function TokenList() {
   const { data: tokens, isLoading, count, refetch } = useLatestTokens();
   const [sortBy, setSortBy] = useState<SortOption>('recent');
   const [filterERC8004, setFilterERC8004] = useState(false);
+  const { data: volumeData } = useVolumeData();
 
   // Get all unique creator addresses for batch ERC-8004 check
   const creatorAddresses = useMemo(() => {
@@ -367,11 +392,18 @@ export default function TokenList() {
     }
 
     // Sort
-    if (sortBy === 'marketcap') {
+    if (sortBy === 'hot') {
+      // Volume descending, then recent for ties
+      result.sort((a, b) => {
+        const volA = volumeData?.tokens.find(v => v.address.toLowerCase() === a.token.toLowerCase())?.volume24h ?? 0;
+        const volB = volumeData?.tokens.find(v => v.address.toLowerCase() === b.token.toLowerCase())?.volume24h ?? 0;
+        if (volB !== volA) return volB - volA;
+        return Number(b.createdAt - a.createdAt);
+      });
+    } else if (sortBy === 'marketcap') {
       result.sort((a, b) => {
         const mcapA = marketCapMap.get(a.token.toLowerCase()) ?? a.initialFdv;
         const mcapB = marketCapMap.get(b.token.toLowerCase()) ?? b.initialFdv;
-        // Sort by market cap descending (highest first)
         if (mcapB > mcapA) return 1;
         if (mcapB < mcapA) return -1;
         return 0;
@@ -380,7 +412,7 @@ export default function TokenList() {
     // 'recent' is already the default order from the hook
 
     return result;
-  }, [tokens, sortBy, filterERC8004, erc8004StatusMap, marketCapMap]);
+  }, [tokens, sortBy, filterERC8004, erc8004StatusMap, marketCapMap, volumeData]);
 
   return (
     <div className="sm:border sm:border-green-900/50 bg-black/30 p-1.5 sm:p-6">
@@ -416,6 +448,16 @@ export default function TokenList() {
               }`}
             >
               Recent
+            </button>
+            <button
+              onClick={() => setSortBy('hot')}
+              className={`flex-1 sm:flex-none px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium border border-l-0 transition-all ${
+                sortBy === 'hot'
+                  ? 'bg-orange-600/20 border-orange-500/50 text-orange-300'
+                  : 'bg-black/40 border-green-900/50 text-green-700 hover:text-green-500 hover:border-green-700/50'
+              }`}
+            >
+              🔥 Hot
             </button>
             <button
               onClick={() => setSortBy('marketcap')}
@@ -462,13 +504,18 @@ export default function TokenList() {
         </div>
       ) : (
         <div className="grid gap-5 lg:grid-cols-2">
-          {displayedTokens.map((token) => (
-            <TokenCard 
-              key={token.token} 
-              token={token} 
-              isERC8004Registered={erc8004StatusMap.get(token.creator.toLowerCase()) ?? false}
-            />
-          ))}
+          {displayedTokens.map((token) => {
+            const vol = volumeData?.tokens.find(v => v.address.toLowerCase() === token.token.toLowerCase());
+            return (
+              <TokenCard 
+                key={token.token} 
+                token={token} 
+                isERC8004Registered={erc8004StatusMap.get(token.creator.toLowerCase()) ?? false}
+                volume24h={vol?.volume24h}
+                txns24h={vol?.txns24h}
+              />
+            );
+          })}
         </div>
       )}
     </div>

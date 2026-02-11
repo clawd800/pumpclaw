@@ -1,0 +1,781 @@
+{
+  "generatedAt": "2026-02-11T03:09:01.614Z",
+  "totalTokens": 54,
+  "activeTokens": 1,
+  "totalVolume24h": 876.01,
+  "totalTxns24h": 5,
+  "hotTokens": [
+    {
+      "address": "0x76767891Fe941e1934953e9bd63cDeD7b5c473Da",
+      "symbol": "PUMPCLAW",
+      "priceUsd": "0.00004548",
+      "volume24h": 876.01,
+      "txns24h": {
+        "buys": 4,
+        "sells": 1
+      },
+      "fdvUsd": null,
+      "liquidityUsd": 45443.44,
+      "priceChange24h": -3.07,
+      "pairUrl": "https://dexscreener.com/base/0x30d29308a17778764d3b54adfae59dc894a6a32171702780f59f80de64855704"
+    }
+  ],
+  "tokens": [
+    {
+      "address": "0x76767891Fe941e1934953e9bd63cDeD7b5c473Da",
+      "symbol": "PUMPCLAW",
+      "priceUsd": "0.00004548",
+      "volume24h": 876.01,
+      "txns24h": {
+        "buys": 4,
+        "sells": 1
+      },
+      "fdvUsd": null,
+      "liquidityUsd": 45443.44,
+      "priceChange24h": -3.07,
+      "pairUrl": "https://dexscreener.com/base/0x30d29308a17778764d3b54adfae59dc894a6a32171702780f59f80de64855704"
+    },
+    {
+      "address": "0xCE92aaC1ec6b83451986E39A149eA23f96CD42bb",
+      "symbol": "MOLDBOT",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0xf9C5d2a45240bDdB6439199fF1b882A4DC11a701",
+      "symbol": "LOBSTER",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x10664AFA7b54bb5B93BD215020192C7C9c162057",
+      "symbol": "CLAWCHAT",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x10c8A454F40022e557862e9ead4497272ca1cBc1",
+      "symbol": "BAR",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0xa16f7E15BD7C044777319eA7b002d4E459fF757f",
+      "symbol": "CLAWDROP",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x41CBD54b22cF5c2101Eb1B2f3A29B6310FB524Cf",
+      "symbol": "FLX",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x0f4039Bf223eF088717110a649dc92D34bb24fD0",
+      "symbol": "GULFY",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0xF6F1204C8e78f726Ad5535C4394Df067f521D969",
+      "symbol": "BLU3WAVE",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0xa9252ffEA9a0384189Eb2c32727313402cd7b620",
+      "symbol": "GVCL",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x23b4a42D6fa8eb0b61787D370a76e44D4e9f1d73",
+      "symbol": "ZUCK",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0xC8F7FB44480fE633253c54C16a5719b9d6BEC0ff",
+      "symbol": "LINKCLAWS",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x3B1F00bd1D11b0E4797F316235f553471d7aC5F7",
+      "symbol": "CLAWDPANDA",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0xaDCB201039C66007aA6029905FA32B66f29200e7",
+      "symbol": "BANCY",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x13164755190E7a42B4908CAF8B64E6F2a6c455c5",
+      "symbol": "NEO",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0xEaa710eb37709F67425869781d9A05DDa476Da06",
+      "symbol": "FCLAW",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x5959A6d13d10F3367312536e3E69922c982ab608",
+      "symbol": "TESTDEP",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x3E567C603077123b0447705b2474Ed0EABe26de1",
+      "symbol": "USFIRE",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x11d3e91c63eDB93319D5d6d3Cd6FfBa2b439522a",
+      "symbol": "SHAWARMA",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0xCc3b81086a10361AF30e1E94067FAAE94438F145",
+      "symbol": "RIDE",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0xd37922e20EeF61C3446d755Fe69B8746B948Dc8B",
+      "symbol": "USFIRE",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x63E1f1d691cB829fa66683eaeeEcF31F6f4f43c9",
+      "symbol": "CLAWLB",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0xEcEB86dAD57594C144ab5D61a9a632169cB275Fa",
+      "symbol": "RUGCLAW",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x1721EfFAaCcFCC8c1EC4F5cc7ce709F99f8D0BbF",
+      "symbol": "TICKER",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x1027b27267e9FA1C17b37CFB9Cd2639bcD4Ee35f",
+      "symbol": "GEEKD",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x6fD13c323F37928181704eca9B2dCe3F752418B8",
+      "symbol": "ClawspeedGo",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0xca7a17750D27f7D04E5D364c411bC35d4a95333B",
+      "symbol": "clawdnews",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x42d94de4DD85A52f9dA427B1F1c976b03DEE6258",
+      "symbol": "TICKER",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0xF7F6A1332522D12B7780f04BDaECcAb77E1d4C7A",
+      "symbol": "BaseBabes",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0xA65Ea27387fe7b982C344aD4c7384a3BBb4A6eD8",
+      "symbol": "CLWASTAIN",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x397a9ec57ea3865C9eB969e11beBdA0Da7CEb60d",
+      "symbol": "CLWASTAIN",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x75379e1af4747b5404422A3442959A09455c7A31",
+      "symbol": "FCLAW",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x8fFbFe0413aeD3a5F12f8899838952d34a3c8E19",
+      "symbol": "TEST",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0xF6f6cFABC05C7EE985119C5076bFD172135390fb",
+      "symbol": "FCLAW",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x0Ea7ecd72a501411cC79e52DBbf7430EE2B40aEa",
+      "symbol": "bonkr",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0xE87EA3Fe36E8346D2471878bEC3C5B920Aab53CA",
+      "symbol": "USCEC",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0xD2D6ed7786B2D4b3AE61B1AB54653B245478Dba8",
+      "symbol": "bubblawd",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x379A26270846c1e3A11F4Cd52483dC0D38ed349D",
+      "symbol": "ROASTED",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x633649Fb16A70979E69DaF0a557739c1696F2f69",
+      "symbol": "BABYCLAW",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0xedC2c05F3DCF6288033036127f0ee339558a3168",
+      "symbol": "RoboCash",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0xCa287Efbe35c2fc265D26714fA4ac8F8424A88FA",
+      "symbol": "Molten",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0xD7C61d5Aa25217FaA4F642B245ad0ee44be1705c",
+      "symbol": "MKAT",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0xFA679257eA6FA41770D7C2A37956A9204e89ffF1",
+      "symbol": "PUSSY",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x2BC77b19a2B9eD9F549172dd6a1DBc51005C8C01",
+      "symbol": "BANKRAP",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x19E1F945d2c101D0114EF6444b826Ff7e0D5fe9C",
+      "symbol": "MANIAFARM",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x221316BfDE641ea0b430687C1193f932f4D81b00",
+      "symbol": "cums",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x9f4688A792b815E2AF208144Eb9DE98AF0ccEBD2",
+      "symbol": "COFFEE",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x62eF38777944A1150eCAACE37bDC288d8e2b1E96",
+      "symbol": "GXMUSK",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0xA0652522ac5d59c90758349A218E781aBE2196c6",
+      "symbol": "SBT",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x51795eC2C14147E7382E995ADc01e7e2D82D0265",
+      "symbol": "FBR",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0xa58b7AD08dA6818255C910f02247B22C6CcEb4C1",
+      "symbol": "USOR",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0xED9f054C6CfdDA318E70c888F2FBa2964D70EBD4",
+      "symbol": "BITGOLD",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0xc03d6D3B08F87f8912af9EBC333166c7F632D281",
+      "symbol": "UCMR",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0xEad80A1988ec1B1fbf742189882Ab1356B776C0F",
+      "symbol": "ALMAHDI",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    }
+  ]
+}

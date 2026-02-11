@@ -1,9 +1,25 @@
 import { useState, useEffect, useCallback } from "react";
 import { useAccount, useBalance, useReadContract, useWriteContract, useWaitForTransactionReceipt, useSimulateContract } from "wagmi";
-import { parseEther, formatEther, maxUint256 } from "viem";
+import { parseEther, formatEther, maxUint256, keccak256, encodeAbiParameters, toHex } from "viem";
 import { CONTRACTS } from "@/configs/constants";
 import { SWAP_ROUTER_ABI, ERC20_ABI } from "@/configs/abis";
 import { useEthUsdPrice } from "@/hooks/useTokenPrice";
+
+// Compute ERC20 allowance storage slot (OpenZeppelin layout: _allowances at slot 1)
+function allowanceSlot(owner: `0x${string}`, spender: `0x${string}`): `0x${string}` {
+  const inner = keccak256(
+    encodeAbiParameters(
+      [{ type: "address" }, { type: "uint256" }],
+      [owner, 1n]
+    )
+  );
+  return keccak256(
+    encodeAbiParameters(
+      [{ type: "address" }, { type: "bytes32" }],
+      [spender, inner]
+    )
+  );
+}
 
 type SwapTab = "buy" | "sell";
 type TxStatus = "idle" | "approving" | "pending" | "success" | "failed";
@@ -205,14 +221,22 @@ export default function SwapPanel({ tokenAddress, tokenSymbol }: SwapPanelProps)
     query: { enabled: tab === "buy" && !!parsedAmount },
   } as any);
 
-  // Simulate sellTokens via eth_call
+  // Simulate sellTokens via eth_call (stateOverride bypasses approval check)
   const { data: sellSimulation, isFetching: isSellEstimating } = useSimulateContract({
     address: CONTRACTS.SWAP_ROUTER as `0x${string}`,
     abi: SWAP_ROUTER_ABI,
     functionName: "sellTokens",
     args: [tokenAddress, parsedAmount ?? 0n, 0n],
-    query: { enabled: tab === "sell" && !!parsedAmount && !needsApproval() },
-  });
+    stateOverride: parsedAmount && address ? [
+      {
+        address: tokenAddress,
+        stateDiff: {
+          [allowanceSlot(address, CONTRACTS.SWAP_ROUTER as `0x${string}`)]: toHex(maxUint256, { size: 32 }),
+        },
+      },
+    ] : undefined,
+    query: { enabled: tab === "sell" && !!parsedAmount },
+  } as any);
 
   const isEstimating = (tab === "buy" && isBuyEstimating) || (tab === "sell" && isSellEstimating);
 
