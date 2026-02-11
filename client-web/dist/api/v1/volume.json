@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-02-11T11:03:14.345Z",
-  "totalTokens": 54,
-  "activeTokens": 31,
-  "totalVolume24h": 415.5100000000004,
-  "totalTxns24h": 33,
+  "generatedAt": "2026-02-11T13:03:30.440Z",
+  "totalTokens": 63,
+  "activeTokens": 32,
+  "totalVolume24h": 415.54000000000036,
+  "totalTxns24h": 35,
   "hotTokens": [
     {
       "address": "0x76767891Fe941e1934953e9bd63cDeD7b5c473Da",
@@ -438,6 +438,20 @@
       "liquidityUsd": null,
       "priceChange24h": null,
       "pairUrl": "https://dexscreener.com/base/0x2a0b060e043579a28857bb77a42d7fdefce935dc8cd678a50fa837245851c9dc"
+    },
+    {
+      "address": "0x627fD5cA0E32F68b4Cc259bA56080D7282C79142",
+      "symbol": "CALWAAA",
+      "priceUsd": "0.00001955",
+      "volume24h": 0.03,
+      "txns24h": {
+        "buys": 1,
+        "sells": 1
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": 0.28,
+      "pairUrl": "https://dexscreener.com/base/0x2a3bf912aec83fe532b545cdb78bd7f1032a6db08a9e429f713d8bcf43609cdd"
     }
   ],
   "tokens": [
@@ -1196,6 +1210,132 @@
       "liquidityUsd": null,
       "priceChange24h": null,
       "pairUrl": "https://dexscreener.com/base/0x6de96cb6c3a912e3c9082358fea9b16663efa69e9c928a0bd0e940881ae299b5"
+    },
+    {
+      "address": "0x627fD5cA0E32F68b4Cc259bA56080D7282C79142",
+      "symbol": "CALWAAA",
+      "priceUsd": "0.00001955",
+      "volume24h": 0.03,
+      "txns24h": {
+        "buys": 1,
+        "sells": 1
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": 0.28,
+      "pairUrl": "https://dexscreener.com/base/0x2a3bf912aec83fe532b545cdb78bd7f1032a6db08a9e429f713d8bcf43609cdd"
+    },
+    {
+      "address": "0x3CC094098A9655019659D9D66d3270dAfB116591",
+      "symbol": "DUMPCLAWD",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x337fC5aDAe0800354ec20280BAb94bB055FDbda2",
+      "symbol": "SHITLIFE",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x499Ff556CADD87cFC61d4674A5C46df00212fcCf",
+      "symbol": "5050",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x5f93a40b889Bc71C04E39D66e99dc78f6745560B",
+      "symbol": "LOBSTER",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x20830f049BC0FC106700d0cE6223BF873c902b38",
+      "symbol": "clawdGird",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x970b9DF69274AAC1f54eC721da399273F13487FE",
+      "symbol": "Nigaclaw",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0xBAb5dbe8E33584a947A5956d720201c52Bfc4FF8",
+      "symbol": "SILVANA",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x5f412016Dd9066c839180E05e2A6441C6B8045Bd",
+      "symbol": "GCRAB",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
     }
   ]
 }

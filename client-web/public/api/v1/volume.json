@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-02-11T12:04:03.743Z",
-  "totalTokens": 61,
+  "generatedAt": "2026-02-11T13:03:30.440Z",
+  "totalTokens": 63,
   "activeTokens": 32,
   "totalVolume24h": 415.54000000000036,
   "totalTxns24h": 35,
@@ -1298,6 +1298,34 @@
     {
       "address": "0x970b9DF69274AAC1f54eC721da399273F13487FE",
       "symbol": "Nigaclaw",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0xBAb5dbe8E33584a947A5956d720201c52Bfc4FF8",
+      "symbol": "SILVANA",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x5f412016Dd9066c839180E05e2A6441C6B8045Bd",
+      "symbol": "GCRAB",
       "priceUsd": null,
       "volume24h": 0,
       "txns24h": {
