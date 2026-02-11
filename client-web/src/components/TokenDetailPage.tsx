@@ -217,12 +217,6 @@ function MarketStats({ tokenAddress, totalSupply }: { tokenAddress: `0x${string}
           )}
         </div>
       </div>
-      
-      <div className="pt-2 border-t border-green-900/30">
-        <p className="text-green-800 text-xs">
-          ⚡ Live from V4 PoolManager — not available on DexScreener or GeckoTerminal
-        </p>
-      </div>
     </div>
   );
 }
