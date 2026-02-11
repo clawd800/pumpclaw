@@ -30,17 +30,20 @@ export default function Header() {
     }
   };
 
-  const getConnectorName = (id: string) => {
-    switch (id) {
-      case "injected":
-        return "Browser Wallet";
-      case "coinbaseWalletSDK":
-        return "Coinbase Wallet";
-      case "walletConnect":
-        return "WalletConnect";
-      default:
-        return id;
-    }
+  const getConnectorName = (id: string, name?: string) => {
+    const lower = id.toLowerCase();
+    if (lower === "injected") return "Browser Wallet";
+    if (lower === "coinbasewalletsdk") return "Coinbase Wallet";
+    if (lower === "walletconnect") return "WalletConnect";
+    if (lower.includes("phantom")) return "Phantom";
+    if (lower.includes("metamask")) return "MetaMask";
+    if (lower.includes("rabby")) return "Rabby";
+    if (lower.includes("rainbow")) return "Rainbow";
+    if (lower.includes("trust")) return "Trust Wallet";
+    if (lower.includes("zerion")) return "Zerion";
+    // Fallback to connector's own name, then clean up the id
+    if (name) return name;
+    return id.replace(/^(app\.|io\.|com\.)/, "").replace(/\./g, " ").replace(/\b\w/g, c => c.toUpperCase());
   };
 
   return (
@@ -82,7 +85,7 @@ export default function Header() {
                       disabled={isPending}
                       className="w-full px-4 py-3 text-left text-orange-200 hover:bg-red-900/30 transition-colors text-sm border-b border-red-900/30 last:border-b-0"
                     >
-                      {getConnectorName(connector.id)}
+                      {getConnectorName(connector.id, connector.name)}
                     </button>
                   ))}
                   <button
