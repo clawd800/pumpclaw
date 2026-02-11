@@ -286,7 +286,7 @@ function TokenCard({ token, isERC8004Registered }: TokenCardProps) {
   const timeAgo = getTimeAgo(createdDate);
 
   return (
-    <div className="border border-green-900/50 bg-black/40 hover:border-green-500/50 transition-all hover:bg-black/60 group">
+    <div className="border border-green-900/50 bg-black/40 hover:border-green-500/50 transition-all hover:bg-black/60 group overflow-hidden">
       <a href={`#/token/${token.token}`} className="block p-3 sm:p-4 pb-2 sm:pb-3">
         {/* Header row: logo + info + price */}
         <div className="flex items-center gap-3 mb-2">
@@ -323,27 +323,24 @@ function TokenCard({ token, isERC8004Registered }: TokenCardProps) {
 
       {/* Action row */}
       <div className="px-3 sm:px-4 pb-3 pt-1">
-        <div className="flex gap-1.5">
+        <div className="flex gap-1.5 items-center">
           <a
             href={`#/token/${token.token}`}
             className="flex-1 py-1.5 text-center text-[11px] sm:text-xs font-medium bg-green-600/20 border border-green-500/50 text-green-400 hover:bg-green-600/30 hover:text-green-300 transition-all"
           >
             Trade
           </a>
-          <div className="flex items-center gap-0.5">
-            <CopyButton text={token.token} />
-            <AddToMetaMaskButton tokenAddress={token.token} symbol={token.symbol} image={imageUrl} />
-          </div>
+          <CopyButton text={token.token} />
           <button
             onClick={(e) => {
               e.preventDefault();
-              const url = `https://pumpclaw.com/token/${token.token}/`;
+              const url = `https://pumpclaw.com/#/token/${token.token}`;
               navigator.clipboard.writeText(url);
               const btn = e.currentTarget;
               btn.textContent = '✅';
               setTimeout(() => { btn.textContent = '🔗'; }, 1500);
             }}
-            className="px-2 py-1.5 text-[11px] sm:text-xs font-medium bg-green-900/30 border border-green-800/50 text-green-500 hover:bg-green-900/50 hover:text-green-400 transition-all"
+            className="px-2 py-1.5 text-[11px] sm:text-xs bg-green-900/30 border border-green-800/50 text-green-500 hover:bg-green-900/50 hover:text-green-400 transition-all shrink-0"
             title="Copy share link"
           >
             🔗
