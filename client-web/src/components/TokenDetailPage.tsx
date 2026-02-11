@@ -472,6 +472,48 @@ export default function TokenDetailPage({
         </div>
       </div>
 
+      {/* Telegram Trading Bots */}
+      <div className="border border-yellow-900/50 bg-yellow-900/10 p-4 sm:p-5 space-y-3">
+        <div className="flex items-center gap-2">
+          <h3 className="text-yellow-400 text-sm font-semibold uppercase tracking-wider">🤖 Trade via Telegram Bot</h3>
+          <span className="text-neutral-600 text-[10px]">paste CA or tap</span>
+        </div>
+        <div className="grid grid-cols-2 gap-2">
+          <a
+            href={`https://t.me/BananaGunSniper_bot?start=snp_base_${token.token}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="py-2.5 text-center text-xs sm:text-sm font-medium bg-yellow-900/20 border border-yellow-600/40 text-yellow-300 hover:bg-yellow-900/40 hover:text-yellow-200 transition-all flex items-center justify-center gap-1.5"
+          >
+            🍌 Banana Gun
+          </a>
+          <a
+            href={`https://t.me/MaestroSniperBot?start=${token.token}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="py-2.5 text-center text-xs sm:text-sm font-medium bg-yellow-900/20 border border-yellow-600/40 text-yellow-300 hover:bg-yellow-900/40 hover:text-yellow-200 transition-all flex items-center justify-center gap-1.5"
+          >
+            🎵 Maestro
+          </a>
+        </div>
+        <div className="flex items-center gap-2">
+          <code className="flex-1 text-[10px] sm:text-xs text-neutral-500 bg-black/60 px-2 py-1.5 font-mono truncate border border-neutral-800">
+            {token.token}
+          </code>
+          <button
+            onClick={(e) => {
+              navigator.clipboard.writeText(token.token);
+              const btn = e.currentTarget;
+              btn.textContent = '✓';
+              setTimeout(() => { btn.textContent = 'Copy CA'; }, 1500);
+            }}
+            className="shrink-0 px-2.5 py-1.5 text-[10px] sm:text-xs font-medium bg-yellow-900/30 border border-yellow-600/30 text-yellow-400 hover:bg-yellow-900/50 transition-all"
+          >
+            Copy CA
+          </button>
+        </div>
+      </div>
+
       {/* External Links */}
       <div className="grid grid-cols-5 gap-1 sm:gap-2">
         <a

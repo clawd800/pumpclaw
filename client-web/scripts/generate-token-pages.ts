@@ -370,6 +370,15 @@ function generateTokenPage(token: {
     <a class="cta" href="${tradeUrl}">🔄 Trade $${escapeHtml(token.symbol)}</a>
     <a class="cta" href="${spaUrl}" style="background: rgba(147, 51, 234, 0.15); border-color: rgba(147, 51, 234, 0.4); color: #c084fc;">View Full Details →</a>
     
+    <div style="margin-top: 1rem; padding: 1rem; border: 1px solid rgba(234, 179, 8, 0.3); background: rgba(234, 179, 8, 0.05);">
+      <div style="color: #eab308; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.75rem;">🤖 Trade via Telegram Bot</div>
+      <div style="display: flex; gap: 0.5rem; margin-bottom: 0.5rem;">
+        <a href="https://t.me/BananaGunSniper_bot?start=snp_base_${token.address}" style="flex:1; text-align:center; padding: 0.5rem; background: rgba(234,179,8,0.1); border: 1px solid rgba(234,179,8,0.3); color: #fbbf24; text-decoration: none; font-size: 0.8rem;">🍌 Banana Gun</a>
+        <a href="https://t.me/MaestroSniperBot?start=${token.address}" style="flex:1; text-align:center; padding: 0.5rem; background: rgba(234,179,8,0.1); border: 1px solid rgba(234,179,8,0.3); color: #fbbf24; text-decoration: none; font-size: 0.8rem;">🎵 Maestro</a>
+      </div>
+      <div style="font-size: 0.7rem; color: #666; word-break: break-all;">${token.address}</div>
+    </div>
+    
     <div class="links">
       <a href="${basescanUrl}">BaseScan ↗</a>
       <a href="https://dexscreener.com/base/${token.address}">DexScreener ↗</a>
