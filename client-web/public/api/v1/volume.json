@@ -1,22 +1,22 @@
 {
-  "generatedAt": "2026-02-11T15:04:20.834Z",
+  "generatedAt": "2026-02-11T17:03:14.608Z",
   "totalTokens": 65,
   "activeTokens": 33,
-  "totalVolume24h": 418.0900000000004,
-  "totalTxns24h": 41,
+  "totalVolume24h": 398.0400000000002,
+  "totalTxns24h": 42,
   "hotTokens": [
     {
       "address": "0x76767891Fe941e1934953e9bd63cDeD7b5c473Da",
       "symbol": "PUMPCLAW",
       "priceUsd": "0.00004484",
-      "volume24h": 219.16,
+      "volume24h": 199.11,
       "txns24h": {
-        "buys": 3,
+        "buys": 2,
         "sells": 0
       },
       "fdvUsd": null,
       "liquidityUsd": 44780.92,
-      "priceChange24h": -1.76,
+      "priceChange24h": -1.41,
       "pairUrl": "https://dexscreener.com/base/0x30d29308a17778764d3b54adfae59dc894a6a32171702780f59f80de64855704"
     },
     {
@@ -36,15 +36,15 @@
     {
       "address": "0x51795eC2C14147E7382E995ADc01e7e2D82D0265",
       "symbol": "FBR",
-      "priceUsd": "0.00003986",
+      "priceUsd": "0.00003871",
       "volume24h": 19.74,
       "txns24h": {
-        "buys": 1,
-        "sells": 0
+        "buys": 2,
+        "sells": 1
       },
       "fdvUsd": null,
-      "liquidityUsd": null,
-      "priceChange24h": null,
+      "liquidityUsd": 38719.29,
+      "priceChange24h": -2.87,
       "pairUrl": "https://dexscreener.com/base/0x1ead89fc54500d0114dec65cad582569095f9bf06057fa7dc5837a983a033c8d"
     },
     {
@@ -473,14 +473,14 @@
       "address": "0x76767891Fe941e1934953e9bd63cDeD7b5c473Da",
       "symbol": "PUMPCLAW",
       "priceUsd": "0.00004484",
-      "volume24h": 219.16,
+      "volume24h": 199.11,
       "txns24h": {
-        "buys": 3,
+        "buys": 2,
         "sells": 0
       },
       "fdvUsd": null,
       "liquidityUsd": 44780.92,
-      "priceChange24h": -1.76,
+      "priceChange24h": -1.41,
       "pairUrl": "https://dexscreener.com/base/0x30d29308a17778764d3b54adfae59dc894a6a32171702780f59f80de64855704"
     },
     {
@@ -1158,15 +1158,15 @@
     {
       "address": "0x51795eC2C14147E7382E995ADc01e7e2D82D0265",
       "symbol": "FBR",
-      "priceUsd": "0.00003986",
+      "priceUsd": "0.00003871",
       "volume24h": 19.74,
       "txns24h": {
-        "buys": 1,
-        "sells": 0
+        "buys": 2,
+        "sells": 1
       },
       "fdvUsd": null,
-      "liquidityUsd": null,
-      "priceChange24h": null,
+      "liquidityUsd": 38719.29,
+      "priceChange24h": -2.87,
       "pairUrl": "https://dexscreener.com/base/0x1ead89fc54500d0114dec65cad582569095f9bf06057fa7dc5837a983a033c8d"
     },
     {
