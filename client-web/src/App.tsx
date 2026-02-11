@@ -40,13 +40,13 @@ export default function App() {
 
       {/* Farcaster Deploy Banner */}
       <div className="bg-purple-900/30 border-b border-purple-500/30">
-        <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
-          <div className="flex items-center gap-2 text-sm">
-            <span className="text-purple-300">🟣</span>
-            <span className="text-purple-200">
-              <strong>NEW:</strong> Deploy tokens via Farcaster — just cast{" "}
-              <code className="bg-purple-800/50 px-1.5 py-0.5 rounded text-purple-100 text-xs">
-                @clawd deploy $TICKER TokenName
+        <div className="max-w-6xl mx-auto px-3 sm:px-4 py-2 sm:py-3 flex items-center justify-between gap-2 sm:gap-4">
+          <div className="flex items-center gap-1.5 sm:gap-2 text-[11px] sm:text-sm min-w-0">
+            <span className="text-purple-300 shrink-0">🟣</span>
+            <span className="text-purple-200 truncate">
+              Deploy via Farcaster:{" "}
+              <code className="bg-purple-800/50 px-1 py-0.5 rounded text-purple-100 text-[10px] sm:text-xs">
+                @clawd deploy $TICKER
               </code>
             </span>
           </div>
@@ -54,9 +54,9 @@ export default function App() {
             href="https://farcaster.xyz/~/compose?text=%40clawd%20deploy%20%24TICKER%20TokenName"
             target="_blank"
             rel="noopener noreferrer"
-            className="shrink-0 px-3 py-1.5 bg-purple-600/40 border border-purple-500/50 text-purple-200 hover:bg-purple-600/60 transition-colors text-xs font-bold rounded"
+            className="shrink-0 px-2 sm:px-3 py-1 sm:py-1.5 bg-purple-600/40 border border-purple-500/50 text-purple-200 hover:bg-purple-600/60 transition-colors text-[10px] sm:text-xs font-bold rounded"
           >
-            Try it →
+            Try →
           </a>
         </div>
       </div>

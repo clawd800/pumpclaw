@@ -73,14 +73,14 @@ export default function LiveActivityTicker() {
     <div className="bg-black/80 border-b border-green-900/30 overflow-hidden">
       <div className="max-w-6xl mx-auto flex items-center">
         {/* Live badge */}
-        <div className="flex-shrink-0 flex items-center gap-2 px-4 py-2 border-r border-green-900/30">
+        <div className="flex-shrink-0 flex items-center gap-1.5 px-2.5 sm:px-4 py-1.5 sm:py-2 border-r border-green-900/30">
           <span
-            className={`w-2 h-2 rounded-full transition-opacity duration-700 ${
+            className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full transition-opacity duration-700 ${
               hasRecentActivity ? "bg-green-400 shadow-[0_0_6px_rgba(74,222,128,0.8)]" : "bg-green-700"
             } ${isLive ? "opacity-100" : "opacity-40"}`}
           />
-          <span className="text-green-500 text-xs font-bold tracking-wider uppercase">
-            {count} Launched
+          <span className="text-green-500 text-[10px] sm:text-xs font-bold tracking-wider uppercase">
+            {count}
           </span>
         </div>
 

@@ -142,7 +142,7 @@ describe("TokenDetailPage", () => {
 
   it("renders back button", () => {
     render(<TokenDetailPage tokenAddress={TOKEN_ADDRESS} goHome={goHomeFn} />);
-    const backBtn = screen.getByText(/all tokens/i);
+    const backBtn = screen.getByText(/← back/i);
     expect(backBtn).toBeInTheDocument();
   });
 
@@ -150,7 +150,7 @@ describe("TokenDetailPage", () => {
     const user = userEvent.setup();
     render(<TokenDetailPage tokenAddress={TOKEN_ADDRESS} goHome={goHomeFn} />);
 
-    await user.click(screen.getByText(/← all tokens/i));
+    await user.click(screen.getByText(/← back/i));
     expect(goHomeFn).toHaveBeenCalled();
   });
 
@@ -221,21 +221,18 @@ describe("TokenDetailPage", () => {
 
   it("shows BaseScan external link", () => {
     render(<TokenDetailPage tokenAddress={TOKEN_ADDRESS} goHome={goHomeFn} />);
-    const basescanLinks = screen.getAllByRole("link", { name: /basescan/i });
-    expect(basescanLinks.length).toBeGreaterThanOrEqual(1);
-    const externalLink = basescanLinks.find((l) =>
-      l.getAttribute("href")?.includes("basescan.org"),
+    const links = screen.getAllByRole("link");
+    const scanLink = links.find((l) =>
+      l.getAttribute("href")?.includes("basescan.org/token"),
     );
-    expect(externalLink).toBeTruthy();
+    expect(scanLink).toBeTruthy();
   });
 
   it("shows DexScreener external link", () => {
     render(<TokenDetailPage tokenAddress={TOKEN_ADDRESS} goHome={goHomeFn} />);
     const links = screen.getAllByRole("link");
     const dexLink = links.find(
-      (l) =>
-        l.textContent?.includes("DexScreener") &&
-        l.getAttribute("href")?.includes("dexscreener.com"),
+      (l) => l.getAttribute("href")?.includes("dexscreener.com"),
     );
     expect(dexLink).toBeTruthy();
   });
@@ -256,21 +253,27 @@ describe("TokenDetailPage", () => {
 
   it("shows Farcaster share button", () => {
     render(<TokenDetailPage tokenAddress={TOKEN_ADDRESS} goHome={goHomeFn} />);
-    const farcasterBtn = screen.getByRole("link", { name: /share on farcaster/i });
-    expect(farcasterBtn).toBeInTheDocument();
-    expect(farcasterBtn.getAttribute("href")).toContain("farcaster.xyz");
+    const links = screen.getAllByRole("link");
+    const fcBtn = links.find(
+      (l) => l.textContent?.includes("Farcaster") && l.getAttribute("href")?.includes("farcaster.xyz"),
+    );
+    expect(fcBtn).toBeTruthy();
   });
 
   it("shows X/Twitter share button", () => {
     render(<TokenDetailPage tokenAddress={TOKEN_ADDRESS} goHome={goHomeFn} />);
-    const xBtn = screen.getByRole("link", { name: /share on x/i });
-    expect(xBtn).toBeInTheDocument();
-    expect(xBtn.getAttribute("href")).toContain("twitter.com/intent/tweet");
+    const links = screen.getAllByRole("link");
+    const xBtn = links.find(
+      (l) => l.getAttribute("href")?.includes("twitter.com/intent/tweet"),
+    );
+    expect(xBtn).toBeTruthy();
   });
 
   it("shows Copy Link button", () => {
     render(<TokenDetailPage tokenAddress={TOKEN_ADDRESS} goHome={goHomeFn} />);
-    expect(screen.getByText(/copy link/i)).toBeInTheDocument();
+    const buttons = screen.getAllByRole("button");
+    const linkBtn = buttons.find((b) => b.textContent?.includes("Link"));
+    expect(linkBtn).toBeTruthy();
   });
 
   /* ---- ERC-8004 badge ---- */
@@ -313,13 +316,15 @@ describe("TokenDetailPage", () => {
 
   it("shows launch your own CTA section", () => {
     render(<TokenDetailPage tokenAddress={TOKEN_ADDRESS} goHome={goHomeFn} />);
-    expect(screen.getByText(/want to launch your own token/i)).toBeInTheDocument();
+    expect(screen.getByText(/launch your own token/i)).toBeInTheDocument();
   });
 
   it("has Farcaster deploy link in CTA", () => {
     render(<TokenDetailPage tokenAddress={TOKEN_ADDRESS} goHome={goHomeFn} />);
-    const deployLink = screen.getByRole("link", { name: /deploy via/i });
-    expect(deployLink).toBeInTheDocument();
-    expect(deployLink.getAttribute("href")).toContain("farcaster.xyz");
+    const links = screen.getAllByRole("link");
+    const fcDeploy = links.find(
+      (l) => l.getAttribute("href")?.includes("farcaster.xyz/~/compose"),
+    );
+    expect(fcDeploy).toBeTruthy();
   });
 });

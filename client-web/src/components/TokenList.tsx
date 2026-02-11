@@ -158,12 +158,12 @@ function ProgressBar({ tokenAddress }: { tokenAddress: `0x${string}` }) {
   const percentPurchased = Number((purchased * 10000n) / totalSupply) / 100;
   
   return (
-    <div className="mt-3">
-      <div className="flex justify-between text-xs text-green-600 mb-1">
+    <div className="mt-2">
+      <div className="flex justify-between text-[10px] sm:text-xs text-green-600 mb-0.5">
         <span>Purchased</span>
         <span>{percentPurchased.toFixed(2)}%</span>
       </div>
-      <div className="h-2 bg-green-900/30 border border-green-900/50 overflow-hidden">
+      <div className="h-1.5 sm:h-2 bg-green-900/30 border border-green-900/50 overflow-hidden">
         <div 
           className="h-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)] transition-all duration-500"
           style={{ width: `${Math.min(percentPurchased, 100)}%` }}
@@ -268,7 +268,7 @@ function TokenPriceBadge({ tokenAddress }: { tokenAddress: `0x${string}` }) {
   };
 
   return (
-    <span className="text-green-300 font-mono text-sm font-semibold">
+    <span className="text-green-300 font-mono text-xs sm:text-sm font-semibold">
       {priceUsd !== null ? formatPrice(priceUsd) : `${ethPerToken.toExponential(1)} ETH`}
     </span>
   );
@@ -282,81 +282,55 @@ interface TokenCardProps {
 function TokenCard({ token, isERC8004Registered }: TokenCardProps) {
   const { data: imageUrl } = useTokenImageUrl(token.token);
   
-  const fdvEth = parseFloat(formatEther(token.initialFdv));
-  const displayFdv = fdvEth.toLocaleString(undefined, {
-    maximumFractionDigits: 2,
-  });
-
   const createdDate = new Date(Number(token.createdAt) * 1000);
   const timeAgo = getTimeAgo(createdDate);
-  const dateStr = createdDate.toLocaleDateString("en-US", { month: "short", day: "numeric" });
 
   return (
     <div className="border border-green-900/50 bg-black/40 hover:border-green-500/50 transition-all hover:bg-black/60 group">
-      {/* Clickable header area */}
-      <a href={`#/token/${token.token}`} className="block p-5 pb-3">
-        {/* Header with logo */}
-        <div className="flex items-start gap-4 mb-3">
-          <div className="flex-shrink-0 w-14 h-14 overflow-hidden bg-green-900/30 border-2 border-green-800/50 group-hover:border-green-600/50 transition-colors">
+      <a href={`#/token/${token.token}`} className="block p-3 sm:p-4 pb-2 sm:pb-3">
+        {/* Header row: logo + info + price */}
+        <div className="flex items-center gap-3 mb-2">
+          <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 overflow-hidden bg-green-900/30 border border-green-800/50 group-hover:border-green-600/50 transition-colors rounded-sm">
             {imageUrl ? (
               <TokenMedia src={imageUrl} alt={token.symbol} />
             ) : (
-              <div className="w-full h-full flex items-center justify-center text-green-600 text-2xl">
+              <div className="w-full h-full flex items-center justify-center text-green-600 text-lg sm:text-xl">
                 🦞
               </div>
             )}
           </div>
           
           <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 flex-wrap">
-              <h3 className="font-bold text-green-300 text-lg break-all group-hover:text-green-200 transition-colors">{token.name}</h3>
+            <div className="flex items-center gap-1.5">
+              <h3 className="font-bold text-green-300 text-sm sm:text-base truncate group-hover:text-green-200 transition-colors">{token.name}</h3>
               {isERC8004Registered && <ERC8004Badge />}
             </div>
-            <div className="flex items-center gap-2 mt-0.5">
-              <span className="text-green-500 font-mono">${token.symbol}</span>
-              <span className="text-green-800 text-xs">•</span>
-              <span className="text-green-700 text-xs" title={createdDate.toLocaleString()}>{timeAgo}</span>
+            <div className="flex items-center gap-1.5 mt-0.5">
+              <span className="text-green-500 font-mono text-xs sm:text-sm">${token.symbol}</span>
+              <span className="text-green-800 text-[10px]">•</span>
+              <span className="text-green-700 text-[10px] sm:text-xs" title={createdDate.toLocaleString()}>{timeAgo}</span>
             </div>
           </div>
 
-          {/* Price badge (top right) */}
           <div className="flex-shrink-0 text-right">
             <TokenPriceBadge tokenAddress={token.token} />
           </div>
         </div>
 
-        {/* Compact stats row */}
-        <div className="flex items-center gap-3 text-xs mb-3">
-          <div className="flex items-center gap-1">
-            <span className="text-green-700">FDV:</span>
-            <span className="text-green-400 font-semibold">{displayFdv} ETH</span>
-          </div>
-          <span className="text-green-900">|</span>
-          <div className="flex items-center gap-1">
-            <span className="text-green-700">Created:</span>
-            <span className="text-green-500">{dateStr}</span>
-          </div>
-          <span className="text-green-900">|</span>
-          <div className="flex items-center gap-1">
-            <span className="text-green-700">By:</span>
-            <span className="text-green-500 font-mono">{token.creator.slice(0, 6)}...{token.creator.slice(-4)}</span>
-          </div>
-        </div>
-
-        {/* Progress bar showing purchased % */}
+        {/* Progress bar */}
         <ProgressBar tokenAddress={token.token} />
       </a>
 
-      {/* Action buttons - outside the link */}
-      <div className="px-5 pb-4 pt-2">
-        <div className="flex gap-2">
+      {/* Action row */}
+      <div className="px-3 sm:px-4 pb-3 pt-1">
+        <div className="flex gap-1.5">
           <a
             href={`#/token/${token.token}`}
-            className="flex-1 py-2 text-center text-xs font-medium bg-green-600/20 border border-green-500/50 text-green-400 hover:bg-green-600/30 hover:text-green-300 transition-all"
+            className="flex-1 py-1.5 text-center text-[11px] sm:text-xs font-medium bg-green-600/20 border border-green-500/50 text-green-400 hover:bg-green-600/30 hover:text-green-300 transition-all"
           >
-            🔄 Trade
+            Trade
           </a>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-0.5">
             <CopyButton text={token.token} />
             <AddToMetaMaskButton tokenAddress={token.token} symbol={token.symbol} image={imageUrl} />
           </div>
@@ -366,10 +340,10 @@ function TokenCard({ token, isERC8004Registered }: TokenCardProps) {
               const url = `https://pumpclaw.com/token/${token.token}/`;
               navigator.clipboard.writeText(url);
               const btn = e.currentTarget;
-              btn.textContent = 'Copied! ✅';
+              btn.textContent = '✅';
               setTimeout(() => { btn.textContent = '🔗'; }, 1500);
             }}
-            className="px-3 py-2 text-xs font-medium bg-green-900/30 border border-green-800/50 text-green-500 hover:bg-green-900/50 hover:text-green-400 transition-all"
+            className="px-2 py-1.5 text-[11px] sm:text-xs font-medium bg-green-900/30 border border-green-800/50 text-green-500 hover:bg-green-900/50 hover:text-green-400 transition-all"
             title="Copy share link"
           >
             🔗
@@ -433,68 +407,70 @@ export default function TokenList() {
   }, [tokens, sortBy, filterERC8004, erc8004StatusMap, marketCapMap]);
 
   return (
-    <div className="sm:border sm:border-green-900/50 bg-black/30 p-2 sm:p-6">
+    <div className="sm:border sm:border-green-900/50 bg-black/30 p-1.5 sm:p-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
-        <h2 className="text-xl font-bold text-green-400 flex items-center gap-2">
-          <span>📋</span> Token List
+      <div className="flex items-center justify-between mb-4 sm:mb-6">
+        <h2 className="text-base sm:text-xl font-bold text-green-400 flex items-center gap-1.5 sm:gap-2">
+          Tokens
           {count > 0 && (
-            <span className="text-base font-normal text-green-600">
-              ({count} total)
+            <span className="text-sm sm:text-base font-normal text-green-600">
+              ({count})
             </span>
           )}
         </h2>
         <button
           onClick={() => refetch()}
-          className="text-sm text-green-600 hover:text-green-400 transition-colors px-3 py-1 border border-green-900/50 hover:border-green-700/50 self-start sm:self-auto"
+          className="text-xs text-green-600 hover:text-green-400 transition-colors px-2 py-1 border border-green-900/50 hover:border-green-700/50"
         >
           ↻ Refresh
         </button>
       </div>
 
       {/* Sort Tabs & Filter */}
-      <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-6 pb-4 border-b border-green-900/30">
-        {/* Tab Buttons */}
-        <div className="flex">
-          <button
-            onClick={() => setSortBy('recent')}
-            className={`px-4 py-2 text-sm font-medium border transition-all ${
-              sortBy === 'recent'
-                ? 'bg-green-600/20 border-green-500/50 text-green-300'
-                : 'bg-black/40 border-green-900/50 text-green-700 hover:text-green-500 hover:border-green-700/50'
-            }`}
-          >
-            🕐 Recent Launches
-          </button>
-          <button
-            onClick={() => setSortBy('marketcap')}
-            className={`px-4 py-2 text-sm font-medium border border-l-0 transition-all ${
-              sortBy === 'marketcap'
-                ? 'bg-green-600/20 border-green-500/50 text-green-300'
-                : 'bg-black/40 border-green-900/50 text-green-700 hover:text-green-500 hover:border-green-700/50'
-            }`}
-          >
-            📈 Highest Market Cap
-          </button>
-        </div>
+      <div className="flex flex-col gap-3 mb-4 sm:mb-6 pb-3 sm:pb-4 border-b border-green-900/30">
+        <div className="flex items-center gap-3">
+          {/* Tab Buttons */}
+          <div className="flex flex-1">
+            <button
+              onClick={() => setSortBy('recent')}
+              className={`flex-1 sm:flex-none px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium border transition-all ${
+                sortBy === 'recent'
+                  ? 'bg-green-600/20 border-green-500/50 text-green-300'
+                  : 'bg-black/40 border-green-900/50 text-green-700 hover:text-green-500 hover:border-green-700/50'
+              }`}
+            >
+              Recent
+            </button>
+            <button
+              onClick={() => setSortBy('marketcap')}
+              className={`flex-1 sm:flex-none px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium border border-l-0 transition-all ${
+                sortBy === 'marketcap'
+                  ? 'bg-green-600/20 border-green-500/50 text-green-300'
+                  : 'bg-black/40 border-green-900/50 text-green-700 hover:text-green-500 hover:border-green-700/50'
+              }`}
+            >
+              Top MCap
+            </button>
+          </div>
 
-        {/* Filter Checkbox */}
-        <label className="flex items-center gap-2 cursor-pointer group">
-          <input
-            type="checkbox"
-            checked={filterERC8004}
-            onChange={(e) => setFilterERC8004(e.target.checked)}
-            className="w-4 h-4 bg-black/60 border border-green-900/50 text-green-500 focus:ring-green-500 focus:ring-offset-0 cursor-pointer accent-green-500"
-          />
-          <span className="text-green-600 text-sm group-hover:text-green-400 transition-colors flex items-center gap-1">
-            <span className="text-blue-400">✓ 8004</span> Registered Only
-          </span>
-        </label>
+          {/* Filter Checkbox */}
+          <label className="flex items-center gap-1.5 cursor-pointer group shrink-0">
+            <input
+              type="checkbox"
+              checked={filterERC8004}
+              onChange={(e) => setFilterERC8004(e.target.checked)}
+              className="w-3.5 h-3.5 bg-black/60 border border-green-900/50 text-green-500 focus:ring-green-500 focus:ring-offset-0 cursor-pointer accent-green-500"
+            />
+            <span className="text-green-600 text-[11px] sm:text-sm group-hover:text-green-400 transition-colors">
+              <span className="text-blue-400">8004</span>
+            </span>
+          </label>
+        </div>
 
         {/* Show filtered count */}
         {filterERC8004 && displayedTokens.length !== tokens.length && (
-          <span className="text-green-700 text-sm self-center">
-            Showing {displayedTokens.length} of {tokens.length}
+          <span className="text-green-700 text-xs">
+            {displayedTokens.length} of {tokens.length}
           </span>
         )}
       </div>

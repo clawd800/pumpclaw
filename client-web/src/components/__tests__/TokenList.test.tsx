@@ -100,14 +100,14 @@ describe("TokenList", () => {
 
   /* ---- Basic rendering ---- */
 
-  it("renders the Token List heading", () => {
+  it("renders the Tokens heading", () => {
     render(<TokenList />);
-    expect(screen.getByText(/token list/i)).toBeInTheDocument();
+    expect(screen.getByText("Tokens")).toBeInTheDocument();
   });
 
   it("renders total count", () => {
     render(<TokenList />);
-    expect(screen.getByText(/2 total/i)).toBeInTheDocument();
+    expect(screen.getByText("(2)")).toBeInTheDocument();
   });
 
   /* ---- Token cards ---- */
@@ -120,24 +120,17 @@ describe("TokenList", () => {
     expect(screen.getByText("$BETA")).toBeInTheDocument();
   });
 
-  it("shows FDV for each token", () => {
+  it("shows time-based info for tokens", () => {
     render(<TokenList />);
-    // 20 ETH and 10 ETH
-    expect(screen.getByText("20 ETH")).toBeInTheDocument();
-    expect(screen.getByText("10 ETH")).toBeInTheDocument();
-  });
-
-  it("shows creator address (truncated)", () => {
-    render(<TokenList />);
-    // Creator: 0x1111...1111 → "0x1111...1111"
-    expect(screen.getByText("0x1111...1111")).toBeInTheDocument();
-    expect(screen.getByText("0x2222...2222")).toBeInTheDocument();
-  });
-
-  it("shows time ago for creation date", () => {
-    render(<TokenList />);
+    // Tokens should show their age
     expect(screen.getByText("1h ago")).toBeInTheDocument();
     expect(screen.getByText("1d ago")).toBeInTheDocument();
+  });
+
+  it("shows token symbols with $ prefix", () => {
+    render(<TokenList />);
+    expect(screen.getByText("$ALPHA")).toBeInTheDocument();
+    expect(screen.getByText("$BETA")).toBeInTheDocument();
   });
 
   /* ---- Trade button ---- */
@@ -168,16 +161,16 @@ describe("TokenList", () => {
 
   /* ---- Sort tabs ---- */
 
-  it("renders sort tabs with 'Recent Launches' active by default", () => {
+  it("renders sort tabs with 'Recent' active by default", () => {
     render(<TokenList />);
-    const recentTab = screen.getByRole("button", { name: /recent launches/i });
+    const recentTab = screen.getByRole("button", { name: /recent/i });
     expect(recentTab).toBeInTheDocument();
     expect(recentTab.className).toContain("text-green-300");
   });
 
-  it("has 'Highest Market Cap' tab button", () => {
+  it("has 'Top MCap' tab button", () => {
     render(<TokenList />);
-    const tab = screen.getByRole("button", { name: /highest market cap/i });
+    const tab = screen.getByRole("button", { name: /top mcap/i });
     expect(tab).toBeInTheDocument();
   });
 
@@ -185,9 +178,8 @@ describe("TokenList", () => {
     const user = userEvent.setup();
     render(<TokenList />);
 
-    const mcapTab = screen.getByRole("button", { name: /highest market cap/i });
+    const mcapTab = screen.getByRole("button", { name: /top mcap/i });
     await user.click(mcapTab);
-    // Active tab should have the active styling class
     expect(mcapTab.className).toContain("text-green-300");
   });
 
@@ -209,9 +201,9 @@ describe("TokenList", () => {
     expect(checkbox).toBeChecked();
   });
 
-  it("shows 'Registered Only' label", () => {
+  it("shows 8004 filter label", () => {
     render(<TokenList />);
-    expect(screen.getByText(/registered only/i)).toBeInTheDocument();
+    expect(screen.getByText("8004")).toBeInTheDocument();
   });
 
   /* ---- Refresh button ---- */

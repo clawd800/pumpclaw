@@ -82,33 +82,33 @@ function ShareButtons({ token }: { token: TokenInfo }) {
   return (
     <div className="space-y-3">
       <h3 className="text-green-500 text-sm font-semibold uppercase tracking-wider">Share</h3>
-      <div className="flex flex-col sm:flex-row gap-2">
+      <div className="flex gap-2">
         <a
           href={farcasterUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex-1 py-3 text-center text-sm font-medium bg-purple-900/30 border border-purple-500/50 text-purple-300 hover:bg-purple-900/50 hover:text-purple-200 transition-all"
+          className="flex-1 py-2 sm:py-3 text-center text-xs sm:text-sm font-medium bg-purple-900/30 border border-purple-500/50 text-purple-300 hover:bg-purple-900/50 hover:text-purple-200 transition-all"
         >
-          🟣 Share on Farcaster
+          🟣 Farcaster
         </a>
         <a
           href={twitterUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex-1 py-3 text-center text-sm font-medium bg-blue-900/30 border border-blue-500/50 text-blue-300 hover:bg-blue-900/50 hover:text-blue-200 transition-all"
+          className="flex-1 py-2 sm:py-3 text-center text-xs sm:text-sm font-medium bg-blue-900/30 border border-blue-500/50 text-blue-300 hover:bg-blue-900/50 hover:text-blue-200 transition-all"
         >
-          𝕏 Share on X
+          𝕏 X
         </a>
         <button
           onClick={(e) => {
             navigator.clipboard.writeText(tokenUrl);
             const btn = e.currentTarget;
-            btn.textContent = 'Copied! ✅';
-            setTimeout(() => { btn.textContent = '🔗 Copy Link'; }, 1500);
+            btn.textContent = '✅';
+            setTimeout(() => { btn.textContent = '🔗 Link'; }, 1500);
           }}
-          className="flex-1 py-3 text-center text-sm font-medium bg-green-900/30 border border-green-800/50 text-green-400 hover:bg-green-900/50 hover:text-green-300 transition-all"
+          className="flex-1 py-2 sm:py-3 text-center text-xs sm:text-sm font-medium bg-green-900/30 border border-green-800/50 text-green-400 hover:bg-green-900/50 hover:text-green-300 transition-all"
         >
-          🔗 Copy Link
+          🔗 Link
         </button>
       </div>
     </div>
@@ -287,24 +287,24 @@ export default function TokenDetailPage({
   const tradeUrl = `https://matcha.xyz/tokens/base/${token.token}?sellChain=8453&sellAddress=0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee`;
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-8 space-y-8">
+    <div className="max-w-2xl mx-auto px-3 sm:px-4 py-4 sm:py-8 space-y-4 sm:space-y-8">
       {/* Back button */}
       <button
         onClick={goHome}
-        className="text-green-600 hover:text-green-400 transition-colors text-sm flex items-center gap-2"
+        className="text-green-600 hover:text-green-400 transition-colors text-xs sm:text-sm flex items-center gap-1"
       >
-        ← All Tokens
+        ← Back
       </button>
 
       {/* Hero Section */}
-      <div className="border border-green-900/50 bg-black/40 p-6 sm:p-8">
-        <div className="flex items-start gap-6">
+      <div className="border border-green-900/50 bg-black/40 p-4 sm:p-8">
+        <div className="flex items-center gap-3 sm:gap-6">
           {/* Token Logo */}
-          <div className="flex-shrink-0 w-24 h-24 sm:w-32 sm:h-32 overflow-hidden bg-green-900/30 border-2 border-green-800/50">
+          <div className="flex-shrink-0 w-16 h-16 sm:w-32 sm:h-32 overflow-hidden bg-green-900/30 border-2 border-green-800/50 rounded-sm">
             {imageUrl ? (
               <TokenMedia src={imageUrl} alt={token.symbol} />
             ) : (
-              <div className="w-full h-full flex items-center justify-center text-green-600 text-5xl">
+              <div className="w-full h-full flex items-center justify-center text-green-600 text-3xl sm:text-5xl">
                 🦞
               </div>
             )}
@@ -312,13 +312,12 @@ export default function TokenDetailPage({
 
           {/* Token Info */}
           <div className="flex-1 min-w-0">
-            <h1 className="text-2xl sm:text-3xl font-bold text-green-300 break-all">
+            <h1 className="text-lg sm:text-3xl font-bold text-green-300 truncate">
               {token.name}
             </h1>
-            <p className="text-green-500 text-xl font-mono mt-1">${token.symbol}</p>
-            <p className="text-green-700 text-sm mt-2">
-              Launched {createdDate.toLocaleDateString("en-US", { 
-                year: "numeric", 
+            <p className="text-green-500 text-base sm:text-xl font-mono mt-0.5">${token.symbol}</p>
+            <p className="text-green-700 text-[11px] sm:text-sm mt-1 sm:mt-2">
+              {createdDate.toLocaleDateString("en-US", { 
                 month: "short", 
                 day: "numeric",
                 hour: "2-digit",
@@ -344,8 +343,8 @@ export default function TokenDetailPage({
       </div>
 
       {/* Details Grid */}
-      <div className="border border-green-900/50 bg-black/40 p-6 space-y-4">
-        <h2 className="text-green-500 text-sm font-semibold uppercase tracking-wider mb-4">Token Details</h2>
+      <div className="border border-green-900/50 bg-black/40 p-3 sm:p-6 space-y-3 sm:space-y-4">
+        <h2 className="text-green-500 text-xs sm:text-sm font-semibold uppercase tracking-wider mb-2 sm:mb-4">Token Details</h2>
         
         <div className="space-y-3">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
@@ -441,38 +440,38 @@ export default function TokenDetailPage({
       </div>
 
       {/* External Links */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+      <div className="grid grid-cols-4 gap-1.5 sm:gap-3">
         <a
           href={tradeUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="py-3 text-center text-sm font-medium bg-green-900/30 border border-green-800/50 text-green-500 hover:bg-green-900/50 hover:text-green-400 transition-all"
+          className="py-2 sm:py-3 text-center text-[10px] sm:text-sm font-medium bg-green-900/30 border border-green-800/50 text-green-500 hover:bg-green-900/50 hover:text-green-400 transition-all"
         >
-          Matcha ↗
+          Matcha
         </a>
         <a
           href={`https://basescan.org/token/${token.token}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="py-3 text-center text-sm font-medium bg-green-900/30 border border-green-800/50 text-green-500 hover:bg-green-900/50 hover:text-green-400 transition-all"
+          className="py-2 sm:py-3 text-center text-[10px] sm:text-sm font-medium bg-green-900/30 border border-green-800/50 text-green-500 hover:bg-green-900/50 hover:text-green-400 transition-all"
         >
-          BaseScan ↗
+          Scan
         </a>
         <a
           href={dexScreenerUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="py-3 text-center text-sm font-medium bg-green-900/30 border border-green-800/50 text-green-500 hover:bg-green-900/50 hover:text-green-400 transition-all"
+          className="py-2 sm:py-3 text-center text-[10px] sm:text-sm font-medium bg-green-900/30 border border-green-800/50 text-green-500 hover:bg-green-900/50 hover:text-green-400 transition-all"
         >
-          DexScreener ↗
+          DexScr
         </a>
         <a
           href={`https://app.uniswap.org/swap?chain=base&outputCurrency=${token.token}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="py-3 text-center text-sm font-medium bg-green-900/30 border border-green-800/50 text-green-500 hover:bg-green-900/50 hover:text-green-400 transition-all"
+          className="py-2 sm:py-3 text-center text-[10px] sm:text-sm font-medium bg-green-900/30 border border-green-800/50 text-green-500 hover:bg-green-900/50 hover:text-green-400 transition-all"
         >
-          Uniswap ↗
+          Uniswap
         </a>
       </div>
 
@@ -482,25 +481,25 @@ export default function TokenDetailPage({
       </div>
 
       {/* Launch your own CTA */}
-      <div className="border border-purple-900/50 bg-purple-900/10 p-6 text-center space-y-3">
-        <p className="text-purple-300 text-lg font-semibold">Want to launch your own token?</p>
-        <p className="text-purple-400/70 text-sm">
-          Free to launch • 80% creator fees • LP locked forever
+      <div className="border border-purple-900/50 bg-purple-900/10 p-4 sm:p-6 text-center space-y-2 sm:space-y-3">
+        <p className="text-purple-300 text-sm sm:text-lg font-semibold">Launch your own token</p>
+        <p className="text-purple-400/70 text-xs sm:text-sm">
+          Free • 80% creator fees • LP locked forever
         </p>
-        <div className="flex flex-col sm:flex-row gap-3 justify-center mt-4">
+        <div className="flex gap-2 sm:gap-3 justify-center mt-3">
           <button
             onClick={goHome}
-            className="px-6 py-3 bg-green-600/20 border border-green-500/50 text-green-400 hover:bg-green-600/30 transition-all text-sm font-medium"
+            className="flex-1 sm:flex-none px-4 sm:px-6 py-2 sm:py-3 bg-green-600/20 border border-green-500/50 text-green-400 hover:bg-green-600/30 transition-all text-xs sm:text-sm font-medium"
           >
-            🚀 Launch on pumpclaw.com
+            🚀 Launch
           </button>
           <a
             href="https://farcaster.xyz/~/compose?text=%40clawd%20deploy%20%24TICKER%20TokenName"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-6 py-3 bg-purple-600/20 border border-purple-500/50 text-purple-300 hover:bg-purple-600/30 transition-all text-sm font-medium"
+            className="flex-1 sm:flex-none px-4 sm:px-6 py-2 sm:py-3 bg-purple-600/20 border border-purple-500/50 text-purple-300 hover:bg-purple-600/30 transition-all text-xs sm:text-sm font-medium"
           >
-            🟣 Deploy via @clawd on Farcaster
+            🟣 Farcaster
           </a>
         </div>
       </div>
