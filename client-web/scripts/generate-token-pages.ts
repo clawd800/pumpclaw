@@ -100,6 +100,39 @@ function escapeHtml(s: string): string {
     .replace(/'/g, "&#039;");
 }
 
+/**
+ * Validate that a URL is a direct image link (not an album page, post, etc.)
+ * Social crawlers need a direct image URL for OG/Twitter cards.
+ */
+function isDirectImageUrl(url: string): boolean {
+  if (!url) return false;
+  try {
+    const u = new URL(url);
+    // Reject album/page URLs that aren't direct images
+    if (u.hostname === "imgur.com" && u.pathname.startsWith("/a/")) return false; // imgur album
+    if (u.hostname === "base.app") return false; // base.app post links
+    if (u.hostname === "pin.it" || u.hostname.includes("pinterest")) return false; // pinterest
+    if (u.hostname === "ibb.co.com" || u.hostname === "ibb.co") return false; // ibb short links
+    // Known good image CDNs
+    if (u.hostname === "i.imgur.com") return true;
+    if (u.hostname === "imagedelivery.net") return true;
+    if (u.hostname.includes("cloudinary.com")) return true;
+    if (u.hostname === "iili.io") return true;
+    // Check for image extensions
+    const ext = u.pathname.split(".").pop()?.toLowerCase();
+    if (["png", "jpg", "jpeg", "gif", "webp", "svg"].includes(ext || "")) return true;
+    // wrpcd.net CDN (Farcaster image proxy) — usually valid
+    if (u.hostname === "wrpcd.net") return true;
+    // i.etsystatic.com — direct images
+    if (u.hostname.includes("etsystatic.com")) return true;
+    // Default: allow if it looks like a CDN delivery
+    if (u.pathname.includes("/image") || u.pathname.includes("/cdn-cgi/imagedelivery")) return true;
+    return false;
+  } catch {
+    return false;
+  }
+}
+
 function generateTokenPage(token: {
   address: string;
   name: string;
@@ -118,7 +151,10 @@ function generateTokenPage(token: {
   const spaUrl = `${SITE_URL}/#/token/${token.address}`;
   const tradeUrl = `https://matcha.xyz/tokens/base/${token.address}?sellChain=8453&sellAddress=0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee`;
   const basescanUrl = `https://basescan.org/token/${token.address}`;
-  const ogImage = token.imageUrl || `${SITE_URL}/og-image.jpg`;
+  // Only use token image for OG if it's a direct image URL (not album/page links)
+  const validTokenImage = isDirectImageUrl(token.imageUrl) ? token.imageUrl : "";
+  const ogImage = validTokenImage || `${SITE_URL}/og-image.jpg`;
+  const hasCustomImage = !!validTokenImage;
   const shortCreator = `${token.creator.slice(0, 6)}...${token.creator.slice(-4)}`;
   const createdDate = new Date(token.createdAt).toLocaleDateString("en-US", {
     year: "numeric",
@@ -165,11 +201,11 @@ function generateTokenPage(token: {
   <meta property="og:title" content="${title}">
   <meta property="og:description" content="${description}">
   <meta property="og:image" content="${escapeHtml(ogImage)}">
-  <meta property="og:image:width" content="512">
-  <meta property="og:image:height" content="512">
+  <meta property="og:image:width" content="${hasCustomImage ? "1200" : "512"}">
+  <meta property="og:image:height" content="${hasCustomImage ? "630" : "512"}">
   
   <!-- Twitter -->
-  <meta name="twitter:card" content="summary">
+  <meta name="twitter:card" content="${hasCustomImage ? "summary_large_image" : "summary"}">
   <meta name="twitter:url" content="${canonicalUrl}">
   <meta name="twitter:title" content="${title}">
   <meta name="twitter:description" content="${description}">
@@ -178,12 +214,16 @@ function generateTokenPage(token: {
   <!-- Farcaster Frame (fc:frame) -->
   <meta property="fc:frame" content="vNext">
   <meta property="fc:frame:image" content="${escapeHtml(ogImage)}">
-  <meta property="fc:frame:button:1" content="Trade $${escapeHtml(token.symbol)}">
+  <meta property="fc:frame:image:aspect_ratio" content="${hasCustomImage ? "1.91:1" : "1:1"}">
+  <meta property="fc:frame:button:1" content="🔄 Trade $${escapeHtml(token.symbol)}">
   <meta property="fc:frame:button:1:action" content="link">
   <meta property="fc:frame:button:1:target" content="${tradeUrl}">
-  <meta property="fc:frame:button:2" content="View on PumpClaw">
+  <meta property="fc:frame:button:2" content="📊 Chart">
   <meta property="fc:frame:button:2:action" content="link">
-  <meta property="fc:frame:button:2:target" content="${spaUrl}">
+  <meta property="fc:frame:button:2:target" content="https://www.geckoterminal.com/base/tokens/${token.address}">
+  <meta property="fc:frame:button:3" content="🦞 PumpClaw">
+  <meta property="fc:frame:button:3:action" content="link">
+  <meta property="fc:frame:button:3:target" content="${spaUrl}">
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">

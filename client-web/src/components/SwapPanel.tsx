@@ -341,6 +341,16 @@ export default function SwapPanel({ tokenAddress, tokenSymbol }: SwapPanelProps)
   const formattedEthBalance = ethBalance ? parseFloat(formatEther(ethBalance.value)).toFixed(4) : "0";
   const formattedTokenBalance = tokenBalance ? parseFloat(formatEther(tokenBalance as bigint)).toLocaleString(undefined, { maximumFractionDigits: 2 }) : "0";
 
+  // Insufficient balance checks
+  const insufficientBalance = (() => {
+    if (!parsedAmount) return false;
+    if (tab === "buy") {
+      return ethBalance ? parsedAmount > ethBalance.value : false;
+    } else {
+      return tokenBalance ? parsedAmount > (tokenBalance as bigint) : false;
+    }
+  })();
+
   return (
     <div className="border border-green-900/50 bg-black/40 p-6 space-y-5">
       <h2 className="text-green-500 text-sm font-semibold uppercase tracking-wider">🔄 Swap</h2>
@@ -463,11 +473,13 @@ export default function SwapPanel({ tokenAddress, tokenSymbol }: SwapPanelProps)
           {/* Action Button */}
           <button
             onClick={handleSwap}
-            disabled={isProcessing || !amount || parseFloat(amount || "0") <= 0}
+            disabled={isProcessing || !amount || parseFloat(amount || "0") <= 0 || insufficientBalance}
             className={`w-full py-3.5 text-sm font-bold transition-all disabled:opacity-40 disabled:cursor-not-allowed ${
-              tab === "buy"
-                ? "bg-green-600/25 border-2 border-green-500/50 text-green-300 hover:bg-green-600/35 hover:text-green-200"
-                : "bg-red-600/20 border-2 border-red-500/40 text-red-300 hover:bg-red-600/30 hover:text-red-200"
+              insufficientBalance
+                ? "bg-red-900/20 border-2 border-red-800/50 text-red-400"
+                : tab === "buy"
+                  ? "bg-green-600/25 border-2 border-green-500/50 text-green-300 hover:bg-green-600/35 hover:text-green-200"
+                  : "bg-red-600/20 border-2 border-red-500/40 text-red-300 hover:bg-red-600/30 hover:text-red-200"
             }`}
           >
             {isProcessing ? (
@@ -475,6 +487,8 @@ export default function SwapPanel({ tokenAddress, tokenSymbol }: SwapPanelProps)
                 <span className="animate-spin">⏳</span>
                 {txStatus === "approving" ? "Approving..." : "Confirming..."}
               </span>
+            ) : insufficientBalance ? (
+              `Insufficient ${tab === "buy" ? "ETH" : tokenSymbol} balance`
             ) : tab === "buy" ? (
               `Buy ${tokenSymbol}`
             ) : needsApproval() ? (

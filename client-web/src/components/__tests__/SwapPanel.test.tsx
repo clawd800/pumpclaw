@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { parseEther } from "viem";
 
 /* ------------------------------------------------------------------ */
 /*  Mutable mock state                                                 */
@@ -331,18 +332,46 @@ describe("SwapPanel", () => {
     const user = userEvent.setup();
     // Allowance must be truthy (non-zero) but less than the sell amount
     // Note: 0n is falsy in JS, so the component's `!allowance` check would skip approval
+    // Mock returns same value for balanceOf AND allowance.
+    // Set data to a value that's: enough as balance (> sell amount), but insufficient as allowance (< sell amount).
+    // Sell 500 tokens. balanceOf = allowance = 200e18. 200 < 500 means both insufficient.
+    // Instead: sell 0.0000000000000001 (100 wei). allowance = 1n (1 wei < 100 wei → needs approval).
+    // But balanceOf = 1n too → insufficient. 
+    // Simplest: just make the sell amount tiny enough that 1 wei balance covers it — impossible with parseEther.
+    // Real fix: use value where both balance and allowance = X, sell amount = X-1 won't trigger approval.
+    // Actually: allowance check uses raw comparison: allowance < amountWei. balanceOf check: parsedAmount > tokenBalance.
+    // If data = parseEther("500"), sell "100": balance 500 >= 100 ✅, allowance 500e18 >= 100e18 → no approval ❌
+    // We need allowance < sell amount AND balance >= sell amount with SAME value. That's contradictory.
+    // Solution: the component calls useReadContract twice with different args. Mock call order.
     readContractReturn = {
-      data: 1n, // 1 wei — truthy but way less than 100 tokens
+      data: 1n, // will be overridden per call
       isLoading: false,
       isError: false,
       refetch: refetchAllowance,
     };
+    const wagmi = await import("wagmi");
+    const origImpl = (wagmi.useReadContract as any).getMockImplementation?.();
+    let callIdx = 0;
+    (wagmi.useReadContract as any).mockImplementation((...args: any[]) => {
+      callIdx++;
+      // balanceOf calls (1st, 3rd, ...) → large balance; allowance calls (2nd, 4th, ...) → tiny
+      const isBal = callIdx % 2 === 1;
+      return {
+        data: isBal ? parseEther("1000") : 1n,
+        isLoading: false,
+        isError: false,
+        refetch: refetchAllowance,
+      };
+    });
 
     render(<SwapPanel tokenAddress={TOKEN} tokenSymbol={SYMBOL} />);
 
     await user.click(screen.getByRole("button", { name: /^sell$/i }));
     const input = screen.getByPlaceholderText("1000000") as HTMLInputElement;
     await user.type(input, "100");
+
+    // Restore mock for subsequent tests
+    (wagmi.useReadContract as any).mockImplementation(() => readContractReturn);
 
     expect(
       screen.getByRole("button", { name: new RegExp(`Approve & Sell ${SYMBOL}`) }),
