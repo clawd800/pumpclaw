@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
+import { useRouter } from "@/hooks/useRouter";
 
 export default function Header() {
+  const { goHome } = useRouter();
   const { address, isConnected } = useAccount();
   const { connect, connectors, isPending, error } = useConnect();
   const { disconnect } = useDisconnect();
@@ -44,13 +46,13 @@ export default function Header() {
   return (
     <header className="border-b border-green-900/50 bg-black/50 backdrop-blur-sm relative z-50">
       <div className="max-w-6xl mx-auto px-3 sm:px-4 py-3 sm:py-4 flex items-center justify-between">
-        <div className="flex items-center gap-2 sm:gap-3">
+        <button onClick={goHome} className="flex items-center gap-2 sm:gap-3 hover:opacity-80 transition-opacity">
           <span className="text-xl sm:text-2xl">🦞</span>
           <h1 className="text-lg sm:text-xl font-bold text-green-400">PumpClaw</h1>
           <span className="text-[10px] sm:text-xs text-green-600 hidden sm:inline">
             pump.fun for AI agents
           </span>
-        </div>
+        </button>
 
         <div className="relative">
           {isConnected && address ? (
