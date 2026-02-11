@@ -221,8 +221,8 @@ function TokenCard({ token, isERC8004Registered, volume24h, txns24h }: TokenCard
   const timeAgo = getTimeAgo(createdDate);
 
   return (
-    <div className="border border-neutral-800 bg-neutral-950/80 hover:border-orange-500/25 hover:bg-neutral-900/50 transition-all group flex flex-col">
-      <a href={`#/token/${token.token}`} className="block p-4 flex-1">
+    <div className="border border-neutral-800 bg-neutral-950/80 hover:border-orange-500/25 hover:bg-neutral-900/50 transition-all group flex flex-col overflow-hidden min-w-0">
+      <a href={`#/token/${token.token}`} className="block p-4 flex-1 min-w-0">
         {/* Row 1: Logo + Name/Symbol + Price */}
         <div className="flex gap-3 mb-3">
           <div className="shrink-0 w-11 h-11 overflow-hidden bg-neutral-900 border border-neutral-800 group-hover:border-neutral-700 transition-colors">
@@ -348,7 +348,7 @@ export default function TokenList() {
   }, [tokens, sortBy, filterERC8004, erc8004StatusMap, marketCapMap, volumeData]);
 
   return (
-    <div className="px-2 sm:px-0">
+    <div className="px-2 sm:px-0 w-full min-w-0 overflow-hidden">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-base sm:text-lg font-semibold text-white flex items-center gap-2">
@@ -366,8 +366,8 @@ export default function TokenList() {
       </div>
 
       {/* Sort Tabs & Filter */}
-      <div className="flex items-center gap-3 mb-4 pb-4 border-b border-neutral-800/50">
-        <div className="flex gap-1 flex-1 bg-neutral-900/50 p-1">
+      <div className="flex items-center gap-3 mb-4 pb-4 border-b border-neutral-800/50 min-w-0 w-full">
+        <div className="flex gap-1 flex-1 bg-neutral-900/50 p-1 min-w-0 overflow-hidden">
           {([
             { key: 'hot' as SortOption, label: '🔥 Hot' },
             { key: 'marketcap' as SortOption, label: 'Top MCap' },
@@ -412,7 +412,7 @@ export default function TokenList() {
           }
         </div>
       ) : (
-        <div className="grid gap-3 sm:gap-4 lg:grid-cols-2">
+        <div className="grid gap-3 sm:gap-4 lg:grid-cols-2 w-full min-w-0">
           {displayedTokens.map((token) => {
             const vol = volumeData?.tokens.find(v => v.address.toLowerCase() === token.token.toLowerCase());
             return (

@@ -70,8 +70,8 @@ export default function LiveActivityTicker() {
   if (!tokens.length) return null;
 
   return (
-    <div className="bg-black/80 border-b border-red-900/30 overflow-hidden">
-      <div className="max-w-6xl mx-auto flex items-center">
+    <div className="bg-black/80 border-b border-red-900/30 overflow-hidden w-full max-w-[100vw]">
+      <div className="max-w-6xl mx-auto flex items-center overflow-hidden">
         {/* Live badge */}
         <div className="flex-shrink-0 flex items-center gap-1.5 px-2.5 sm:px-4 py-1.5 sm:py-2 border-r border-red-900/30">
           <span

@@ -33,7 +33,7 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-orange-200 font-mono">
+    <div className="min-h-screen bg-black text-orange-200 font-mono overflow-x-hidden max-w-[100vw]">
       <Header />
       <ProtocolStats />
       <LiveActivityTicker />
@@ -118,8 +118,8 @@ export default function App() {
       </main>
 
       {/* Mobile Layout */}
-      <main className="lg:hidden pb-20 overflow-x-hidden">
-        <div className="px-2 py-2 sm:px-4 sm:py-4">
+      <main className="lg:hidden pb-20 overflow-x-hidden w-full">
+        <div className="px-2 py-2 sm:px-4 sm:py-4 w-full min-w-0">
           {activeTab === "launches" && <TokenList />}
           {activeTab === "create" && <CreateTokenForm onSuccess={refetch} />}
           {activeTab === "fees" && <FeesDashboard />}
