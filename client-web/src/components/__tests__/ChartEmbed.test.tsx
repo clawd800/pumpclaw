@@ -56,7 +56,7 @@ describe("ChartEmbed", () => {
   it("GeckoTerminal iframe has correct embed URL by default", () => {
     render(<ChartEmbed tokenAddress={TOKEN} />);
     const iframe = document.querySelector("iframe") as HTMLIFrameElement;
-    const expectedUrl = `https://www.geckoterminal.com/base/tokens/${TOKEN}?embed=1&info=0&swaps=1`;
+    const expectedUrl = `https://www.geckoterminal.com/base/tokens/${TOKEN}?embed=1&info=0&swaps=0`;
     expect(iframe.src).toBe(expectedUrl);
   });
 

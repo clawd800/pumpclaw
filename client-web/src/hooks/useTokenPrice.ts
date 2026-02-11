@@ -8,7 +8,6 @@
 
 import { useReadContract } from "wagmi";
 import { encodeAbiParameters, keccak256 } from "viem";
-import { useState, useEffect } from "react";
 import { CONTRACTS } from "@/configs/constants";
 
 const POOL_MANAGER = CONTRACTS.POOL_MANAGER as `0x${string}`;
@@ -81,38 +80,43 @@ export function useTokenPrice(tokenAddress: `0x${string}` | undefined) {
   return { ethPerToken, tokensPerEth, isLoading };
 }
 
+// On-chain ETH/USD price from Uniswap V3 WETH/USDC pool on Base
+// No API keys, no rate limits — pure blockchain read
+const WETH_USDC_POOL = "0xd0b53D9277642d899DF5C87A3966A349A798F224" as const; // 0.05% fee
+const SLOT0_ABI = [{
+  type: "function" as const,
+  name: "slot0" as const,
+  inputs: [],
+  outputs: [
+    { name: "sqrtPriceX96", type: "uint160" },
+    { name: "tick", type: "int24" },
+    { name: "observationIndex", type: "uint16" },
+    { name: "observationCardinality", type: "uint16" },
+    { name: "observationCardinalityNext", type: "uint16" },
+    { name: "feeProtocol", type: "uint8" },
+    { name: "unlocked", type: "bool" },
+  ],
+  stateMutability: "view" as const,
+}] as const;
+
 export function useEthUsdPrice() {
-  const [ethUsd, setEthUsd] = useState<number | null>(null);
+  // token0 = WETH (18 dec), token1 = USDC (6 dec)
+  // price = (sqrtPriceX96 / 2^96)^2 * 10^12
+  const { data } = useReadContract({
+    address: WETH_USDC_POOL,
+    abi: SLOT0_ABI,
+    functionName: "slot0",
+    query: { refetchInterval: 30_000 }, // refresh every 30s
+  });
 
-  useEffect(() => {
-    let cancelled = false;
-    async function fetchPrice() {
-      // Try CoinGecko first
-      try {
-        const res = await fetch(
-          "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd"
-        );
-        const data = await res.json();
-        if (!cancelled && data?.ethereum?.usd) {
-          setEthUsd(data.ethereum.usd);
-          return;
-        }
-      } catch { /* try fallback */ }
-      // Fallback: CryptoCompare
-      try {
-        const res = await fetch(
-          "https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD"
-        );
-        const data = await res.json();
-        if (!cancelled && data?.USD) {
-          setEthUsd(data.USD);
-        }
-      } catch { /* silently fail */ }
-    }
-    fetchPrice();
-    const interval = setInterval(fetchPrice, 60_000);
-    return () => { cancelled = true; clearInterval(interval); };
-  }, []);
+  if (!data) return null;
 
-  return ethUsd;
+  const sqrtPriceX96 = BigInt(data[0]);
+  if (sqrtPriceX96 === 0n) return null;
+
+  // price = (sqrtPriceX96^2 / 2^192) * 10^12
+  // Use BigInt math to avoid overflow, scale to 6 decimal precision
+  const sqrtSq = sqrtPriceX96 * sqrtPriceX96;
+  const priceScaled = (sqrtSq * 10n ** 6n) / (1n << 192n); // USDC per WETH (6 decimals)
+  return Number(priceScaled) / 1e6;
 }
