@@ -114,9 +114,10 @@ export function useEthUsdPrice() {
   const sqrtPriceX96 = BigInt(data[0]);
   if (sqrtPriceX96 === 0n) return null;
 
-  // price = (sqrtPriceX96^2 / 2^192) * 10^12
-  // Use BigInt math to avoid overflow, scale to 6 decimal precision
+  // price_raw = sqrtPriceX96^2 / 2^192 (token1/token0 in smallest units)
+  // WETH=18dec, USDC=6dec → multiply by 10^(18-6)=10^12 for human-readable USD
+  // We scale by 10^18 in BigInt then /1e6 in JS for 6 decimal precision
   const sqrtSq = sqrtPriceX96 * sqrtPriceX96;
-  const priceScaled = (sqrtSq * 10n ** 6n) / (1n << 192n); // USDC per WETH (6 decimals)
+  const priceScaled = (sqrtSq * 10n ** 18n) / (1n << 192n);
   return Number(priceScaled) / 1e6;
 }
