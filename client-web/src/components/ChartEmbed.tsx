@@ -7,7 +7,7 @@ interface ChartEmbedProps {
 type ChartProvider = "dexscreener" | "gecko";
 
 export default function ChartEmbed({ tokenAddress }: ChartEmbedProps) {
-  const [provider, setProvider] = useState<ChartProvider>("dexscreener");
+  const [provider, setProvider] = useState<ChartProvider>("gecko");
   const [hasError, setHasError] = useState(false);
 
   const dexScreenerUrl = `https://dexscreener.com/base/${tokenAddress}?embed=1&theme=dark&trades=0&info=0`;
@@ -78,12 +78,12 @@ export default function ChartEmbed({ tokenAddress }: ChartEmbedProps) {
         </div>
       </div>
       
-      {/* Chart iframe */}
-      <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
+      {/* Chart iframe — taller on mobile for readability */}
+      <div className="relative w-full" style={{ height: "min(80vh, 600px)", minHeight: "400px" }}>
         <iframe
           key={provider}
           src={chartUrl}
-          className="absolute inset-0 w-full h-full border-0"
+          className="w-full h-full border-0"
           title={`${provider} chart`}
           sandbox="allow-scripts allow-same-origin allow-popups"
           loading="lazy"

@@ -21,11 +21,11 @@ describe("ChartEmbed", () => {
 
   /* ---- Default provider ---- */
 
-  it("defaults to DexScreener provider", () => {
+  it("defaults to GeckoTerminal provider", () => {
     render(<ChartEmbed tokenAddress={TOKEN} />);
     const iframe = document.querySelector("iframe") as HTMLIFrameElement;
     expect(iframe).toBeTruthy();
-    expect(iframe.src).toContain("dexscreener.com");
+    expect(iframe.src).toContain("geckoterminal.com");
     expect(iframe.src).toContain(TOKEN);
   });
 
@@ -53,20 +53,20 @@ describe("ChartEmbed", () => {
 
   /* ---- Correct iframe src ---- */
 
-  it("DexScreener iframe has correct embed URL", () => {
+  it("GeckoTerminal iframe has correct embed URL by default", () => {
     render(<ChartEmbed tokenAddress={TOKEN} />);
     const iframe = document.querySelector("iframe") as HTMLIFrameElement;
-    const expectedUrl = `https://dexscreener.com/base/${TOKEN}?embed=1&theme=dark&trades=0&info=0`;
+    const expectedUrl = `https://www.geckoterminal.com/base/tokens/${TOKEN}?embed=1&info=0&swaps=1`;
     expect(iframe.src).toBe(expectedUrl);
   });
 
-  it("GeckoTerminal iframe has correct embed URL", async () => {
+  it("DexScreener iframe has correct embed URL when switched", async () => {
     const user = userEvent.setup();
     render(<ChartEmbed tokenAddress={TOKEN} />);
 
-    await user.click(screen.getByRole("button", { name: /geckoterminal/i }));
+    await user.click(screen.getByRole("button", { name: /dexscreener/i }));
     const iframe = document.querySelector("iframe") as HTMLIFrameElement;
-    const expectedUrl = `https://www.geckoterminal.com/base/tokens/${TOKEN}?embed=1&info=0&swaps=1`;
+    const expectedUrl = `https://dexscreener.com/base/${TOKEN}?embed=1&theme=dark&trades=0&info=0`;
     expect(iframe.src).toBe(expectedUrl);
   });
 
