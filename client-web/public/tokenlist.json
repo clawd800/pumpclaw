@@ -1,10 +1,10 @@
 {
   "name": "PumpClaw Token List",
-  "timestamp": "2026-02-11T11:05:27.433208+00:00",
+  "timestamp": "2026-02-11T14:03:44.069065Z",
   "version": {
     "major": 1,
     "minor": 0,
-    "patch": 58
+    "patch": 64
   },
   "tokens": [
     {
@@ -28,32 +28,28 @@
       "address": "0xf9C5d2a45240bDdB6439199fF1b882A4DC11a701",
       "name": "Steamed Lobster",
       "symbol": "LOBSTER",
-      "decimals": 18,
-      "logoURI": ""
+      "decimals": 18
     },
     {
       "chainId": 8453,
       "address": "0x10664AFA7b54bb5B93BD215020192C7C9c162057",
       "name": "ClawChat",
       "symbol": "CLAWCHAT",
-      "decimals": 18,
-      "logoURI": ""
+      "decimals": 18
     },
     {
       "chainId": 8453,
       "address": "0x10c8A454F40022e557862e9ead4497272ca1cBc1",
       "name": "Buyandrich",
       "symbol": "BAR",
-      "decimals": 18,
-      "logoURI": ""
+      "decimals": 18
     },
     {
       "chainId": 8453,
       "address": "0xa16f7E15BD7C044777319eA7b002d4E459fF757f",
       "name": "CLAWDROP",
       "symbol": "CLAWDROP",
-      "decimals": 18,
-      "logoURI": ""
+      "decimals": 18
     },
     {
       "chainId": 8453,
@@ -68,8 +64,7 @@
       "address": "0x0f4039Bf223eF088717110a649dc92D34bb24fD0",
       "name": "Gulfy",
       "symbol": "GULFY",
-      "decimals": 18,
-      "logoURI": ""
+      "decimals": 18
     },
     {
       "chainId": 8453,
@@ -140,32 +135,28 @@
       "address": "0x5959A6d13d10F3367312536e3E69922c982ab608",
       "name": "TestDeploy",
       "symbol": "TESTDEP",
-      "decimals": 18,
-      "logoURI": ""
+      "decimals": 18
     },
     {
       "chainId": 8453,
       "address": "0x3E567C603077123b0447705b2474Ed0EABe26de1",
       "name": "TAKE THIS IMAGE FOR SYMBOL",
       "symbol": "USFIRE",
-      "decimals": 18,
-      "logoURI": ""
+      "decimals": 18
     },
     {
       "chainId": 8453,
       "address": "0x11d3e91c63eDB93319D5d6d3Cd6FfBa2b439522a",
       "name": "SHAWARMA",
       "symbol": "SHAWARMA",
-      "decimals": 18,
-      "logoURI": ""
+      "decimals": 18
     },
     {
       "chainId": 8453,
       "address": "0xCc3b81086a10361AF30e1E94067FAAE94438F145",
       "name": "Rider",
       "symbol": "RIDE",
-      "decimals": 18,
-      "logoURI": ""
+      "decimals": 18
     },
     {
       "chainId": 8453,
@@ -180,8 +171,7 @@
       "address": "0x63E1f1d691cB829fa66683eaeeEcF31F6f4f43c9",
       "name": "Claw Loot Box",
       "symbol": "CLAWLB",
-      "decimals": 18,
-      "logoURI": ""
+      "decimals": 18
     },
     {
       "chainId": 8453,
@@ -196,8 +186,7 @@
       "address": "0x1721EfFAaCcFCC8c1EC4F5cc7ce709F99f8D0BbF",
       "name": "TokenName 23 tokens live. LP loc",
       "symbol": "TICKER",
-      "decimals": 18,
-      "logoURI": ""
+      "decimals": 18
     },
     {
       "chainId": 8453,
@@ -220,16 +209,14 @@
       "address": "0xca7a17750D27f7D04E5D364c411bC35d4a95333B",
       "name": "clawdnews",
       "symbol": "clawdnews",
-      "decimals": 18,
-      "logoURI": ""
+      "decimals": 18
     },
     {
       "chainId": 8453,
       "address": "0x42d94de4DD85A52f9dA427B1F1c976b03DEE6258",
       "name": "TokenName base babes",
       "symbol": "TICKER",
-      "decimals": 18,
-      "logoURI": ""
+      "decimals": 18
     },
     {
       "chainId": 8453,
@@ -244,8 +231,7 @@
       "address": "0xA65Ea27387fe7b982C344aD4c7384a3BBb4A6eD8",
       "name": "Clawstain",
       "symbol": "CLWASTAIN",
-      "decimals": 18,
-      "logoURI": ""
+      "decimals": 18
     },
     {
       "chainId": 8453,
@@ -260,16 +246,14 @@
       "address": "0x75379e1af4747b5404422A3442959A09455c7A31",
       "name": "FireClaw",
       "symbol": "FCLAW",
-      "decimals": 18,
-      "logoURI": ""
+      "decimals": 18
     },
     {
       "chainId": 8453,
       "address": "0x8fFbFe0413aeD3a5F12f8899838952d34a3c8E19",
       "name": "test",
       "symbol": "TEST",
-      "decimals": 18,
-      "logoURI": ""
+      "decimals": 18
     },
     {
       "chainId": 8453,
@@ -308,8 +292,7 @@
       "address": "0x379A26270846c1e3A11F4Cd52483dC0D38ed349D",
       "name": "ROASTED",
       "symbol": "ROASTED",
-      "decimals": 18,
-      "logoURI": ""
+      "decimals": 18
     },
     {
       "chainId": 8453,
@@ -332,24 +315,21 @@
       "address": "0xCa287Efbe35c2fc265D26714fA4ac8F8424A88FA",
       "name": "Molten",
       "symbol": "Molten",
-      "decimals": 18,
-      "logoURI": ""
+      "decimals": 18
     },
     {
       "chainId": 8453,
       "address": "0xD7C61d5Aa25217FaA4F642B245ad0ee44be1705c",
       "name": "MeerKat Town",
       "symbol": "MKAT",
-      "decimals": 18,
-      "logoURI": ""
+      "decimals": 18
     },
     {
       "chainId": 8453,
       "address": "0xFA679257eA6FA41770D7C2A37956A9204e89ffF1",
       "name": "Pussy",
       "symbol": "PUSSY",
-      "decimals": 18,
-      "logoURI": ""
+      "decimals": 18
     },
     {
       "chainId": 8453,
@@ -364,16 +344,14 @@
       "address": "0x19E1F945d2c101D0114EF6444b826Ff7e0D5fe9C",
       "name": "MANIAFARM",
       "symbol": "MANIAFARM",
-      "decimals": 18,
-      "logoURI": ""
+      "decimals": 18
     },
     {
       "chainId": 8453,
       "address": "0x221316BfDE641ea0b430687C1193f932f4D81b00",
       "name": "Every day is filled with shit",
       "symbol": "cums",
-      "decimals": 18,
-      "logoURI": ""
+      "decimals": 18
     },
     {
       "chainId": 8453,
@@ -396,8 +374,7 @@
       "address": "0xA0652522ac5d59c90758349A218E781aBE2196c6",
       "name": "SonicBoomToken",
       "symbol": "SBT",
-      "decimals": 18,
-      "logoURI": ""
+      "decimals": 18
     },
     {
       "chainId": 8453,
@@ -444,49 +421,76 @@
       "address": "0x627fD5cA0E32F68b4Cc259bA56080D7282C79142",
       "name": "clawaaa",
       "symbol": "CALWAAA",
-      "decimals": 18,
-      "logoURI": ""
+      "decimals": 18
     },
     {
       "chainId": 8453,
       "address": "0x3CC094098A9655019659D9D66d3270dAfB116591",
       "name": "dumpclawd",
       "symbol": "DUMPCLAWD",
-      "decimals": 18,
-      "logoURI": ""
+      "decimals": 18
     },
     {
       "chainId": 8453,
       "address": "0x337fC5aDAe0800354ec20280BAb94bB055FDbda2",
       "name": "Shit Life",
       "symbol": "SHITLIFE",
-      "decimals": 18,
-      "logoURI": ""
+      "decimals": 18
     },
     {
       "chainId": 8453,
       "address": "0x499Ff556CADD87cFC61d4674A5C46df00212fcCf",
       "name": "Fifty fifty",
       "symbol": "5050",
-      "decimals": 18,
-      "logoURI": ""
-    }
-  ],
-  "keywords": [
-    "pumpclaw",
-    "base",
-    "ai-agent",
-    "uniswap-v4"
-  ],
-  "logoURI": "https://pumpclaw.com/logo-512.png",
-  "tags": {
-    "ai-agent": {
-      "name": "AI Agent",
-      "description": "Tokens launched by AI agents via PumpClaw"
+      "decimals": 18
     },
-    "pumpclaw": {
-      "name": "PumpClaw",
-      "description": "Launched on pumpclaw.com"
+    {
+      "chainId": 8453,
+      "address": "0x5f93a40b889Bc71C04E39D66e99dc78f6745560B",
+      "name": "lobster",
+      "symbol": "LOBSTER",
+      "decimals": 18,
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/c7e67293-3e26-4710-c710-af0fb7af0200/original"
+    },
+    {
+      "chainId": 8453,
+      "address": "0x20830f049BC0FC106700d0cE6223BF873c902b38",
+      "name": "clawdGrid",
+      "symbol": "clawdGird",
+      "decimals": 18,
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/122188e8-722c-4d5f-a8ef-aeae5fd89000/original"
+    },
+    {
+      "chainId": 8453,
+      "address": "0x970b9DF69274AAC1f54eC721da399273F13487FE",
+      "name": "Nigaclaw",
+      "symbol": "Nigaclaw",
+      "decimals": 18,
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/9decd94b-06fc-4f9c-537f-d099539fe700/original"
+    },
+    {
+      "chainId": 8453,
+      "address": "0xBAb5dbe8E33584a947A5956d720201c52Bfc4FF8",
+      "name": "SILVANA",
+      "symbol": "SILVANA",
+      "decimals": 18,
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/549044f1-b97a-4ad0-3248-cd0f2233e500/original"
+    },
+    {
+      "chainId": 8453,
+      "address": "0x5f412016Dd9066c839180E05e2A6441C6B8045Bd",
+      "name": "Green crab",
+      "symbol": "GCRAB",
+      "decimals": 18,
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/d33c2332-5368-480d-9aad-3e9f1c325700/original"
+    },
+    {
+      "chainId": 8453,
+      "address": "0x0b40285D79eb3a051D0dd0700Eaa7c7e2150A4B2",
+      "name": "Crab Rave",
+      "symbol": "CRAVE",
+      "decimals": 18,
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/6cfb22a9-a3dd-4ef0-5deb-94b833f67c00/original"
     }
-  }
+  ]
 }
