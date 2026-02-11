@@ -4,7 +4,6 @@ import CreateTokenForm from "@/components/CreateTokenForm";
 import TokenList from "@/components/TokenList";
 import TokenDetailPage from "@/components/TokenDetailPage";
 import FeesDashboard from "@/components/FeesDashboard";
-import CreatorLeaderboard from "@/components/CreatorLeaderboard";
 import LiveActivityTicker from "@/components/LiveActivityTicker";
 import ProtocolStats from "@/components/ProtocolStats";
 import { useLatestTokens } from "@/hooks/useTokens";
@@ -67,7 +66,6 @@ export default function App() {
         <div className="grid gap-8 lg:grid-cols-[1fr_2fr]">
           <div className="space-y-8">
             <CreateTokenForm onSuccess={refetch} />
-            <CreatorLeaderboard />
             <FeesDashboard />
           </div>
           <div>
