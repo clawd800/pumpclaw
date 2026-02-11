@@ -336,6 +336,28 @@ export default function SwapPanel({ tokenAddress, tokenSymbol }: SwapPanelProps)
             </span>
           </div>
 
+          {/* Quick Amount Presets */}
+          {tab === "buy" && (
+            <div className="space-y-2">
+              <span className="text-green-600 text-xs uppercase tracking-wider">Quick Buy</span>
+              <div className="grid grid-cols-4 gap-1.5">
+                {[0.001, 0.005, 0.01, 0.05].map((preset) => (
+                  <button
+                    key={preset}
+                    onClick={() => { setAmount(String(preset)); resetState(); }}
+                    className={`py-2 text-xs font-mono font-medium border transition-all ${
+                      amount === String(preset)
+                        ? "bg-green-600/30 border-green-500/60 text-green-300"
+                        : "bg-black/40 border-green-900/50 text-green-600 hover:border-green-700/50 hover:text-green-400"
+                    }`}
+                  >
+                    {preset} ETH
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Input */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">

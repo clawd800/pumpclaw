@@ -6,6 +6,8 @@ import { CONTRACTS } from "@/configs/constants";
 import { TokenMedia } from "./TokenMedia";
 import { ERC20_ABI } from "@/configs/abis";
 import { useTokenPrice, useEthUsdPrice } from "@/hooks/useTokenPrice";
+import SwapPanel from "./SwapPanel";
+import ChartEmbed from "./ChartEmbed";
 
 // ERC-8004 Registry on Base
 const ERC8004_REGISTRY = "0x8004A169FB4a3325136EB29fA0ceB6D2e539a432" as const;
