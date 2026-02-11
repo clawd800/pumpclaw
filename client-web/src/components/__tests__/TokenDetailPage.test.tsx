@@ -228,9 +228,9 @@ describe("TokenDetailPage", () => {
 
   it("shows Matcha external link", () => {
     render(<TokenDetailPage tokenAddress={TOKEN_ADDRESS} goHome={goHomeFn} />);
-    const matchaLink = screen.getByRole("link", { name: /matcha/i });
-    expect(matchaLink).toBeInTheDocument();
-    expect(matchaLink.getAttribute("href")).toContain("matcha.xyz");
+    const matchaLinks = screen.getAllByRole("link", { name: /matcha/i });
+    expect(matchaLinks.length).toBeGreaterThanOrEqual(1);
+    expect(matchaLinks[0].getAttribute("href")).toContain("matcha.xyz");
   });
 
   it("shows BaseScan external link", () => {

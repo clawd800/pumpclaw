@@ -263,18 +263,10 @@ function TokenCard({ token, isERC8004Registered, volume24h, txns24h }: TokenCard
       {/* Action row */}
       <div className="px-4 pb-4 pt-1 flex gap-2">
         <a
-          href={`https://matcha.xyz/tokens/base/${token.token}?sellChain=8453&sellAddress=0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex-1 py-2 text-center text-xs font-semibold bg-green-500/15 border border-green-500/30 text-green-400 hover:bg-green-500/25 hover:text-green-300 transition-all"
-        >
-          🛒 Buy
-        </a>
-        <a
           href={`#/token/${token.token}`}
-          className="flex-1 py-2 text-center text-xs font-medium bg-orange-500/10 border border-orange-500/20 text-orange-400 hover:bg-orange-500/20 hover:text-orange-300 transition-all"
+          className="flex-1 py-2 text-center text-xs font-semibold bg-orange-600/20 border border-orange-500/40 text-orange-300 hover:bg-orange-600/30 hover:text-orange-200 transition-all"
         >
-          📊 Details
+          Trade
         </a>
         <button
           onClick={(e) => {
@@ -282,14 +274,14 @@ function TokenCard({ token, isERC8004Registered, volume24h, txns24h }: TokenCard
             const url = `https://pumpclaw.com/#/token/${token.token}`;
             navigator.clipboard.writeText(url);
             const btn = e.currentTarget;
-            btn.textContent = '✅';
+            btn.textContent = '✓';
             setTimeout(() => { btn.textContent = '🔗'; }, 1500);
           }}
-          className="px-3 py-2 bg-neutral-900 border border-neutral-800 text-neutral-500 hover:text-white hover:border-neutral-700 transition-all shrink-0"
-          title="Copy share link"
+          className="py-2 px-3 text-xs font-medium bg-black/40 border border-red-900/50 text-neutral-500 hover:text-orange-400 transition-all"
         >
           🔗
         </button>
+        {/* share link via Trade button's 🔗 */}
       </div>
     </div>
   );
