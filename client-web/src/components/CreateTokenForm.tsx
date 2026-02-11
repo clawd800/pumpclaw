@@ -2,10 +2,11 @@ import { useState } from "react";
 import { useAccount } from "wagmi";
 import { useCreateToken } from "@/hooks/useCreateToken";
 import { DEFAULT_SUPPLY, DEFAULT_FDV } from "@/configs/constants";
+import TokenLaunchSuccess from "./TokenLaunchSuccess";
 
 export default function CreateTokenForm({ onSuccess }: { onSuccess?: () => void }) {
   const { address, isConnected } = useAccount();
-  const { createToken, isPending, isConfirming, isSuccess, error, hash } = useCreateToken();
+  const { createToken, isPending, isConfirming, isSuccess, error, hash, reset } = useCreateToken();
 
   const [name, setName] = useState("");
   const [symbol, setSymbol] = useState("");
@@ -15,6 +16,8 @@ export default function CreateTokenForm({ onSuccess }: { onSuccess?: () => void 
   const [fdv, setFdv] = useState(DEFAULT_FDV);
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [showHumanForm, setShowHumanForm] = useState(false);
+  // Track the launched token info for the success screen
+  const [launchedToken, setLaunchedToken] = useState<{ name: string; symbol: string; hash: `0x${string}` } | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

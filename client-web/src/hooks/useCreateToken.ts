@@ -14,7 +14,7 @@ export interface CreateTokenParams {
 }
 
 export function useCreateToken() {
-  const { writeContract, data: hash, isPending, error } = useWriteContract();
+  const { writeContract, data: hash, isPending, error, reset } = useWriteContract();
   
   const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({
     hash,
@@ -43,5 +43,6 @@ export function useCreateToken() {
     isConfirming,
     isSuccess,
     error,
+    reset,
   };
 }

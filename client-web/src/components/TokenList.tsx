@@ -162,7 +162,7 @@ function ProgressBar({ tokenAddress }: { tokenAddress: `0x${string}` }) {
           style={{ width: `${Math.min(percentPurchased, 100)}%` }}
         />
       </div>
-      <span className="text-[10px] text-neutral-500 font-mono tabular-nums w-10 text-right shrink-0">{percentPurchased.toFixed(1)}%</span>
+      <span className="text-[10px] text-neutral-500 font-mono tabular-nums w-10 text-right shrink-0">{percentPurchased.toFixed(2)}%</span>
     </div>
   );
 }
