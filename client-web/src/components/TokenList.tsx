@@ -263,10 +263,18 @@ function TokenCard({ token, isERC8004Registered, volume24h, txns24h }: TokenCard
       {/* Action row */}
       <div className="px-4 pb-4 pt-1 flex gap-2">
         <a
+          href={`https://matcha.xyz/tokens/base/${token.token}?sellChain=8453&sellAddress=0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex-1 py-2 text-center text-xs font-semibold bg-green-500/15 border border-green-500/30 text-green-400 hover:bg-green-500/25 hover:text-green-300 transition-all"
+        >
+          🛒 Buy
+        </a>
+        <a
           href={`#/token/${token.token}`}
           className="flex-1 py-2 text-center text-xs font-medium bg-orange-500/10 border border-orange-500/20 text-orange-400 hover:bg-orange-500/20 hover:text-orange-300 transition-all"
         >
-          Trade
+          📊 Details
         </a>
         <button
           onClick={(e) => {
