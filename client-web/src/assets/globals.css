@@ -60,6 +60,11 @@ button:focus {
   box-shadow: 0 0 0 2px #22c55e40;
 }
 
+/* Clickable elements */
+a, button, [role="button"], label[for], select, summary {
+  cursor: pointer;
+}
+
 /* Link defaults */
 a {
   color: inherit;
