@@ -92,6 +92,22 @@ export default function App() {
             >
               GitHub ↗
             </a>
+            <a
+              href="https://pumpclaw.com/tokenlist.json"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-green-500 transition-colors"
+            >
+              Token List ↗
+            </a>
+            <a
+              href="https://pumpclaw.com/api/tokens.json"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-green-500 transition-colors"
+            >
+              API ↗
+            </a>
             <span>Built on Base 🔵</span>
           </div>
           <p className="mt-4 text-green-800">
