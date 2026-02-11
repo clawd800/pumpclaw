@@ -176,15 +176,16 @@ export default function SwapPanel({ tokenAddress, tokenSymbol }: SwapPanelProps)
     }
   }, [receipt]);
 
-  // Estimate output
+  // Estimate output (apply ~1% price impact estimate since spot price != swap price)
+  const PRICE_IMPACT_FACTOR = 0.99;
   const estimatedOutput = (() => {
     if (!amount || isNaN(parseFloat(amount)) || parseFloat(amount) <= 0) return null;
     if (tab === "buy") {
       if (!tokensPerEth) return null;
-      return parseFloat(amount) * tokensPerEth;
+      return parseFloat(amount) * tokensPerEth * PRICE_IMPACT_FACTOR;
     } else {
       if (!ethPerToken) return null;
-      return parseFloat(amount) * ethPerToken;
+      return parseFloat(amount) * ethPerToken * PRICE_IMPACT_FACTOR;
     }
   })();
 
@@ -213,8 +214,9 @@ export default function SwapPanel({ tokenAddress, tokenSymbol }: SwapPanelProps)
     if (!amount) return;
     try {
       const ethAmount = parseEther(amount);
+      // Apply slippage + extra 2% buffer for price impact (spot price != swap price)
       const minTokensOut = estimatedOutput
-        ? parseEther(String(estimatedOutput * (1 - slippage / 100)))
+        ? parseEther(String(Math.max(0, estimatedOutput * (1 - slippage / 100) * 0.98)))
         : 0n;
 
       setTxStatus("pending");
@@ -239,8 +241,9 @@ export default function SwapPanel({ tokenAddress, tokenSymbol }: SwapPanelProps)
     if (!amount) return;
     try {
       const tokenAmount = parseEther(amount);
+      // Apply slippage + extra 2% buffer for price impact
       const minEthOut = estimatedOutput
-        ? parseEther(String(Math.max(0, estimatedOutput * (1 - slippage / 100))))
+        ? parseEther(String(Math.max(0, estimatedOutput * (1 - slippage / 100) * 0.98)))
         : 0n;
 
       setTxStatus("pending");

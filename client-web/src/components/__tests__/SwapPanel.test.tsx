@@ -314,7 +314,8 @@ describe("SwapPanel", () => {
     const input = screen.getByPlaceholderText("0.01") as HTMLInputElement;
     await user.type(input, "1");
     expect(screen.getByText(/you receive/i)).toBeInTheDocument();
-    expect(screen.getByText(/1,000,000/)).toBeInTheDocument();
+    // 1,000,000 * 0.99 price impact = 990,000
+    expect(screen.getByText(/990,000/)).toBeInTheDocument();
   });
 
   it("shows USD estimate when amount entered", async () => {
