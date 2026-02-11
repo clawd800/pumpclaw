@@ -118,7 +118,7 @@ export default function App() {
       </main>
 
       {/* Mobile Layout */}
-      <main className="lg:hidden pb-20">
+      <main className="lg:hidden pb-20 overflow-x-hidden">
         <div className="px-2 py-2 sm:px-4 sm:py-4">
           {activeTab === "launches" && <TokenList />}
           {activeTab === "create" && <CreateTokenForm onSuccess={refetch} />}
