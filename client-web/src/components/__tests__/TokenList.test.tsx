@@ -107,7 +107,7 @@ describe("TokenList", () => {
 
   it("renders total count", () => {
     render(<TokenList />);
-    expect(screen.getByText("(2)")).toBeInTheDocument();
+    expect(screen.getByText("2")).toBeInTheDocument();
   });
 
   /* ---- Token cards ---- */
@@ -180,7 +180,7 @@ describe("TokenList", () => {
 
     const mcapTab = screen.getByRole("button", { name: /top mcap/i });
     await user.click(mcapTab);
-    expect(mcapTab.className).toContain("text-red-400");
+    expect(mcapTab.className).toContain("text-orange-300");
   });
 
   /* ---- 8004 filter ---- */

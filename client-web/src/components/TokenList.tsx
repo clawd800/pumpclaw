@@ -136,14 +136,12 @@ const TOTAL_SUPPLY_ABI = [
 ] as const;
 
 function ProgressBar({ tokenAddress }: { tokenAddress: `0x${string}` }) {
-  // Get total supply
   const { data: totalSupply } = useReadContract({
     address: tokenAddress,
     abi: TOTAL_SUPPLY_ABI,
     functionName: "totalSupply",
   });
 
-  // Get pool balance (tokens remaining in PoolManager)
   const { data: poolBalance } = useReadContract({
     address: tokenAddress,
     abi: ERC20_ABI,
@@ -153,22 +151,18 @@ function ProgressBar({ tokenAddress }: { tokenAddress: `0x${string}` }) {
 
   if (!totalSupply || !poolBalance) return null;
 
-  // Calculate percentage purchased (use 10000n for 2 decimal precision, then divide by 100)
   const purchased = totalSupply - poolBalance;
   const percentPurchased = Number((purchased * 10000n) / totalSupply) / 100;
   
   return (
-    <div className="mt-2">
-      <div className="flex justify-between text-[10px] sm:text-xs text-orange-500 mb-0.5">
-        <span>Purchased</span>
-        <span>{percentPurchased.toFixed(2)}%</span>
-      </div>
-      <div className="h-1.5 sm:h-2 bg-red-900/30 border border-red-900/50 overflow-hidden">
+    <div className="flex items-center gap-2">
+      <div className="flex-1 h-1.5 rounded-full bg-neutral-800 overflow-hidden">
         <div 
-          className="h-full bg-gradient-to-r from-red-500 to-orange-400 shadow-[0_0_8px_rgba(239,68,68,0.6)] transition-all duration-500"
+          className="h-full rounded-full bg-gradient-to-r from-red-500 to-orange-400 transition-all duration-500"
           style={{ width: `${Math.min(percentPurchased, 100)}%` }}
         />
       </div>
+      <span className="text-[10px] text-neutral-500 font-mono tabular-nums w-10 text-right shrink-0">{percentPurchased.toFixed(1)}%</span>
     </div>
   );
 }
@@ -189,7 +183,7 @@ function TokenPriceBadge({ tokenAddress }: { tokenAddress: `0x${string}` }) {
   };
 
   return (
-    <span className="text-red-400 font-mono text-xs sm:text-sm font-semibold">
+    <span className="text-white font-mono text-xs font-medium">
       {priceUsd !== null ? formatPrice(priceUsd) : `${ethPerToken.toExponential(1)} ETH`}
     </span>
   );
@@ -204,12 +198,12 @@ function VolumeBadge({ volume24h, txns }: { volume24h: number; txns: { buys: num
   const totalTxns = txns.buys + txns.sells;
   
   return (
-    <div className="flex items-center gap-1 px-1.5 py-0.5 bg-orange-900/40 border border-orange-500/40 text-[10px] sm:text-xs">
+    <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-orange-500/10 text-[10px]">
       <span className="text-orange-400">🔥</span>
       <span className="text-orange-300 font-medium">{fmtVol}</span>
-      <span className="text-orange-600">•</span>
-      <span className="text-orange-400">{totalTxns} txn{totalTxns !== 1 ? 's' : ''}</span>
-    </div>
+      <span className="text-neutral-600">·</span>
+      <span className="text-orange-400/70">{totalTxns} txn{totalTxns !== 1 ? 's' : ''}</span>
+    </span>
   );
 }
 
@@ -227,68 +221,67 @@ function TokenCard({ token, isERC8004Registered, volume24h, txns24h }: TokenCard
   const timeAgo = getTimeAgo(createdDate);
 
   return (
-    <div className="border border-red-900/50 bg-black/40 hover:border-orange-500/40 transition-all hover:bg-black/60 group overflow-hidden flex flex-col">
-      <a href={`#/token/${token.token}`} className="block p-3 sm:p-4 pb-2 sm:pb-3 flex-1">
-        {/* Header row: logo + info + price */}
-        <div className="flex items-center gap-3 mb-2">
-          <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 overflow-hidden bg-red-900/30 border border-neutral-600/50 group-hover:border-orange-500/50 transition-colors rounded-sm">
+    <div className="rounded-xl border border-neutral-800 bg-neutral-950/80 hover:border-orange-500/25 hover:bg-neutral-900/50 transition-all group flex flex-col">
+      <a href={`#/token/${token.token}`} className="block p-4 flex-1">
+        {/* Row 1: Logo + Name/Symbol + Price */}
+        <div className="flex gap-3 mb-3">
+          <div className="shrink-0 w-11 h-11 rounded-lg overflow-hidden bg-neutral-900 border border-neutral-800 group-hover:border-neutral-700 transition-colors">
             {imageUrl ? (
               <TokenMedia src={imageUrl} alt={token.symbol} />
             ) : (
-              <div className="w-full h-full flex items-center justify-center text-orange-500 text-lg sm:text-xl">
-                🦞
-              </div>
+              <div className="w-full h-full flex items-center justify-center text-orange-400 text-lg">🦞</div>
             )}
           </div>
           
           <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-1.5">
-              <h3 className="font-bold text-red-400 text-sm sm:text-base truncate group-hover:text-orange-200 transition-colors">{token.name}</h3>
-              {isERC8004Registered && <ERC8004Badge />}
+            <div className="flex items-baseline justify-between gap-2">
+              <h3 className="font-semibold text-white text-sm truncate group-hover:text-orange-200 transition-colors">{token.name}</h3>
+              <TokenPriceBadge tokenAddress={token.token} />
             </div>
             <div className="flex items-center gap-1.5 mt-0.5">
-              <span className="text-orange-400 font-mono text-xs sm:text-sm">${token.symbol}</span>
-              <span className="text-neutral-600 text-[10px]">•</span>
-              <span className="text-neutral-500 text-[10px] sm:text-xs" title={createdDate.toLocaleString()}>{timeAgo}</span>
+              <span className="text-orange-400/80 text-xs font-mono">${token.symbol}</span>
+              <span className="text-neutral-700 text-xs">·</span>
+              <span className="text-neutral-500 text-[11px]" title={createdDate.toLocaleString()}>{timeAgo}</span>
+              {isERC8004Registered && <ERC8004Badge />}
             </div>
-          </div>
-
-          <div className="flex-shrink-0 text-right flex flex-col items-end gap-1">
-            <TokenPriceBadge tokenAddress={token.token} />
-            {volume24h != null && volume24h > 0 && txns24h && (
-              <VolumeBadge volume24h={volume24h} txns={txns24h} />
-            )}
           </div>
         </div>
 
-        {/* Progress bar */}
-        <ProgressBar tokenAddress={token.token} />
+        {/* Row 2: Progress bar */}
+        <div className="mb-2">
+          <ProgressBar tokenAddress={token.token} />
+        </div>
+
+        {/* Row 3: Badges */}
+        {volume24h != null && volume24h > 0 && txns24h && (
+          <div className="mt-1">
+            <VolumeBadge volume24h={volume24h} txns={txns24h} />
+          </div>
+        )}
       </a>
 
       {/* Action row */}
-      <div className="px-3 sm:px-4 pb-3 pt-1">
-        <div className="flex gap-1.5 items-center">
-          <a
-            href={`#/token/${token.token}`}
-            className="flex-1 py-1.5 text-center text-[11px] sm:text-xs font-medium bg-orange-600/20 border border-orange-500/40 text-orange-300 hover:bg-orange-600/30 hover:text-orange-200 transition-all"
-          >
-            Trade
-          </a>
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              const url = `https://pumpclaw.com/#/token/${token.token}`;
-              navigator.clipboard.writeText(url);
-              const btn = e.currentTarget;
-              btn.textContent = '✅';
-              setTimeout(() => { btn.textContent = '🔗'; }, 1500);
-            }}
-            className="px-2 py-1.5 text-[11px] sm:text-xs bg-red-900/30 border border-neutral-600/50 text-orange-400 hover:bg-red-900/50 hover:text-orange-300 transition-all shrink-0"
-            title="Copy share link"
-          >
-            🔗
-          </button>
-        </div>
+      <div className="px-4 pb-4 pt-1 flex gap-2">
+        <a
+          href={`#/token/${token.token}`}
+          className="flex-1 py-2 text-center text-xs font-medium rounded-lg bg-orange-500/10 border border-orange-500/20 text-orange-400 hover:bg-orange-500/20 hover:text-orange-300 transition-all"
+        >
+          Trade
+        </a>
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            const url = `https://pumpclaw.com/#/token/${token.token}`;
+            navigator.clipboard.writeText(url);
+            const btn = e.currentTarget;
+            btn.textContent = '✅';
+            setTimeout(() => { btn.textContent = '🔗'; }, 1500);
+          }}
+          className="px-3 py-2 rounded-lg bg-neutral-900 border border-neutral-800 text-neutral-500 hover:text-white hover:border-neutral-700 transition-all shrink-0"
+          title="Copy share link"
+        >
+          🔗
+        </button>
       </div>
     </div>
   );
@@ -355,95 +348,71 @@ export default function TokenList() {
   }, [tokens, sortBy, filterERC8004, erc8004StatusMap, marketCapMap, volumeData]);
 
   return (
-    <div className="sm:border sm:border-red-900/50 bg-black/30 p-1.5 sm:p-6">
+    <div className="px-2 sm:px-0">
       {/* Header */}
-      <div className="flex items-center justify-between mb-4 sm:mb-6">
-        <h2 className="text-base sm:text-xl font-bold text-orange-200 flex items-center gap-1.5 sm:gap-2">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-base sm:text-lg font-semibold text-white flex items-center gap-2">
           Tokens
           {count > 0 && (
-            <span className="text-sm sm:text-base font-normal text-orange-500">
-              ({count})
-            </span>
+            <span className="text-sm font-normal text-neutral-500">{count}</span>
           )}
         </h2>
         <button
           onClick={() => refetch()}
-          className="text-xs text-orange-500 hover:text-orange-300 transition-colors px-2 py-1 border border-red-900/50 hover:border-orange-500/40"
+          className="text-xs text-neutral-500 hover:text-white transition-colors px-2.5 py-1 rounded-lg border border-neutral-800 hover:border-neutral-700"
         >
           ↻ Refresh
         </button>
       </div>
 
       {/* Sort Tabs & Filter */}
-      <div className="flex flex-col gap-3 mb-4 sm:mb-6 pb-3 sm:pb-4 border-b border-red-900/30">
-        <div className="flex items-center gap-3">
-          {/* Tab Buttons */}
-          <div className="flex flex-1">
+      <div className="flex items-center gap-3 mb-4 pb-4 border-b border-neutral-800/50">
+        <div className="flex gap-1 flex-1 bg-neutral-900/50 p-1 rounded-lg">
+          {([
+            { key: 'hot' as SortOption, label: '🔥 Hot' },
+            { key: 'marketcap' as SortOption, label: 'Top MCap' },
+            { key: 'recent' as SortOption, label: 'Recent' },
+          ]).map(({ key, label }) => (
             <button
-              onClick={() => setSortBy('hot')}
-              className={`flex-1 sm:flex-none px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium border transition-all ${
-                sortBy === 'hot'
-                  ? 'bg-orange-600/20 border-orange-500/50 text-orange-300'
-                  : 'bg-black/40 border-red-900/50 text-neutral-500 hover:text-orange-400 hover:border-orange-500/40'
+              key={key}
+              onClick={() => setSortBy(key)}
+              className={`flex-1 sm:flex-none px-3 py-1.5 text-xs sm:text-sm font-medium rounded-md transition-all ${
+                sortBy === key
+                  ? 'bg-orange-500/15 text-orange-300 shadow-sm'
+                  : 'text-neutral-500 hover:text-neutral-300'
               }`}
             >
-              🔥 Hot
+              {label}
             </button>
-            <button
-              onClick={() => setSortBy('marketcap')}
-              className={`flex-1 sm:flex-none px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium border border-l-0 transition-all ${
-                sortBy === 'marketcap'
-                  ? 'bg-orange-600/20 border-orange-500/40 text-red-400'
-                  : 'bg-black/40 border-red-900/50 text-neutral-500 hover:text-orange-400 hover:border-orange-500/40'
-              }`}
-            >
-              Top MCap
-            </button>
-            <button
-              onClick={() => setSortBy('recent')}
-              className={`flex-1 sm:flex-none px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium border border-l-0 transition-all ${
-                sortBy === 'recent'
-                  ? 'bg-orange-600/20 border-orange-500/40 text-red-400'
-                  : 'bg-black/40 border-red-900/50 text-neutral-500 hover:text-orange-400 hover:border-orange-500/40'
-              }`}
-            >
-              Recent
-            </button>
-          </div>
-
-          {/* Filter Checkbox */}
-          <label className="flex items-center gap-1.5 cursor-pointer group shrink-0">
-            <input
-              type="checkbox"
-              checked={filterERC8004}
-              onChange={(e) => setFilterERC8004(e.target.checked)}
-              className="w-3.5 h-3.5 bg-black/60 border border-red-900/50 text-orange-500 focus:ring-orange-500 focus:ring-offset-0 cursor-pointer accent-orange-500"
-            />
-            <span className="text-orange-500 text-[11px] sm:text-sm group-hover:text-orange-300 transition-colors">
-              <span className="text-blue-400">8004</span>
-            </span>
-          </label>
+          ))}
         </div>
 
-        {/* Show filtered count */}
-        {filterERC8004 && displayedTokens.length !== tokens.length && (
-          <span className="text-neutral-500 text-xs">
-            {displayedTokens.length} of {tokens.length}
-          </span>
-        )}
+        <label className="flex items-center gap-1.5 cursor-pointer group shrink-0">
+          <input
+            type="checkbox"
+            checked={filterERC8004}
+            onChange={(e) => setFilterERC8004(e.target.checked)}
+            className="w-3.5 h-3.5 rounded bg-neutral-900 border border-neutral-700 text-orange-500 focus:ring-orange-500 focus:ring-offset-0 cursor-pointer accent-orange-500"
+          />
+          <span className="text-blue-400 text-[11px] sm:text-xs group-hover:text-blue-300 transition-colors font-medium">8004</span>
+        </label>
       </div>
 
+      {filterERC8004 && displayedTokens.length !== tokens.length && (
+        <p className="text-neutral-500 text-xs mb-3">{displayedTokens.length} of {tokens.length}</p>
+      )}
+
       {isLoading ? (
-        <div className="text-center py-12 text-orange-500">Loading...</div>
+        <div className="text-center py-16 text-neutral-500">Loading...</div>
       ) : displayedTokens.length === 0 ? (
-        <div className="text-center py-12 text-neutral-500">
+        <div className="text-center py-16 text-neutral-500">
           {filterERC8004 
-            ? "No ERC-8004 registered tokens found. Try removing the filter."
+            ? "No ERC-8004 registered tokens found."
             : "No tokens launched yet. Be the first! 🦞"
           }
         </div>
       ) : (
-        <div className="grid gap-4 lg:grid-cols-2 items-stretch" style={{ gridAutoRows: '1fr' }}>
+        <div className="grid gap-3 sm:gap-4 lg:grid-cols-2">
           {displayedTokens.map((token) => {
             const vol = volumeData?.tokens.find(v => v.address.toLowerCase() === token.token.toLowerCase());
             return (
