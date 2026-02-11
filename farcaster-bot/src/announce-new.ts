@@ -219,14 +219,21 @@ async function main() {
       `📛 ${name} ($${symbol})\n` +
       `💰 ${fdv} ETH initial FDV\n` +
       (requestInfo?.username ? `👤 @${requestInfo.username}\n` : `👤 ${creator.slice(0, 6)}...${creator.slice(-4)}\n`) +
-      `🔒 LP locked forever on Uniswap V4`;
+      `🔒 LP locked forever on Uniswap V4\n\n` +
+      tokenPageUrl;
 
-    const embeds: Array<{url: string}> = [{ url: tokenPageUrl }];
-    // Quote-cast the original request if available
+    // Embeds: prioritize quote cast + image (FC allows 2 embeds max)
+    // Token page URL goes in text body instead
+    const embeds: Array<{url: string}> = [];
     if (requestInfo?.castHash && requestInfo?.username) {
       embeds.push({ url: `https://farcaster.xyz/${requestInfo.username}/${requestInfo.castHash}` });
-    } else if (imageUrl) {
+    }
+    if (imageUrl) {
       embeds.push({ url: imageUrl });
+    }
+    // If no embeds at all, fall back to token page as embed
+    if (embeds.length === 0) {
+      embeds.push({ url: tokenPageUrl });
     }
 
     if (DRY_RUN) {
