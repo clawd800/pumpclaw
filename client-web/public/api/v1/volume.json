@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-02-11T17:03:14.608Z",
+  "generatedAt": "2026-02-11T19:03:20.926Z",
   "totalTokens": 65,
   "activeTokens": 33,
-  "totalVolume24h": 398.0400000000002,
-  "totalTxns24h": 42,
+  "totalVolume24h": 399.2800000000002,
+  "totalTxns24h": 47,
   "hotTokens": [
     {
       "address": "0x76767891Fe941e1934953e9bd63cDeD7b5c473Da",
@@ -130,6 +130,20 @@
       "liquidityUsd": null,
       "priceChange24h": null,
       "pairUrl": "https://dexscreener.com/base/0x6de96cb6c3a912e3c9082358fea9b16663efa69e9c928a0bd0e940881ae299b5"
+    },
+    {
+      "address": "0x0b40285D79eb3a051D0dd0700Eaa7c7e2150A4B2",
+      "symbol": "CRAVE",
+      "priceUsd": "0.00001938",
+      "volume24h": 3.79,
+      "txns24h": {
+        "buys": 10,
+        "sells": 1
+      },
+      "fdvUsd": null,
+      "liquidityUsd": 19383.62,
+      "priceChange24h": -2.22,
+      "pairUrl": "https://dexscreener.com/base/0xe1c139da1b760a2ca2b7deb114fc9c145c7d97e9f48ad6b01b4d7508dfe5c8b1"
     },
     {
       "address": "0xCE92aaC1ec6b83451986E39A149eA23f96CD42bb",
@@ -438,20 +452,6 @@
       "liquidityUsd": null,
       "priceChange24h": null,
       "pairUrl": "https://dexscreener.com/base/0x2a0b060e043579a28857bb77a42d7fdefce935dc8cd678a50fa837245851c9dc"
-    },
-    {
-      "address": "0x0b40285D79eb3a051D0dd0700Eaa7c7e2150A4B2",
-      "symbol": "CRAVE",
-      "priceUsd": "0.00001996",
-      "volume24h": 2.55,
-      "txns24h": {
-        "buys": 6,
-        "sells": 0
-      },
-      "fdvUsd": null,
-      "liquidityUsd": 19968.67,
-      "priceChange24h": 0.73,
-      "pairUrl": "https://dexscreener.com/base/0xe1c139da1b760a2ca2b7deb114fc9c145c7d97e9f48ad6b01b4d7508dfe5c8b1"
     },
     {
       "address": "0x627fD5cA0E32F68b4Cc259bA56080D7282C79142",
@@ -1354,15 +1354,15 @@
     {
       "address": "0x0b40285D79eb3a051D0dd0700Eaa7c7e2150A4B2",
       "symbol": "CRAVE",
-      "priceUsd": "0.00001996",
-      "volume24h": 2.55,
+      "priceUsd": "0.00001938",
+      "volume24h": 3.79,
       "txns24h": {
-        "buys": 6,
-        "sells": 0
+        "buys": 10,
+        "sells": 1
       },
       "fdvUsd": null,
-      "liquidityUsd": 19968.67,
-      "priceChange24h": 0.73,
+      "liquidityUsd": 19383.62,
+      "priceChange24h": -2.22,
       "pairUrl": "https://dexscreener.com/base/0xe1c139da1b760a2ca2b7deb114fc9c145c7d97e9f48ad6b01b4d7508dfe5c8b1"
     },
     {
