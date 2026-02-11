@@ -34,7 +34,7 @@ const FACTORY_ABI = [
 ] as const;
 
 const DEFAULT_SUPPLY = 1_000_000_000n * (10n ** 18n); // 1 billion tokens
-const DEFAULT_FDV = 20n * (10n ** 18n); // 20 ETH
+const DEFAULT_FDV = 10n * (10n ** 18n); // 10 ETH — more volatility
 
 export interface DeployResult {
   tokenAddress: string;

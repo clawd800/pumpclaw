@@ -17,4 +17,4 @@ export const APP_URL = import.meta.env.VITE_APP_URL || "https://pumpclaw.com";
 
 // Form defaults
 export const DEFAULT_SUPPLY = "1000000000"; // 1B
-export const DEFAULT_FDV = "20"; // 20 ETH
+export const DEFAULT_FDV = "10"; // 10 ETH — lower FDV = more volatility early on

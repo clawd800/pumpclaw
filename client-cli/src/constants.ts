@@ -13,7 +13,7 @@ export { FACTORY_ABI, LP_LOCKER_ABI, TOKEN_ABI, ERC20_ABI } from "./shared/abis.
 export const BASE_RPC = "https://base-rpc.publicnode.com";
 export const BASE_CHAIN_ID = 8453;
 export const DEFAULT_SUPPLY = 1_000_000_000n * 10n ** 18n;
-export const DEFAULT_FDV = 20n * 10n ** 18n;
+export const DEFAULT_FDV = 10n * 10n ** 18n; // 10 ETH — more volatility
 
 // Keep these as aliases for backward compat
 export const LOCKER_ABI = _LP_LOCKER_ABI;
