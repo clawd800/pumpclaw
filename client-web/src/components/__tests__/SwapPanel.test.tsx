@@ -214,38 +214,36 @@ describe("SwapPanel", () => {
 
   /* ---- Slippage ---- */
 
-  it("renders slippage preset buttons (1%, 3%, 5%, 10%)", () => {
+  it("shows slippage toggle button with default 1%", () => {
     render(<SwapPanel tokenAddress={TOKEN} tokenSymbol={SYMBOL} />);
+    expect(screen.getByText(/slippage: 1%/i)).toBeInTheDocument();
+  });
+
+  it("reveals slippage presets when ⚙️ toggle clicked", async () => {
+    const user = userEvent.setup();
+    render(<SwapPanel tokenAddress={TOKEN} tokenSymbol={SYMBOL} />);
+
+    await user.click(screen.getByText(/slippage: 1%/i));
     expect(screen.getByRole("button", { name: "1%" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "3%" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "5%" })).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "10%" })).toBeInTheDocument();
   });
 
-  it("defaults to 5% slippage", () => {
-    render(<SwapPanel tokenAddress={TOKEN} tokenSymbol={SYMBOL} />);
-    // The slippage value display
-    const display = screen.getByText((content, el) =>
-      el?.classList.contains("text-green-400") && content === "5%" || false,
-    );
-    expect(display).toBeInTheDocument();
-  });
-
   it("changes slippage when preset clicked", async () => {
     const user = userEvent.setup();
     render(<SwapPanel tokenAddress={TOKEN} tokenSymbol={SYMBOL} />);
 
+    await user.click(screen.getByText(/slippage: 1%/i));
     await user.click(screen.getByRole("button", { name: "3%" }));
-    const display = screen.getByText((content, el) =>
-      el?.classList.contains("text-green-400") && content === "3%" || false,
-    );
-    expect(display).toBeInTheDocument();
+    expect(screen.getByText(/slippage: 3%/i)).toBeInTheDocument();
   });
 
   it("shows custom slippage input", async () => {
     const user = userEvent.setup();
     render(<SwapPanel tokenAddress={TOKEN} tokenSymbol={SYMBOL} />);
 
+    await user.click(screen.getByText(/slippage: 1%/i));
     await user.click(screen.getByRole("button", { name: /custom/i }));
     expect(screen.getByPlaceholderText("e.g. 7.5")).toBeInTheDocument();
   });

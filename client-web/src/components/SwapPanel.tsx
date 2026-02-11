@@ -15,54 +15,63 @@ interface SwapPanelProps {
 
 function SlippageSelector({ slippage, onChange }: { slippage: number; onChange: (v: number) => void }) {
   const presets = [1, 3, 5, 10];
+  const [isOpen, setIsOpen] = useState(false);
   const [custom, setCustom] = useState("");
   const [showCustom, setShowCustom] = useState(false);
 
   return (
     <div className="space-y-2">
-      <div className="flex items-center justify-between">
-        <span className="text-green-600 text-xs uppercase tracking-wider">Slippage Tolerance</span>
-        <span className="text-green-400 text-xs font-mono">{slippage}%</span>
-      </div>
-      <div className="flex gap-1.5">
-        {presets.map((p) => (
-          <button
-            key={p}
-            onClick={() => { onChange(p); setShowCustom(false); }}
-            className={`flex-1 py-1.5 text-xs font-medium border transition-all ${
-              slippage === p && !showCustom
-                ? "bg-green-600/30 border-green-500/60 text-green-300"
-                : "bg-black/40 border-green-900/50 text-green-600 hover:border-green-700/50"
-            }`}
-          >
-            {p}%
-          </button>
-        ))}
-        <button
-          onClick={() => setShowCustom(!showCustom)}
-          className={`flex-1 py-1.5 text-xs font-medium border transition-all ${
-            showCustom
-              ? "bg-green-600/30 border-green-500/60 text-green-300"
-              : "bg-black/40 border-green-900/50 text-green-600 hover:border-green-700/50"
-          }`}
-        >
-          Custom
-        </button>
-      </div>
-      {showCustom && (
-        <div className="flex items-center gap-2">
-          <input
-            type="number"
-            value={custom}
-            onChange={(e) => {
-              setCustom(e.target.value);
-              const val = parseFloat(e.target.value);
-              if (!isNaN(val) && val > 0 && val <= 50) onChange(val);
-            }}
-            placeholder="e.g. 7.5"
-            className="flex-1 bg-black/60 border border-green-900/50 text-green-300 text-sm px-3 py-1.5 font-mono focus:outline-none focus:border-green-500/50"
-          />
-          <span className="text-green-600 text-sm">%</span>
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="flex items-center gap-1.5 text-green-700 hover:text-green-500 transition-colors text-xs"
+      >
+        <span>⚙️</span>
+        <span>Slippage: {slippage}%</span>
+        <span className="text-[10px]">{isOpen ? "▲" : "▼"}</span>
+      </button>
+      {isOpen && (
+        <div className="space-y-2 pt-1">
+          <div className="flex gap-1.5">
+            {presets.map((p) => (
+              <button
+                key={p}
+                onClick={() => { onChange(p); setShowCustom(false); }}
+                className={`flex-1 py-1.5 text-xs font-medium border transition-all ${
+                  slippage === p && !showCustom
+                    ? "bg-green-600/30 border-green-500/60 text-green-300"
+                    : "bg-black/40 border-green-900/50 text-green-600 hover:border-green-700/50"
+                }`}
+              >
+                {p}%
+              </button>
+            ))}
+            <button
+              onClick={() => setShowCustom(!showCustom)}
+              className={`flex-1 py-1.5 text-xs font-medium border transition-all ${
+                showCustom
+                  ? "bg-green-600/30 border-green-500/60 text-green-300"
+                  : "bg-black/40 border-green-900/50 text-green-600 hover:border-green-700/50"
+              }`}
+            >
+              Custom
+            </button>
+          </div>
+          {showCustom && (
+            <div className="flex items-center gap-2">
+              <input
+                type="number"
+                value={custom}
+                onChange={(e) => {
+                  setCustom(e.target.value);
+                  const val = parseFloat(e.target.value);
+                  if (!isNaN(val) && val > 0 && val <= 50) onChange(val);
+                }}
+                placeholder="e.g. 7.5"
+                className="flex-1 bg-black/60 border border-green-900/50 text-green-300 text-sm px-3 py-1.5 font-mono focus:outline-none focus:border-green-500/50"
+              />
+              <span className="text-green-600 text-sm">%</span>
+            </div>
+          )}
         </div>
       )}
     </div>
@@ -72,7 +81,7 @@ function SlippageSelector({ slippage, onChange }: { slippage: number; onChange: 
 export default function SwapPanel({ tokenAddress, tokenSymbol }: SwapPanelProps) {
   const [tab, setTab] = useState<SwapTab>("buy");
   const [amount, setAmount] = useState("");
-  const [slippage, setSlippage] = useState(5);
+  const [slippage, setSlippage] = useState(1);
   const [txStatus, setTxStatus] = useState<TxStatus>("idle");
   const [txHash, setTxHash] = useState<`0x${string}` | undefined>();
   const [errorMsg, setErrorMsg] = useState("");
