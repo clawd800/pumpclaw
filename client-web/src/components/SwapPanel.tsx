@@ -1,9 +1,9 @@
 import { useState, useEffect, useCallback } from "react";
-import { useAccount, useBalance, useReadContract, useWriteContract, useWaitForTransactionReceipt } from "wagmi";
+import { useAccount, useBalance, useReadContract, useWriteContract, useWaitForTransactionReceipt, useSimulateContract } from "wagmi";
 import { parseEther, formatEther, maxUint256 } from "viem";
 import { CONTRACTS } from "@/configs/constants";
 import { SWAP_ROUTER_ABI, ERC20_ABI } from "@/configs/abis";
-import { useTokenPrice, useEthUsdPrice } from "@/hooks/useTokenPrice";
+import { useEthUsdPrice } from "@/hooks/useTokenPrice";
 
 type SwapTab = "buy" | "sell";
 type TxStatus = "idle" | "approving" | "pending" | "success" | "failed";
@@ -87,7 +87,6 @@ export default function SwapPanel({ tokenAddress, tokenSymbol }: SwapPanelProps)
   const [errorMsg, setErrorMsg] = useState("");
 
   const { address, isConnected } = useAccount();
-  const { ethPerToken, tokensPerEth } = useTokenPrice(tokenAddress);
   const ethUsd = useEthUsdPrice();
 
   // ETH balance
@@ -176,30 +175,7 @@ export default function SwapPanel({ tokenAddress, tokenSymbol }: SwapPanelProps)
     }
   }, [receipt]);
 
-  // Estimate output (apply ~1% price impact estimate since spot price != swap price)
-  const PRICE_IMPACT_FACTOR = 0.99;
-  const estimatedOutput = (() => {
-    if (!amount || isNaN(parseFloat(amount)) || parseFloat(amount) <= 0) return null;
-    if (tab === "buy") {
-      if (!tokensPerEth) return null;
-      return parseFloat(amount) * tokensPerEth * PRICE_IMPACT_FACTOR;
-    } else {
-      if (!ethPerToken) return null;
-      return parseFloat(amount) * ethPerToken * PRICE_IMPACT_FACTOR;
-    }
-  })();
-
-  const estimatedUsd = (() => {
-    if (!estimatedOutput || !ethUsd) return null;
-    if (tab === "buy") {
-      // Output is tokens, input is ETH
-      return parseFloat(amount) * ethUsd;
-    } else {
-      // Output is ETH
-      return estimatedOutput * ethUsd;
-    }
-  })();
-
+  // Check if sell needs approval (must be defined before simulation hooks)
   const needsApproval = useCallback(() => {
     if (tab !== "sell" || !amount || !allowance) return false;
     try {
@@ -210,13 +186,70 @@ export default function SwapPanel({ tokenAddress, tokenSymbol }: SwapPanelProps)
     }
   }, [tab, amount, allowance]);
 
+  // Simulate actual swap to get real output (includes price impact)
+  const parsedAmount = (() => {
+    if (!amount || isNaN(parseFloat(amount)) || parseFloat(amount) <= 0) return null;
+    try { return parseEther(amount); } catch { return null; }
+  })();
+
+  // Simulate buyTokens via eth_call
+  const { data: buySimulation } = useSimulateContract({
+    address: CONTRACTS.SWAP_ROUTER as `0x${string}`,
+    abi: SWAP_ROUTER_ABI,
+    functionName: "buyTokens",
+    args: [tokenAddress, 0n],
+    value: parsedAmount ?? undefined,
+    query: { enabled: tab === "buy" && !!parsedAmount },
+  });
+
+  // Simulate sellTokens via eth_call
+  const { data: sellSimulation } = useSimulateContract({
+    address: CONTRACTS.SWAP_ROUTER as `0x${string}`,
+    abi: SWAP_ROUTER_ABI,
+    functionName: "sellTokens",
+    args: [tokenAddress, parsedAmount ?? 0n, 0n],
+    query: { enabled: tab === "sell" && !!parsedAmount && !needsApproval() },
+  });
+
+  // Exact output from simulation
+  const estimatedOutput = (() => {
+    if (!parsedAmount) return null;
+    if (tab === "buy" && buySimulation?.result !== undefined) {
+      return parseFloat(formatEther(buySimulation.result as bigint));
+    }
+    if (tab === "sell" && sellSimulation?.result !== undefined) {
+      return parseFloat(formatEther(sellSimulation.result as bigint));
+    }
+    return null;
+  })();
+
+  const estimatedOutputWei = (() => {
+    if (!parsedAmount) return null;
+    if (tab === "buy" && buySimulation?.result !== undefined) {
+      return buySimulation.result as bigint;
+    }
+    if (tab === "sell" && sellSimulation?.result !== undefined) {
+      return sellSimulation.result as bigint;
+    }
+    return null;
+  })();
+
+  const estimatedUsd = (() => {
+    if (!estimatedOutput || !ethUsd) return null;
+    if (tab === "buy") {
+      return parseFloat(amount) * ethUsd;
+    } else {
+      return estimatedOutput * ethUsd;
+    }
+  })();
+
   const executeBuy = useCallback(() => {
     if (!amount) return;
     try {
       const ethAmount = parseEther(amount);
-      // Apply slippage + extra 2% buffer for price impact (spot price != swap price)
-      const minTokensOut = estimatedOutput
-        ? parseEther(String(Math.max(0, estimatedOutput * (1 - slippage / 100) * 0.98)))
+      // minTokensOut = simulated output * (1 - slippage%) — protects against frontrunning
+      const minTokensOut = estimatedOutputWei
+        ? (estimatedOutputWei * BigInt(Math.floor((1 - slippage / 100) * 10000))) / 10000n
         : 0n;
 
       setTxStatus("pending");
@@ -235,15 +268,15 @@ export default function SwapPanel({ tokenAddress, tokenSymbol }: SwapPanelProps)
       setTxStatus("failed");
       setErrorMsg(e.message?.slice(0, 120) || "Failed to submit");
     }
-  }, [amount, estimatedOutput, slippage, tokenAddress, writeContract, resetWrite]);
+  }, [amount, estimatedOutputWei, slippage, tokenAddress, writeContract, resetWrite]);
 
   const executeSell = useCallback(() => {
     if (!amount) return;
     try {
       const tokenAmount = parseEther(amount);
-      // Apply slippage + extra 2% buffer for price impact
-      const minEthOut = estimatedOutput
-        ? parseEther(String(Math.max(0, estimatedOutput * (1 - slippage / 100) * 0.98)))
+      // minEthOut = simulated output * (1 - slippage%) — protects against frontrunning
+      const minEthOut = estimatedOutputWei
+        ? (estimatedOutputWei * BigInt(Math.floor((1 - slippage / 100) * 10000))) / 10000n
         : 0n;
 
       setTxStatus("pending");
@@ -261,7 +294,7 @@ export default function SwapPanel({ tokenAddress, tokenSymbol }: SwapPanelProps)
       setTxStatus("failed");
       setErrorMsg(e.message?.slice(0, 120) || "Failed to submit");
     }
-  }, [amount, estimatedOutput, slippage, tokenAddress, writeContract, resetWrite]);
+  }, [amount, estimatedOutputWei, slippage, tokenAddress, writeContract, resetWrite]);
 
   const handleApprove = useCallback(() => {
     setTxStatus("approving");

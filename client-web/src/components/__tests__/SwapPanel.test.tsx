@@ -90,14 +90,12 @@ vi.mock("wagmi", () => ({
   useReadContract: vi.fn(() => readContractReturn),
   useWriteContract: vi.fn(() => writeContractReturn),
   useWaitForTransactionReceipt: vi.fn(() => receiptReturn),
+  useSimulateContract: vi.fn(() => ({
+    data: { result: 990_000_000_000_000_000_000_000n }, // 990,000 tokens
+  })),
 }));
 
 vi.mock("@/hooks/useTokenPrice", () => ({
-  useTokenPrice: vi.fn(() => ({
-    ethPerToken: 0.000001,
-    tokensPerEth: 1_000_000,
-    isLoading: false,
-  })),
   useEthUsdPrice: vi.fn(() => 2500),
 }));
 

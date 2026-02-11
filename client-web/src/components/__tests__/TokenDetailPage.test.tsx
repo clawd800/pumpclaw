@@ -91,6 +91,9 @@ vi.mock("wagmi", () => ({
     data: undefined,
     isLoading: false,
   })),
+  useSimulateContract: vi.fn(() => ({
+    data: { result: 990_000_000_000_000_000_000_000n },
+  })),
 }));
 
 vi.mock("@/configs/constants", () => ({
