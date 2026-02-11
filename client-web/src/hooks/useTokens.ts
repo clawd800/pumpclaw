@@ -71,11 +71,11 @@ export function useTokensByCreator(creator: `0x${string}` | undefined) {
   });
 }
 
-// Get latest tokens (most recent first)
-export function useLatestTokens(limit: number = 10) {
+// Get ALL tokens (most recent first)
+export function useLatestTokens() {
   const { data: count, isLoading: countLoading } = useTokenCount();
   
-  const startIndex = count ? Math.max(0, Number(count) - limit) : 0;
+  const startIndex = 0;
   const endIndex = count ? Number(count) : 0;
   
   const { data: tokens, isLoading: tokensLoading, refetch } = useTokens(startIndex, endIndex);

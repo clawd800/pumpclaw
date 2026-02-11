@@ -392,7 +392,7 @@ function getTimeAgo(date: Date): string {
 type SortOption = 'recent' | 'marketcap';
 
 export default function TokenList() {
-  const { data: tokens, isLoading, count, refetch } = useLatestTokens(50);
+  const { data: tokens, isLoading, count, refetch } = useLatestTokens();
   const [sortBy, setSortBy] = useState<SortOption>('recent');
   const [filterERC8004, setFilterERC8004] = useState(false);
 
@@ -452,19 +452,30 @@ export default function TokenList() {
         </button>
       </div>
 
-      {/* Sort & Filter Controls */}
-      <div className="flex flex-col sm:flex-row gap-4 mb-6 pb-4 border-b border-green-900/30">
-        {/* Sort Dropdown */}
-        <div className="flex items-center gap-2">
-          <span className="text-green-600 text-sm">Sort:</span>
-          <select
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value as SortOption)}
-            className="bg-black/60 border border-green-900/50 text-green-400 text-sm px-3 py-1.5 focus:outline-none focus:border-green-500/50 cursor-pointer"
+      {/* Sort Tabs & Filter */}
+      <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-6 pb-4 border-b border-green-900/30">
+        {/* Tab Buttons */}
+        <div className="flex">
+          <button
+            onClick={() => setSortBy('recent')}
+            className={`px-4 py-2 text-sm font-medium border transition-all ${
+              sortBy === 'recent'
+                ? 'bg-green-600/20 border-green-500/50 text-green-300'
+                : 'bg-black/40 border-green-900/50 text-green-700 hover:text-green-500 hover:border-green-700/50'
+            }`}
           >
-            <option value="recent">Recent Launches</option>
-            <option value="marketcap">Highest Market Cap</option>
-          </select>
+            🕐 Recent Launches
+          </button>
+          <button
+            onClick={() => setSortBy('marketcap')}
+            className={`px-4 py-2 text-sm font-medium border border-l-0 transition-all ${
+              sortBy === 'marketcap'
+                ? 'bg-green-600/20 border-green-500/50 text-green-300'
+                : 'bg-black/40 border-green-900/50 text-green-700 hover:text-green-500 hover:border-green-700/50'
+            }`}
+          >
+            📈 Highest Market Cap
+          </button>
         </div>
 
         {/* Filter Checkbox */}
