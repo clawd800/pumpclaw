@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-02-11T14:03:17.891Z",
-  "totalTokens": 64,
-  "activeTokens": 32,
-  "totalVolume24h": 415.54000000000036,
-  "totalTxns24h": 35,
+  "generatedAt": "2026-02-11T15:04:20.834Z",
+  "totalTokens": 65,
+  "activeTokens": 33,
+  "totalVolume24h": 418.0900000000004,
+  "totalTxns24h": 41,
   "hotTokens": [
     {
-      "address": "0x76767891fe941e1934953e9bd63cded7b5c473da",
+      "address": "0x76767891Fe941e1934953e9bd63cDeD7b5c473Da",
       "symbol": "PUMPCLAW",
       "priceUsd": "0.00004484",
       "volume24h": 219.16,
@@ -20,7 +20,7 @@
       "pairUrl": "https://dexscreener.com/base/0x30d29308a17778764d3b54adfae59dc894a6a32171702780f59f80de64855704"
     },
     {
-      "address": "0x9f4688a792b815e2af208144eb9de98af0ccebd2",
+      "address": "0x9f4688A792b815E2AF208144Eb9DE98AF0ccEBD2",
       "symbol": "COFFEE",
       "priceUsd": "0.00003986",
       "volume24h": 19.74,
@@ -34,7 +34,7 @@
       "pairUrl": "https://dexscreener.com/base/0x290a0800cabaa0e8e865d291d6ff05cdc2bc931875ffa7d559e51db31b0ff0d4"
     },
     {
-      "address": "0x51795ec2c14147e7382e995adc01e7e2d82d0265",
+      "address": "0x51795eC2C14147E7382E995ADc01e7e2D82D0265",
       "symbol": "FBR",
       "priceUsd": "0.00003986",
       "volume24h": 19.74,
@@ -48,7 +48,7 @@
       "pairUrl": "https://dexscreener.com/base/0x1ead89fc54500d0114dec65cad582569095f9bf06057fa7dc5837a983a033c8d"
     },
     {
-      "address": "0xa58b7ad08da6818255c910f02247b22c6cceb4c1",
+      "address": "0xa58b7AD08dA6818255C910f02247B22C6CcEb4C1",
       "symbol": "USOR",
       "priceUsd": "0.00003986",
       "volume24h": 19.74,
@@ -62,7 +62,7 @@
       "pairUrl": "https://dexscreener.com/base/0x5d66a02522fb314d4ae6e8a8b90747b7be29f45272f52ac4ee0164a1dba766a0"
     },
     {
-      "address": "0xed9f054c6cfdda318e70c888f2fba2964d70ebd4",
+      "address": "0xED9f054C6CfdDA318E70c888F2FBa2964D70EBD4",
       "symbol": "BITGOLD",
       "priceUsd": "0.00003986",
       "volume24h": 19.74,
@@ -76,7 +76,7 @@
       "pairUrl": "https://dexscreener.com/base/0xa4fdc7673b160c0d3afbd70a35f2bcd0471d3bb65d36e9f12aeae5fe448080ce"
     },
     {
-      "address": "0x62ef38777944a1150ecaace37bdc288d8e2b1e96",
+      "address": "0x62eF38777944A1150eCAACE37bDC288d8e2b1E96",
       "symbol": "GXMUSK",
       "priceUsd": "0.00003984",
       "volume24h": 9.87,
@@ -90,7 +90,7 @@
       "pairUrl": "https://dexscreener.com/base/0xaa76b22a3e1d026a86879e32f3582581da966caefbb1d58dd7ededcf7fb6cbba"
     },
     {
-      "address": "0xc03d6d3b08f87f8912af9ebc333166c7f632d281",
+      "address": "0xc03d6D3B08F87f8912af9EBC333166c7F632D281",
       "symbol": "UCMR",
       "priceUsd": "0.00003984",
       "volume24h": 9.87,
@@ -104,7 +104,7 @@
       "pairUrl": "https://dexscreener.com/base/0x802737dd61dedfb70f8230fa948e3d5e091ea77f013286bde36961b52d83ab4a"
     },
     {
-      "address": "0x13164755190e7a42b4908caf8b64e6f2a6c455c5",
+      "address": "0x13164755190E7a42B4908CAF8B64E6F2a6c455c5",
       "symbol": "NEO",
       "priceUsd": "0.00001978",
       "volume24h": 9.86,
@@ -118,7 +118,7 @@
       "pairUrl": "https://dexscreener.com/base/0x07b8da397e1ff375816ab71335500bf183781a44feb4f024b25b438f3c0b612f"
     },
     {
-      "address": "0xead80a1988ec1b1fbf742189882ab1356b776c0f",
+      "address": "0xEad80A1988ec1B1fbf742189882Ab1356B776C0F",
       "symbol": "ALMAHDI",
       "priceUsd": "0.00003980",
       "volume24h": 9.86,
@@ -132,7 +132,7 @@
       "pairUrl": "https://dexscreener.com/base/0x6de96cb6c3a912e3c9082358fea9b16663efa69e9c928a0bd0e940881ae299b5"
     },
     {
-      "address": "0xce92aac1ec6b83451986e39a149ea23f96cd42bb",
+      "address": "0xCE92aaC1ec6b83451986E39A149eA23f96CD42bb",
       "symbol": "MOLDBOT",
       "priceUsd": "0.00003979",
       "volume24h": 3.55,
@@ -146,7 +146,7 @@
       "pairUrl": "https://dexscreener.com/base/0x61047799fbbea7b97c208d0e31966bd4e7c763c939bfaedd9c8b9992b2465340"
     },
     {
-      "address": "0x41cbd54b22cf5c2101eb1b2f3a29b6310fb524cf",
+      "address": "0x41CBD54b22cF5c2101Eb1B2f3A29B6310FB524Cf",
       "symbol": "FLX",
       "priceUsd": "0.00003979",
       "volume24h": 3.55,
@@ -160,7 +160,7 @@
       "pairUrl": "https://dexscreener.com/base/0x8cbb5635f59e7794514033bd05c74ed037d7809a7b8d924f8a9443892287b7b0"
     },
     {
-      "address": "0xf6f1204c8e78f726ad5535c4394df067f521d969",
+      "address": "0xF6F1204C8e78f726Ad5535C4394Df067f521D969",
       "symbol": "BLU3WAVE",
       "priceUsd": "0.00003979",
       "volume24h": 3.55,
@@ -174,7 +174,7 @@
       "pairUrl": "https://dexscreener.com/base/0x6d4be027e4d5542a04ed5e0cebf2a2411b78de1c6c13a10447ac812ac011b467"
     },
     {
-      "address": "0xa9252ffea9a0384189eb2c32727313402cd7b620",
+      "address": "0xa9252ffEA9a0384189Eb2c32727313402cd7b620",
       "symbol": "GVCL",
       "priceUsd": "0.00003979",
       "volume24h": 3.55,
@@ -188,7 +188,7 @@
       "pairUrl": "https://dexscreener.com/base/0x9f84010b7b8718b16c9fcb80c46ae801d5e4df991569ad6dcede02e70114ee1b"
     },
     {
-      "address": "0x23b4a42d6fa8eb0b61787d370a76e44d4e9f1d73",
+      "address": "0x23b4a42D6fa8eb0b61787D370a76e44D4e9f1d73",
       "symbol": "ZUCK",
       "priceUsd": "0.00003979",
       "volume24h": 3.55,
@@ -202,7 +202,7 @@
       "pairUrl": "https://dexscreener.com/base/0x0edc1eae6d056a417d13a97432aeac4afeb59389728f4fcdb7e28590f67f91fe"
     },
     {
-      "address": "0xc8f7fb44480fe633253c54c16a5719b9d6bec0ff",
+      "address": "0xC8F7FB44480fE633253c54C16a5719b9d6BEC0ff",
       "symbol": "LINKCLAWS",
       "priceUsd": "0.00003970",
       "volume24h": 3.54,
@@ -216,7 +216,7 @@
       "pairUrl": "https://dexscreener.com/base/0x4cb30c10c16dcfe477d21559186ceb18b1cd56206f115f9c5c37fe009d60d4c1"
     },
     {
-      "address": "0x3b1f00bd1d11b0e4797f316235f553471d7ac5f7",
+      "address": "0x3B1F00bd1D11b0E4797F316235f553471d7aC5F7",
       "symbol": "CLAWDPANDA",
       "priceUsd": "0.00003970",
       "volume24h": 3.54,
@@ -230,7 +230,7 @@
       "pairUrl": "https://dexscreener.com/base/0x2dcf1d2bba15bbe01426b6d403cacdbc1bdd16b1f14c1985982ae0a5f1597b13"
     },
     {
-      "address": "0xadcb201039c66007aa6029905fa32b66f29200e7",
+      "address": "0xaDCB201039C66007aA6029905FA32B66f29200e7",
       "symbol": "BANCY",
       "priceUsd": "0.00003970",
       "volume24h": 3.54,
@@ -244,7 +244,7 @@
       "pairUrl": "https://dexscreener.com/base/0xc366a18b03df466b8dd221c4de9b5a645f7e355f122c4cb84a648270d970ade6"
     },
     {
-      "address": "0xeaa710eb37709f67425869781d9a05dda476da06",
+      "address": "0xEaa710eb37709F67425869781d9A05DDa476Da06",
       "symbol": "FCLAW",
       "priceUsd": "0.00003970",
       "volume24h": 3.54,
@@ -258,7 +258,7 @@
       "pairUrl": "https://dexscreener.com/base/0x22e47c0c1a4335801cb462b95c6cafde64fc520491ced0a2a35230e1964c6786"
     },
     {
-      "address": "0xd37922e20eef61c3446d755fe69b8746b948dc8b",
+      "address": "0xd37922e20EeF61C3446d755Fe69B8746B948Dc8B",
       "symbol": "USFIRE",
       "priceUsd": "0.00003970",
       "volume24h": 3.54,
@@ -272,7 +272,7 @@
       "pairUrl": "https://dexscreener.com/base/0xeaa9c417996ec8e12b838eda67bda99d7fd4ac0f726a62c1f705dc95371ccc7c"
     },
     {
-      "address": "0xeceb86dad57594c144ab5d61a9a632169cb275fa",
+      "address": "0xEcEB86dAD57594C144ab5D61a9a632169cB275Fa",
       "symbol": "RUGCLAW",
       "priceUsd": "0.00003970",
       "volume24h": 3.54,
@@ -286,7 +286,7 @@
       "pairUrl": "https://dexscreener.com/base/0x3a09cf8775f1fa2391892d38a04735f35279dfd81b33bf2b6279e99577b6ffff"
     },
     {
-      "address": "0x1027b27267e9fa1c17b37cfb9cd2639bcd4ee35f",
+      "address": "0x1027b27267e9FA1C17b37CFB9Cd2639bcD4Ee35f",
       "symbol": "GEEKD",
       "priceUsd": "0.00003968",
       "volume24h": 3.54,
@@ -300,7 +300,7 @@
       "pairUrl": "https://dexscreener.com/base/0x0f9b5faf0922a72a2593c0c2eef775dedc6b4d184036e19ccaf6a42cd9cfa2ff"
     },
     {
-      "address": "0x6fd13c323f37928181704eca9b2dce3f752418b8",
+      "address": "0x6fD13c323F37928181704eca9B2dCe3F752418B8",
       "symbol": "ClawspeedGo",
       "priceUsd": "0.00003968",
       "volume24h": 3.54,
@@ -314,7 +314,7 @@
       "pairUrl": "https://dexscreener.com/base/0x263bdb1b7c6f05f2d1f487b450fcb5358fece5c2eb2264bf606291b3e3c5747a"
     },
     {
-      "address": "0xf7f6a1332522d12b7780f04bdaeccab77e1d4c7a",
+      "address": "0xF7F6A1332522D12B7780f04BDaECcAb77E1d4C7A",
       "symbol": "BaseBabes",
       "priceUsd": "0.00003968",
       "volume24h": 3.54,
@@ -328,7 +328,7 @@
       "pairUrl": "https://dexscreener.com/base/0x65849f0c6db06860a839b26e7a8e4d46180437b10bace170e218608ba58c438e"
     },
     {
-      "address": "0x397a9ec57ea3865c9eb969e11bebda0da7ceb60d",
+      "address": "0x397a9ec57ea3865C9eB969e11beBdA0Da7CEb60d",
       "symbol": "CLWASTAIN",
       "priceUsd": "0.00003968",
       "volume24h": 3.54,
@@ -342,7 +342,7 @@
       "pairUrl": "https://dexscreener.com/base/0x451479406b366af88f2dfe4dbab005414fdb5dc7b79acb83da3a92e167d8e2dc"
     },
     {
-      "address": "0xf6f6cfabc05c7ee985119c5076bfd172135390fb",
+      "address": "0xF6f6cFABC05C7EE985119C5076bFD172135390fb",
       "symbol": "FCLAW",
       "priceUsd": "0.00003968",
       "volume24h": 3.54,
@@ -356,7 +356,7 @@
       "pairUrl": "https://dexscreener.com/base/0xd6d4b4a222e896da6ec084a277d28229276a45644a9f45ca6bbdecfb031fcc2b"
     },
     {
-      "address": "0x0ea7ecd72a501411cc79e52dbbf7430ee2b40aea",
+      "address": "0x0Ea7ecd72a501411cC79e52DBbf7430EE2B40aEa",
       "symbol": "bonkr",
       "priceUsd": "0.00003968",
       "volume24h": 3.54,
@@ -370,7 +370,7 @@
       "pairUrl": "https://dexscreener.com/base/0xd70a8709dc3acd6180a9d11e91de6a38b28830a4f3c7253881c87f4f1e106a9a"
     },
     {
-      "address": "0xe87ea3fe36e8346d2471878bec3c5b920aab53ca",
+      "address": "0xE87EA3Fe36E8346D2471878bEC3C5B920Aab53CA",
       "symbol": "USCEC",
       "priceUsd": "0.00003968",
       "volume24h": 3.54,
@@ -384,7 +384,7 @@
       "pairUrl": "https://dexscreener.com/base/0x6577b84566c833aafbe580214fbd34c3356eed54adecb3c1c9e00cfd99d9ca05"
     },
     {
-      "address": "0xd2d6ed7786b2d4b3ae61b1ab54653b245478dba8",
+      "address": "0xD2D6ed7786B2D4b3AE61B1AB54653B245478Dba8",
       "symbol": "bubblawd",
       "priceUsd": "0.00003968",
       "volume24h": 3.54,
@@ -398,7 +398,7 @@
       "pairUrl": "https://dexscreener.com/base/0x9d45cfeaddd2bed5c1c0f285e4d48c04bcfdb09d6262bce904ea8b9c2c5f5953"
     },
     {
-      "address": "0x633649fb16a70979e69daf0a557739c1696f2f69",
+      "address": "0x633649Fb16A70979E69DaF0a557739c1696F2f69",
       "symbol": "BABYCLAW",
       "priceUsd": "0.00003968",
       "volume24h": 3.54,
@@ -412,7 +412,7 @@
       "pairUrl": "https://dexscreener.com/base/0xc6d5a64cb0c8b1eea051850d64aabde9767f4ecd60951f46ef47514e1c0f4c41"
     },
     {
-      "address": "0xedc2c05f3dcf6288033036127f0ee339558a3168",
+      "address": "0xedC2c05F3DCF6288033036127f0ee339558a3168",
       "symbol": "RoboCash",
       "priceUsd": "0.00003968",
       "volume24h": 3.54,
@@ -426,7 +426,7 @@
       "pairUrl": "https://dexscreener.com/base/0x49136c36c767e905edb93487cd1f6caa7dbd07123e54c4e41ff90653a7bd1815"
     },
     {
-      "address": "0x2bc77b19a2b9ed9f549172dd6a1dbc51005c8c01",
+      "address": "0x2BC77b19a2B9eD9F549172dd6a1DBc51005C8C01",
       "symbol": "BANKRAP",
       "priceUsd": "0.00003968",
       "volume24h": 3.54,
@@ -440,7 +440,21 @@
       "pairUrl": "https://dexscreener.com/base/0x2a0b060e043579a28857bb77a42d7fdefce935dc8cd678a50fa837245851c9dc"
     },
     {
-      "address": "0x627fd5ca0e32f68b4cc259ba56080d7282c79142",
+      "address": "0x0b40285D79eb3a051D0dd0700Eaa7c7e2150A4B2",
+      "symbol": "CRAVE",
+      "priceUsd": "0.00001996",
+      "volume24h": 2.55,
+      "txns24h": {
+        "buys": 6,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": 19968.67,
+      "priceChange24h": 0.73,
+      "pairUrl": "https://dexscreener.com/base/0xe1c139da1b760a2ca2b7deb114fc9c145c7d97e9f48ad6b01b4d7508dfe5c8b1"
+    },
+    {
+      "address": "0x627fD5cA0E32F68b4Cc259bA56080D7282C79142",
       "symbol": "CALWAAA",
       "priceUsd": "0.00001955",
       "volume24h": 0.03,
@@ -456,7 +470,7 @@
   ],
   "tokens": [
     {
-      "address": "0x76767891fe941e1934953e9bd63cded7b5c473da",
+      "address": "0x76767891Fe941e1934953e9bd63cDeD7b5c473Da",
       "symbol": "PUMPCLAW",
       "priceUsd": "0.00004484",
       "volume24h": 219.16,
@@ -470,7 +484,7 @@
       "pairUrl": "https://dexscreener.com/base/0x30d29308a17778764d3b54adfae59dc894a6a32171702780f59f80de64855704"
     },
     {
-      "address": "0xce92aac1ec6b83451986e39a149ea23f96cd42bb",
+      "address": "0xCE92aaC1ec6b83451986E39A149eA23f96CD42bb",
       "symbol": "MOLDBOT",
       "priceUsd": "0.00003979",
       "volume24h": 3.55,
@@ -484,7 +498,7 @@
       "pairUrl": "https://dexscreener.com/base/0x61047799fbbea7b97c208d0e31966bd4e7c763c939bfaedd9c8b9992b2465340"
     },
     {
-      "address": "0xf9c5d2a45240bddb6439199ff1b882a4dc11a701",
+      "address": "0xf9C5d2a45240bDdB6439199fF1b882A4DC11a701",
       "symbol": "LOBSTER",
       "priceUsd": null,
       "volume24h": 0,
@@ -498,7 +512,7 @@
       "pairUrl": null
     },
     {
-      "address": "0x10664afa7b54bb5b93bd215020192c7c9c162057",
+      "address": "0x10664AFA7b54bb5B93BD215020192C7C9c162057",
       "symbol": "CLAWCHAT",
       "priceUsd": null,
       "volume24h": 0,
@@ -512,7 +526,7 @@
       "pairUrl": null
     },
     {
-      "address": "0x10c8a454f40022e557862e9ead4497272ca1cbc1",
+      "address": "0x10c8A454F40022e557862e9ead4497272ca1cBc1",
       "symbol": "BAR",
       "priceUsd": null,
       "volume24h": 0,
@@ -526,7 +540,7 @@
       "pairUrl": null
     },
     {
-      "address": "0xa16f7e15bd7c044777319ea7b002d4e459ff757f",
+      "address": "0xa16f7E15BD7C044777319eA7b002d4E459fF757f",
       "symbol": "CLAWDROP",
       "priceUsd": null,
       "volume24h": 0,
@@ -540,7 +554,7 @@
       "pairUrl": null
     },
     {
-      "address": "0x41cbd54b22cf5c2101eb1b2f3a29b6310fb524cf",
+      "address": "0x41CBD54b22cF5c2101Eb1B2f3A29B6310FB524Cf",
       "symbol": "FLX",
       "priceUsd": "0.00003979",
       "volume24h": 3.55,
@@ -554,7 +568,7 @@
       "pairUrl": "https://dexscreener.com/base/0x8cbb5635f59e7794514033bd05c74ed037d7809a7b8d924f8a9443892287b7b0"
     },
     {
-      "address": "0x0f4039bf223ef088717110a649dc92d34bb24fd0",
+      "address": "0x0f4039Bf223eF088717110a649dc92D34bb24fD0",
       "symbol": "GULFY",
       "priceUsd": null,
       "volume24h": 0,
@@ -568,7 +582,7 @@
       "pairUrl": null
     },
     {
-      "address": "0xf6f1204c8e78f726ad5535c4394df067f521d969",
+      "address": "0xF6F1204C8e78f726Ad5535C4394Df067f521D969",
       "symbol": "BLU3WAVE",
       "priceUsd": "0.00003979",
       "volume24h": 3.55,
@@ -582,7 +596,7 @@
       "pairUrl": "https://dexscreener.com/base/0x6d4be027e4d5542a04ed5e0cebf2a2411b78de1c6c13a10447ac812ac011b467"
     },
     {
-      "address": "0xa9252ffea9a0384189eb2c32727313402cd7b620",
+      "address": "0xa9252ffEA9a0384189Eb2c32727313402cd7b620",
       "symbol": "GVCL",
       "priceUsd": "0.00003979",
       "volume24h": 3.55,
@@ -596,7 +610,7 @@
       "pairUrl": "https://dexscreener.com/base/0x9f84010b7b8718b16c9fcb80c46ae801d5e4df991569ad6dcede02e70114ee1b"
     },
     {
-      "address": "0x23b4a42d6fa8eb0b61787d370a76e44d4e9f1d73",
+      "address": "0x23b4a42D6fa8eb0b61787D370a76e44D4e9f1d73",
       "symbol": "ZUCK",
       "priceUsd": "0.00003979",
       "volume24h": 3.55,
@@ -610,7 +624,7 @@
       "pairUrl": "https://dexscreener.com/base/0x0edc1eae6d056a417d13a97432aeac4afeb59389728f4fcdb7e28590f67f91fe"
     },
     {
-      "address": "0xc8f7fb44480fe633253c54c16a5719b9d6bec0ff",
+      "address": "0xC8F7FB44480fE633253c54C16a5719b9d6BEC0ff",
       "symbol": "LINKCLAWS",
       "priceUsd": "0.00003970",
       "volume24h": 3.54,
@@ -624,7 +638,7 @@
       "pairUrl": "https://dexscreener.com/base/0x4cb30c10c16dcfe477d21559186ceb18b1cd56206f115f9c5c37fe009d60d4c1"
     },
     {
-      "address": "0x3b1f00bd1d11b0e4797f316235f553471d7ac5f7",
+      "address": "0x3B1F00bd1D11b0E4797F316235f553471d7aC5F7",
       "symbol": "CLAWDPANDA",
       "priceUsd": "0.00003970",
       "volume24h": 3.54,
@@ -638,7 +652,7 @@
       "pairUrl": "https://dexscreener.com/base/0x2dcf1d2bba15bbe01426b6d403cacdbc1bdd16b1f14c1985982ae0a5f1597b13"
     },
     {
-      "address": "0xadcb201039c66007aa6029905fa32b66f29200e7",
+      "address": "0xaDCB201039C66007aA6029905FA32B66f29200e7",
       "symbol": "BANCY",
       "priceUsd": "0.00003970",
       "volume24h": 3.54,
@@ -652,7 +666,7 @@
       "pairUrl": "https://dexscreener.com/base/0xc366a18b03df466b8dd221c4de9b5a645f7e355f122c4cb84a648270d970ade6"
     },
     {
-      "address": "0x13164755190e7a42b4908caf8b64e6f2a6c455c5",
+      "address": "0x13164755190E7a42B4908CAF8B64E6F2a6c455c5",
       "symbol": "NEO",
       "priceUsd": "0.00001978",
       "volume24h": 9.86,
@@ -666,7 +680,7 @@
       "pairUrl": "https://dexscreener.com/base/0x07b8da397e1ff375816ab71335500bf183781a44feb4f024b25b438f3c0b612f"
     },
     {
-      "address": "0xeaa710eb37709f67425869781d9a05dda476da06",
+      "address": "0xEaa710eb37709F67425869781d9A05DDa476Da06",
       "symbol": "FCLAW",
       "priceUsd": "0.00003970",
       "volume24h": 3.54,
@@ -680,7 +694,7 @@
       "pairUrl": "https://dexscreener.com/base/0x22e47c0c1a4335801cb462b95c6cafde64fc520491ced0a2a35230e1964c6786"
     },
     {
-      "address": "0x5959a6d13d10f3367312536e3e69922c982ab608",
+      "address": "0x5959A6d13d10F3367312536e3E69922c982ab608",
       "symbol": "TESTDEP",
       "priceUsd": null,
       "volume24h": 0,
@@ -694,7 +708,7 @@
       "pairUrl": null
     },
     {
-      "address": "0x3e567c603077123b0447705b2474ed0eabe26de1",
+      "address": "0x3E567C603077123b0447705b2474Ed0EABe26de1",
       "symbol": "USFIRE",
       "priceUsd": null,
       "volume24h": 0,
@@ -708,7 +722,7 @@
       "pairUrl": null
     },
     {
-      "address": "0x11d3e91c63edb93319d5d6d3cd6ffba2b439522a",
+      "address": "0x11d3e91c63eDB93319D5d6d3Cd6FfBa2b439522a",
       "symbol": "SHAWARMA",
       "priceUsd": null,
       "volume24h": 0,
@@ -722,7 +736,7 @@
       "pairUrl": null
     },
     {
-      "address": "0xcc3b81086a10361af30e1e94067faae94438f145",
+      "address": "0xCc3b81086a10361AF30e1E94067FAAE94438F145",
       "symbol": "RIDE",
       "priceUsd": null,
       "volume24h": 0,
@@ -736,7 +750,7 @@
       "pairUrl": null
     },
     {
-      "address": "0xd37922e20eef61c3446d755fe69b8746b948dc8b",
+      "address": "0xd37922e20EeF61C3446d755Fe69B8746B948Dc8B",
       "symbol": "USFIRE",
       "priceUsd": "0.00003970",
       "volume24h": 3.54,
@@ -750,7 +764,7 @@
       "pairUrl": "https://dexscreener.com/base/0xeaa9c417996ec8e12b838eda67bda99d7fd4ac0f726a62c1f705dc95371ccc7c"
     },
     {
-      "address": "0x63e1f1d691cb829fa66683eaeeecf31f6f4f43c9",
+      "address": "0x63E1f1d691cB829fa66683eaeeEcF31F6f4f43c9",
       "symbol": "CLAWLB",
       "priceUsd": null,
       "volume24h": 0,
@@ -764,7 +778,7 @@
       "pairUrl": null
     },
     {
-      "address": "0xeceb86dad57594c144ab5d61a9a632169cb275fa",
+      "address": "0xEcEB86dAD57594C144ab5D61a9a632169cB275Fa",
       "symbol": "RUGCLAW",
       "priceUsd": "0.00003970",
       "volume24h": 3.54,
@@ -778,7 +792,7 @@
       "pairUrl": "https://dexscreener.com/base/0x3a09cf8775f1fa2391892d38a04735f35279dfd81b33bf2b6279e99577b6ffff"
     },
     {
-      "address": "0x1721effaaccfcc8c1ec4f5cc7ce709f99f8d0bbf",
+      "address": "0x1721EfFAaCcFCC8c1EC4F5cc7ce709F99f8D0BbF",
       "symbol": "TICKER",
       "priceUsd": null,
       "volume24h": 0,
@@ -792,7 +806,7 @@
       "pairUrl": null
     },
     {
-      "address": "0x1027b27267e9fa1c17b37cfb9cd2639bcd4ee35f",
+      "address": "0x1027b27267e9FA1C17b37CFB9Cd2639bcD4Ee35f",
       "symbol": "GEEKD",
       "priceUsd": "0.00003968",
       "volume24h": 3.54,
@@ -806,7 +820,7 @@
       "pairUrl": "https://dexscreener.com/base/0x0f9b5faf0922a72a2593c0c2eef775dedc6b4d184036e19ccaf6a42cd9cfa2ff"
     },
     {
-      "address": "0x6fd13c323f37928181704eca9b2dce3f752418b8",
+      "address": "0x6fD13c323F37928181704eca9B2dCe3F752418B8",
       "symbol": "ClawspeedGo",
       "priceUsd": "0.00003968",
       "volume24h": 3.54,
@@ -820,7 +834,7 @@
       "pairUrl": "https://dexscreener.com/base/0x263bdb1b7c6f05f2d1f487b450fcb5358fece5c2eb2264bf606291b3e3c5747a"
     },
     {
-      "address": "0xca7a17750d27f7d04e5d364c411bc35d4a95333b",
+      "address": "0xca7a17750D27f7D04E5D364c411bC35d4a95333B",
       "symbol": "clawdnews",
       "priceUsd": null,
       "volume24h": 0,
@@ -834,7 +848,7 @@
       "pairUrl": null
     },
     {
-      "address": "0x42d94de4dd85a52f9da427b1f1c976b03dee6258",
+      "address": "0x42d94de4DD85A52f9dA427B1F1c976b03DEE6258",
       "symbol": "TICKER",
       "priceUsd": null,
       "volume24h": 0,
@@ -848,7 +862,7 @@
       "pairUrl": null
     },
     {
-      "address": "0xf7f6a1332522d12b7780f04bdaeccab77e1d4c7a",
+      "address": "0xF7F6A1332522D12B7780f04BDaECcAb77E1d4C7A",
       "symbol": "BaseBabes",
       "priceUsd": "0.00003968",
       "volume24h": 3.54,
@@ -862,7 +876,7 @@
       "pairUrl": "https://dexscreener.com/base/0x65849f0c6db06860a839b26e7a8e4d46180437b10bace170e218608ba58c438e"
     },
     {
-      "address": "0xa65ea27387fe7b982c344ad4c7384a3bbb4a6ed8",
+      "address": "0xA65Ea27387fe7b982C344aD4c7384a3BBb4A6eD8",
       "symbol": "CLWASTAIN",
       "priceUsd": null,
       "volume24h": 0,
@@ -876,7 +890,7 @@
       "pairUrl": null
     },
     {
-      "address": "0x397a9ec57ea3865c9eb969e11bebda0da7ceb60d",
+      "address": "0x397a9ec57ea3865C9eB969e11beBdA0Da7CEb60d",
       "symbol": "CLWASTAIN",
       "priceUsd": "0.00003968",
       "volume24h": 3.54,
@@ -890,7 +904,7 @@
       "pairUrl": "https://dexscreener.com/base/0x451479406b366af88f2dfe4dbab005414fdb5dc7b79acb83da3a92e167d8e2dc"
     },
     {
-      "address": "0x75379e1af4747b5404422a3442959a09455c7a31",
+      "address": "0x75379e1af4747b5404422A3442959A09455c7A31",
       "symbol": "FCLAW",
       "priceUsd": null,
       "volume24h": 0,
@@ -904,7 +918,7 @@
       "pairUrl": null
     },
     {
-      "address": "0x8ffbfe0413aed3a5f12f8899838952d34a3c8e19",
+      "address": "0x8fFbFe0413aeD3a5F12f8899838952d34a3c8E19",
       "symbol": "TEST",
       "priceUsd": null,
       "volume24h": 0,
@@ -918,7 +932,7 @@
       "pairUrl": null
     },
     {
-      "address": "0xf6f6cfabc05c7ee985119c5076bfd172135390fb",
+      "address": "0xF6f6cFABC05C7EE985119C5076bFD172135390fb",
       "symbol": "FCLAW",
       "priceUsd": "0.00003968",
       "volume24h": 3.54,
@@ -932,7 +946,7 @@
       "pairUrl": "https://dexscreener.com/base/0xd6d4b4a222e896da6ec084a277d28229276a45644a9f45ca6bbdecfb031fcc2b"
     },
     {
-      "address": "0x0ea7ecd72a501411cc79e52dbbf7430ee2b40aea",
+      "address": "0x0Ea7ecd72a501411cC79e52DBbf7430EE2B40aEa",
       "symbol": "bonkr",
       "priceUsd": "0.00003968",
       "volume24h": 3.54,
@@ -946,7 +960,7 @@
       "pairUrl": "https://dexscreener.com/base/0xd70a8709dc3acd6180a9d11e91de6a38b28830a4f3c7253881c87f4f1e106a9a"
     },
     {
-      "address": "0xe87ea3fe36e8346d2471878bec3c5b920aab53ca",
+      "address": "0xE87EA3Fe36E8346D2471878bEC3C5B920Aab53CA",
       "symbol": "USCEC",
       "priceUsd": "0.00003968",
       "volume24h": 3.54,
@@ -960,7 +974,7 @@
       "pairUrl": "https://dexscreener.com/base/0x6577b84566c833aafbe580214fbd34c3356eed54adecb3c1c9e00cfd99d9ca05"
     },
     {
-      "address": "0xd2d6ed7786b2d4b3ae61b1ab54653b245478dba8",
+      "address": "0xD2D6ed7786B2D4b3AE61B1AB54653B245478Dba8",
       "symbol": "bubblawd",
       "priceUsd": "0.00003968",
       "volume24h": 3.54,
@@ -974,7 +988,7 @@
       "pairUrl": "https://dexscreener.com/base/0x9d45cfeaddd2bed5c1c0f285e4d48c04bcfdb09d6262bce904ea8b9c2c5f5953"
     },
     {
-      "address": "0x379a26270846c1e3a11f4cd52483dc0d38ed349d",
+      "address": "0x379A26270846c1e3A11F4Cd52483dC0D38ed349D",
       "symbol": "ROASTED",
       "priceUsd": null,
       "volume24h": 0,
@@ -988,7 +1002,7 @@
       "pairUrl": null
     },
     {
-      "address": "0x633649fb16a70979e69daf0a557739c1696f2f69",
+      "address": "0x633649Fb16A70979E69DaF0a557739c1696F2f69",
       "symbol": "BABYCLAW",
       "priceUsd": "0.00003968",
       "volume24h": 3.54,
@@ -1002,7 +1016,7 @@
       "pairUrl": "https://dexscreener.com/base/0xc6d5a64cb0c8b1eea051850d64aabde9767f4ecd60951f46ef47514e1c0f4c41"
     },
     {
-      "address": "0xedc2c05f3dcf6288033036127f0ee339558a3168",
+      "address": "0xedC2c05F3DCF6288033036127f0ee339558a3168",
       "symbol": "RoboCash",
       "priceUsd": "0.00003968",
       "volume24h": 3.54,
@@ -1016,7 +1030,7 @@
       "pairUrl": "https://dexscreener.com/base/0x49136c36c767e905edb93487cd1f6caa7dbd07123e54c4e41ff90653a7bd1815"
     },
     {
-      "address": "0xca287efbe35c2fc265d26714fa4ac8f8424a88fa",
+      "address": "0xCa287Efbe35c2fc265D26714fA4ac8F8424A88FA",
       "symbol": "Molten",
       "priceUsd": null,
       "volume24h": 0,
@@ -1030,7 +1044,7 @@
       "pairUrl": null
     },
     {
-      "address": "0xd7c61d5aa25217faa4f642b245ad0ee44be1705c",
+      "address": "0xD7C61d5Aa25217FaA4F642B245ad0ee44be1705c",
       "symbol": "MKAT",
       "priceUsd": null,
       "volume24h": 0,
@@ -1044,7 +1058,7 @@
       "pairUrl": null
     },
     {
-      "address": "0xfa679257ea6fa41770d7c2a37956a9204e89fff1",
+      "address": "0xFA679257eA6FA41770D7C2A37956A9204e89ffF1",
       "symbol": "PUSSY",
       "priceUsd": null,
       "volume24h": 0,
@@ -1058,7 +1072,7 @@
       "pairUrl": null
     },
     {
-      "address": "0x2bc77b19a2b9ed9f549172dd6a1dbc51005c8c01",
+      "address": "0x2BC77b19a2B9eD9F549172dd6a1DBc51005C8C01",
       "symbol": "BANKRAP",
       "priceUsd": "0.00003968",
       "volume24h": 3.54,
@@ -1072,7 +1086,7 @@
       "pairUrl": "https://dexscreener.com/base/0x2a0b060e043579a28857bb77a42d7fdefce935dc8cd678a50fa837245851c9dc"
     },
     {
-      "address": "0x19e1f945d2c101d0114ef6444b826ff7e0d5fe9c",
+      "address": "0x19E1F945d2c101D0114EF6444b826Ff7e0D5fe9C",
       "symbol": "MANIAFARM",
       "priceUsd": null,
       "volume24h": 0,
@@ -1086,7 +1100,7 @@
       "pairUrl": null
     },
     {
-      "address": "0x221316bfde641ea0b430687c1193f932f4d81b00",
+      "address": "0x221316BfDE641ea0b430687C1193f932f4D81b00",
       "symbol": "cums",
       "priceUsd": null,
       "volume24h": 0,
@@ -1100,7 +1114,7 @@
       "pairUrl": null
     },
     {
-      "address": "0x9f4688a792b815e2af208144eb9de98af0ccebd2",
+      "address": "0x9f4688A792b815E2AF208144Eb9DE98AF0ccEBD2",
       "symbol": "COFFEE",
       "priceUsd": "0.00003986",
       "volume24h": 19.74,
@@ -1114,7 +1128,7 @@
       "pairUrl": "https://dexscreener.com/base/0x290a0800cabaa0e8e865d291d6ff05cdc2bc931875ffa7d559e51db31b0ff0d4"
     },
     {
-      "address": "0x62ef38777944a1150ecaace37bdc288d8e2b1e96",
+      "address": "0x62eF38777944A1150eCAACE37bDC288d8e2b1E96",
       "symbol": "GXMUSK",
       "priceUsd": "0.00003984",
       "volume24h": 9.87,
@@ -1128,7 +1142,7 @@
       "pairUrl": "https://dexscreener.com/base/0xaa76b22a3e1d026a86879e32f3582581da966caefbb1d58dd7ededcf7fb6cbba"
     },
     {
-      "address": "0xa0652522ac5d59c90758349a218e781abe2196c6",
+      "address": "0xA0652522ac5d59c90758349A218E781aBE2196c6",
       "symbol": "SBT",
       "priceUsd": null,
       "volume24h": 0,
@@ -1142,7 +1156,7 @@
       "pairUrl": null
     },
     {
-      "address": "0x51795ec2c14147e7382e995adc01e7e2d82d0265",
+      "address": "0x51795eC2C14147E7382E995ADc01e7e2D82D0265",
       "symbol": "FBR",
       "priceUsd": "0.00003986",
       "volume24h": 19.74,
@@ -1156,7 +1170,7 @@
       "pairUrl": "https://dexscreener.com/base/0x1ead89fc54500d0114dec65cad582569095f9bf06057fa7dc5837a983a033c8d"
     },
     {
-      "address": "0xa58b7ad08da6818255c910f02247b22c6cceb4c1",
+      "address": "0xa58b7AD08dA6818255C910f02247B22C6CcEb4C1",
       "symbol": "USOR",
       "priceUsd": "0.00003986",
       "volume24h": 19.74,
@@ -1170,7 +1184,7 @@
       "pairUrl": "https://dexscreener.com/base/0x5d66a02522fb314d4ae6e8a8b90747b7be29f45272f52ac4ee0164a1dba766a0"
     },
     {
-      "address": "0xed9f054c6cfdda318e70c888f2fba2964d70ebd4",
+      "address": "0xED9f054C6CfdDA318E70c888F2FBa2964D70EBD4",
       "symbol": "BITGOLD",
       "priceUsd": "0.00003986",
       "volume24h": 19.74,
@@ -1184,7 +1198,7 @@
       "pairUrl": "https://dexscreener.com/base/0xa4fdc7673b160c0d3afbd70a35f2bcd0471d3bb65d36e9f12aeae5fe448080ce"
     },
     {
-      "address": "0xc03d6d3b08f87f8912af9ebc333166c7f632d281",
+      "address": "0xc03d6D3B08F87f8912af9EBC333166c7F632D281",
       "symbol": "UCMR",
       "priceUsd": "0.00003984",
       "volume24h": 9.87,
@@ -1198,7 +1212,7 @@
       "pairUrl": "https://dexscreener.com/base/0x802737dd61dedfb70f8230fa948e3d5e091ea77f013286bde36961b52d83ab4a"
     },
     {
-      "address": "0xead80a1988ec1b1fbf742189882ab1356b776c0f",
+      "address": "0xEad80A1988ec1B1fbf742189882Ab1356B776C0F",
       "symbol": "ALMAHDI",
       "priceUsd": "0.00003980",
       "volume24h": 9.86,
@@ -1212,7 +1226,7 @@
       "pairUrl": "https://dexscreener.com/base/0x6de96cb6c3a912e3c9082358fea9b16663efa69e9c928a0bd0e940881ae299b5"
     },
     {
-      "address": "0x627fd5ca0e32f68b4cc259ba56080d7282c79142",
+      "address": "0x627fD5cA0E32F68b4Cc259bA56080D7282C79142",
       "symbol": "CALWAAA",
       "priceUsd": "0.00001955",
       "volume24h": 0.03,
@@ -1226,7 +1240,7 @@
       "pairUrl": "https://dexscreener.com/base/0x2a3bf912aec83fe532b545cdb78bd7f1032a6db08a9e429f713d8bcf43609cdd"
     },
     {
-      "address": "0x3cc094098a9655019659d9d66d3270dafb116591",
+      "address": "0x3CC094098A9655019659D9D66d3270dAfB116591",
       "symbol": "DUMPCLAWD",
       "priceUsd": null,
       "volume24h": 0,
@@ -1240,7 +1254,7 @@
       "pairUrl": null
     },
     {
-      "address": "0x337fc5adae0800354ec20280bab94bb055fdbda2",
+      "address": "0x337fC5aDAe0800354ec20280BAb94bB055FDbda2",
       "symbol": "SHITLIFE",
       "priceUsd": null,
       "volume24h": 0,
@@ -1254,7 +1268,7 @@
       "pairUrl": null
     },
     {
-      "address": "0x499ff556cadd87cfc61d4674a5c46df00212fccf",
+      "address": "0x499Ff556CADD87cFC61d4674A5C46df00212fcCf",
       "symbol": "5050",
       "priceUsd": null,
       "volume24h": 0,
@@ -1268,7 +1282,7 @@
       "pairUrl": null
     },
     {
-      "address": "0x5f93a40b889bc71c04e39d66e99dc78f6745560b",
+      "address": "0x5f93a40b889Bc71C04E39D66e99dc78f6745560B",
       "symbol": "LOBSTER",
       "priceUsd": null,
       "volume24h": 0,
@@ -1282,7 +1296,7 @@
       "pairUrl": null
     },
     {
-      "address": "0x20830f049bc0fc106700d0ce6223bf873c902b38",
+      "address": "0x20830f049BC0FC106700d0cE6223BF873c902b38",
       "symbol": "clawdGird",
       "priceUsd": null,
       "volume24h": 0,
@@ -1296,7 +1310,7 @@
       "pairUrl": null
     },
     {
-      "address": "0x970b9df69274aac1f54ec721da399273f13487fe",
+      "address": "0x970b9DF69274AAC1f54eC721da399273F13487FE",
       "symbol": "Nigaclaw",
       "priceUsd": null,
       "volume24h": 0,
@@ -1310,7 +1324,7 @@
       "pairUrl": null
     },
     {
-      "address": "0xbab5dbe8e33584a947a5956d720201c52bfc4ff8",
+      "address": "0xBAb5dbe8E33584a947A5956d720201c52Bfc4FF8",
       "symbol": "SILVANA",
       "priceUsd": null,
       "volume24h": 0,
@@ -1324,7 +1338,7 @@
       "pairUrl": null
     },
     {
-      "address": "0x5f412016dd9066c839180e05e2a6441c6b8045bd",
+      "address": "0x5f412016Dd9066c839180E05e2A6441C6B8045Bd",
       "symbol": "GCRAB",
       "priceUsd": null,
       "volume24h": 0,
@@ -1338,8 +1352,22 @@
       "pairUrl": null
     },
     {
-      "address": "0x0b40285d79eb3a051d0dd0700eaa7c7e2150a4b2",
+      "address": "0x0b40285D79eb3a051D0dd0700Eaa7c7e2150A4B2",
       "symbol": "CRAVE",
+      "priceUsd": "0.00001996",
+      "volume24h": 2.55,
+      "txns24h": {
+        "buys": 6,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": 19968.67,
+      "priceChange24h": 0.73,
+      "pairUrl": "https://dexscreener.com/base/0xe1c139da1b760a2ca2b7deb114fc9c145c7d97e9f48ad6b01b4d7508dfe5c8b1"
+    },
+    {
+      "address": "0xA1323657363a1E918f62464667c1a8662C135d30",
+      "symbol": "CAGENT",
       "priceUsd": null,
       "volume24h": 0,
       "txns24h": {
