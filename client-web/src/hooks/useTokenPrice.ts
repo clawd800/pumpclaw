@@ -87,6 +87,7 @@ export function useEthUsdPrice() {
   useEffect(() => {
     let cancelled = false;
     async function fetchPrice() {
+      // Try CoinGecko first
       try {
         const res = await fetch(
           "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd"
@@ -94,13 +95,21 @@ export function useEthUsdPrice() {
         const data = await res.json();
         if (!cancelled && data?.ethereum?.usd) {
           setEthUsd(data.ethereum.usd);
+          return;
         }
-      } catch {
-        // silently fail — USD price is optional
-      }
+      } catch { /* try fallback */ }
+      // Fallback: CryptoCompare
+      try {
+        const res = await fetch(
+          "https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD"
+        );
+        const data = await res.json();
+        if (!cancelled && data?.USD) {
+          setEthUsd(data.USD);
+        }
+      } catch { /* silently fail */ }
     }
     fetchPrice();
-    // Refresh every 60s
     const interval = setInterval(fetchPrice, 60_000);
     return () => { cancelled = true; clearInterval(interval); };
   }, []);

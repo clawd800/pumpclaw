@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
-import { useAccount, useBalance, useReadContract, useWriteContract, useWaitForTransactionReceipt, useSimulateContract } from "wagmi";
+import { useAccount, useBalance, useReadContract, useWriteContract, useWaitForTransactionReceipt, useSimulateContract, usePublicClient } from "wagmi";
 import { parseEther, formatEther, maxUint256, keccak256, encodeAbiParameters, toHex } from "viem";
+import { useQuery } from "@tanstack/react-query";
 import { CONTRACTS } from "@/configs/constants";
 import { SWAP_ROUTER_ABI, ERC20_ABI } from "@/configs/abis";
 import { useEthUsdPrice } from "@/hooks/useTokenPrice";
@@ -103,6 +104,7 @@ export default function SwapPanel({ tokenAddress, tokenSymbol }: SwapPanelProps)
   const [errorMsg, setErrorMsg] = useState("");
 
   const { address, isConnected } = useAccount();
+  const publicClient = usePublicClient();
   const ethUsd = useEthUsdPrice();
 
   // ETH balance
@@ -221,28 +223,44 @@ export default function SwapPanel({ tokenAddress, tokenSymbol }: SwapPanelProps)
     query: { enabled: tab === "buy" && !!parsedAmount },
   } as any);
 
-  // Compute sell stateOverride (guard against invalid addresses in test env)
-  const sellStateOverride = (() => {
-    if (!parsedAmount || !address) return undefined;
-    try {
-      return [{
-        address: tokenAddress,
-        stateDiff: {
-          [allowanceSlot(address, CONTRACTS.SWAP_ROUTER as `0x${string}`)]: toHex(maxUint256, { size: 32 }),
-        },
-      }];
-    } catch { return undefined; }
-  })();
-
-  // Simulate sellTokens via eth_call (stateOverride bypasses approval check)
-  const { data: sellSimulation, isFetching: isSellEstimating } = useSimulateContract({
-    address: CONTRACTS.SWAP_ROUTER as `0x${string}`,
-    abi: SWAP_ROUTER_ABI,
-    functionName: "sellTokens",
-    args: [tokenAddress, parsedAmount ?? 0n, 0n],
-    stateOverride: sellStateOverride,
-    query: { enabled: tab === "sell" && !!parsedAmount && !!address },
-  } as any);
+  // Sell estimation via direct publicClient call (reliable stateOverride bypass)
+  const { data: sellEstimate, isFetching: isSellEstimating } = useQuery({
+    queryKey: ['sellEstimate', tokenAddress, parsedAmount?.toString(), address],
+    queryFn: async () => {
+      if (!publicClient || !parsedAmount || !address) return null;
+      try {
+        const result = await publicClient.simulateContract({
+          account: address,
+          address: CONTRACTS.SWAP_ROUTER as `0x${string}`,
+          abi: SWAP_ROUTER_ABI,
+          functionName: 'sellTokens',
+          args: [tokenAddress, parsedAmount, 0n],
+          stateOverride: [{
+            address: tokenAddress,
+            stateDiff: {
+              [allowanceSlot(address, CONTRACTS.SWAP_ROUTER as `0x${string}`)]: toHex(maxUint256, { size: 32 }),
+            },
+          }],
+        });
+        return result.result as bigint;
+      } catch {
+        try {
+          const result = await publicClient.simulateContract({
+            account: address,
+            address: CONTRACTS.SWAP_ROUTER as `0x${string}`,
+            abi: SWAP_ROUTER_ABI,
+            functionName: 'sellTokens',
+            args: [tokenAddress, parsedAmount, 0n],
+          });
+          return result.result as bigint;
+        } catch {
+          return null;
+        }
+      }
+    },
+    enabled: tab === 'sell' && !!parsedAmount && !!address && !!publicClient,
+    retry: false,
+  });
 
   const isEstimating = (tab === "buy" && isBuyEstimating) || (tab === "sell" && isSellEstimating);
 
@@ -252,8 +270,8 @@ export default function SwapPanel({ tokenAddress, tokenSymbol }: SwapPanelProps)
     if (tab === "buy" && buySimulation?.result !== undefined) {
       return parseFloat(formatEther(buySimulation.result as bigint));
     }
-    if (tab === "sell" && sellSimulation?.result !== undefined) {
-      return parseFloat(formatEther(sellSimulation.result as bigint));
+    if (tab === "sell" && sellEstimate != null) {
+      return parseFloat(formatEther(sellEstimate));
     }
     return null;
   })();
@@ -263,8 +281,8 @@ export default function SwapPanel({ tokenAddress, tokenSymbol }: SwapPanelProps)
     if (tab === "buy" && buySimulation?.result !== undefined) {
       return buySimulation.result as bigint;
     }
-    if (tab === "sell" && sellSimulation?.result !== undefined) {
-      return sellSimulation.result as bigint;
+    if (tab === "sell" && sellEstimate != null) {
+      return sellEstimate;
     }
     return null;
   })();
