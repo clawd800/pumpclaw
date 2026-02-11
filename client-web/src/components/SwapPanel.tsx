@@ -480,6 +480,40 @@ export default function SwapPanel({ tokenAddress, tokenSymbol }: SwapPanelProps)
                 {tab === "buy" ? "ETH" : tokenSymbol}
               </span>
             </div>
+            {/* Quick amount presets */}
+            {tab === "buy" && (
+              <div className="flex gap-1.5">
+                {["0.001", "0.005", "0.01", "0.05"].map((preset) => (
+                  <button
+                    key={preset}
+                    onClick={() => { setAmount(preset); resetState(); }}
+                    className={`flex-1 py-1.5 text-xs font-mono transition-all border ${
+                      amount === preset
+                        ? "bg-orange-600/25 border-orange-500/50 text-orange-200"
+                        : "bg-black/30 border-red-900/30 text-neutral-500 hover:border-orange-500/30 hover:text-orange-400"
+                    }`}
+                  >
+                    {preset}
+                  </button>
+                ))}
+              </div>
+            )}
+            {tab === "sell" && tokenBalance && (tokenBalance as bigint) > 0n && (
+              <div className="flex gap-1.5">
+                {[25, 50, 75, 100].map((pct) => {
+                  const val = (tokenBalance as bigint) * BigInt(pct) / 100n;
+                  return (
+                    <button
+                      key={pct}
+                      onClick={() => { setAmount(formatEther(val)); resetState(); }}
+                      className="flex-1 py-1.5 text-xs font-mono transition-all border bg-black/30 border-red-900/30 text-neutral-500 hover:border-orange-500/30 hover:text-orange-400"
+                    >
+                      {pct}%
+                    </button>
+                  );
+                })}
+              </div>
+            )}
           </div>
 
           {/* Estimated Output */}
@@ -547,7 +581,7 @@ export default function SwapPanel({ tokenAddress, tokenSymbol }: SwapPanelProps)
 
           {/* TX Status */}
           {txStatus === "success" && txHash && (
-            <div className="bg-orange-900/20 border border-orange-600/40 p-3 space-y-1">
+            <div className="bg-orange-900/20 border border-orange-600/40 p-3 space-y-3">
               <p className="text-orange-300 text-sm font-semibold">✅ Transaction Successful!</p>
               <a
                 href={`https://basescan.org/tx/${txHash}`}
@@ -557,6 +591,32 @@ export default function SwapPanel({ tokenAddress, tokenSymbol }: SwapPanelProps)
               >
                 View on BaseScan ↗
               </a>
+              {/* Share your trade */}
+              <div className="pt-2 border-t border-orange-600/20">
+                <p className="text-neutral-500 text-xs mb-2">Share your trade</p>
+                <div className="flex gap-2">
+                  <a
+                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(
+                      `Just ${tab === "buy" ? "bought" : "sold"} $${tokenSymbol} on PumpClaw 🦞\n\nLP locked forever · 80% creator fees\nhttps://pumpclaw.com/#/token/${tokenAddress}`
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 py-2 text-center text-xs font-medium bg-blue-900/20 border border-blue-500/30 text-blue-300 hover:bg-blue-900/40 transition-all"
+                  >
+                    𝕏 Post
+                  </a>
+                  <a
+                    href={`https://farcaster.xyz/~/compose?text=${encodeURIComponent(
+                      `Just ${tab === "buy" ? "bought" : "sold"} $${tokenSymbol} on PumpClaw 🦞\n\nLP locked forever · 80% creator fees`
+                    )}&embeds[]=${encodeURIComponent(`https://pumpclaw.com/token/${tokenAddress}/`)}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 py-2 text-center text-xs font-medium bg-purple-900/20 border border-purple-500/30 text-purple-300 hover:bg-purple-900/40 transition-all"
+                  >
+                    🟣 Cast
+                  </a>
+                </div>
+              </div>
             </div>
           )}
 
