@@ -473,7 +473,7 @@ export default function TokenDetailPage({
       </div>
 
       {/* External Links */}
-      <div className="grid grid-cols-4 gap-1.5 sm:gap-3">
+      <div className="grid grid-cols-5 gap-1 sm:gap-2">
         <a
           href={tradeUrl}
           target="_blank"
@@ -481,14 +481,6 @@ export default function TokenDetailPage({
           className="py-2 sm:py-3 text-center text-[10px] sm:text-sm font-medium bg-red-900/30 border border-neutral-600/50 text-orange-400 hover:bg-red-900/50 hover:text-orange-300 transition-all"
         >
           Matcha
-        </a>
-        <a
-          href={`https://basescan.org/token/${token.token}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="py-2 sm:py-3 text-center text-[10px] sm:text-sm font-medium bg-red-900/30 border border-neutral-600/50 text-orange-400 hover:bg-red-900/50 hover:text-orange-300 transition-all"
-        >
-          Scan
         </a>
         <a
           href={dexScreenerUrl}
@@ -499,12 +491,28 @@ export default function TokenDetailPage({
           DexScr
         </a>
         <a
+          href={`https://www.geckoterminal.com/base/pools/${token.token}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="py-2 sm:py-3 text-center text-[10px] sm:text-sm font-medium bg-red-900/30 border border-neutral-600/50 text-orange-400 hover:bg-red-900/50 hover:text-orange-300 transition-all"
+        >
+          Gecko
+        </a>
+        <a
           href={`https://app.uniswap.org/swap?chain=base&outputCurrency=${token.token}`}
           target="_blank"
           rel="noopener noreferrer"
           className="py-2 sm:py-3 text-center text-[10px] sm:text-sm font-medium bg-red-900/30 border border-neutral-600/50 text-orange-400 hover:bg-red-900/50 hover:text-orange-300 transition-all"
         >
           Uniswap
+        </a>
+        <a
+          href={`https://basescan.org/token/${token.token}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="py-2 sm:py-3 text-center text-[10px] sm:text-sm font-medium bg-red-900/30 border border-neutral-600/50 text-orange-400 hover:bg-red-900/50 hover:text-orange-300 transition-all"
+        >
+          Scan
         </a>
       </div>
 
