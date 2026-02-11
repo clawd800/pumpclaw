@@ -34,8 +34,9 @@ export default function CreateTokenForm({ onSuccess }: { onSuccess?: () => void 
     });
   };
 
-  // Reset form on success
-  if (isSuccess && name) {
+  // Show success screen when token is deployed
+  if (isSuccess && name && !launchedToken) {
+    setLaunchedToken({ name, symbol, hash: hash! });
     setName("");
     setSymbol("");
     setImageUrl("");
@@ -43,6 +44,21 @@ export default function CreateTokenForm({ onSuccess }: { onSuccess?: () => void 
     setSupply(DEFAULT_SUPPLY);
     setFdv(DEFAULT_FDV);
     onSuccess?.();
+  }
+
+  // Show the success/share screen
+  if (launchedToken) {
+    return (
+      <TokenLaunchSuccess
+        txHash={launchedToken.hash}
+        tokenName={launchedToken.name}
+        tokenSymbol={launchedToken.symbol}
+        onDismiss={() => {
+          setLaunchedToken(null);
+          reset();
+        }}
+      />
+    );
   }
 
   return (
