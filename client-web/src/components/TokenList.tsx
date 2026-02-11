@@ -160,13 +160,13 @@ function ProgressBar({ tokenAddress }: { tokenAddress: `0x${string}` }) {
   
   return (
     <div className="mt-2">
-      <div className="flex justify-between text-[10px] sm:text-xs text-green-600 mb-0.5">
+      <div className="flex justify-between text-[10px] sm:text-xs text-orange-500 mb-0.5">
         <span>Purchased</span>
         <span>{percentPurchased.toFixed(2)}%</span>
       </div>
-      <div className="h-1.5 sm:h-2 bg-green-900/30 border border-green-900/50 overflow-hidden">
+      <div className="h-1.5 sm:h-2 bg-red-900/30 border border-red-900/50 overflow-hidden">
         <div 
-          className="h-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)] transition-all duration-500"
+          className="h-full bg-gradient-to-r from-red-500 to-orange-400 shadow-[0_0_8px_rgba(239,68,68,0.6)] transition-all duration-500"
           style={{ width: `${Math.min(percentPurchased, 100)}%` }}
         />
       </div>
@@ -211,7 +211,7 @@ function AddToMetaMaskButton({ tokenAddress, symbol, decimals = 18, image }: { t
       title="Add to MetaMask"
     >
       {added ? (
-        <span className="text-green-400">✓</span>
+        <span className="text-orange-300">✓</span>
       ) : (
         <svg height="15" viewBox="0 0 16 15" width="16" xmlns="http://www.w3.org/2000/svg">
           <g fill="none">
@@ -249,7 +249,7 @@ function TokenPriceBadge({ tokenAddress }: { tokenAddress: `0x${string}` }) {
   };
 
   return (
-    <span className="text-green-300 font-mono text-xs sm:text-sm font-semibold">
+    <span className="text-red-400 font-mono text-xs sm:text-sm font-semibold">
       {priceUsd !== null ? formatPrice(priceUsd) : `${ethPerToken.toExponential(1)} ETH`}
     </span>
   );
@@ -287,15 +287,15 @@ function TokenCard({ token, isERC8004Registered, volume24h, txns24h }: TokenCard
   const timeAgo = getTimeAgo(createdDate);
 
   return (
-    <div className="border border-green-900/50 bg-black/40 hover:border-green-500/50 transition-all hover:bg-black/60 group overflow-hidden">
-      <a href={`#/token/${token.token}`} className="block p-3 sm:p-4 pb-2 sm:pb-3">
+    <div className="border border-red-900/50 bg-black/40 hover:border-orange-500/40 transition-all hover:bg-black/60 group overflow-hidden flex flex-col">
+      <a href={`#/token/${token.token}`} className="block p-3 sm:p-4 pb-2 sm:pb-3 flex-1">
         {/* Header row: logo + info + price */}
         <div className="flex items-center gap-3 mb-2">
-          <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 overflow-hidden bg-green-900/30 border border-green-800/50 group-hover:border-green-600/50 transition-colors rounded-sm">
+          <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 overflow-hidden bg-red-900/30 border border-neutral-600/50 group-hover:border-orange-500/50 transition-colors rounded-sm">
             {imageUrl ? (
               <TokenMedia src={imageUrl} alt={token.symbol} />
             ) : (
-              <div className="w-full h-full flex items-center justify-center text-green-600 text-lg sm:text-xl">
+              <div className="w-full h-full flex items-center justify-center text-orange-500 text-lg sm:text-xl">
                 🦞
               </div>
             )}
@@ -303,13 +303,13 @@ function TokenCard({ token, isERC8004Registered, volume24h, txns24h }: TokenCard
           
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-1.5">
-              <h3 className="font-bold text-green-300 text-sm sm:text-base truncate group-hover:text-green-200 transition-colors">{token.name}</h3>
+              <h3 className="font-bold text-red-400 text-sm sm:text-base truncate group-hover:text-orange-200 transition-colors">{token.name}</h3>
               {isERC8004Registered && <ERC8004Badge />}
             </div>
             <div className="flex items-center gap-1.5 mt-0.5">
-              <span className="text-green-500 font-mono text-xs sm:text-sm">${token.symbol}</span>
-              <span className="text-green-800 text-[10px]">•</span>
-              <span className="text-green-700 text-[10px] sm:text-xs" title={createdDate.toLocaleString()}>{timeAgo}</span>
+              <span className="text-orange-400 font-mono text-xs sm:text-sm">${token.symbol}</span>
+              <span className="text-neutral-600 text-[10px]">•</span>
+              <span className="text-neutral-500 text-[10px] sm:text-xs" title={createdDate.toLocaleString()}>{timeAgo}</span>
             </div>
           </div>
 
@@ -330,7 +330,7 @@ function TokenCard({ token, isERC8004Registered, volume24h, txns24h }: TokenCard
         <div className="flex gap-1.5 items-center">
           <a
             href={`#/token/${token.token}`}
-            className="flex-1 py-1.5 text-center text-[11px] sm:text-xs font-medium bg-green-600/20 border border-green-500/50 text-green-400 hover:bg-green-600/30 hover:text-green-300 transition-all"
+            className="flex-1 py-1.5 text-center text-[11px] sm:text-xs font-medium bg-orange-600/20 border border-orange-500/40 text-orange-300 hover:bg-orange-600/30 hover:text-orange-200 transition-all"
           >
             Trade
           </a>
@@ -343,7 +343,7 @@ function TokenCard({ token, isERC8004Registered, volume24h, txns24h }: TokenCard
               btn.textContent = '✅';
               setTimeout(() => { btn.textContent = '🔗'; }, 1500);
             }}
-            className="px-2 py-1.5 text-[11px] sm:text-xs bg-green-900/30 border border-green-800/50 text-green-500 hover:bg-green-900/50 hover:text-green-400 transition-all shrink-0"
+            className="px-2 py-1.5 text-[11px] sm:text-xs bg-red-900/30 border border-neutral-600/50 text-orange-400 hover:bg-red-900/50 hover:text-orange-300 transition-all shrink-0"
             title="Copy share link"
           >
             🔗
@@ -367,7 +367,7 @@ type SortOption = 'recent' | 'hot' | 'marketcap';
 
 export default function TokenList() {
   const { data: tokens, isLoading, count, refetch } = useLatestTokens();
-  const [sortBy, setSortBy] = useState<SortOption>('recent');
+  const [sortBy, setSortBy] = useState<SortOption>('hot');
   const [filterERC8004, setFilterERC8004] = useState(false);
   const { data: volumeData } = useVolumeData();
 
@@ -415,46 +415,36 @@ export default function TokenList() {
   }, [tokens, sortBy, filterERC8004, erc8004StatusMap, marketCapMap, volumeData]);
 
   return (
-    <div className="sm:border sm:border-green-900/50 bg-black/30 p-1.5 sm:p-6">
+    <div className="sm:border sm:border-red-900/50 bg-black/30 p-1.5 sm:p-6">
       {/* Header */}
       <div className="flex items-center justify-between mb-4 sm:mb-6">
-        <h2 className="text-base sm:text-xl font-bold text-green-400 flex items-center gap-1.5 sm:gap-2">
+        <h2 className="text-base sm:text-xl font-bold text-orange-200 flex items-center gap-1.5 sm:gap-2">
           Tokens
           {count > 0 && (
-            <span className="text-sm sm:text-base font-normal text-green-600">
+            <span className="text-sm sm:text-base font-normal text-orange-500">
               ({count})
             </span>
           )}
         </h2>
         <button
           onClick={() => refetch()}
-          className="text-xs text-green-600 hover:text-green-400 transition-colors px-2 py-1 border border-green-900/50 hover:border-green-700/50"
+          className="text-xs text-orange-500 hover:text-orange-300 transition-colors px-2 py-1 border border-red-900/50 hover:border-orange-500/40"
         >
           ↻ Refresh
         </button>
       </div>
 
       {/* Sort Tabs & Filter */}
-      <div className="flex flex-col gap-3 mb-4 sm:mb-6 pb-3 sm:pb-4 border-b border-green-900/30">
+      <div className="flex flex-col gap-3 mb-4 sm:mb-6 pb-3 sm:pb-4 border-b border-red-900/30">
         <div className="flex items-center gap-3">
           {/* Tab Buttons */}
           <div className="flex flex-1">
             <button
-              onClick={() => setSortBy('recent')}
-              className={`flex-1 sm:flex-none px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium border transition-all ${
-                sortBy === 'recent'
-                  ? 'bg-green-600/20 border-green-500/50 text-green-300'
-                  : 'bg-black/40 border-green-900/50 text-green-700 hover:text-green-500 hover:border-green-700/50'
-              }`}
-            >
-              Recent
-            </button>
-            <button
               onClick={() => setSortBy('hot')}
-              className={`flex-1 sm:flex-none px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium border border-l-0 transition-all ${
+              className={`flex-1 sm:flex-none px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium border transition-all ${
                 sortBy === 'hot'
                   ? 'bg-orange-600/20 border-orange-500/50 text-orange-300'
-                  : 'bg-black/40 border-green-900/50 text-green-700 hover:text-green-500 hover:border-green-700/50'
+                  : 'bg-black/40 border-red-900/50 text-neutral-500 hover:text-orange-400 hover:border-orange-500/40'
               }`}
             >
               🔥 Hot
@@ -463,11 +453,21 @@ export default function TokenList() {
               onClick={() => setSortBy('marketcap')}
               className={`flex-1 sm:flex-none px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium border border-l-0 transition-all ${
                 sortBy === 'marketcap'
-                  ? 'bg-green-600/20 border-green-500/50 text-green-300'
-                  : 'bg-black/40 border-green-900/50 text-green-700 hover:text-green-500 hover:border-green-700/50'
+                  ? 'bg-orange-600/20 border-orange-500/40 text-red-400'
+                  : 'bg-black/40 border-red-900/50 text-neutral-500 hover:text-orange-400 hover:border-orange-500/40'
               }`}
             >
               Top MCap
+            </button>
+            <button
+              onClick={() => setSortBy('recent')}
+              className={`flex-1 sm:flex-none px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium border border-l-0 transition-all ${
+                sortBy === 'recent'
+                  ? 'bg-orange-600/20 border-orange-500/40 text-red-400'
+                  : 'bg-black/40 border-red-900/50 text-neutral-500 hover:text-orange-400 hover:border-orange-500/40'
+              }`}
+            >
+              Recent
             </button>
           </div>
 
@@ -477,9 +477,9 @@ export default function TokenList() {
               type="checkbox"
               checked={filterERC8004}
               onChange={(e) => setFilterERC8004(e.target.checked)}
-              className="w-3.5 h-3.5 bg-black/60 border border-green-900/50 text-green-500 focus:ring-green-500 focus:ring-offset-0 cursor-pointer accent-green-500"
+              className="w-3.5 h-3.5 bg-black/60 border border-red-900/50 text-orange-500 focus:ring-orange-500 focus:ring-offset-0 cursor-pointer accent-orange-500"
             />
-            <span className="text-green-600 text-[11px] sm:text-sm group-hover:text-green-400 transition-colors">
+            <span className="text-orange-500 text-[11px] sm:text-sm group-hover:text-orange-300 transition-colors">
               <span className="text-blue-400">8004</span>
             </span>
           </label>
@@ -487,23 +487,23 @@ export default function TokenList() {
 
         {/* Show filtered count */}
         {filterERC8004 && displayedTokens.length !== tokens.length && (
-          <span className="text-green-700 text-xs">
+          <span className="text-neutral-500 text-xs">
             {displayedTokens.length} of {tokens.length}
           </span>
         )}
       </div>
 
       {isLoading ? (
-        <div className="text-center py-12 text-green-600">Loading...</div>
+        <div className="text-center py-12 text-orange-500">Loading...</div>
       ) : displayedTokens.length === 0 ? (
-        <div className="text-center py-12 text-green-700">
+        <div className="text-center py-12 text-neutral-500">
           {filterERC8004 
             ? "No ERC-8004 registered tokens found. Try removing the filter."
             : "No tokens launched yet. Be the first! 🦞"
           }
         </div>
       ) : (
-        <div className="grid gap-5 lg:grid-cols-2">
+        <div className="grid gap-4 lg:grid-cols-2 items-stretch" style={{ gridAutoRows: '1fr' }}>
           {displayedTokens.map((token) => {
             const vol = volumeData?.tokens.find(v => v.address.toLowerCase() === token.token.toLowerCase());
             return (
