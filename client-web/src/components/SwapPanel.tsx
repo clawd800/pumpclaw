@@ -192,24 +192,29 @@ export default function SwapPanel({ tokenAddress, tokenSymbol }: SwapPanelProps)
     try { return parseEther(amount); } catch { return null; }
   })();
 
-  // Simulate buyTokens via eth_call
-  const { data: buySimulation } = useSimulateContract({
+  // Simulate buyTokens via eth_call (stateOverride bypasses balance check)
+  const { data: buySimulation, isFetching: isBuyEstimating } = useSimulateContract({
     address: CONTRACTS.SWAP_ROUTER as `0x${string}`,
     abi: SWAP_ROUTER_ABI,
     functionName: "buyTokens",
     args: [tokenAddress, 0n],
     value: parsedAmount ?? undefined,
+    stateOverride: parsedAmount && address ? [
+      { address, balance: parsedAmount + parseEther("10") },
+    ] : undefined,
     query: { enabled: tab === "buy" && !!parsedAmount },
-  });
+  } as any);
 
   // Simulate sellTokens via eth_call
-  const { data: sellSimulation } = useSimulateContract({
+  const { data: sellSimulation, isFetching: isSellEstimating } = useSimulateContract({
     address: CONTRACTS.SWAP_ROUTER as `0x${string}`,
     abi: SWAP_ROUTER_ABI,
     functionName: "sellTokens",
     args: [tokenAddress, parsedAmount ?? 0n, 0n],
     query: { enabled: tab === "sell" && !!parsedAmount && !needsApproval() },
   });
+
+  const isEstimating = (tab === "buy" && isBuyEstimating) || (tab === "sell" && isSellEstimating);
 
   // Exact output from simulation
   const estimatedOutput = (() => {
@@ -421,7 +426,18 @@ export default function SwapPanel({ tokenAddress, tokenSymbol }: SwapPanelProps)
           </div>
 
           {/* Estimated Output */}
-          {estimatedOutput !== null && (
+          {isEstimating && parsedAmount ? (
+            <div className="bg-green-900/10 border border-green-900/30 p-3 space-y-2">
+              <div className="flex justify-between text-sm">
+                <span className="text-green-600">You receive (est.)</span>
+                <span className="h-5 w-32 bg-green-900/30 rounded animate-pulse" />
+              </div>
+              <div className="flex justify-between text-xs">
+                <span className="text-green-800">≈ USD value</span>
+                <span className="h-4 w-20 bg-green-900/20 rounded animate-pulse" />
+              </div>
+            </div>
+          ) : estimatedOutput !== null ? (
             <div className="bg-green-900/10 border border-green-900/30 p-3 space-y-1">
               <div className="flex justify-between text-sm">
                 <span className="text-green-600">You receive (est.)</span>
@@ -439,7 +455,7 @@ export default function SwapPanel({ tokenAddress, tokenSymbol }: SwapPanelProps)
                 </div>
               )}
             </div>
-          )}
+          ) : null}
 
           {/* Slippage */}
           <SlippageSelector slippage={slippage} onChange={setSlippage} />
