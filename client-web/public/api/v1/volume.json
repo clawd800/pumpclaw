@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-02-11T20:02:24.632Z",
-  "totalTokens": 65,
+  "generatedAt": "2026-02-11T21:01:57.902Z",
+  "totalTokens": 74,
   "activeTokens": 33,
   "totalVolume24h": 399.2800000000002,
   "totalTxns24h": 47,
@@ -1368,6 +1368,132 @@
     {
       "address": "0xA1323657363a1E918f62464667c1a8662C135d30",
       "symbol": "CAGENT",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0xA76E08DAEec960c67a20B53cB48d7345F9AC4b1b",
+      "symbol": "REAL",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0xA761dBC809bF4330D96eC652FDBd1aB0b97B15d1",
+      "symbol": "awal",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0xD37dAfF27f01BEB445918818436F623149D460c1",
+      "symbol": "FARCLAW",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x6ACbAB9214248C2368e8878aB6BDb2C9B0A4acF1",
+      "symbol": "FCLAW",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0xFd3c1CD4FF15c2E01f5a59807DCa3a8551B56Bc8",
+      "symbol": "CMS",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0xC61d19f5Bd1892Fb555730C7e234D4047a7c108E",
+      "symbol": "BMC",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x483D6B910fA244ADFE6c58a0c33d9eD7d3D1673b",
+      "symbol": "VECTOR",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0xA70EAEF7dEA5E85d8e571b0623a50A021FDda813",
+      "symbol": "CLAWPENIS",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x5A7A4e6aEcD922abb9b6aF12Bd9BF16426626FA4",
+      "symbol": "STICK",
       "priceUsd": null,
       "volume24h": 0,
       "txns24h": {

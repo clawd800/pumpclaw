@@ -1,7 +1,7 @@
 {
-  "totalTokens": 65,
+  "totalTokens": 74,
   "uniqueCreators": 46,
-  "latestToken": "CAGENT",
+  "latestToken": "STICK",
   "chain": "Base (8453)",
   "dex": "Uniswap V4",
   "factory": "0xe5bCa0eDe9208f7Ee7FCAFa0415Ca3DC03e16a90",
@@ -11,7 +11,7 @@
   },
   "lpStatus": "locked_forever",
   "launchCost": "free",
-  "generatedAt": "2026-02-11T20:02:21.600Z",
+  "generatedAt": "2026-02-11T21:01:56.278Z",
   "endpoints": {
     "tokens": "https://pumpclaw.com/api/v1/tokens.json",
     "stats": "https://pumpclaw.com/api/v1/stats.json"
