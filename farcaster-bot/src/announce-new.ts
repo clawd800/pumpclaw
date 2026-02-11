@@ -99,6 +99,16 @@ const ERC20_ABI = [
   },
 ] as const;
 
+function loadDeployMap(): Record<string, {castHash: string, username: string}> {
+  try {
+    const mapFile = join(__dirname, '../deploy-map.json');
+    if (existsSync(mapFile)) {
+      return JSON.parse(readFileSync(mapFile, 'utf8'));
+    }
+  } catch {}
+  return {};
+}
+
 async function postCast(text: string, embeds?: Array<{url: string}>): Promise<string> {
   const body: any = {
     signer_uuid: CONFIG.SIGNER_UUID,
@@ -200,19 +210,22 @@ async function main() {
       }) as string;
     } catch {}
 
-    const tradeUrl = `https://matcha.xyz/tokens/base/${addr}?sellChain=8453&sellAddress=0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee`;
-    const tokenPageUrl = `https://pumpclaw.com/token/${addr}/`;
+    const tokenPageUrl = `https://pumpclaw.com/#/token/${addr}`;
+    const deployMap = loadDeployMap();
+    const requestInfo = deployMap[addr.toLowerCase()];
 
     const text =
       `🦞 New token on PumpClaw!\n\n` +
       `📛 ${name} ($${symbol})\n` +
       `💰 ${fdv} ETH initial FDV\n` +
-      `👤 ${creator.slice(0, 6)}...${creator.slice(-4)}\n` +
-      `🔒 LP locked forever on Uniswap V4\n\n` +
-      `Trade now 👇`;
+      (requestInfo?.username ? `👤 @${requestInfo.username}\n` : `👤 ${creator.slice(0, 6)}...${creator.slice(-4)}\n`) +
+      `🔒 LP locked forever on Uniswap V4`;
 
     const embeds: Array<{url: string}> = [{ url: tokenPageUrl }];
-    if (imageUrl) {
+    // Quote-cast the original request if available
+    if (requestInfo?.castHash && requestInfo?.username) {
+      embeds.push({ url: `https://farcaster.xyz/${requestInfo.username}/${requestInfo.castHash}` });
+    } else if (imageUrl) {
       embeds.push({ url: imageUrl });
     }
 

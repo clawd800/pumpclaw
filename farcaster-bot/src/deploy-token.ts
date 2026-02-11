@@ -61,6 +61,24 @@ async function main() {
   recordDeploy(state);
   saveState(state);
   
+  // Save token→request mapping for announce-new.ts quote-casting
+  try {
+    const { readFileSync, writeFileSync, existsSync } = await import('fs');
+    const { join, dirname } = await import('path');
+    const { fileURLToPath } = await import('url');
+    const __dirname = dirname(fileURLToPath(import.meta.url));
+    const mapFile = join(__dirname, '../deploy-map.json');
+    const map: Record<string, {castHash: string, username: string}> = existsSync(mapFile) 
+      ? JSON.parse(readFileSync(mapFile, 'utf8')) : {};
+    if (params.replyTo) {
+      map[result.tokenAddress.toLowerCase()] = {
+        castHash: params.replyTo,
+        username: params.authorUsername || '',
+      };
+      writeFileSync(mapFile, JSON.stringify(map, null, 2));
+    }
+  } catch {}
+  
   // Reply to the original cast
   if (params.replyTo) {
     const tradeUrl = `https://matcha.xyz/tokens/base/${result.tokenAddress}?sellChain=8453&sellAddress=0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee`;
@@ -81,21 +99,26 @@ async function main() {
     await replyCast(params.replyTo, replyText, embeds);
   }
   
-  // Broadcast announcement
+  // Broadcast announcement (quote-cast the original request if available)
   if (params.announce) {
     try {
       const announceText =
-        `New token launched on PumpClaw!\n\n` +
+        `🦞 New token on PumpClaw!\n\n` +
         `${result.name} ($${result.symbol})\n` +
         (params.authorUsername ? `by @${params.authorUsername}\n` : '') +
-        `80% trading fees to creator\n` +
-        `LP locked forever on Uniswap V4\n\n` +
-        `Deploy yours free - mention @clawd with your ticker!`;
+        `💰 80% trading fees to creator\n` +
+        `🔒 LP locked forever on Uniswap V4`;
       
       const embedsA: Array<{url: string}> = [
         { url: `https://pumpclaw.com/#/token/${result.tokenAddress}` },
       ];
-      if (params.image) embedsA.push({ url: params.image });
+      // Quote-cast the original request so people see the context
+      if (params.replyTo) {
+        const quoteCastUrl = params.authorUsername
+          ? `https://farcaster.xyz/${params.authorUsername}/${params.replyTo}`
+          : `https://farcaster.xyz/~/conversations/${params.replyTo}`;
+        embedsA.push({ url: quoteCastUrl });
+      }
       
       await postCast(announceText, embedsA);
     } catch {}
