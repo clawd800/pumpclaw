@@ -173,26 +173,6 @@ function ProgressBar({ tokenAddress }: { tokenAddress: `0x${string}` }) {
   );
 }
 
-function CopyButton({ text }: { text: string }) {
-  const [copied, setCopied] = useState(false);
-  
-  const handleCopy = async () => {
-    await navigator.clipboard.writeText(text);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 1500);
-  };
-  
-  return (
-    <button
-      onClick={handleCopy}
-      className="ml-1 text-green-700 hover:text-green-400 transition-colors"
-      title="Copy to clipboard"
-    >
-      {copied ? "✓" : "📋"}
-    </button>
-  );
-}
-
 function AddToMetaMaskButton({ tokenAddress, symbol, decimals = 18, image }: { tokenAddress: string; symbol: string; decimals?: number; image?: string }) {
   const [added, setAdded] = useState(false);
 
@@ -330,7 +310,6 @@ function TokenCard({ token, isERC8004Registered }: TokenCardProps) {
           >
             Trade
           </a>
-          <CopyButton text={token.token} />
           <button
             onClick={(e) => {
               e.preventDefault();
