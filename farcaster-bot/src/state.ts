@@ -74,11 +74,9 @@ export function recordDeploy(state: BotState): void {
  * Deploy reply to the requester is always sent — only the public
  * announcement cast is throttled.
  */
-const BROADCAST_COOLDOWN_MS = 3_600_000; // 1 hour
-
 export function canBroadcast(state: BotState): boolean {
   if (!state.lastBroadcastTime) return true;
-  return Date.now() - state.lastBroadcastTime >= BROADCAST_COOLDOWN_MS;
+  return Date.now() - state.lastBroadcastTime >= CONFIG.BROADCAST_COOLDOWN_MS;
 }
 
 export function recordBroadcast(state: BotState): void {
