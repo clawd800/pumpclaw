@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-02-12T15:00:36.505Z",
+  "generatedAt": "2026-02-12T18:00:38.627Z",
   "totalTokens": 104,
   "activeTokens": 2,
   "totalVolume24h": 1.8599999999999999,
-  "totalTxns24h": 9,
+  "totalTxns24h": 7,
   "hotTokens": [
     {
       "address": "0x0b40285D79eb3a051D0dd0700Eaa7c7e2150A4B2",
@@ -724,16 +724,16 @@
     {
       "address": "0x51795eC2C14147E7382E995ADc01e7e2D82D0265",
       "symbol": "FBR",
-      "priceUsd": "0.00003871",
+      "priceUsd": null,
       "volume24h": 0,
       "txns24h": {
-        "buys": 1,
-        "sells": 1
+        "buys": 0,
+        "sells": 0
       },
       "fdvUsd": null,
-      "liquidityUsd": 38719.29,
-      "priceChange24h": -1,
-      "pairUrl": "https://dexscreener.com/base/0x1ead89fc54500d0114dec65cad582569095f9bf06057fa7dc5837a983a033c8d"
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
     },
     {
       "address": "0xa58b7AD08dA6818255C910f02247B22C6CcEb4C1",
