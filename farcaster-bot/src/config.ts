@@ -77,4 +77,5 @@ export const CONFIG = {
   // Limits
   MAX_DEPLOYS_PER_HOUR: 3,
   MAX_DEPLOYS_PER_DAY: 10,
+  BROADCAST_COOLDOWN_MS: 3_600_000, // 1 hour — max 1 public announcement per hour
 } as const;

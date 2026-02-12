@@ -18,7 +18,7 @@ import { CONFIG } from './config.js';
 import { getRecentMentions, replyCast, postCast, getUserVerifiedAddress } from './farcaster.js';
 import { aiParseDeployRequest, isDeployRequest } from './ai-parse.js';
 import { deployToken, checkGasBalance } from './deploy.js';
-import { loadState, saveState, canDeploy, recordDeploy } from './state.js';
+import { loadState, saveState, canDeploy, recordDeploy, canBroadcast, recordBroadcast } from './state.js';
 import { formatEther } from 'viem';
 
 async function processMentions(): Promise<void> {
@@ -155,27 +155,33 @@ async function processMentions(): Promise<void> {
       console.log(`[bot] ✅ Deployed and replied!`);
       
       // Broadcast public announcement (separate cast, not a reply)
-      try {
-        const announceText = 
-          `🦞 New token just launched on PumpClaw!\n\n` +
-          `📛 ${result.name} ($${result.symbol})\n` +
-          `👤 by @${mention.authorUsername}\n` +
-          `💰 80% trading fees → creator\n` +
-          `🔒 LP locked forever on Uniswap V4\n\n` +
-          `Deploy yours free on Base 🔥\n` +
-          `Mention @clawd with your ticker to launch!`;
-        
-        const announceEmbeds: Array<{url: string}> = [
-          { url: `https://pumpclaw.com/#/token/${result.tokenAddress}` },
-        ];
-        if (request.imageUrl) {
-          announceEmbeds.push({ url: request.imageUrl });
+      // Throttled to max 1/hour to avoid flooding the feed during batch deploys
+      if (canBroadcast(state)) {
+        try {
+          const announceText = 
+            `🦞 New token just launched on PumpClaw!\n\n` +
+            `📛 ${result.name} ($${result.symbol})\n` +
+            `👤 by @${mention.authorUsername}\n` +
+            `💰 80% trading fees → creator\n` +
+            `🔒 LP locked forever on Uniswap V4\n\n` +
+            `Deploy yours free on Base 🔥\n` +
+            `Mention @clawd with your ticker to launch!`;
+          
+          const announceEmbeds: Array<{url: string}> = [
+            { url: `https://pumpclaw.com/#/token/${result.tokenAddress}` },
+          ];
+          if (request.imageUrl) {
+            announceEmbeds.push({ url: request.imageUrl });
+          }
+          
+          await postCast(announceText, announceEmbeds);
+          recordBroadcast(state);
+          console.log(`[bot] 📢 Broadcast announcement posted!`);
+        } catch (announceErr: any) {
+          console.error(`[bot] ⚠️ Broadcast failed (non-critical):`, announceErr.message);
         }
-        
-        await postCast(announceText, announceEmbeds);
-        console.log(`[bot] 📢 Broadcast announcement posted!`);
-      } catch (announceErr: any) {
-        console.error(`[bot] ⚠️ Broadcast failed (non-critical):`, announceErr.message);
+      } else {
+        console.log(`[bot] ⏳ Broadcast throttled (max 1/hour). Reply still sent to requester.`);
       }
       
     } catch (err: any) {
