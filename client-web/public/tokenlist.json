@@ -1,24 +1,16 @@
 {
   "name": "PumpClaw Token List",
-  "timestamp": "2026-02-11T15:08:51.000000Z",
-  "version": {
-    "major": 1,
-    "minor": 0,
-    "patch": 65
-  },
+  "logoURI": "https://pumpclaw.com/logo.png",
   "keywords": [
     "pumpclaw",
     "base",
-    "uniswap-v4",
-    "ai-agents"
+    "uniswap-v4"
   ],
-  "tags": {
-    "ai-agent": {
-      "name": "AI Agent",
-      "description": "Tokens launched by AI agents on PumpClaw"
-    }
+  "version": {
+    "major": 1,
+    "minor": 0,
+    "patch": 89
   },
-  "logoURI": "https://pumpclaw.com/pumpclaw-logo.png",
   "tokens": [
     {
       "chainId": 8453,
@@ -539,6 +531,198 @@
       "symbol": "CAGENT",
       "decimals": 18,
       "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/6bc6fb8c-7331-4f08-3741-cb5981774400/original"
+    },
+    {
+      "chainId": 8453,
+      "address": "0xA76E08DAEec960c67a20B53cB48d7345F9AC4b1b",
+      "name": "Retire Early And Laugh",
+      "symbol": "REAL",
+      "decimals": 18,
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/9ff799bf-b5b5-454b-91f6-670a57810800/original"
+    },
+    {
+      "chainId": 8453,
+      "address": "0xA761dBC809bF4330D96eC652FDBd1aB0b97B15d1",
+      "name": "awal",
+      "symbol": "awal",
+      "decimals": 18,
+      "logoURI": ""
+    },
+    {
+      "chainId": 8453,
+      "address": "0xD37dAfF27f01BEB445918818436F623149D460c1",
+      "name": "FARCASTER CLAW",
+      "symbol": "FARCLAW",
+      "decimals": 18,
+      "logoURI": ""
+    },
+    {
+      "chainId": 8453,
+      "address": "0x6ACbAB9214248C2368e8878aB6BDb2C9B0A4acF1",
+      "name": "FARCASTER CLAW",
+      "symbol": "FCLAW",
+      "decimals": 18,
+      "logoURI": ""
+    },
+    {
+      "chainId": 8453,
+      "address": "0xFd3c1CD4FF15c2E01f5a59807DCa3a8551B56Bc8",
+      "name": "CRITICAL MINERALS STOCKPILE",
+      "symbol": "CMS",
+      "decimals": 18,
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/346ee222-4ca6-4e20-a006-1cdd5a581c00/original"
+    },
+    {
+      "chainId": 8453,
+      "address": "0xC61d19f5Bd1892Fb555730C7e234D4047a7c108E",
+      "name": "BULL MARKET COIN",
+      "symbol": "BMC",
+      "decimals": 18,
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/a0061be5-b744-47cb-f3dc-cfb73846d600/original"
+    },
+    {
+      "chainId": 8453,
+      "address": "0x483D6B910fA244ADFE6c58a0c33d9eD7d3D1673b",
+      "name": "VECTOR",
+      "symbol": "VECTOR",
+      "decimals": 18,
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/01af6fef-d972-4e97-d44d-6021a36b1f00/original"
+    },
+    {
+      "chainId": 8453,
+      "address": "0xA70EAEF7dEA5E85d8e571b0623a50A021FDda813",
+      "name": "CLAWPENIS",
+      "symbol": "CLAWPENIS",
+      "decimals": 18,
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/8c48864c-5561-423e-4586-bc76b4562300/original"
+    },
+    {
+      "chainId": 8453,
+      "address": "0x5A7A4e6aEcD922abb9b6aF12Bd9BF16426626FA4",
+      "name": "StickDAO",
+      "symbol": "STICK",
+      "decimals": 18,
+      "logoURI": ""
+    },
+    {
+      "chainId": 8453,
+      "address": "0xa9363f71C9f96B3De2Ac48763f2C6f70469b9801",
+      "name": "pearlon",
+      "symbol": "PEARL",
+      "decimals": 18,
+      "logoURI": ""
+    },
+    {
+      "chainId": 8453,
+      "address": "0xbd494e89afCe1BC14fe396767d4cfe213cb7b543",
+      "name": "The Silverback Mountain gorillas",
+      "symbol": "GORILLAS",
+      "decimals": 18,
+      "logoURI": ""
+    },
+    {
+      "chainId": 8453,
+      "address": "0x00771905AA17730f9537EA0E29cc9Ef6979925d4",
+      "name": "KOLBO",
+      "symbol": "KOLBO",
+      "decimals": 18,
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/dc8d4f5c-beda-445d-f7b6-87e4e055dd00/original"
+    },
+    {
+      "chainId": 8453,
+      "address": "0xafc73F6A9BD227B4317258C63cA9E0631b44593B",
+      "name": "CLAWDEX",
+      "symbol": "CLAWDEX",
+      "decimals": 18,
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/dcc55e3c-dfc1-4434-86d8-e6ea4b6ed800/original"
+    },
+    {
+      "chainId": 8453,
+      "address": "0x81A69C9E2193a7a17A8358DAbE1a5A7f592c2913",
+      "name": "PEARL",
+      "symbol": "PEARL",
+      "decimals": 18,
+      "logoURI": ""
+    },
+    {
+      "chainId": 8453,
+      "address": "0x91b4960fd0fb2272B10CC2a98d8d11891096938e",
+      "name": "OSHI",
+      "symbol": "OSHI",
+      "decimals": 18,
+      "logoURI": ""
+    },
+    {
+      "chainId": 8453,
+      "address": "0x05dfBFBDed9203704D4C387c2295D5c45a191Bb7",
+      "name": "USOR",
+      "symbol": "USOR",
+      "decimals": 18,
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/c8662455-d78b-44ba-c11d-3a368152f400/original"
+    },
+    {
+      "chainId": 8453,
+      "address": "0xf1Daf55Ae56E287AEbAa412887246dC616a566f8",
+      "name": "base bunny",
+      "symbol": "BASEBUNNY",
+      "decimals": 18,
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/3955dc8b-faef-4354-9747-bef6d6525300/original"
+    },
+    {
+      "chainId": 8453,
+      "address": "0x0Fa9f364F5A1A344C71195718E15eC62a3a44490",
+      "name": "BUY THIS",
+      "symbol": "BUYTHIS",
+      "decimals": 18,
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/7faa3d1f-66c0-499e-07a9-d17305194000/original"
+    },
+    {
+      "chainId": 8453,
+      "address": "0x5E3E41786A8D3c5922fFfa5FAa62e1b5d38112eb",
+      "name": "internet",
+      "symbol": "internet",
+      "decimals": 18,
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/d8ada0ac-b5ea-42fb-94d0-35b4bd22fd00/original"
+    },
+    {
+      "chainId": 8453,
+      "address": "0x5A5542850aA32585c2F4BaE6e0B87b27Ebb478da",
+      "name": "clippy",
+      "symbol": "CLIPPY",
+      "decimals": 18,
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/3ff184e0-ac93-44c2-36ba-c687eb348400/original"
+    },
+    {
+      "chainId": 8453,
+      "address": "0xF9f2f9f2fFACF6406f9B0aafA1e33F23380522B8",
+      "name": "Clawd Security",
+      "symbol": "ClawdSec",
+      "decimals": 18,
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/c6b9c23a-f1ca-4c79-60ec-27e09cf0a000/original"
+    },
+    {
+      "chainId": 8453,
+      "address": "0xEb3b19B2B0f3bB76FD749527e2e02CED6F08B1e0",
+      "name": "Based Smart Robot",
+      "symbol": "BSMRBOT",
+      "decimals": 18,
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/85fe9c5e-74b2-46a3-e5ca-fce940a1c400/original"
+    },
+    {
+      "chainId": 8453,
+      "address": "0x2ec86150B7c65cde0Ab82FE6d576A0e4aA841842",
+      "name": "Chili Hot Coin",
+      "symbol": "CHILLI",
+      "decimals": 18,
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/bf5d8fcf-de07-498b-b684-ff28eb345000/original"
+    },
+    {
+      "chainId": 8453,
+      "address": "0x54C144f1508F3eEa1B9D1651c9eA667178f9BC03",
+      "name": "Fish",
+      "symbol": "FISH",
+      "decimals": 18,
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/f4b4b7c6-98e7-4a4d-8deb-7f55f2aea400/original"
     }
   ]
 }
