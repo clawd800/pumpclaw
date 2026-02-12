@@ -1,24 +1,10 @@
 {
-  "generatedAt": "2026-02-12T18:00:38.627Z",
-  "totalTokens": 104,
+  "generatedAt": "2026-02-12T21:00:31.483Z",
+  "totalTokens": 105,
   "activeTokens": 2,
-  "totalVolume24h": 1.8599999999999999,
-  "totalTxns24h": 7,
+  "totalVolume24h": 0.62,
+  "totalTxns24h": 2,
   "hotTokens": [
-    {
-      "address": "0x0b40285D79eb3a051D0dd0700Eaa7c7e2150A4B2",
-      "symbol": "CRAVE",
-      "priceUsd": "0.00001975",
-      "volume24h": 1.47,
-      "txns24h": {
-        "buys": 5,
-        "sells": 1
-      },
-      "fdvUsd": null,
-      "liquidityUsd": 19752.31,
-      "priceChange24h": 2.63,
-      "pairUrl": "https://dexscreener.com/base/0xe1c139da1b760a2ca2b7deb114fc9c145c7d97e9f48ad6b01b4d7508dfe5c8b1"
-    },
     {
       "address": "0x188825CE1f8D0725C983c0C3A1e90AD0C0149866",
       "symbol": "IPINCH",
@@ -32,6 +18,20 @@
       "liquidityUsd": null,
       "priceChange24h": null,
       "pairUrl": "https://dexscreener.com/base/0x4aae15a79c706a1dc368bb1daf3ba2c5b29132f19bd53368f8abbbe4590718f6"
+    },
+    {
+      "address": "0x0b40285D79eb3a051D0dd0700Eaa7c7e2150A4B2",
+      "symbol": "CRAVE",
+      "priceUsd": "0.00001975",
+      "volume24h": 0.23,
+      "txns24h": {
+        "buys": 1,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": 19752.31,
+      "priceChange24h": null,
+      "pairUrl": "https://dexscreener.com/base/0xe1c139da1b760a2ca2b7deb114fc9c145c7d97e9f48ad6b01b4d7508dfe5c8b1"
     }
   ],
   "tokens": [
@@ -921,14 +921,14 @@
       "address": "0x0b40285D79eb3a051D0dd0700Eaa7c7e2150A4B2",
       "symbol": "CRAVE",
       "priceUsd": "0.00001975",
-      "volume24h": 1.47,
+      "volume24h": 0.23,
       "txns24h": {
-        "buys": 5,
-        "sells": 1
+        "buys": 1,
+        "sells": 0
       },
       "fdvUsd": null,
       "liquidityUsd": 19752.31,
-      "priceChange24h": 2.63,
+      "priceChange24h": null,
       "pairUrl": "https://dexscreener.com/base/0xe1c139da1b760a2ca2b7deb114fc9c145c7d97e9f48ad6b01b4d7508dfe5c8b1"
     },
     {
@@ -1480,6 +1480,20 @@
     {
       "address": "0xBA76a705bB52698E9DB0B7A83B6A92492466AF64",
       "symbol": "ETHERCLAW",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0xaDBF93777c08B4fD9C3e78FBF60b2b17A4737B35",
+      "symbol": "SPKA",
       "priceUsd": null,
       "volume24h": 0,
       "txns24h": {
