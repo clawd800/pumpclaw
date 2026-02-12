@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-02-12T03:00:31.771Z",
-  "totalTokens": 89,
+  "generatedAt": "2026-02-12T04:00:27.711Z",
+  "totalTokens": 90,
   "activeTokens": 33,
   "totalVolume24h": 397.2700000000002,
   "totalTxns24h": 46,
@@ -1704,6 +1704,20 @@
     {
       "address": "0x54C144f1508F3eEa1B9D1651c9eA667178f9BC03",
       "symbol": "FISH",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0xefC5497BbcFA2b4FB2504183Dc2c5cdc850fdED5",
+      "symbol": "CLAWDG",
       "priceUsd": null,
       "volume24h": 0,
       "txns24h": {
