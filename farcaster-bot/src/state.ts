@@ -10,6 +10,7 @@ interface BotState {
   hourStart: number;             // epoch ms
   dayStart: number;              // epoch ms
   totalDeploys: number;
+  lastBroadcastTime?: number;    // epoch ms — throttle broadcast announcements
 }
 
 const DEFAULT_STATE: BotState = {
@@ -65,4 +66,21 @@ export function recordDeploy(state: BotState): void {
   state.deploysThisHour++;
   state.deploysToday++;
   state.totalDeploys++;
+}
+
+/**
+ * Check if a broadcast announcement should be posted.
+ * Throttles to max 1 broadcast per hour to avoid flooding the feed.
+ * Deploy reply to the requester is always sent — only the public
+ * announcement cast is throttled.
+ */
+const BROADCAST_COOLDOWN_MS = 3_600_000; // 1 hour
+
+export function canBroadcast(state: BotState): boolean {
+  if (!state.lastBroadcastTime) return true;
+  return Date.now() - state.lastBroadcastTime >= BROADCAST_COOLDOWN_MS;
+}
+
+export function recordBroadcast(state: BotState): void {
+  state.lastBroadcastTime = Date.now();
 }
