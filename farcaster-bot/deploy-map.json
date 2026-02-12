@@ -126,5 +126,13 @@
   "0xeb3b19b2b0f3bb76fd749527e2e02ced6f08b1e0": {
     "castHash": "0xfec9c7236ff0e0423b2cfdfa4c649f19aa5ab5eb",
     "username": "islamic"
+  },
+  "0x2ec86150b7c65cde0ab82fe6d576a0e4aa841842": {
+    "castHash": "0x70fc824f70ca603c651d11305fbaa2364e74296d",
+    "username": "insanelabz"
+  },
+  "0x54c144f1508f3eea1b9d1651c9ea667178f9bc03": {
+    "castHash": "0x0349cc2cb9e4d5b8404a0a6ad9a3c46262b603a2",
+    "username": "rasyid.eth"
   }
 }

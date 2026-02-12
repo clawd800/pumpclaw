@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-02-11T23:01:57.885Z",
-  "totalTokens": 87,
+  "generatedAt": "2026-02-12T00:01:19.917Z",
+  "totalTokens": 89,
   "activeTokens": 33,
   "totalVolume24h": 399.2800000000002,
   "totalTxns24h": 47,
@@ -1676,6 +1676,34 @@
     {
       "address": "0xEb3b19B2B0f3bB76FD749527e2e02CED6F08B1e0",
       "symbol": "BSMRBOT",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x2ec86150B7c65cde0Ab82FE6d576A0e4aA841842",
+      "symbol": "CHILLI",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x54C144f1508F3eEa1B9D1651c9eA667178f9BC03",
+      "symbol": "FISH",
       "priceUsd": null,
       "volume24h": 0,
       "txns24h": {
