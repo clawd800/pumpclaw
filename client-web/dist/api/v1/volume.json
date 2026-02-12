@@ -1,22 +1,22 @@
 {
-  "generatedAt": "2026-02-12T02:00:29.257Z",
+  "generatedAt": "2026-02-12T03:00:31.771Z",
   "totalTokens": 89,
   "activeTokens": 33,
-  "totalVolume24h": 399.2800000000002,
-  "totalTxns24h": 47,
+  "totalVolume24h": 397.2700000000002,
+  "totalTxns24h": 46,
   "hotTokens": [
     {
       "address": "0x76767891Fe941e1934953e9bd63cDeD7b5c473Da",
       "symbol": "PUMPCLAW",
       "priceUsd": "0.00004484",
-      "volume24h": 199.11,
+      "volume24h": 197.1,
       "txns24h": {
-        "buys": 2,
+        "buys": 1,
         "sells": 0
       },
       "fdvUsd": null,
       "liquidityUsd": 44780.92,
-      "priceChange24h": -1.41,
+      "priceChange24h": null,
       "pairUrl": "https://dexscreener.com/base/0x30d29308a17778764d3b54adfae59dc894a6a32171702780f59f80de64855704"
     },
     {
@@ -473,14 +473,14 @@
       "address": "0x76767891Fe941e1934953e9bd63cDeD7b5c473Da",
       "symbol": "PUMPCLAW",
       "priceUsd": "0.00004484",
-      "volume24h": 199.11,
+      "volume24h": 197.1,
       "txns24h": {
-        "buys": 2,
+        "buys": 1,
         "sells": 0
       },
       "fdvUsd": null,
       "liquidityUsd": 44780.92,
-      "priceChange24h": -1.41,
+      "priceChange24h": null,
       "pairUrl": "https://dexscreener.com/base/0x30d29308a17778764d3b54adfae59dc894a6a32171702780f59f80de64855704"
     },
     {
