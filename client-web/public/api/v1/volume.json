@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-02-12T09:01:48.002Z",
-  "totalTokens": 96,
-  "activeTokens": 2,
-  "totalVolume24h": 4.029999999999999,
-  "totalTxns24h": 15,
+  "generatedAt": "2026-02-12T11:00:35.741Z",
+  "totalTokens": 101,
+  "activeTokens": 1,
+  "totalVolume24h": 4.02,
+  "totalTxns24h": 14,
   "hotTokens": [
     {
       "address": "0x0b40285D79eb3a051D0dd0700Eaa7c7e2150A4B2",
@@ -18,20 +18,6 @@
       "liquidityUsd": 19752.31,
       "priceChange24h": -0.36,
       "pairUrl": "https://dexscreener.com/base/0xe1c139da1b760a2ca2b7deb114fc9c145c7d97e9f48ad6b01b4d7508dfe5c8b1"
-    },
-    {
-      "address": "0x627fD5cA0E32F68b4Cc259bA56080D7282C79142",
-      "symbol": "CALWAAA",
-      "priceUsd": "0.00001955",
-      "volume24h": 0.01,
-      "txns24h": {
-        "buys": 0,
-        "sells": 1
-      },
-      "fdvUsd": null,
-      "liquidityUsd": null,
-      "priceChange24h": null,
-      "pairUrl": "https://dexscreener.com/base/0x2a3bf912aec83fe532b545cdb78bd7f1032a6db08a9e429f713d8bcf43609cdd"
     }
   ],
   "tokens": [
@@ -794,16 +780,16 @@
     {
       "address": "0x627fD5cA0E32F68b4Cc259bA56080D7282C79142",
       "symbol": "CALWAAA",
-      "priceUsd": "0.00001955",
-      "volume24h": 0.01,
+      "priceUsd": null,
+      "volume24h": 0,
       "txns24h": {
         "buys": 0,
-        "sells": 1
+        "sells": 0
       },
       "fdvUsd": null,
       "liquidityUsd": null,
       "priceChange24h": null,
-      "pairUrl": "https://dexscreener.com/base/0x2a3bf912aec83fe532b545cdb78bd7f1032a6db08a9e429f713d8bcf43609cdd"
+      "pairUrl": null
     },
     {
       "address": "0x3CC094098A9655019659D9D66d3270dAfB116591",
@@ -1368,6 +1354,76 @@
     {
       "address": "0x99e425D1Fe1c1fa9Eac8b9353643E0e486da66AE",
       "symbol": "REKTHEART",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0xDaCc7838EC798D7a8744448DcECf92758708d35a",
+      "symbol": "PEPSTEIN",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x8323330b9A190709a8672936fac8F600d036d1E5",
+      "symbol": "CLAWSTEIN",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x6e92EAe57bbF1E9Aa612cA7267792790C6020092",
+      "symbol": "PEPSTEIN",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x4d081498977dd47F695ba4372F4D317d238FDcA2",
+      "symbol": "MAYA",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x6E11119f285fD563078556f97FE21AAC82cA9589",
+      "symbol": "DELUSIONAL",
       "priceUsd": null,
       "volume24h": 0,
       "txns24h": {

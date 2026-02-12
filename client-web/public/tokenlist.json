@@ -1,15 +1,10 @@
 {
   "name": "PumpClaw Token List",
-  "logoURI": "https://pumpclaw.com/logo.png",
-  "keywords": [
-    "pumpclaw",
-    "base",
-    "uniswap-v4"
-  ],
+  "timestamp": "2026-02-12T11:02:21+00:00",
   "version": {
     "major": 1,
     "minor": 0,
-    "patch": 89
+    "patch": 101
   },
   "tokens": [
     {
@@ -18,7 +13,10 @@
       "name": "PumpClaw",
       "symbol": "PUMPCLAW",
       "decimals": 18,
-      "logoURI": "https://i.imgur.com/v9B9SlZ.png"
+      "logoURI": "https://i.imgur.com/v9B9SlZ.png",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -26,7 +24,10 @@
       "name": "Moldbot",
       "symbol": "MOLDBOT",
       "decimals": 18,
-      "logoURI": "https://i.etsystatic.com/39377225/r/il/3f02ed/6369265240/il_fullxfull.6369265240_kmwv.jpg"
+      "logoURI": "https://i.etsystatic.com/39377225/r/il/3f02ed/6369265240/il_fullxfull.6369265240_kmwv.jpg",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -34,7 +35,10 @@
       "name": "Steamed Lobster",
       "symbol": "LOBSTER",
       "decimals": 18,
-      "logoURI": ""
+      "logoURI": "",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -42,7 +46,10 @@
       "name": "ClawChat",
       "symbol": "CLAWCHAT",
       "decimals": 18,
-      "logoURI": ""
+      "logoURI": "",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -50,7 +57,10 @@
       "name": "Buyandrich",
       "symbol": "BAR",
       "decimals": 18,
-      "logoURI": ""
+      "logoURI": "",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -58,7 +68,10 @@
       "name": "CLAWDROP",
       "symbol": "CLAWDROP",
       "decimals": 18,
-      "logoURI": ""
+      "logoURI": "",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -66,7 +79,10 @@
       "name": "Fluxora",
       "symbol": "FLX",
       "decimals": 18,
-      "logoURI": "https://wrpcd.net/cdn-cgi/imagedelivery/BXluQx4ige9GuW0Ia56BHw/5db6990e-3505-40b2-094a-38666fc7f700/rectcontain3"
+      "logoURI": "https://wrpcd.net/cdn-cgi/imagedelivery/BXluQx4ige9GuW0Ia56BHw/5db6990e-3505-40b2-094a-38666fc7f700/rectcontain3",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -74,7 +90,10 @@
       "name": "Gulfy",
       "symbol": "GULFY",
       "decimals": 18,
-      "logoURI": ""
+      "logoURI": "",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -82,7 +101,10 @@
       "name": "BLUE WAVE",
       "symbol": "BLU3WAVE",
       "decimals": 18,
-      "logoURI": "https://base.app/post/0xbca5bb14a6e7ce40dc9c87f186fde3ff98397e54"
+      "logoURI": "https://base.app/post/0xbca5bb14a6e7ce40dc9c87f186fde3ff98397e54",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -90,7 +112,10 @@
       "name": "Gravity Claw",
       "symbol": "GVCL",
       "decimals": 18,
-      "logoURI": "https://i.imgur.com/9yjjSEg.jpeg"
+      "logoURI": "https://i.imgur.com/9yjjSEg.jpeg",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -98,7 +123,10 @@
       "name": "ClawZuck",
       "symbol": "ZUCK",
       "decimals": 18,
-      "logoURI": "https://imgur.com/a/vnkkgIK"
+      "logoURI": "https://imgur.com/a/vnkkgIK",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -106,7 +134,10 @@
       "name": "LinkClaws",
       "symbol": "LINKCLAWS",
       "decimals": 18,
-      "logoURI": "https://imgur.com/a/4zg5eYc"
+      "logoURI": "https://imgur.com/a/4zg5eYc",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -114,7 +145,10 @@
       "name": "ClawdPandaX402",
       "symbol": "CLAWDPANDA",
       "decimals": 18,
-      "logoURI": "https://imgur.com/a/4zg5eYc"
+      "logoURI": "https://imgur.com/a/4zg5eYc",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -122,7 +156,10 @@
       "name": "Bankrclawdcy",
       "symbol": "BANCY",
       "decimals": 18,
-      "logoURI": "https://pin.it/VfjIqsc6s"
+      "logoURI": "https://pin.it/VfjIqsc6s",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -130,7 +167,10 @@
       "name": "NEO",
       "symbol": "NEO",
       "decimals": 18,
-      "logoURI": "https://iili.io/fZ6kLn2.png"
+      "logoURI": "https://iili.io/fZ6kLn2.png",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -138,7 +178,10 @@
       "name": "FireClaw",
       "symbol": "FCLAW",
       "decimals": 18,
-      "logoURI": "https://ibb.co.com/fVtn6Q8Q"
+      "logoURI": "https://ibb.co.com/fVtn6Q8Q",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -146,7 +189,10 @@
       "name": "TestDeploy",
       "symbol": "TESTDEP",
       "decimals": 18,
-      "logoURI": ""
+      "logoURI": "",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -154,7 +200,10 @@
       "name": "TAKE THIS IMAGE FOR SYMBOL",
       "symbol": "USFIRE",
       "decimals": 18,
-      "logoURI": ""
+      "logoURI": "",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -162,7 +211,10 @@
       "name": "SHAWARMA",
       "symbol": "SHAWARMA",
       "decimals": 18,
-      "logoURI": ""
+      "logoURI": "",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -170,7 +222,10 @@
       "name": "Rider",
       "symbol": "RIDE",
       "decimals": 18,
-      "logoURI": ""
+      "logoURI": "",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -178,7 +233,10 @@
       "name": "USFIRE",
       "symbol": "USFIRE",
       "decimals": 18,
-      "logoURI": "https://wrpcd.net/cdn-cgi/imagedelivery/BXluQx4ige9GuW0Ia56BHw/d93264fc-1caa-4e6e-7e80-094676842a00/rectcontain3"
+      "logoURI": "https://wrpcd.net/cdn-cgi/imagedelivery/BXluQx4ige9GuW0Ia56BHw/d93264fc-1caa-4e6e-7e80-094676842a00/rectcontain3",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -186,7 +244,10 @@
       "name": "Claw Loot Box",
       "symbol": "CLAWLB",
       "decimals": 18,
-      "logoURI": ""
+      "logoURI": "",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -194,7 +255,10 @@
       "name": "RUGCLAW",
       "symbol": "RUGCLAW",
       "decimals": 18,
-      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/24cd7105-6766-4959-5f4c-03155f783f00/original"
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/24cd7105-6766-4959-5f4c-03155f783f00/original",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -202,7 +266,10 @@
       "name": "TokenName 23 tokens live. LP loc",
       "symbol": "TICKER",
       "decimals": 18,
-      "logoURI": ""
+      "logoURI": "",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -210,7 +277,10 @@
       "name": "GeekedOut",
       "symbol": "GEEKD",
       "decimals": 18,
-      "logoURI": "https://res.cloudinary.com/base-app/image/upload/f_auto/v1770650561/52591353-a31d-49ca-b6e1-7be7f15d1264.jpg"
+      "logoURI": "https://res.cloudinary.com/base-app/image/upload/f_auto/v1770650561/52591353-a31d-49ca-b6e1-7be7f15d1264.jpg",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -218,7 +288,10 @@
       "name": "ClawspeedGO",
       "symbol": "ClawspeedGo",
       "decimals": 18,
-      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/d0e5ab8e-b0a1-4764-9003-1c529a54fb00/original"
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/d0e5ab8e-b0a1-4764-9003-1c529a54fb00/original",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -226,7 +299,10 @@
       "name": "clawdnews",
       "symbol": "clawdnews",
       "decimals": 18,
-      "logoURI": ""
+      "logoURI": "",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -234,7 +310,10 @@
       "name": "TokenName base babes",
       "symbol": "TICKER",
       "decimals": 18,
-      "logoURI": ""
+      "logoURI": "",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -242,7 +321,10 @@
       "name": "base babes",
       "symbol": "BaseBabes",
       "decimals": 18,
-      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/e3dbf4eb-e5a7-497a-6a70-736134608400/original"
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/e3dbf4eb-e5a7-497a-6a70-736134608400/original",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -250,7 +332,10 @@
       "name": "Clawstain",
       "symbol": "CLWASTAIN",
       "decimals": 18,
-      "logoURI": ""
+      "logoURI": "",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -258,7 +343,10 @@
       "name": "Clawstain",
       "symbol": "CLWASTAIN",
       "decimals": 18,
-      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/0983c707-7bee-4e8a-65c2-4aa746b2ec00/original"
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/0983c707-7bee-4e8a-65c2-4aa746b2ec00/original",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -266,7 +354,10 @@
       "name": "FireClaw",
       "symbol": "FCLAW",
       "decimals": 18,
-      "logoURI": ""
+      "logoURI": "",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -274,7 +365,10 @@
       "name": "test",
       "symbol": "TEST",
       "decimals": 18,
-      "logoURI": ""
+      "logoURI": "",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -282,7 +376,10 @@
       "name": "FireClaw",
       "symbol": "FCLAW",
       "decimals": 18,
-      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/183133c7-34c6-4fac-5cd0-e7e744bace00/original"
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/183133c7-34c6-4fac-5cd0-e7e744bace00/original",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -290,7 +387,10 @@
       "name": "bonkrcoin",
       "symbol": "bonkr",
       "decimals": 18,
-      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/7bcba06f-0b2a-47ea-e7b4-83181b4b9e00/original"
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/7bcba06f-0b2a-47ea-e7b4-83181b4b9e00/original",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -298,7 +398,10 @@
       "name": "UNITED STATES COMMODITIES EXCHANGE COIN",
       "symbol": "USCEC",
       "decimals": 18,
-      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/2e5f5d6c-3c31-450b-033f-479ca2e86d00/original"
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/2e5f5d6c-3c31-450b-033f-479ca2e86d00/original",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -306,7 +409,10 @@
       "name": "Bubble Clawd",
       "symbol": "bubblawd",
       "decimals": 18,
-      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/b926c469-7369-4613-972c-74e5fa349000/original"
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/b926c469-7369-4613-972c-74e5fa349000/original",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -314,7 +420,10 @@
       "name": "ROASTED",
       "symbol": "ROASTED",
       "decimals": 18,
-      "logoURI": ""
+      "logoURI": "",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -322,7 +431,10 @@
       "name": "babyclaw",
       "symbol": "BABYCLAW",
       "decimals": 18,
-      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/afc74400-d09a-467c-7c85-ba20ee1de500/original"
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/afc74400-d09a-467c-7c85-ba20ee1de500/original",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -330,7 +442,10 @@
       "name": "RoboCash",
       "symbol": "RoboCash",
       "decimals": 18,
-      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/552719ce-f87d-456d-bf94-2090ac9e6100/original"
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/552719ce-f87d-456d-bf94-2090ac9e6100/original",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -338,7 +453,10 @@
       "name": "Molten",
       "symbol": "Molten",
       "decimals": 18,
-      "logoURI": ""
+      "logoURI": "",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -346,7 +464,10 @@
       "name": "MeerKat Town",
       "symbol": "MKAT",
       "decimals": 18,
-      "logoURI": ""
+      "logoURI": "",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -354,7 +475,10 @@
       "name": "Pussy",
       "symbol": "PUSSY",
       "decimals": 18,
-      "logoURI": ""
+      "logoURI": "",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -362,7 +486,10 @@
       "name": "Bankrap",
       "symbol": "BANKRAP",
       "decimals": 18,
-      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/b463c61b-8d7f-4dc4-f923-1f5b2845ef00/original"
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/b463c61b-8d7f-4dc4-f923-1f5b2845ef00/original",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -370,7 +497,10 @@
       "name": "MANIAFARM",
       "symbol": "MANIAFARM",
       "decimals": 18,
-      "logoURI": ""
+      "logoURI": "",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -378,7 +508,10 @@
       "name": "Every day is filled with shit",
       "symbol": "cums",
       "decimals": 18,
-      "logoURI": ""
+      "logoURI": "",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -386,7 +519,10 @@
       "name": "Coffee",
       "symbol": "COFFEE",
       "decimals": 18,
-      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/3ba50359-6d4c-4077-80d1-a3d6868e9e00/original"
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/3ba50359-6d4c-4077-80d1-a3d6868e9e00/original",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -394,7 +530,10 @@
       "name": "GigaXmusk",
       "symbol": "GXMUSK",
       "decimals": 18,
-      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/c02a639d-be55-4531-be0a-2156305c7200/original"
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/c02a639d-be55-4531-be0a-2156305c7200/original",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -402,7 +541,10 @@
       "name": "SonicBoomToken",
       "symbol": "SBT",
       "decimals": 18,
-      "logoURI": ""
+      "logoURI": "",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -410,7 +552,10 @@
       "name": "Federal Base Reserve",
       "symbol": "FBR",
       "decimals": 18,
-      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/2448f918-0613-4738-8a88-504e27374f00/original"
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/2448f918-0613-4738-8a88-504e27374f00/original",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -418,7 +563,10 @@
       "name": "U.S. Oil Reserve",
       "symbol": "USOR",
       "decimals": 18,
-      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/16b107ed-5f30-4d1c-e6b5-0f9d6590db00/original"
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/16b107ed-5f30-4d1c-e6b5-0f9d6590db00/original",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -426,7 +574,10 @@
       "name": "BITCOIN GOLD",
       "symbol": "BITGOLD",
       "decimals": 18,
-      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/cc44f118-bc5e-4bac-ab8b-0fe5c548aa00/original"
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/cc44f118-bc5e-4bac-ab8b-0fe5c548aa00/original",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -434,7 +585,10 @@
       "name": "US CRITICAL MINERAL RESERVE",
       "symbol": "UCMR",
       "decimals": 18,
-      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/69f6729e-e8b8-42d0-b5b7-2c8779d83400/original"
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/69f6729e-e8b8-42d0-b5b7-2c8779d83400/original",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -442,7 +596,10 @@
       "name": "AL MAHDI",
       "symbol": "ALMAHDI",
       "decimals": 18,
-      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/71114549-ad93-443e-b4b7-27d8e8757f00/original"
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/71114549-ad93-443e-b4b7-27d8e8757f00/original",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -450,7 +607,10 @@
       "name": "clawaaa",
       "symbol": "CALWAAA",
       "decimals": 18,
-      "logoURI": ""
+      "logoURI": "",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -458,7 +618,10 @@
       "name": "dumpclawd",
       "symbol": "DUMPCLAWD",
       "decimals": 18,
-      "logoURI": ""
+      "logoURI": "",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -466,7 +629,10 @@
       "name": "Shit Life",
       "symbol": "SHITLIFE",
       "decimals": 18,
-      "logoURI": ""
+      "logoURI": "",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -474,7 +640,10 @@
       "name": "Fifty fifty",
       "symbol": "5050",
       "decimals": 18,
-      "logoURI": ""
+      "logoURI": "",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -482,7 +651,10 @@
       "name": "lobster",
       "symbol": "LOBSTER",
       "decimals": 18,
-      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/c7e67293-3e26-4710-c710-af0fb7af0200/original"
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/c7e67293-3e26-4710-c710-af0fb7af0200/original",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -490,7 +662,10 @@
       "name": "clawdGrid",
       "symbol": "clawdGird",
       "decimals": 18,
-      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/122188e8-722c-4d5f-a8ef-aeae5fd89000/original"
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/122188e8-722c-4d5f-a8ef-aeae5fd89000/original",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -498,7 +673,10 @@
       "name": "Nigaclaw",
       "symbol": "Nigaclaw",
       "decimals": 18,
-      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/9decd94b-06fc-4f9c-537f-d099539fe700/original"
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/9decd94b-06fc-4f9c-537f-d099539fe700/original",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -506,7 +684,10 @@
       "name": "SILVANA",
       "symbol": "SILVANA",
       "decimals": 18,
-      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/549044f1-b97a-4ad0-3248-cd0f2233e500/original"
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/549044f1-b97a-4ad0-3248-cd0f2233e500/original",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -514,7 +695,10 @@
       "name": "Green crab",
       "symbol": "GCRAB",
       "decimals": 18,
-      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/d33c2332-5368-480d-9aad-3e9f1c325700/original"
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/d33c2332-5368-480d-9aad-3e9f1c325700/original",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -522,7 +706,10 @@
       "name": "Crab Rave",
       "symbol": "CRAVE",
       "decimals": 18,
-      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/6cfb22a9-a3dd-4ef0-5deb-94b833f67c00/original"
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/6cfb22a9-a3dd-4ef0-5deb-94b833f67c00/original",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -530,7 +717,10 @@
       "name": "ClawAgent",
       "symbol": "CAGENT",
       "decimals": 18,
-      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/6bc6fb8c-7331-4f08-3741-cb5981774400/original"
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/6bc6fb8c-7331-4f08-3741-cb5981774400/original",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -538,7 +728,10 @@
       "name": "Retire Early And Laugh",
       "symbol": "REAL",
       "decimals": 18,
-      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/9ff799bf-b5b5-454b-91f6-670a57810800/original"
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/9ff799bf-b5b5-454b-91f6-670a57810800/original",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -546,7 +739,10 @@
       "name": "awal",
       "symbol": "awal",
       "decimals": 18,
-      "logoURI": ""
+      "logoURI": "",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -554,7 +750,10 @@
       "name": "FARCASTER CLAW",
       "symbol": "FARCLAW",
       "decimals": 18,
-      "logoURI": ""
+      "logoURI": "",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -562,7 +761,10 @@
       "name": "FARCASTER CLAW",
       "symbol": "FCLAW",
       "decimals": 18,
-      "logoURI": ""
+      "logoURI": "",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -570,7 +772,10 @@
       "name": "CRITICAL MINERALS STOCKPILE",
       "symbol": "CMS",
       "decimals": 18,
-      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/346ee222-4ca6-4e20-a006-1cdd5a581c00/original"
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/346ee222-4ca6-4e20-a006-1cdd5a581c00/original",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -578,7 +783,10 @@
       "name": "BULL MARKET COIN",
       "symbol": "BMC",
       "decimals": 18,
-      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/a0061be5-b744-47cb-f3dc-cfb73846d600/original"
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/a0061be5-b744-47cb-f3dc-cfb73846d600/original",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -586,7 +794,10 @@
       "name": "VECTOR",
       "symbol": "VECTOR",
       "decimals": 18,
-      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/01af6fef-d972-4e97-d44d-6021a36b1f00/original"
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/01af6fef-d972-4e97-d44d-6021a36b1f00/original",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -594,7 +805,10 @@
       "name": "CLAWPENIS",
       "symbol": "CLAWPENIS",
       "decimals": 18,
-      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/8c48864c-5561-423e-4586-bc76b4562300/original"
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/8c48864c-5561-423e-4586-bc76b4562300/original",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -602,7 +816,10 @@
       "name": "StickDAO",
       "symbol": "STICK",
       "decimals": 18,
-      "logoURI": ""
+      "logoURI": "",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -610,7 +827,10 @@
       "name": "pearlon",
       "symbol": "PEARL",
       "decimals": 18,
-      "logoURI": ""
+      "logoURI": "",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -618,7 +838,10 @@
       "name": "The Silverback Mountain gorillas",
       "symbol": "GORILLAS",
       "decimals": 18,
-      "logoURI": ""
+      "logoURI": "",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -626,7 +849,10 @@
       "name": "KOLBO",
       "symbol": "KOLBO",
       "decimals": 18,
-      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/dc8d4f5c-beda-445d-f7b6-87e4e055dd00/original"
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/dc8d4f5c-beda-445d-f7b6-87e4e055dd00/original",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -634,7 +860,10 @@
       "name": "CLAWDEX",
       "symbol": "CLAWDEX",
       "decimals": 18,
-      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/dcc55e3c-dfc1-4434-86d8-e6ea4b6ed800/original"
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/dcc55e3c-dfc1-4434-86d8-e6ea4b6ed800/original",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -642,7 +871,10 @@
       "name": "PEARL",
       "symbol": "PEARL",
       "decimals": 18,
-      "logoURI": ""
+      "logoURI": "",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -650,7 +882,10 @@
       "name": "OSHI",
       "symbol": "OSHI",
       "decimals": 18,
-      "logoURI": ""
+      "logoURI": "",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -658,7 +893,10 @@
       "name": "USOR",
       "symbol": "USOR",
       "decimals": 18,
-      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/c8662455-d78b-44ba-c11d-3a368152f400/original"
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/c8662455-d78b-44ba-c11d-3a368152f400/original",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -666,7 +904,10 @@
       "name": "base bunny",
       "symbol": "BASEBUNNY",
       "decimals": 18,
-      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/3955dc8b-faef-4354-9747-bef6d6525300/original"
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/3955dc8b-faef-4354-9747-bef6d6525300/original",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -674,7 +915,10 @@
       "name": "BUY THIS",
       "symbol": "BUYTHIS",
       "decimals": 18,
-      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/7faa3d1f-66c0-499e-07a9-d17305194000/original"
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/7faa3d1f-66c0-499e-07a9-d17305194000/original",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -682,7 +926,10 @@
       "name": "internet",
       "symbol": "internet",
       "decimals": 18,
-      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/d8ada0ac-b5ea-42fb-94d0-35b4bd22fd00/original"
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/d8ada0ac-b5ea-42fb-94d0-35b4bd22fd00/original",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -690,7 +937,10 @@
       "name": "clippy",
       "symbol": "CLIPPY",
       "decimals": 18,
-      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/3ff184e0-ac93-44c2-36ba-c687eb348400/original"
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/3ff184e0-ac93-44c2-36ba-c687eb348400/original",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -698,7 +948,10 @@
       "name": "Clawd Security",
       "symbol": "ClawdSec",
       "decimals": 18,
-      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/c6b9c23a-f1ca-4c79-60ec-27e09cf0a000/original"
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/c6b9c23a-f1ca-4c79-60ec-27e09cf0a000/original",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -706,7 +959,10 @@
       "name": "Based Smart Robot",
       "symbol": "BSMRBOT",
       "decimals": 18,
-      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/85fe9c5e-74b2-46a3-e5ca-fce940a1c400/original"
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/85fe9c5e-74b2-46a3-e5ca-fce940a1c400/original",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -714,7 +970,10 @@
       "name": "Chili Hot Coin",
       "symbol": "CHILLI",
       "decimals": 18,
-      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/bf5d8fcf-de07-498b-b684-ff28eb345000/original"
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/bf5d8fcf-de07-498b-b684-ff28eb345000/original",
+      "tags": [
+        "pumpclaw"
+      ]
     },
     {
       "chainId": 8453,
@@ -722,7 +981,142 @@
       "name": "Fish",
       "symbol": "FISH",
       "decimals": 18,
-      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/f4b4b7c6-98e7-4a4d-8deb-7f55f2aea400/original"
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/f4b4b7c6-98e7-4a4d-8deb-7f55f2aea400/original",
+      "tags": [
+        "pumpclaw"
+      ]
+    },
+    {
+      "chainId": 8453,
+      "address": "0xefC5497BbcFA2b4FB2504183Dc2c5cdc850fdED5",
+      "name": "ClawdGeny",
+      "symbol": "CLAWDG",
+      "decimals": 18,
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/4020ca6a-d520-4eaa-546c-53bbee0efc00/original",
+      "tags": [
+        "pumpclaw"
+      ]
+    },
+    {
+      "chainId": 8453,
+      "address": "0x9946111D67601D5bD1b9F86828BB9802838A5ECD",
+      "name": "CLAWENTINE",
+      "symbol": "CLAWENTINE",
+      "decimals": 18,
+      "logoURI": "",
+      "tags": [
+        "pumpclaw"
+      ]
+    },
+    {
+      "chainId": 8453,
+      "address": "0x4f0779aC17879883E66f07859055a47DAFE839D8",
+      "name": "BASENTINE",
+      "symbol": "BASENTINE",
+      "decimals": 18,
+      "logoURI": "",
+      "tags": [
+        "pumpclaw"
+      ]
+    },
+    {
+      "chainId": 8453,
+      "address": "0x1E25CD67cbA389dc011Ef83b1d6A6E6F40BEE7DD",
+      "name": "startclaw",
+      "symbol": "STARTCLAW",
+      "decimals": 18,
+      "logoURI": "",
+      "tags": [
+        "pumpclaw"
+      ]
+    },
+    {
+      "chainId": 8453,
+      "address": "0x825B991972Cff29Bec3c82DD6376b027a4624DE0",
+      "name": "clawpay",
+      "symbol": "CLAWPAY",
+      "decimals": 18,
+      "logoURI": "",
+      "tags": [
+        "pumpclaw"
+      ]
+    },
+    {
+      "chainId": 8453,
+      "address": "0x2653AB0aF6037737826Fb9fB650818b8582CdC4F",
+      "name": "Liquidate Me Gently",
+      "symbol": "LIQME",
+      "decimals": 18,
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/5cb743a5-dfc9-4a4c-2917-0e20316c2000/original",
+      "tags": [
+        "pumpclaw"
+      ]
+    },
+    {
+      "chainId": 8453,
+      "address": "0x99e425D1Fe1c1fa9Eac8b9353643E0e486da66AE",
+      "name": "Portfolio down 30%, feelings down 90%",
+      "symbol": "REKTHEART",
+      "decimals": 18,
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/c435c032-d3ca-4001-2231-c9fe0a78f900/original",
+      "tags": [
+        "pumpclaw"
+      ]
+    },
+    {
+      "chainId": 8453,
+      "address": "0xDaCc7838EC798D7a8744448DcECf92758708d35a",
+      "name": "Pepstein",
+      "symbol": "PEPSTEIN",
+      "decimals": 18,
+      "logoURI": "",
+      "tags": [
+        "pumpclaw"
+      ]
+    },
+    {
+      "chainId": 8453,
+      "address": "0x8323330b9A190709a8672936fac8F600d036d1E5",
+      "name": "Clawstein",
+      "symbol": "CLAWSTEIN",
+      "decimals": 18,
+      "logoURI": "",
+      "tags": [
+        "pumpclaw"
+      ]
+    },
+    {
+      "chainId": 8453,
+      "address": "0x6e92EAe57bbF1E9Aa612cA7267792790C6020092",
+      "name": "Pepstein",
+      "symbol": "PEPSTEIN",
+      "decimals": 18,
+      "logoURI": "",
+      "tags": [
+        "pumpclaw"
+      ]
+    },
+    {
+      "chainId": 8453,
+      "address": "0x4d081498977dd47F695ba4372F4D317d238FDcA2",
+      "name": "Maya",
+      "symbol": "MAYA",
+      "decimals": 18,
+      "logoURI": "",
+      "tags": [
+        "pumpclaw"
+      ]
+    },
+    {
+      "chainId": 8453,
+      "address": "0x6E11119f285fD563078556f97FE21AAC82cA9589",
+      "name": "Delusional Base",
+      "symbol": "DELUSIONAL",
+      "decimals": 18,
+      "logoURI": "",
+      "tags": [
+        "pumpclaw"
+      ]
     }
   ]
 }
