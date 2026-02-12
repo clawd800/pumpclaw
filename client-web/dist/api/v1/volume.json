@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-02-12T12:00:30.238Z",
-  "totalTokens": 103,
-  "activeTokens": 1,
-  "totalVolume24h": 4.02,
-  "totalTxns24h": 14,
+  "generatedAt": "2026-02-12T14:00:45.767Z",
+  "totalTokens": 104,
+  "activeTokens": 2,
+  "totalVolume24h": 4.409999999999999,
+  "totalTxns24h": 15,
   "hotTokens": [
     {
       "address": "0x0b40285D79eb3a051D0dd0700Eaa7c7e2150A4B2",
@@ -18,6 +18,20 @@
       "liquidityUsd": 19752.31,
       "priceChange24h": -0.36,
       "pairUrl": "https://dexscreener.com/base/0xe1c139da1b760a2ca2b7deb114fc9c145c7d97e9f48ad6b01b4d7508dfe5c8b1"
+    },
+    {
+      "address": "0x188825CE1f8D0725C983c0C3A1e90AD0C0149866",
+      "symbol": "IPINCH",
+      "priceUsd": "0.00001989",
+      "volume24h": 0.39,
+      "txns24h": {
+        "buys": 1,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": "https://dexscreener.com/base/0x4aae15a79c706a1dc368bb1daf3ba2c5b29132f19bd53368f8abbbe4590718f6"
     }
   ],
   "tokens": [
@@ -1452,6 +1466,20 @@
     {
       "address": "0x188825CE1f8D0725C983c0C3A1e90AD0C0149866",
       "symbol": "IPINCH",
+      "priceUsd": "0.00001989",
+      "volume24h": 0.39,
+      "txns24h": {
+        "buys": 1,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": "https://dexscreener.com/base/0x4aae15a79c706a1dc368bb1daf3ba2c5b29132f19bd53368f8abbbe4590718f6"
+    },
+    {
+      "address": "0xBA76a705bB52698E9DB0B7A83B6A92492466AF64",
+      "symbol": "ETHERCLAW",
       "priceUsd": null,
       "volume24h": 0,
       "txns24h": {

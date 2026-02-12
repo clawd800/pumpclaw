@@ -1,22 +1,22 @@
 {
-  "generatedAt": "2026-02-12T13:00:33.367Z",
+  "generatedAt": "2026-02-12T15:00:36.505Z",
   "totalTokens": 104,
   "activeTokens": 2,
-  "totalVolume24h": 4.409999999999999,
-  "totalTxns24h": 15,
+  "totalVolume24h": 1.8599999999999999,
+  "totalTxns24h": 9,
   "hotTokens": [
     {
       "address": "0x0b40285D79eb3a051D0dd0700Eaa7c7e2150A4B2",
       "symbol": "CRAVE",
       "priceUsd": "0.00001975",
-      "volume24h": 4.02,
+      "volume24h": 1.47,
       "txns24h": {
-        "buys": 11,
+        "buys": 5,
         "sells": 1
       },
       "fdvUsd": null,
       "liquidityUsd": 19752.31,
-      "priceChange24h": -0.36,
+      "priceChange24h": 2.63,
       "pairUrl": "https://dexscreener.com/base/0xe1c139da1b760a2ca2b7deb114fc9c145c7d97e9f48ad6b01b4d7508dfe5c8b1"
     },
     {
@@ -921,14 +921,14 @@
       "address": "0x0b40285D79eb3a051D0dd0700Eaa7c7e2150A4B2",
       "symbol": "CRAVE",
       "priceUsd": "0.00001975",
-      "volume24h": 4.02,
+      "volume24h": 1.47,
       "txns24h": {
-        "buys": 11,
+        "buys": 5,
         "sells": 1
       },
       "fdvUsd": null,
       "liquidityUsd": 19752.31,
-      "priceChange24h": -0.36,
+      "priceChange24h": 2.63,
       "pairUrl": "https://dexscreener.com/base/0xe1c139da1b760a2ca2b7deb114fc9c145c7d97e9f48ad6b01b4d7508dfe5c8b1"
     },
     {
