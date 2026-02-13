@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-02-13T22:00:56.771Z",
-  "totalTokens": 115,
+  "generatedAt": "2026-02-13T23:00:51.383Z",
+  "totalTokens": 116,
   "activeTokens": 32,
   "totalVolume24h": 189.73999999999998,
   "totalTxns24h": 32,
@@ -2054,6 +2054,20 @@
     {
       "address": "0x25ae1a3e142C6B7E9B3758f2dE46D4f8690aC06b",
       "symbol": "HYPERCLAW",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x493572C85d6438D75CE6e0012109313975dD59D0",
+      "symbol": "ARGUE",
       "priceUsd": null,
       "volume24h": 0,
       "txns24h": {
