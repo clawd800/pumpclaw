@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-02-13T09:03:04.983Z",
-  "totalTokens": 106,
+  "generatedAt": "2026-02-13T14:00:40.107Z",
+  "totalTokens": 110,
   "activeTokens": 32,
-  "totalVolume24h": 190.12999999999997,
-  "totalTxns24h": 33,
+  "totalVolume24h": 189.73999999999998,
+  "totalTxns24h": 32,
   "hotTokens": [
     {
       "address": "0x9f4688A792b815E2AF208144Eb9DE98AF0ccEBD2",
@@ -429,14 +429,14 @@
       "address": "0x188825CE1f8D0725C983c0C3A1e90AD0C0149866",
       "symbol": "IPINCH",
       "priceUsd": "0.00001952",
-      "volume24h": 0.76,
+      "volume24h": 0.37,
       "txns24h": {
-        "buys": 1,
+        "buys": 0,
         "sells": 1
       },
       "fdvUsd": null,
       "liquidityUsd": 19520.56,
-      "priceChange24h": -1.9,
+      "priceChange24h": null,
       "pairUrl": "https://dexscreener.com/base/0x4aae15a79c706a1dc368bb1daf3ba2c5b29132f19bd53368f8abbbe4590718f6"
     },
     {
@@ -1887,14 +1887,14 @@
       "address": "0x188825CE1f8D0725C983c0C3A1e90AD0C0149866",
       "symbol": "IPINCH",
       "priceUsd": "0.00001952",
-      "volume24h": 0.76,
+      "volume24h": 0.37,
       "txns24h": {
-        "buys": 1,
+        "buys": 0,
         "sells": 1
       },
       "fdvUsd": null,
       "liquidityUsd": 19520.56,
-      "priceChange24h": -1.9,
+      "priceChange24h": null,
       "pairUrl": "https://dexscreener.com/base/0x4aae15a79c706a1dc368bb1daf3ba2c5b29132f19bd53368f8abbbe4590718f6"
     },
     {
@@ -1928,6 +1928,62 @@
     {
       "address": "0x6b47251230a0130e3807D94592F96357803f6698",
       "symbol": "BASECLAW",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0xd52ADD5A9E8e57eAe8ea7c3407CE245b2B56A341",
+      "symbol": "MoltBank",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x26dA4717d7b2467332B868144D1a8F206F56aB32",
+      "symbol": "MoonLiquid",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x7fE5abFd2B69e14d60A2D21bC0664228B01ccf15",
+      "symbol": "SISYPHUS",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x4211844FeF4effaaB24a2d3D03A48D3913801AA3",
+      "symbol": "BLACKSHEEP",
       "priceUsd": null,
       "volume24h": 0,
       "txns24h": {

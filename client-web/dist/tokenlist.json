@@ -1,10 +1,10 @@
 {
   "name": "PumpClaw Token List",
-  "timestamp": "2026-02-12T11:02:21+00:00",
+  "timestamp": "2026-02-13T00:05:08+00:00",
   "version": {
     "major": 1,
-    "minor": 0,
-    "patch": 101
+    "minor": 106,
+    "patch": 0
   },
   "tokens": [
     {
@@ -1117,6 +1117,74 @@
       "tags": [
         "pumpclaw"
       ]
+    },
+    {
+      "chainId": 8453,
+      "address": "0x2F96f20d1f0aEe31dA64fb22b3F523Ee47dDE6bC",
+      "name": "pumpclaw",
+      "symbol": "pumpclaw",
+      "decimals": 18,
+      "logoURI": "",
+      "tags": [
+        "pumpclaw"
+      ]
+    },
+    {
+      "chainId": 8453,
+      "address": "0x188825CE1f8D0725C983c0C3A1e90AD0C0149866",
+      "name": "OG Claw",
+      "symbol": "IPINCH",
+      "decimals": 18,
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/bb4bebeb-0a00-4335-a39e-98aada7ab000/original",
+      "tags": [
+        "pumpclaw"
+      ]
+    },
+    {
+      "chainId": 8453,
+      "address": "0xBA76a705bB52698E9DB0B7A83B6A92492466AF64",
+      "name": "EtherClaw",
+      "symbol": "ETHERCLAW",
+      "decimals": 18,
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/66197380-0b92-4740-041c-92677b911900/original",
+      "tags": [
+        "pumpclaw"
+      ]
+    },
+    {
+      "chainId": 8453,
+      "address": "0xaDBF93777c08B4fD9C3e78FBF60b2b17A4737B35",
+      "name": "Spikora",
+      "symbol": "SPKA",
+      "decimals": 18,
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/4e667216-20ca-49c5-133c-0bb4b6191200/original",
+      "tags": [
+        "pumpclaw"
+      ]
+    },
+    {
+      "chainId": 8453,
+      "address": "0x6b47251230a0130e3807D94592F96357803f6698",
+      "name": "BaseClaw",
+      "symbol": "BASECLAW",
+      "decimals": 18,
+      "logoURI": "https://imagedelivery.net/BXluQx4ige9GuW0Ia56BHw/16a801c6-44d4-4aa0-6f06-702be3224600/original",
+      "tags": [
+        "pumpclaw"
+      ]
     }
-  ]
+  ],
+  "keywords": [
+    "pumpclaw",
+    "base",
+    "ai-agents",
+    "uniswap-v4"
+  ],
+  "tags": {
+    "pumpclaw": {
+      "name": "PumpClaw",
+      "description": "Tokens launched via PumpClaw factory on Base"
+    }
+  },
+  "logoURI": "https://pumpclaw.com/logo.png"
 }
