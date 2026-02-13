@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-02-13T20:01:20.751Z",
-  "totalTokens": 110,
+  "generatedAt": "2026-02-13T21:00:52.084Z",
+  "totalTokens": 111,
   "activeTokens": 32,
   "totalVolume24h": 189.73999999999998,
   "totalTxns24h": 32,
@@ -1984,6 +1984,20 @@
     {
       "address": "0x4211844FeF4effaaB24a2d3D03A48D3913801AA3",
       "symbol": "BLACKSHEEP",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x95E383C1A6086383404B05A4c10Ee977CB6aca17",
+      "symbol": "VITMOLT",
       "priceUsd": null,
       "volume24h": 0,
       "txns24h": {
