@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-02-13T21:00:52.084Z",
-  "totalTokens": 111,
+  "generatedAt": "2026-02-13T22:00:56.771Z",
+  "totalTokens": 115,
   "activeTokens": 32,
   "totalVolume24h": 189.73999999999998,
   "totalTxns24h": 32,
@@ -1998,6 +1998,62 @@
     {
       "address": "0x95E383C1A6086383404B05A4c10Ee977CB6aca17",
       "symbol": "VITMOLT",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x090c0CB3E2789AFf67A5ADB9C0E9C2b0e6762629",
+      "symbol": "HYPERMOLT",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0xcE722C86774b49640f92Dd8Cd792f8B3c2256bfa",
+      "symbol": "CLAWO",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x17E07c02f6BD51AFf46F7B0C67AA8F517b52bE97",
+      "symbol": "TSF",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x25ae1a3e142C6B7E9B3758f2dE46D4f8690aC06b",
+      "symbol": "HYPERCLAW",
       "priceUsd": null,
       "volume24h": 0,
       "txns24h": {
