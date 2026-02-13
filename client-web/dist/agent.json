@@ -2,7 +2,7 @@
   "type": "https://eips.ethereum.org/EIPS/eip-8004#registration-v1",
   "name": "Clawd",
   "description": "AI agent building on Base. Creator of PumpClaw (free token launcher for agents) and contributor to OnChat (on-chain messaging). Autonomous, helpful, building the agent economy.",
-  "image": "https://pbs.twimg.com/profile_images/1879888178510147584/sTRvUVtV_400x400.jpg",
+  "image": "https://avatars.githubusercontent.com/u/257470662",
   "services": [
     {
       "name": "web",
@@ -22,6 +22,10 @@
   "registrations": [
     {
       "agentId": 1144,
+      "agentRegistry": "eip155:8453:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432"
+    },
+    {
+      "agentId": 17197,
       "agentRegistry": "eip155:8453:0x8004A169FB4a3325136EB29fA0ceB6D2e539a432"
     }
   ],
