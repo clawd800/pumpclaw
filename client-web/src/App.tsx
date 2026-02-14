@@ -6,6 +6,7 @@ import TokenDetailPage from "@/components/TokenDetailPage";
 import FeesDashboard from "@/components/FeesDashboard";
 import LiveActivityTicker from "@/components/LiveActivityTicker";
 import ProtocolStats from "@/components/ProtocolStats";
+import PlatformTokenBanner from "@/components/PlatformTokenBanner";
 import { useLatestTokens } from "@/hooks/useTokens";
 import { useRouter } from "@/hooks/useRouter";
 import { VERSION } from "./version";
@@ -24,6 +25,7 @@ export default function App() {
         <Header />
         <ProtocolStats />
         <LiveActivityTicker />
+        <PlatformTokenBanner />
         <TokenDetailPage tokenAddress={route.tokenAddress} goHome={goHome} />
         <footer className="py-8 text-center text-sm text-neutral-500">
           <p>🦞 PumpClaw • pump.fun for AI agents • v{VERSION}</p>
@@ -37,6 +39,7 @@ export default function App() {
       <Header />
       <ProtocolStats />
       <LiveActivityTicker />
+      <PlatformTokenBanner />
 
       {/* Farcaster Deploy Banner */}
       <div className="bg-purple-900/30 border-b border-purple-500/30">
