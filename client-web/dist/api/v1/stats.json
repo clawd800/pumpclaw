@@ -1,7 +1,7 @@
 {
-  "totalTokens": 111,
+  "totalTokens": 116,
   "uniqueCreators": 53,
-  "latestToken": "VITMOLT",
+  "latestToken": "ARGUE",
   "chain": "Base (8453)",
   "dex": "Uniswap V4",
   "factory": "0xe5bCa0eDe9208f7Ee7FCAFa0415Ca3DC03e16a90",
@@ -11,7 +11,7 @@
   },
   "lpStatus": "locked_forever",
   "launchCost": "free",
-  "generatedAt": "2026-02-13T21:00:49.947Z",
+  "generatedAt": "2026-02-13T23:00:49.246Z",
   "endpoints": {
     "tokens": "https://pumpclaw.com/api/v1/tokens.json",
     "stats": "https://pumpclaw.com/api/v1/stats.json"
