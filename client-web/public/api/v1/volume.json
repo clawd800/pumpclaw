@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-02-15T08:16:59.935Z",
-  "totalTokens": 117,
+  "generatedAt": "2026-02-15T11:17:24.005Z",
+  "totalTokens": 124,
   "activeTokens": 1,
   "totalVolume24h": 2.85,
   "totalTxns24h": 4,
@@ -1648,6 +1648,104 @@
     {
       "address": "0xfadBe3921586b63Ee0609CdBeaa4D29EA64C5993",
       "symbol": "WHAT",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x1263D20d9be5a5Bd4a45719f99f4cCbCAF5e6466",
+      "symbol": "PELANA",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0xF786A7730dA7C65d6470D0Cc29b32134d2eb46B6",
+      "symbol": "MALE",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x04C891e8d294A3038D7E64ea7c0D34c8Da74E708",
+      "symbol": "PELANIA",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x14F2d753f8b44cb8F2BC15C89895fD5D53270018",
+      "symbol": "CLAWDPX",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x2F4bcc75BF7d5B6bb47248Fa2C97e8B8f39D9710",
+      "symbol": "lope",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x24820e34FA5E85BC4DB8a3599199b97878C038b3",
+      "symbol": "HunterAi",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0xaEF2Ef0B024Be8A5733CCE2ACD4c79f60C9B9223",
+      "symbol": "CNY",
       "priceUsd": null,
       "volume24h": 0,
       "txns24h": {
