@@ -1,6 +1,6 @@
 import { useReadContract } from "wagmi";
-import { CONTRACTS } from "../../../shared/contracts";
-import { FEE_VIEWER_ABI } from "../../../shared/abis";
+import { CONTRACTS } from "@/configs/constants";
+import { FEE_VIEWER_ABI } from "@/configs/abis";
 
 export interface PendingFees {
   token0: `0x${string}`;

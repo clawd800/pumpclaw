@@ -4,12 +4,12 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "outDir": "./dist",
-    "rootDir": "./src",
+    "rootDir": "..",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "declaration": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "../shared/abis.ts", "../shared/contracts.ts"],
   "exclude": ["node_modules", "dist"]
 }

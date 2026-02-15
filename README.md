@@ -2,8 +2,8 @@
 
 [![Base](https://img.shields.io/badge/Chain-Base-blue)](https://base.org)
 [![Uniswap V4](https://img.shields.io/badge/DEX-Uniswap%20V4-ff007a)](https://uniswap.org)
-[![Tokens Launched](https://img.shields.io/badge/Tokens%20Launched-54-brightgreen)](https://pumpclaw.com)
-[![Unique Creators](https://img.shields.io/badge/Creators-39-blue)](https://pumpclaw.com)
+[![Tokens Launched](https://img.shields.io/badge/Tokens%20Launched-117-brightgreen)](https://pumpclaw.com)
+[![Unique Creators](https://img.shields.io/badge/Creators-50+-blue)](https://pumpclaw.com)
 [![npm CLI](https://img.shields.io/npm/dw/pumpclaw-cli?label=CLI%20downloads)](https://www.npmjs.com/package/pumpclaw-cli)
 [![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
 
@@ -23,6 +23,7 @@ PumpClaw allows anyone — humans or AI agents — to create fair launch tokens 
 - **Uniswap V4** — latest DEX infrastructure
 - **Agent-native** — deploy via Farcaster mention, CLI, or smart contract
 - **Configurable** — custom supply (1M-1T) and initial FDV
+- **Proof-of-origin** — on-chain `websiteUrl` links tokens to their source
 
 ## 🤖 Deploy via Farcaster
 
@@ -44,17 +45,17 @@ The bot will:
 
 See [`farcaster-bot/`](./farcaster-bot/) for the bot source code.
 
-## Contracts (Base Mainnet) - V2 with websiteUrl
+## Contracts (Base Mainnet) — V3
 
 | Contract | Address | Verified |
 |----------|---------|----------|
 | **PumpClawFactory** | [`0xe5bCa0eDe9208f7Ee7FCAFa0415Ca3DC03e16a90`](https://basescan.org/address/0xe5bCa0eDe9208f7Ee7FCAFa0415Ca3DC03e16a90#code) | ✅ |
-| **PumpClawLPLocker** | [`0x9047c0944c843d91951a6C91dc9f3944D826ACA8`](https://basescan.org/address/0x9047c0944c843d91951a6C91dc9f3944D826ACA8#code) | ✅ |
+| **PumpClawLPLocker** | [`0x6e4D241957074475741Ff42ec352b8b00217Bf5d`](https://basescan.org/address/0x6e4D241957074475741Ff42ec352b8b00217Bf5d#code) | ✅ |
 | **PumpClawSwapRouter** | [`0x3A9c65f4510de85F1843145d637ae895a2Fe04BE`](https://basescan.org/address/0x3A9c65f4510de85F1843145d637ae895a2Fe04BE#code) | ✅ |
 | **PumpClawFeeViewer** | [`0xd25Da746946531F6d8Ba42c4bC0CbF25A39b4b39`](https://basescan.org/address/0xd25Da746946531F6d8Ba42c4bC0CbF25A39b4b39#code) | ✅ |
 
-> **Note:** Uses native ETH (no WETH wrapping) for gas-efficient swaps!
-> **New:** Creators can update token image via `setImageUrl()`
+> **Note:** Uses native ETH (no WETH wrapping) for gas-efficient swaps.
+> Creators can set proof-of-origin `websiteUrl` and update image via `setImageUrl()`.
 
 ## Contract Interface
 
@@ -73,7 +74,7 @@ function createToken(
 
 **Defaults (set in clients):**
 - Supply: 1 billion tokens
-- Initial FDV: 20 ETH
+- Initial FDV: 10 ETH
 
 ## CLI Usage
 
@@ -90,7 +91,7 @@ npx tsx src/cli.ts info
 # Create a new token (V4: no ETH required!)
 npx tsx src/cli.ts create --name "My Token" --symbol "MTK"
 
-# Create with custom FDV (default: 20 ETH)
+# Create with custom FDV (default: 10 ETH)
 npx tsx src/cli.ts create --name "My Token" --symbol "MTK" --fdv 50
 
 # Create with custom supply
@@ -160,7 +161,7 @@ PumpClawSwapRouter
 ## Token Economics
 
 - **Total Supply**: Configurable (default: 1 billion)
-- **Initial FDV**: Configurable (default: 20 ETH)
+- **Initial FDV**: Configurable (default: 10 ETH)
 - **LP Fee**: 1% on all swaps
 - **Fee Distribution**: 80% to creator, 20% to protocol
 
@@ -203,10 +204,10 @@ forge verify-contract <address> src/core/PumpClawFactory.sol:PumpClawFactory \
 
 ## Stats
 
-- **38 tokens launched** on Base mainnet (11 in one day — record!)
-- **29 unique creators**
+- **117 tokens launched** on Base mainnet
+- **50+ unique creators**
 - **$0 cost** to create — PumpClaw covers gas
-- **5 integration methods** — Farcaster bot, CLI, MCP, ElizaOS, direct contract
+- **6 integration methods** — Farcaster bot, CLI, MCP, ElizaOS, GitHub Action, direct contract
 
 ## Integration Options
 

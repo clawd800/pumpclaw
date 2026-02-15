@@ -4,6 +4,6 @@
  */
 
 // Re-export everything
-export * from "./contracts";
-export * from "./abis";
-export * from "./utils";
+export * from "./contracts.js";
+export * from "./abis.js";
+export * from "./utils.js";

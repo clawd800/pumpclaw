@@ -5,8 +5,8 @@
 
 import { createPublicClient, http, formatEther, parseEther, type Address } from "viem";
 import { base } from "viem/chains";
-import { CONTRACTS, CHAIN, TOKEN_DEFAULTS, PROTOCOL_CONFIG } from "./contracts";
-import { FACTORY_ABI, LP_LOCKER_ABI, TOKEN_ABI } from "./abis";
+import { CONTRACTS, CHAIN, TOKEN_DEFAULTS, PROTOCOL_CONFIG } from "./contracts.js";
+import { FACTORY_ABI, LP_LOCKER_ABI, TOKEN_ABI } from "./abis.js";
 
 // ============ Client Setup ============
 
@@ -182,6 +182,6 @@ export function getUniswapSwapUrl(tokenAddress: Address): string {
 
 // ============ Exports ============
 
-export { CONTRACTS, CHAIN, TOKEN_DEFAULTS, PROTOCOL_CONFIG } from "./contracts";
-export { FACTORY_ABI, LP_LOCKER_ABI, TOKEN_ABI, ERC20_ABI } from "./abis";
+export { CONTRACTS, CHAIN, TOKEN_DEFAULTS, PROTOCOL_CONFIG } from "./contracts.js";
+export { FACTORY_ABI, LP_LOCKER_ABI, TOKEN_ABI, ERC20_ABI, SWAP_ROUTER_ABI, FEE_VIEWER_ABI } from "./abis.js";
 export { parseEther, formatEther } from "viem";
