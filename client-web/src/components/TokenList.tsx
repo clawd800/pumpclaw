@@ -108,7 +108,7 @@ function usePoolData(tokens: TokenInfo[]) {
 function ERC8004Badge() {
   return (
     <span
-      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] font-medium bg-blue-900/40 border border-blue-500/50 text-blue-400 rounded"
+      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] font-medium bg-blue-900/40 border border-blue-500/50 text-blue-400"
       title="ERC-8004 Verified Agent"
     >
       <span>✓</span>
@@ -123,7 +123,7 @@ function VolumeBadge({ volume24h, txns }: { volume24h?: number; txns?: { buys: n
 
   if (vol <= 0) {
     return (
-      <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-neutral-800/60 text-[10px]">
+      <span className="inline-flex items-center gap-1 px-1.5 py-0.5 bg-neutral-800/60 text-[10px]">
         <span className="text-neutral-600">📊</span>
         <span className="text-neutral-500">No trades</span>
       </span>
@@ -135,7 +135,7 @@ function VolumeBadge({ volume24h, txns }: { volume24h?: number; txns?: { buys: n
     : `$${vol.toFixed(0)}`;
   
   return (
-    <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-orange-500/10 text-[10px]">
+    <span className="inline-flex items-center gap-1 px-1.5 py-0.5 bg-orange-500/10 text-[10px]">
       <span className="text-orange-400">🔥</span>
       <span className="text-orange-300 font-medium">{fmtVol}</span>
       <span className="text-neutral-600">·</span>
@@ -174,10 +174,10 @@ function TokenCard({ token, isERC8004Registered, purchasedPct, marketCapWei, eth
   return (
     <a
       href={`#/token/${token.token}`}
-      className="flex gap-3 sm:gap-4 p-3 sm:p-4 border border-neutral-800 bg-neutral-950/80 rounded-xl hover:border-orange-500/30 hover:bg-neutral-900/50 transition-all group overflow-hidden min-w-0"
+      className="flex gap-3 sm:gap-4 p-3 sm:p-4 border border-neutral-800 bg-neutral-950/80 hover:border-orange-500/30 hover:bg-neutral-900/50 transition-all group overflow-hidden min-w-0"
     >
       {/* Left: Large token image */}
-      <div className="shrink-0 w-[100px] h-[100px] sm:w-[130px] sm:h-[130px] rounded-xl overflow-hidden bg-neutral-900 border border-neutral-800 group-hover:border-neutral-700 transition-colors">
+      <div className="shrink-0 w-[100px] h-[100px] sm:w-[130px] sm:h-[130px] overflow-hidden bg-neutral-900 border border-neutral-800 group-hover:border-neutral-700 transition-colors">
         {imageUrl ? (
           <TokenMedia src={imageUrl} alt={token.symbol} />
         ) : (
@@ -210,9 +210,9 @@ function TokenCard({ token, isERC8004Registered, purchasedPct, marketCapWei, eth
           <span className="text-neutral-400 text-xs font-medium shrink-0">
             MC <span className="text-white">{formatMarketCapUsd(marketCapWei, ethUsd)}</span>
           </span>
-          <div className="flex-1 h-2 bg-neutral-800 rounded-full overflow-hidden" role="progressbar" aria-valuenow={Math.round(purchasedPct)} aria-valuemin={0} aria-valuemax={100} aria-label={`${purchasedPct.toFixed(1)}% purchased`}>
+          <div className="flex-1 h-2 bg-neutral-800 overflow-hidden" role="progressbar" aria-valuenow={Math.round(purchasedPct)} aria-valuemin={0} aria-valuemax={100} aria-label={`${purchasedPct.toFixed(1)}% purchased`}>
             <div
-              className="h-full bg-orange-500 rounded-full transition-all duration-500"
+              className="h-full bg-orange-500 transition-all duration-500"
               style={{ width: `${Math.min(purchasedPct, 100)}%` }}
             />
           </div>
@@ -301,7 +301,7 @@ export default function TokenList() {
         </h2>
         <button
           onClick={() => refetch()}
-          className="text-xs text-neutral-500 hover:text-white transition-colors px-2.5 py-1 border border-neutral-800 hover:border-neutral-700 rounded"
+          className="text-xs text-neutral-500 hover:text-white transition-colors px-2.5 py-1 border border-neutral-800 hover:border-neutral-700"
         >
           ↻ Refresh
         </button>
@@ -309,7 +309,7 @@ export default function TokenList() {
 
       {/* Sort Tabs & Filter */}
       <div className="flex items-center gap-3 mb-4 pb-4 border-b border-neutral-800/50 min-w-0 w-full">
-        <div className="flex gap-1 flex-1 bg-neutral-900/50 p-1 rounded-lg min-w-0 overflow-hidden">
+        <div className="flex gap-1 flex-1 bg-neutral-900/50 p-1 min-w-0 overflow-hidden">
           {([
             { key: 'hot' as SortOption, label: '🔥 Hot' },
             { key: 'marketcap' as SortOption, label: 'Top MCap' },
@@ -318,7 +318,7 @@ export default function TokenList() {
             <button
               key={key}
               onClick={() => setSortBy(key)}
-              className={`flex-1 sm:flex-none px-3 py-1.5 text-xs sm:text-sm font-medium rounded transition-all ${
+              className={`flex-1 sm:flex-none px-3 py-1.5 text-xs sm:text-sm font-medium transition-all ${
                 sortBy === key
                   ? 'bg-orange-500/15 text-orange-300 shadow-sm'
                   : 'text-neutral-500 hover:text-neutral-300'
