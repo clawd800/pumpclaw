@@ -79,7 +79,7 @@ export async function deployToken(
       request.name,
       request.symbol,
       request.imageUrl || '',
-      '', // websiteUrl
+      request.websiteUrl || '',
       DEFAULT_SUPPLY,
       DEFAULT_FDV,
       creatorAddress,

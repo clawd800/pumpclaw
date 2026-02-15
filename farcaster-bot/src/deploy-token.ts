@@ -17,9 +17,11 @@ function parseArgs(): {
   symbol: string;
   creator: string;
   image?: string;
+  website?: string;
   replyTo?: string;
   announce?: boolean;
   authorUsername?: string;
+  platform?: string;
 } {
   const args = process.argv.slice(2);
   const result: any = { announce: true };
@@ -30,8 +32,10 @@ function parseArgs(): {
       case '--symbol': result.symbol = args[++i]; break;
       case '--creator': result.creator = args[++i]; break;
       case '--image': result.image = args[++i]; break;
+      case '--website': result.website = args[++i]; break;
       case '--reply-to': result.replyTo = args[++i]; break;
       case '--author': result.authorUsername = args[++i]; break;
+      case '--platform': result.platform = args[++i]; break;
       case '--no-announce': result.announce = false; break;
     }
   }
@@ -44,13 +48,40 @@ function parseArgs(): {
   return result;
 }
 
+/**
+ * Build proof-of-origin URL from platform + request context.
+ * Stored on-chain as websiteUrl so anyone can verify who requested the token.
+ */
+function buildProofUrl(params: ReturnType<typeof parseArgs>): string {
+  // Explicit --website takes priority
+  if (params.website) return params.website;
+  
+  // Auto-build from platform + replyTo
+  if (params.replyTo) {
+    const platform = params.platform?.toLowerCase();
+    if (platform === 'farcaster' || (!platform && params.authorUsername)) {
+      return params.authorUsername
+        ? `https://farcaster.xyz/${params.authorUsername}/${params.replyTo}`
+        : `https://farcaster.xyz/~/conversations/${params.replyTo}`;
+    }
+    if (platform === '4claw') {
+      return `https://4claw.com/t/${params.replyTo}`;
+    }
+  }
+  
+  return '';
+}
+
 async function main() {
   const params = parseArgs();
   const state = loadState();
   
-  // Deploy
+  // Deploy with proof-of-origin URL
+  const proofUrl = buildProofUrl(params);
+  if (proofUrl) console.log(`[deploy] Proof URL: ${proofUrl}`);
+  
   const result = await deployToken(
-    { name: params.name, symbol: params.symbol, imageUrl: params.image },
+    { name: params.name, symbol: params.symbol, imageUrl: params.image, websiteUrl: proofUrl },
     params.creator as `0x${string}`,
   );
   

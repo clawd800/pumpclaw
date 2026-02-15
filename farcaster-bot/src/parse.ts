@@ -12,6 +12,7 @@ export interface DeployRequest {
   symbol: string;
   creatorAddress?: string;
   imageUrl?: string;
+  websiteUrl?: string;
 }
 
 // Known placeholder words from our CTA templates — these are NOT real values
