@@ -93,12 +93,13 @@ export function parseDeployRequest(text: string, embeds?: any[]): DeployRequest 
   const lines = text.split(/\n/).map(l => l.trim()).filter(l => l.length > 0);
   
   const deployLine = lines.find(l => /@clawd/i.test(l) && DEPLOY_KEYWORDS.test(l));
+  let t: string;
   if (!deployLine) {
     const fullText = text.replace(/\s+/g, ' ').trim();
     if (!/@clawd/i.test(fullText) || !DEPLOY_KEYWORDS.test(fullText)) return null;
-    var t = fullText;
+    t = fullText;
   } else {
-    var t = deployLine.replace(/\s+/g, ' ').trim();
+    t = deployLine.replace(/\s+/g, ' ').trim();
   }
   
   // === Extract beneficiary BEFORE stripping payload ===
