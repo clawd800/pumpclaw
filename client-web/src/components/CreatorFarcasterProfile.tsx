@@ -1,25 +1,22 @@
 import { useState, useEffect } from "react";
 
 interface FarcasterUser {
-  fid: number;
   username: string;
-  primaryAddress: string;
-  pfpUrl: string;
   displayName: string;
-  bio: string;
-  followersCount: number;
+  pfpUrl: string;
+  fid: number;
 }
 
-// In-memory cache to avoid repeated fetches across cards/re-renders
+// Cache FC lookups in memory to avoid repeated fetches
 const fcCache = new Map<string, FarcasterUser | null>();
 
 function useFarcasterProfile(address: string) {
-  const key = address.toLowerCase();
   const [user, setUser] = useState<FarcasterUser | null | undefined>(
-    () => (fcCache.has(key) ? fcCache.get(key) ?? null : undefined)
+    () => fcCache.get(address.toLowerCase()) ?? undefined
   );
 
   useEffect(() => {
+    const key = address.toLowerCase();
     if (fcCache.has(key)) {
       setUser(fcCache.get(key) ?? null);
       return;
@@ -29,11 +26,17 @@ function useFarcasterProfile(address: string) {
 
     fetch(`https://fc.hunt.town/users/byWallet/${address}`)
       .then((res) => (res.ok ? res.json() : null))
-      .then((json) => {
+      .then((data) => {
         if (cancelled) return;
-        if (json && json.username) {
-          fcCache.set(key, json);
-          setUser(json);
+        if (data && data.username) {
+          const profile: FarcasterUser = {
+            username: data.username,
+            displayName: data.displayName || data.username,
+            pfpUrl: data.pfp?.url || data.pfpUrl || "",
+            fid: data.fid,
+          };
+          fcCache.set(key, profile);
+          setUser(profile);
         } else {
           fcCache.set(key, null);
           setUser(null);
@@ -46,8 +49,10 @@ function useFarcasterProfile(address: string) {
         }
       });
 
-    return () => { cancelled = true; };
-  }, [address, key]);
+    return () => {
+      cancelled = true;
+    };
+  }, [address]);
 
   return user;
 }
@@ -61,32 +66,36 @@ export function CreatorFarcasterProfile({ address }: { address: string }) {
   const user = useFarcasterProfile(address);
 
   if (user === undefined) return null; // loading
-  if (user === null) return null; // no FC profile
-
-  const profileUrl = `https://farcaster.xyz/${user.username}`;
+  if (user === null) {
+    // No FC profile, show truncated address
+    return (
+      <span className="inline-flex items-center gap-1 text-xs text-neutral-500 font-mono">
+        {truncAddr(address)}
+      </span>
+    );
+  }
 
   return (
     <a
-      href={profileUrl}
+      href={`https://farcaster.xyz/${user.username}`}
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-flex items-center gap-1.5 px-2 py-0.5 bg-purple-900/30 border border-purple-500/40 hover:bg-purple-900/50 transition-colors rounded-sm"
-      title={`${user.displayName} on Farcaster`}
+      className="inline-flex items-center gap-1.5 px-2 py-0.5 bg-purple-900/30 border border-purple-500/30 text-purple-300 hover:bg-purple-900/50 transition-colors text-xs"
     >
-      <img
-        src={user.pfpUrl}
-        alt={user.username}
-        className="w-4 h-4 rounded-full flex-shrink-0"
-        onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
-      />
-      <span className="text-purple-300 text-xs font-medium">
-        @{user.username}
-      </span>
+      {user.pfpUrl && (
+        <img
+          src={user.pfpUrl}
+          alt=""
+          className="w-4 h-4 rounded-full object-cover"
+          loading="lazy"
+        />
+      )}
+      <span className="font-medium">@{user.username}</span>
     </a>
   );
 }
 
-/** Compact inline badge — for grid cards. Shows truncated address if no FC profile. */
+/** Compact inline badge — for grid cards */
 export function CreatorFarcasterBadge({ address }: { address: string }) {
   const user = useFarcasterProfile(address);
 
@@ -114,7 +123,6 @@ export function CreatorFarcasterBadge({ address }: { address: string }) {
           alt=""
           className="w-3.5 h-3.5 rounded-full object-cover shrink-0"
           loading="lazy"
-          onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
         />
       )}
       <span className="truncate">@{user.username}</span>
