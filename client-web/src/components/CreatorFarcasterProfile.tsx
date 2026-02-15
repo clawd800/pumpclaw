@@ -43,10 +43,8 @@ function useFarcasterProfile(address: string) {
         }
       })
       .catch(() => {
-        if (!cancelled) {
-          fcCache.set(key, null);
-          setUser(null);
-        }
+        // Don't cache network errors — only cache intentional 404s
+        if (!cancelled) setUser(null);
       });
 
     return () => {
