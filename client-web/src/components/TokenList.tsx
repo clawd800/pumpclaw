@@ -1,11 +1,12 @@
 import { useLatestTokens, useTokenImageUrl, type TokenInfo } from "@/hooks/useTokens";
 import { useState, useMemo } from "react";
-import { useReadContract, useReadContracts } from "wagmi";
+import { useReadContracts } from "wagmi";
 import { CONTRACTS } from "@/configs/constants";
 import { TokenMedia } from "./TokenMedia";
 import { ERC20_ABI } from "@/configs/abis";
 import { useTokenPrice, useEthUsdPrice } from "@/hooks/useTokenPrice";
 import { useVolumeData } from "@/hooks/useVolumeData";
+import { CreatorFarcasterBadge } from "./CreatorFarcasterProfile";
 
 // ERC-8004 Registry on Base
 const ERC8004_REGISTRY = "0x8004A169FB4a3325136EB29fA0ceB6D2e539a432" as const;
@@ -124,49 +125,6 @@ function ERC8004Badge() {
   );
 }
 
-// Total supply ABI for reading token supply
-const TOTAL_SUPPLY_ABI = [
-  {
-    type: "function",
-    name: "totalSupply",
-    inputs: [],
-    outputs: [{ name: "", type: "uint256" }],
-    stateMutability: "view",
-  },
-] as const;
-
-function ProgressBar({ tokenAddress }: { tokenAddress: `0x${string}` }) {
-  const { data: totalSupply } = useReadContract({
-    address: tokenAddress,
-    abi: TOTAL_SUPPLY_ABI,
-    functionName: "totalSupply",
-  });
-
-  const { data: poolBalance } = useReadContract({
-    address: tokenAddress,
-    abi: ERC20_ABI,
-    functionName: "balanceOf",
-    args: [CONTRACTS.POOL_MANAGER as `0x${string}`],
-  });
-
-  if (!totalSupply || !poolBalance) return null;
-
-  const purchased = totalSupply - poolBalance;
-  const percentPurchased = Number((purchased * 10000n) / totalSupply) / 100;
-  
-  return (
-    <div className="flex items-center gap-2">
-      <div className="flex-1 h-1.5 rounded-full bg-neutral-800 overflow-hidden">
-        <div 
-          className="h-full rounded-full bg-gradient-to-r from-red-500 to-orange-400 transition-all duration-500"
-          style={{ width: `${Math.min(percentPurchased, 100)}%` }}
-        />
-      </div>
-      <span className="text-[10px] text-neutral-500 font-mono tabular-nums w-10 text-right shrink-0">{percentPurchased.toFixed(2)}%</span>
-    </div>
-  );
-}
-
 function TokenPriceBadge({ tokenAddress }: { tokenAddress: `0x${string}` }) {
   const { ethPerToken } = useTokenPrice(tokenAddress);
   const ethUsd = useEthUsdPrice();
@@ -189,13 +147,22 @@ function TokenPriceBadge({ tokenAddress }: { tokenAddress: `0x${string}` }) {
   );
 }
 
-function VolumeBadge({ volume24h, txns }: { volume24h: number; txns: { buys: number; sells: number } }) {
-  if (volume24h <= 0) return null;
+function VolumeBadge({ volume24h, txns }: { volume24h?: number; txns?: { buys: number; sells: number } }) {
+  const vol = volume24h ?? 0;
+  const totalTxns = txns ? txns.buys + txns.sells : 0;
+
+  if (vol <= 0) {
+    return (
+      <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-neutral-800/60 text-[10px]">
+        <span className="text-neutral-600">📊</span>
+        <span className="text-neutral-500">No trades yet</span>
+      </span>
+    );
+  }
   
-  const fmtVol = volume24h >= 1000
-    ? `$${(volume24h / 1000).toFixed(1)}K`
-    : `$${volume24h.toFixed(0)}`;
-  const totalTxns = txns.buys + txns.sells;
+  const fmtVol = vol >= 1000
+    ? `$${(vol / 1000).toFixed(1)}K`
+    : `$${vol.toFixed(0)}`;
   
   return (
     <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-orange-500/10 text-[10px]">
@@ -247,17 +214,19 @@ function TokenCard({ token, isERC8004Registered, volume24h, txns24h }: TokenCard
           </div>
         </div>
 
-        {/* Row 2: Progress bar */}
-        <div className="mb-2">
-          <ProgressBar tokenAddress={token.token} />
+        {/* Row 2: Creator + Fee badge */}
+        <div className="flex items-center gap-1.5 mb-2 min-w-0">
+          <CreatorFarcasterBadge address={token.creator} />
+          <span
+            className="shrink-0 text-neutral-600 cursor-help text-[11px]"
+            title="Fee beneficiary — receives 80% of trading fees"
+          >ⓘ</span>
         </div>
 
-        {/* Row 3: Badges */}
-        {volume24h != null && volume24h > 0 && txns24h && (
-          <div className="mt-1">
-            <VolumeBadge volume24h={volume24h} txns={txns24h} />
-          </div>
-        )}
+        {/* Row 3: Volume badge (always visible) */}
+        <div>
+          <VolumeBadge volume24h={volume24h} txns={txns24h} />
+        </div>
       </a>
 
       {/* Action row */}
