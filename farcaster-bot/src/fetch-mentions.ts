@@ -12,7 +12,9 @@ import { loadState, saveState } from './state.js';
 import { checkGasBalance } from './deploy.js';
 import { formatEther } from 'viem';
 
-const DEPLOY_KEYWORDS = /\b(deploy|launch|create|mint|make)\b/i;
+// Match explicit deploy keywords, Clanker-style "coin it", common typos, and structured Name/Ticker patterns
+const DEPLOY_KEYWORDS = /\b(deploy|launch|lauch|lau[cn]h|create|mint|make|coin\s*it|clawnch)\b/i;
+const STRUCTURED_DEPLOY = /\b(name|ticker|symbol)\s*[:=]/i;
 
 async function main() {
   const state = loadState();
@@ -24,7 +26,7 @@ async function main() {
     if (state.processedHashes.includes(m.hash)) return false;
     if (m.timestamp <= state.lastProcessedTimestamp) return false;
     if (m.authorFid === CONFIG.BOT_FID) return false; // Skip self
-    if (!DEPLOY_KEYWORDS.test(m.text)) return false;
+    if (!DEPLOY_KEYWORDS.test(m.text) && !STRUCTURED_DEPLOY.test(m.text)) return false;
     return true;
   });
   
