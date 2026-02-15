@@ -8,6 +8,8 @@ import { ERC20_ABI } from "@/configs/abis";
 import { useTokenPrice, useEthUsdPrice } from "@/hooks/useTokenPrice";
 import SwapPanel from "./SwapPanel";
 import ChartEmbed from "./ChartEmbed";
+import { LinkPreview } from "./LinkPreview";
+import { CreatorFarcasterProfile } from "./CreatorFarcasterProfile";
 
 // ERC-8004 Registry on Base
 const ERC8004_REGISTRY = "0x8004A169FB4a3325136EB29fA0ceB6D2e539a432" as const;
@@ -399,7 +401,7 @@ export default function TokenDetailPage({
 
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
             <span className="text-orange-500 text-sm">Creator</span>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
               <a
                 href={`https://basescan.org/address/${token.creator}`}
                 target="_blank"
@@ -420,6 +422,7 @@ export default function TokenDetailPage({
                   ✓ 8004
                 </a>
               )}
+              <CreatorFarcasterProfile address={token.creator} />
             </div>
           </div>
 
@@ -456,17 +459,26 @@ export default function TokenDetailPage({
           {websiteUrl && (
             <>
               <div className="border-t border-red-900/30" />
-              <div className="flex items-center justify-between">
-                <span className="text-orange-500 text-sm">Website</span>
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-orange-500 text-sm flex-shrink-0">Website</span>
                 <a
                   href={websiteUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-orange-200 hover:text-orange-100 text-sm transition-colors"
+                  className="text-orange-200 hover:text-orange-100 text-sm transition-colors truncate max-w-[65%] text-right"
+                  title={websiteUrl}
                 >
-                  {websiteUrl} ↗
+                  {(() => {
+                    try {
+                      const u = new URL(websiteUrl);
+                      return u.hostname + (u.pathname !== "/" ? u.pathname : "");
+                    } catch {
+                      return websiteUrl;
+                    }
+                  })()} ↗
                 </a>
               </div>
+              <LinkPreview url={websiteUrl} />
             </>
           )}
         </div>
