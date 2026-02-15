@@ -1,10 +1,24 @@
 {
-  "generatedAt": "2026-02-15T12:17:16.031Z",
-  "totalTokens": 124,
-  "activeTokens": 1,
-  "totalVolume24h": 2.85,
-  "totalTxns24h": 4,
+  "generatedAt": "2026-02-15T16:09:59.627Z",
+  "totalTokens": 125,
+  "activeTokens": 3,
+  "totalVolume24h": 8.14,
+  "totalTxns24h": 6,
   "hotTokens": [
+    {
+      "address": "0x76767891Fe941e1934953e9bd63cDeD7b5c473Da",
+      "symbol": "PUMPCLAW",
+      "priceUsd": "0.00004545",
+      "volume24h": 5.26,
+      "txns24h": {
+        "buys": 0,
+        "sells": 1
+      },
+      "fdvUsd": null,
+      "liquidityUsd": 45397.97,
+      "priceChange24h": null,
+      "pairUrl": "https://dexscreener.com/base/0x30d29308a17778764d3b54adfae59dc894a6a32171702780f59f80de64855704"
+    },
     {
       "address": "0x0b40285D79eb3a051D0dd0700Eaa7c7e2150A4B2",
       "symbol": "CRAVE",
@@ -18,22 +32,36 @@
       "liquidityUsd": 20936.67,
       "priceChange24h": 0.44,
       "pairUrl": "https://dexscreener.com/base/0xe1c139da1b760a2ca2b7deb114fc9c145c7d97e9f48ad6b01b4d7508dfe5c8b1"
+    },
+    {
+      "address": "0x627fD5cA0E32F68b4Cc259bA56080D7282C79142",
+      "symbol": "CALWAAA",
+      "priceUsd": "0.00002002",
+      "volume24h": 0.03,
+      "txns24h": {
+        "buys": 1,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": 20027.82,
+      "priceChange24h": null,
+      "pairUrl": "https://dexscreener.com/base/0x2a3bf912aec83fe532b545cdb78bd7f1032a6db08a9e429f713d8bcf43609cdd"
     }
   ],
   "tokens": [
     {
       "address": "0x76767891Fe941e1934953e9bd63cDeD7b5c473Da",
       "symbol": "PUMPCLAW",
-      "priceUsd": null,
-      "volume24h": 0,
+      "priceUsd": "0.00004545",
+      "volume24h": 5.26,
       "txns24h": {
         "buys": 0,
-        "sells": 0
+        "sells": 1
       },
       "fdvUsd": null,
-      "liquidityUsd": null,
+      "liquidityUsd": 45397.97,
       "priceChange24h": null,
-      "pairUrl": null
+      "pairUrl": "https://dexscreener.com/base/0x30d29308a17778764d3b54adfae59dc894a6a32171702780f59f80de64855704"
     },
     {
       "address": "0xCE92aaC1ec6b83451986E39A149eA23f96CD42bb",
@@ -780,16 +808,16 @@
     {
       "address": "0x627fD5cA0E32F68b4Cc259bA56080D7282C79142",
       "symbol": "CALWAAA",
-      "priceUsd": null,
-      "volume24h": 0,
+      "priceUsd": "0.00002002",
+      "volume24h": 0.03,
       "txns24h": {
-        "buys": 0,
+        "buys": 1,
         "sells": 0
       },
       "fdvUsd": null,
-      "liquidityUsd": null,
+      "liquidityUsd": 20027.82,
       "priceChange24h": null,
-      "pairUrl": null
+      "pairUrl": "https://dexscreener.com/base/0x2a3bf912aec83fe532b545cdb78bd7f1032a6db08a9e429f713d8bcf43609cdd"
     },
     {
       "address": "0x3CC094098A9655019659D9D66d3270dAfB116591",
@@ -1746,6 +1774,20 @@
     {
       "address": "0xaEF2Ef0B024Be8A5733CCE2ACD4c79f60C9B9223",
       "symbol": "CNY",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0xA056D61CD1b0BaAf5F30B1C9767b6aeFeB377E9E",
+      "symbol": "STIDY",
       "priceUsd": null,
       "volume24h": 0,
       "txns24h": {
