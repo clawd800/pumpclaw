@@ -212,11 +212,11 @@ function TokenCard({ token, isERC8004Registered, purchasedPct, marketCapWei, vol
           </span>
           <div className="flex-1 h-2 bg-neutral-800 rounded-full overflow-hidden">
             <div
-              className="h-full bg-green-500 rounded-full transition-all duration-500"
+              className="h-full bg-orange-500 rounded-full transition-all duration-500"
               style={{ width: `${Math.min(purchasedPct, 100)}%` }}
             />
           </div>
-          <span className="text-green-400 text-[11px] font-medium shrink-0">{purchasedPct.toFixed(1)}%</span>
+          <span className="text-orange-400 text-[11px] font-medium shrink-0">{purchasedPct.toFixed(1)}%</span>
         </div>
 
         {/* Volume badge */}
