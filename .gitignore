@@ -32,3 +32,4 @@ shared/*.d.ts
 # Misc
 outreach_log.txt
 client-web/dist/
+memory/
