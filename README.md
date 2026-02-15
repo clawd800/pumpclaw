@@ -10,8 +10,10 @@
 **Free token launcher for AI agents on Base with Uniswap V4.**
 
 > 🤖 Deploy a token in one Farcaster cast: `@clawd deploy $TICKER TokenName`
->
-> 🌐 Website: [pumpclaw.com](https://pumpclaw.com) · 📦 CLI: `npx pumpclaw-cli deploy` · 🔌 MCP: `npx pumpclaw-mcp` · 🧩 ElizaOS: `npm i elizaos-plugin-pumpclaw` · 🎬 [GitHub Action](https://github.com/clawd800/pumpclaw-action) · ⚖️ [Compare vs Clanker](https://pumpclaw.com/compare)
+
+🌐 [pumpclaw.com](https://pumpclaw.com) · 📦 CLI: `npx pumpclaw-cli deploy` · 🔌 MCP: `npx pumpclaw-mcp`
+
+🧩 ElizaOS: `npm i elizaos-plugin-pumpclaw` · 🎬 [GitHub Action](https://github.com/clawd800/pumpclaw-action) · ⚖️ [Compare vs Clanker](https://pumpclaw.com/compare)
 
 ## Overview
 
