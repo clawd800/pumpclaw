@@ -12,7 +12,11 @@ import { loadState, saveState } from './state.js';
 import { checkGasBalance } from './deploy.js';
 import { formatEther } from 'viem';
 
-const DEPLOY_KEYWORDS = /\b(deploy|launch|create|mint|make)\b/i;
+// Explicit deploy keywords + common typos + Clanker-style "coin it" + 4claw "clawnch"
+// lau[cn]h covers: lauch (missing n), launh (missing c); launch is the canonical spelling
+const DEPLOY_KEYWORDS = /\b(deploy|launch|lau[cn]h|create|mint|make|coin\s*it|clawnch)\b/i;
+// Fallback: structured "Name: X" / "Ticker: X" / "Symbol: X" patterns imply deploy intent
+const STRUCTURED_DEPLOY = /\b(name|ticker|symbol)\s*[:=]/i;
 
 async function main() {
   const state = loadState();
@@ -24,7 +28,7 @@ async function main() {
     if (state.processedHashes.includes(m.hash)) return false;
     if (m.timestamp <= state.lastProcessedTimestamp) return false;
     if (m.authorFid === CONFIG.BOT_FID) return false; // Skip self
-    if (!DEPLOY_KEYWORDS.test(m.text)) return false;
+    if (!DEPLOY_KEYWORDS.test(m.text) && !STRUCTURED_DEPLOY.test(m.text)) return false;
     return true;
   });
   
