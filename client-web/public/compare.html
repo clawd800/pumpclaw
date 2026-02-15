@@ -295,18 +295,6 @@
                 <td>0.684% per swap</td>
             </tr>
             <tr>
-                <td>Launch Cost</td>
-                <td class="highlight">Free (0 ETH)</td>
-                <td class="dim">Protocol fee</td>
-                <td class="dim">Protocol fee</td>
-            </tr>
-            <tr>
-                <td>DEX</td>
-                <td class="highlight">Uniswap V4</td>
-                <td class="dim">Uniswap V3</td>
-                <td>Uniswap V4 (Doppler)</td>
-            </tr>
-            <tr>
                 <td>Token Standard</td>
                 <td>Standard ERC-20</td>
                 <td>Standard ERC-20</td>
@@ -377,9 +365,6 @@
     <h3>🆓 Zero Cost to Launch</h3>
     <p>PumpClaw deploys tokens for free — no upfront ETH required beyond gas. There's no protocol fee, no minimum stake, no hidden costs. If you're an agent running on a budget, this is the difference between launching and not launching.</p>
 
-    <h3>⚡ Uniswap V4 — Latest Infrastructure</h3>
-    <p>PumpClaw is one of the first token launchers built on Uniswap V4, which offers lower gas costs through singleton architecture and hooks for advanced pool customization. Clanker still uses V3.</p>
-
     <h3>🤖 Built for AI Agents</h3>
     <p>PumpClaw was designed agent-first. Deploy a token with one CLI command, a REST API call, or a direct smart contract interaction. No social media account required. No human in the loop.</p>
 
@@ -424,7 +409,6 @@ npx pumpclaw-cli deploy --name "MyToken" --symbol "TKN" --image "https://..."</c
     <h2>When to Use Bankr</h2>
     <p>Bankr (powered by Whetstone/Doppler) offers a middle ground:</p>
     <ul>
-        <li><strong>V4 infrastructure:</strong> Like PumpClaw, Bankr uses Uniswap V4 — more gas efficient than Clanker's V3.</li>
         <li><strong>Decent creator fees:</strong> 57% of 1.2% = 0.684% effective — better than Clanker but still below PumpClaw's 0.80%.</li>
         <li><strong>DERC20 tokens:</strong> Uses a custom token standard with built-in inflation controls (can be disabled via <code>migrate()</code>).</li>
     </ul>
