@@ -1,7 +1,7 @@
 # Foundry
-out/
-cache/
-broadcast/
+contracts/out/
+contracts/cache/
+contracts/broadcast/
 
 # Environment & secrets
 .env
@@ -17,6 +17,9 @@ farcaster-bot/*-state.json
 farcaster-bot/state.json
 farcaster-bot/state.json.bak
 farcaster-bot/deploy-queue.json
+farcaster-bot/deploy-map.json
+farcaster-bot/liquidat*
+farcaster-bot/*-report-*.json
 
 # MCP server tokens
 mcp-server/.mcpregistry_*
