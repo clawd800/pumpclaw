@@ -214,13 +214,10 @@ function TokenCard({ token, isERC8004Registered, volume24h, txns24h }: TokenCard
           </div>
         </div>
 
-        {/* Row 2: Creator + Fee info */}
+        {/* Row 2: Creator (fee recipient) */}
         <div className="flex items-center gap-1.5 mb-2 min-w-0">
+          <span className="shrink-0 text-neutral-600 text-[10px]">fees →</span>
           <CreatorFarcasterBadge address={token.creator} />
-          <span
-            className="shrink-0 text-neutral-600 cursor-help text-[11px]"
-            title="Fee beneficiary — receives 80% of trading fees"
-          >ⓘ</span>
         </div>
 
         {/* Row 3: Volume badge (always visible) */}
