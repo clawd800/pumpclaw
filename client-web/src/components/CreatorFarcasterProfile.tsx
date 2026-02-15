@@ -10,35 +10,58 @@ interface FarcasterUser {
   followersCount: number;
 }
 
-export function CreatorFarcasterProfile({ address }: { address: string }) {
-  const [user, setUser] = useState<FarcasterUser | null>(null);
-  const [loading, setLoading] = useState(true);
+// In-memory cache to avoid repeated fetches across cards/re-renders
+const fcCache = new Map<string, FarcasterUser | null>();
+
+function useFarcasterProfile(address: string) {
+  const key = address.toLowerCase();
+  const [user, setUser] = useState<FarcasterUser | null | undefined>(
+    () => (fcCache.has(key) ? fcCache.get(key) ?? null : undefined)
+  );
 
   useEffect(() => {
-    let cancelled = false;
-
-    async function fetchProfile() {
-      try {
-        const res = await fetch(
-          `https://fc.hunt.town/users/byWallet/${address}`
-        );
-        if (!res.ok) throw new Error("Not found");
-        const json = await res.json();
-        if (!cancelled && json.username) {
-          setUser(json);
-        }
-      } catch {
-        // No FC profile — that's fine
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
+    if (fcCache.has(key)) {
+      setUser(fcCache.get(key) ?? null);
+      return;
     }
 
-    fetchProfile();
-    return () => { cancelled = true; };
-  }, [address]);
+    let cancelled = false;
 
-  if (loading || !user) return null;
+    fetch(`https://fc.hunt.town/users/byWallet/${address}`)
+      .then((res) => (res.ok ? res.json() : null))
+      .then((json) => {
+        if (cancelled) return;
+        if (json && json.username) {
+          fcCache.set(key, json);
+          setUser(json);
+        } else {
+          fcCache.set(key, null);
+          setUser(null);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          fcCache.set(key, null);
+          setUser(null);
+        }
+      });
+
+    return () => { cancelled = true; };
+  }, [address, key]);
+
+  return user;
+}
+
+function truncAddr(addr: string): string {
+  return `${addr.slice(0, 6)}…${addr.slice(-4)}`;
+}
+
+/** Full badge with purple border — for token detail pages */
+export function CreatorFarcasterProfile({ address }: { address: string }) {
+  const user = useFarcasterProfile(address);
+
+  if (user === undefined) return null; // loading
+  if (user === null) return null; // no FC profile
 
   const profileUrl = `https://farcaster.xyz/${user.username}`;
 
@@ -59,6 +82,42 @@ export function CreatorFarcasterProfile({ address }: { address: string }) {
       <span className="text-purple-300 text-xs font-medium">
         @{user.username}
       </span>
+    </a>
+  );
+}
+
+/** Compact inline badge — for grid cards. Shows truncated address if no FC profile. */
+export function CreatorFarcasterBadge({ address }: { address: string }) {
+  const user = useFarcasterProfile(address);
+
+  if (user === undefined) return null; // loading
+
+  if (user === null) {
+    return (
+      <span className="text-neutral-500 font-mono text-[11px] truncate">
+        {truncAddr(address)}
+      </span>
+    );
+  }
+
+  return (
+    <a
+      href={`https://farcaster.xyz/${user.username}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="inline-flex items-center gap-1 text-[11px] text-purple-400 hover:text-purple-300 transition-colors truncate"
+      onClick={(e) => e.stopPropagation()}
+    >
+      {user.pfpUrl && (
+        <img
+          src={user.pfpUrl}
+          alt=""
+          className="w-3.5 h-3.5 rounded-full object-cover shrink-0"
+          loading="lazy"
+          onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+        />
+      )}
+      <span className="truncate">@{user.username}</span>
     </a>
   );
 }
