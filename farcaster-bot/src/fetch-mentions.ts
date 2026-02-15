@@ -7,6 +7,7 @@
  */
 import { CONFIG } from './config.js';
 import { getRecentMentions, getUserVerifiedAddress } from './farcaster.js';
+import { parseDeployRequest } from './parse.js';
 import { loadState, saveState } from './state.js';
 import { checkGasBalance } from './deploy.js';
 import { formatEther } from 'viem';
@@ -34,6 +35,9 @@ async function main() {
     if (!wallet) {
       wallet = await getUserVerifiedAddress(m.authorFid) || '';
     }
+    // Pre-parse deploy request for the cron AI
+    const parsed = parseDeployRequest(m.text, m.embeds);
+    
     enriched.push({
       hash: m.hash,
       text: m.text,
@@ -43,6 +47,12 @@ async function main() {
       wallet,
       imageUrl: m.imageUrl || null,
       embeds: m.embeds || [],  // Pass ALL embeds for AI to inspect
+      parsed: parsed ? {
+        name: parsed.name,
+        symbol: parsed.symbol,
+        imageUrl: parsed.imageUrl,
+        beneficiary: parsed.beneficiary,
+      } : null,
     });
   }
   
