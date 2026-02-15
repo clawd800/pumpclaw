@@ -188,22 +188,20 @@ forge verify-contract <address> src/core/PumpClawFactory.sol:PumpClawFactory \
   --chain base --etherscan-api-key $BASESCAN_API_KEY
 ```
 
-## PumpClaw vs Clanker
+## PumpClaw vs Clanker vs Bankr
 
-| Feature | PumpClaw 🦞 | Clanker |
-|---------|-------------|---------|
-| **Creator Fee Share** | **80%** | 40% |
-| **Launch Cost** | **$0** (free) | Gas fees |
-| **DEX** | Uniswap V4 | Uniswap V3 |
-| **LP Lock** | Forever (immutable) | Varies |
-| **Agent Integration** | CLI, MCP, ElizaOS, Farcaster bot | Farcaster only |
-| **Custom Supply** | 1M–1T configurable | Fixed |
-| **Custom FDV** | Configurable | Fixed |
-| **On-chain Registry** | Yes (no indexer needed) | No |
-| **REST API** | Free, CORS, no key | No |
-| **Open Source** | MIT | No |
+| Feature | PumpClaw 🦞 | Clanker | Bankr |
+|---------|-------------|---------|-------|
+| **Creator Fee Share** | **80%** | 40% | 57% |
+| **LP Lock** | Forever (immutable) | Varies | Migrates to 0xdead |
+| **Agent Integration** | CLI, MCP, ElizaOS, Farcaster bot | Farcaster only | Farcaster, 4claw |
+| **Custom Supply** | 1M–1T configurable | Fixed | Fixed |
+| **Custom FDV** | Configurable | Fixed | Fixed |
+| **On-chain Registry** | Yes (no indexer needed) | No | No |
+| **REST API** | Free, CORS, no key | No | No |
+| **Open Source** | MIT | No | No |
 
-> **TL;DR:** PumpClaw gives creators **2× the fees**, more integration options, and full configurability — all at zero cost.
+> **TL;DR:** PumpClaw gives creators **2× the fees** vs Clanker, more integration options, and full configurability.
 
 ## Stats
 
