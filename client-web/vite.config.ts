@@ -3,6 +3,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { resolve } from "path";
 import tailwindcss from "@tailwindcss/vite";
+import pkg from "./package.json" with { type: "json" };
 
 export default defineConfig({
   // Custom domain - use root path
@@ -11,6 +12,7 @@ export default defineConfig({
   define: {
     "process.env": {},
     global: "globalThis",
+    __APP_VERSION__: JSON.stringify(pkg.version),
   },
   resolve: {
     alias: [{ find: "@", replacement: resolve(__dirname, "./src") }],
