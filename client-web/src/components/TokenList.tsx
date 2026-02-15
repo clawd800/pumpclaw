@@ -4,7 +4,7 @@ import { useReadContracts } from "wagmi";
 import { CONTRACTS } from "@/configs/constants";
 import { TokenMedia } from "./TokenMedia";
 import { ERC20_ABI } from "@/configs/abis";
-import { useTokenPrice, useEthUsdPrice } from "@/hooks/useTokenPrice";
+import { useEthUsdPrice } from "@/hooks/useTokenPrice";
 import { useVolumeData } from "@/hooks/useVolumeData";
 import { CreatorFarcasterBadge } from "./CreatorFarcasterProfile";
 
@@ -54,8 +54,13 @@ function useERC8004Statuses(addresses: `0x${string}`[]) {
   return statusMap;
 }
 
-// Hook to batch get pool balances for market cap calculation
-function usePoolBalances(tokens: TokenInfo[]) {
+interface PoolData {
+  marketCap: bigint;
+  purchasedPct: number;
+}
+
+// Hook to batch get pool data (market cap + purchased %) for tokens
+function usePoolData(tokens: TokenInfo[]) {
   const contracts = tokens.map((token) => ({
     address: token.token,
     abi: ERC20_ABI,
@@ -70,79 +75,44 @@ function usePoolBalances(tokens: TokenInfo[]) {
     },
   });
 
-  // Calculate market cap for each token
-  // Market Cap = initialFdv * (totalSupply / poolBalance) when poolBalance < totalSupply
-  // This reflects the bonding curve: as more tokens are bought, price increases
-  const marketCapMap = useMemo(() => {
-    const map = new Map<string, bigint>();
+  const poolDataMap = useMemo(() => {
+    const map = new Map<string, PoolData>();
     if (data) {
       tokens.forEach((token, i) => {
         const result = data[i];
         const poolBalance = result?.status === 'success' ? (result.result as bigint) : token.totalSupply;
         
-        // If pool has all tokens, market cap = initial FDV
-        // If pool has 0 tokens (all sold), market cap = much higher (theoretically infinite on bonding curve)
-        // Approximation: marketCap = initialFdv * (totalSupply / poolBalance)
-        // But we need to handle edge cases
-        
+        let marketCap: bigint;
+        let purchasedPct = 0;
+
         if (poolBalance > 0n && token.totalSupply > 0n) {
-          // Calculate purchased amount
           const purchased = token.totalSupply - poolBalance;
-          const purchasedPct = Number((purchased * 10000n) / token.totalSupply) / 100;
+          purchasedPct = Number((purchased * 10000n) / token.totalSupply) / 100;
           
-          // Simple bonding curve approximation:
-          // Price increases linearly with purchased %, so average price is higher
-          // Market Cap ≈ initialFdv * (1 + purchasedPct/100)
-          // This gives a rough estimate that increases as more is purchased
           const multiplier = 1 + (purchasedPct / 100);
-          const marketCap = BigInt(Math.floor(Number(token.initialFdv) * multiplier));
-          map.set(token.token.toLowerCase(), marketCap);
+          marketCap = BigInt(Math.floor(Number(token.initialFdv) * multiplier));
         } else {
-          // Fallback to initial FDV
-          map.set(token.token.toLowerCase(), token.initialFdv);
+          marketCap = token.initialFdv;
         }
+
+        map.set(token.token.toLowerCase(), { marketCap, purchasedPct });
       });
     }
     return map;
   }, [data, tokens]);
 
-  return marketCapMap;
+  return poolDataMap;
 }
 
 // ERC-8004 Verified Badge Component
 function ERC8004Badge() {
   return (
-    <a
-      href="https://eips.ethereum.org/EIPS/eip-8004"
-      target="_blank"
-      rel="noopener noreferrer"
-      className="inline-flex items-center gap-1 px-1.5 py-0.5 text-[10px] font-medium bg-blue-900/40 border border-blue-500/50 text-blue-400 hover:bg-blue-900/60 transition-colors ml-1"
+    <span
+      className="inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] font-medium bg-blue-900/40 border border-blue-500/50 text-blue-400 rounded"
       title="ERC-8004 Verified Agent"
     >
       <span>✓</span>
       <span>8004</span>
-    </a>
-  );
-}
-
-function TokenPriceBadge({ tokenAddress }: { tokenAddress: `0x${string}` }) {
-  const { ethPerToken } = useTokenPrice(tokenAddress);
-  const ethUsd = useEthUsdPrice();
-  
-  if (ethPerToken === null) return null;
-
-  const priceUsd = ethUsd ? ethPerToken * ethUsd : null;
-
-  const formatPrice = (usd: number) => {
-    if (usd < 0.00001) return `$${usd.toExponential(1)}`;
-    if (usd < 0.01) return `$${usd.toFixed(6)}`;
-    if (usd < 1) return `$${usd.toFixed(4)}`;
-    return `$${usd.toFixed(2)}`;
-  };
-
-  return (
-    <span className="text-white font-mono text-xs font-medium">
-      {priceUsd !== null ? formatPrice(priceUsd) : `${ethPerToken.toExponential(1)} ETH`}
     </span>
   );
 }
@@ -155,7 +125,7 @@ function VolumeBadge({ volume24h, txns }: { volume24h?: number; txns?: { buys: n
     return (
       <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-neutral-800/60 text-[10px]">
         <span className="text-neutral-600">📊</span>
-        <span className="text-neutral-500">No trades yet</span>
+        <span className="text-neutral-500">No trades</span>
       </span>
     );
   }
@@ -174,82 +144,87 @@ function VolumeBadge({ volume24h, txns }: { volume24h?: number; txns?: { buys: n
   );
 }
 
+function formatMarketCapUsd(marketCapWei: bigint, ethUsd: number | null): string {
+  if (!ethUsd) return '...';
+  // marketCapWei is in wei, convert to ETH then to USD
+  const marketCapEth = Number(marketCapWei) / 1e18;
+  const usd = marketCapEth * ethUsd;
+  if (usd >= 1_000_000) return `$${(usd / 1_000_000).toFixed(1)}M`;
+  if (usd >= 1_000) return `$${(usd / 1_000).toFixed(1)}K`;
+  if (usd >= 1) return `$${usd.toFixed(0)}`;
+  return `$${usd.toFixed(2)}`;
+}
+
 interface TokenCardProps {
   token: TokenInfo;
   isERC8004Registered: boolean;
+  purchasedPct: number;
+  marketCapWei: bigint;
   volume24h?: number;
   txns24h?: { buys: number; sells: number };
 }
 
-function TokenCard({ token, isERC8004Registered, volume24h, txns24h }: TokenCardProps) {
+function TokenCard({ token, isERC8004Registered, purchasedPct, marketCapWei, volume24h, txns24h }: TokenCardProps) {
   const { data: imageUrl } = useTokenImageUrl(token.token);
+  const ethUsd = useEthUsdPrice();
   
   const createdDate = new Date(Number(token.createdAt) * 1000);
   const timeAgo = getTimeAgo(createdDate);
 
   return (
-    <div className="border border-neutral-800 bg-neutral-950/80 hover:border-orange-500/25 hover:bg-neutral-900/50 transition-all group flex flex-col overflow-hidden min-w-0">
-      <a href={`#/token/${token.token}`} className="block p-4 flex-1 min-w-0">
-        {/* Row 1: Logo + Name/Symbol + Price */}
-        <div className="flex gap-3 mb-3">
-          <div className="shrink-0 w-11 h-11 overflow-hidden bg-neutral-900 border border-neutral-800 group-hover:border-neutral-700 transition-colors">
-            {imageUrl ? (
-              <TokenMedia src={imageUrl} alt={token.symbol} />
-            ) : (
-              <div className="w-full h-full flex items-center justify-center text-orange-400 text-lg">🦞</div>
-            )}
-          </div>
-          
-          <div className="flex-1 min-w-0">
-            <div className="flex items-baseline justify-between gap-2">
-              <h3 className="font-semibold text-white text-sm truncate group-hover:text-orange-200 transition-colors">{token.name}</h3>
-              <TokenPriceBadge tokenAddress={token.token} />
-            </div>
-            <div className="flex items-center gap-1.5 mt-0.5">
-              <span className="text-orange-400/80 text-xs font-mono">${token.symbol}</span>
-              <span className="text-neutral-700 text-xs">·</span>
-              <span className="text-neutral-500 text-[11px]" title={createdDate.toLocaleString()}>{timeAgo}</span>
-              {isERC8004Registered && <ERC8004Badge />}
-            </div>
-          </div>
+    <a
+      href={`#/token/${token.token}`}
+      className="flex gap-3 sm:gap-4 p-3 sm:p-4 border border-neutral-800 bg-neutral-950/80 rounded-xl hover:border-orange-500/30 hover:bg-neutral-900/50 transition-all group overflow-hidden min-w-0"
+    >
+      {/* Left: Large token image */}
+      <div className="shrink-0 w-[100px] h-[100px] sm:w-[130px] sm:h-[130px] rounded-xl overflow-hidden bg-neutral-900 border border-neutral-800 group-hover:border-neutral-700 transition-colors">
+        {imageUrl ? (
+          <TokenMedia src={imageUrl} alt={token.symbol} />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center text-orange-400 text-4xl">🦞</div>
+        )}
+      </div>
+
+      {/* Right: Stacked info */}
+      <div className="flex-1 min-w-0 flex flex-col justify-between py-0.5">
+        {/* Token name */}
+        <h3 className="font-bold text-white text-sm sm:text-base truncate group-hover:text-orange-200 transition-colors">
+          {token.name}
+        </h3>
+
+        {/* Ticker + 8004 badge */}
+        <div className="flex items-center gap-1.5 flex-wrap">
+          <span className="text-neutral-400 text-xs font-mono">${token.symbol}</span>
+          {isERC8004Registered && <ERC8004Badge />}
         </div>
 
-        {/* Row 2: Creator (fee recipient) */}
-        <div className="flex items-center gap-1.5 mb-2 min-w-0">
-          <span className="shrink-0 text-neutral-600 text-[10px]">fees →</span>
+        {/* Creator badge + time ago */}
+        <div className="flex items-center gap-1.5 min-w-0">
           <CreatorFarcasterBadge address={token.creator} />
+          <span className="text-neutral-600 text-[10px]">·</span>
+          <span className="text-neutral-500 text-[11px] shrink-0" title={createdDate.toLocaleString()}>{timeAgo}</span>
         </div>
 
-        {/* Row 3: Volume badge (always visible) */}
+        {/* Market cap + progress bar + purchased % */}
+        <div className="flex items-center gap-2 min-w-0">
+          <span className="text-neutral-400 text-xs font-medium shrink-0">
+            MC <span className="text-white">{formatMarketCapUsd(marketCapWei, ethUsd)}</span>
+          </span>
+          <div className="flex-1 h-2 bg-neutral-800 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-green-500 rounded-full transition-all duration-500"
+              style={{ width: `${Math.min(purchasedPct, 100)}%` }}
+            />
+          </div>
+          <span className="text-green-400 text-[11px] font-medium shrink-0">{purchasedPct.toFixed(1)}%</span>
+        </div>
+
+        {/* Volume badge */}
         <div>
           <VolumeBadge volume24h={volume24h} txns={txns24h} />
         </div>
-      </a>
-
-      {/* Action row */}
-      <div className="px-4 pb-4 pt-1 flex gap-2">
-        <a
-          href={`#/token/${token.token}`}
-          className="flex-1 py-2 text-center text-xs font-semibold bg-orange-600/20 border border-orange-500/40 text-orange-300 hover:bg-orange-600/30 hover:text-orange-200 transition-all"
-        >
-          Trade
-        </a>
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            const url = `https://pumpclaw.com/#/token/${token.token}`;
-            navigator.clipboard.writeText(url);
-            const btn = e.currentTarget;
-            btn.textContent = '✓';
-            setTimeout(() => { btn.textContent = '🔗'; }, 1500);
-          }}
-          className="py-2 px-3 text-xs font-medium bg-black/40 border border-red-900/50 text-neutral-500 hover:text-orange-400 transition-all"
-        >
-          🔗
-        </button>
-        {/* share link via Trade button's 🔗 */}
       </div>
-    </div>
+    </a>
   );
 }
 
@@ -278,8 +253,8 @@ export default function TokenList() {
   // Batch check ERC-8004 status
   const erc8004StatusMap = useERC8004Statuses(creatorAddresses);
 
-  // Batch get pool balances for market cap calculation
-  const marketCapMap = usePoolBalances(tokens);
+  // Batch get pool data (market cap + purchased %)
+  const poolDataMap = usePoolData(tokens);
 
   // Sort and filter tokens
   const displayedTokens = useMemo(() => {
@@ -301,8 +276,8 @@ export default function TokenList() {
       });
     } else if (sortBy === 'marketcap') {
       result.sort((a, b) => {
-        const mcapA = marketCapMap.get(a.token.toLowerCase()) ?? a.initialFdv;
-        const mcapB = marketCapMap.get(b.token.toLowerCase()) ?? b.initialFdv;
+        const mcapA = poolDataMap.get(a.token.toLowerCase())?.marketCap ?? a.initialFdv;
+        const mcapB = poolDataMap.get(b.token.toLowerCase())?.marketCap ?? b.initialFdv;
         if (mcapB > mcapA) return 1;
         if (mcapB < mcapA) return -1;
         return 0;
@@ -311,7 +286,7 @@ export default function TokenList() {
     // 'recent' is already the default order from the hook
 
     return result;
-  }, [tokens, sortBy, filterERC8004, erc8004StatusMap, marketCapMap, volumeData]);
+  }, [tokens, sortBy, filterERC8004, erc8004StatusMap, poolDataMap, volumeData]);
 
   return (
     <div className="px-2 sm:px-0 w-full min-w-0 overflow-hidden">
@@ -325,7 +300,7 @@ export default function TokenList() {
         </h2>
         <button
           onClick={() => refetch()}
-          className="text-xs text-neutral-500 hover:text-white transition-colors px-2.5 py-1 border border-neutral-800 hover:border-neutral-700"
+          className="text-xs text-neutral-500 hover:text-white transition-colors px-2.5 py-1 border border-neutral-800 hover:border-neutral-700 rounded"
         >
           ↻ Refresh
         </button>
@@ -333,7 +308,7 @@ export default function TokenList() {
 
       {/* Sort Tabs & Filter */}
       <div className="flex items-center gap-3 mb-4 pb-4 border-b border-neutral-800/50 min-w-0 w-full">
-        <div className="flex gap-1 flex-1 bg-neutral-900/50 p-1 min-w-0 overflow-hidden">
+        <div className="flex gap-1 flex-1 bg-neutral-900/50 p-1 rounded-lg min-w-0 overflow-hidden">
           {([
             { key: 'hot' as SortOption, label: '🔥 Hot' },
             { key: 'marketcap' as SortOption, label: 'Top MCap' },
@@ -342,7 +317,7 @@ export default function TokenList() {
             <button
               key={key}
               onClick={() => setSortBy(key)}
-              className={`flex-1 sm:flex-none px-3 py-1.5 text-xs sm:text-sm font-medium transition-all ${
+              className={`flex-1 sm:flex-none px-3 py-1.5 text-xs sm:text-sm font-medium rounded transition-all ${
                 sortBy === key
                   ? 'bg-orange-500/15 text-orange-300 shadow-sm'
                   : 'text-neutral-500 hover:text-neutral-300'
@@ -378,14 +353,17 @@ export default function TokenList() {
           }
         </div>
       ) : (
-        <div className="grid gap-3 sm:gap-4 lg:grid-cols-2 w-full min-w-0">
+        <div className="grid gap-3 sm:gap-4 grid-cols-1 md:grid-cols-2 w-full min-w-0">
           {displayedTokens.map((token) => {
             const vol = volumeData?.tokens.find(v => v.address.toLowerCase() === token.token.toLowerCase());
+            const poolData = poolDataMap.get(token.token.toLowerCase());
             return (
               <TokenCard 
                 key={token.token} 
                 token={token} 
                 isERC8004Registered={erc8004StatusMap.get(token.creator.toLowerCase()) ?? false}
+                purchasedPct={poolData?.purchasedPct ?? 0}
+                marketCapWei={poolData?.marketCap ?? token.initialFdv}
                 volume24h={vol?.volume24h}
                 txns24h={vol?.txns24h}
               />
