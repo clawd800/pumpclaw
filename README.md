@@ -178,10 +178,10 @@ forge build
 forge test
 
 # Deploy (requires PRIVATE_KEY env)
-forge script script/Deploy.s.sol --rpc-url $BASE_RPC --broadcast
+forge script contracts/script/Deploy.s.sol --rpc-url $BASE_RPC --broadcast
 
 # Verify on Basescan
-forge verify-contract <address> src/core/PumpClawFactory.sol:PumpClawFactory \
+forge verify-contract <address> contracts/src/core/PumpClawFactory.sol:PumpClawFactory \
   --chain base --etherscan-api-key $BASESCAN_API_KEY
 ```
 

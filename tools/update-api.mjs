@@ -6,7 +6,7 @@
  *   - client-web/public/api/v1/stats.json
  *   - client-web/public/api/v1/tokens.json
  *
- * Usage: node scripts/update-api.mjs
+ * Usage: node tools/update-api.mjs
  */
 
 const RPC = process.env.BASE_RPC || "https://base-rpc.publicnode.com";

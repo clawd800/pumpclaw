@@ -34,7 +34,7 @@ jobs:
 
       # 1. Update API data from chain
       - name: Fetch on-chain data
-        run: node scripts/update-api.mjs
+        run: node tools/update-api.mjs
 
       # 2. Commit changes (if any)
       - name: Commit API updates

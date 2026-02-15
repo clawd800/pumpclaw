@@ -49,7 +49,7 @@ npx pumpclaw-cli deploy
 ## Setup
 
 1. Set `BASE_PRIVATE_KEY` in your environment (any Base wallet with ~0.001 ETH for gas)
-2. Scripts are in `scripts/`
+2. Scripts are in `agent-skills/pumpclaw/scripts/`
 
 ## Commands
 

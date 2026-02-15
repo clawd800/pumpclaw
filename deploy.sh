@@ -16,7 +16,7 @@ echo ""
 
 # 1. Deploy LPLocker
 echo "1. Deploying LPLocker..."
-LOCKER=$(forge create src/core/PumpClawLPLocker.sol:PumpClawLPLocker \
+LOCKER=$(forge create contracts/src/core/PumpClawLPLocker.sol:PumpClawLPLocker \
   --rpc-url "$RPC" \
   --private-key "$PK" \
   --constructor-args "$POSITION_MANAGER" "$ADMIN" \
@@ -27,7 +27,7 @@ echo "   LPLocker deployed at: $LOCKER"
 
 # 2. Deploy Factory  
 echo "2. Deploying Factory..."
-FACTORY=$(forge create src/core/PumpClawFactory.sol:PumpClawFactory \
+FACTORY=$(forge create contracts/src/core/PumpClawFactory.sol:PumpClawFactory \
   --rpc-url "$RPC" \
   --private-key "$PK" \
   --constructor-args "$POOL_MANAGER" "$POSITION_MANAGER" "$LOCKER" "$WETH" \
@@ -48,5 +48,5 @@ echo "LPLocker: $LOCKER"
 echo "Factory: $FACTORY"
 echo ""
 echo "Verify contracts:"
-echo "forge verify-contract $LOCKER src/core/PumpClawLPLocker.sol:PumpClawLPLocker --chain base --constructor-args \$(cast abi-encode 'constructor(address,address)' $POSITION_MANAGER $ADMIN)"
-echo "forge verify-contract $FACTORY src/core/PumpClawFactory.sol:PumpClawFactory --chain base --constructor-args \$(cast abi-encode 'constructor(address,address,address,address)' $POOL_MANAGER $POSITION_MANAGER $LOCKER $WETH)"
+echo "forge verify-contract $LOCKER contracts/src/core/PumpClawLPLocker.sol:PumpClawLPLocker --chain base --constructor-args \$(cast abi-encode 'constructor(address,address)' $POSITION_MANAGER $ADMIN)"
+echo "forge verify-contract $FACTORY contracts/src/core/PumpClawFactory.sol:PumpClawFactory --chain base --constructor-args \$(cast abi-encode 'constructor(address,address,address,address)' $POOL_MANAGER $POSITION_MANAGER $LOCKER $WETH)"
