@@ -9,6 +9,7 @@
 import { CONFIG } from './config.js';
 import { deployToken, checkGasBalance } from './deploy.js';
 import { replyCast, postCast } from './farcaster.js';
+import { resolveUsernameToWallet } from './fc-lookup.js';
 import { loadState, saveState, recordDeploy } from './state.js';
 import { formatEther } from 'viem';
 
@@ -22,6 +23,7 @@ function parseArgs(): {
   announce?: boolean;
   authorUsername?: string;
   platform?: string;
+  beneficiary?: string;
 } {
   const args = process.argv.slice(2);
   const result: any = { announce: true };
@@ -36,6 +38,7 @@ function parseArgs(): {
       case '--reply-to': result.replyTo = args[++i]; break;
       case '--author': result.authorUsername = args[++i]; break;
       case '--platform': result.platform = args[++i]; break;
+      case '--beneficiary': result.beneficiary = args[++i]; break;
       case '--no-announce': result.announce = false; break;
     }
   }
@@ -76,13 +79,31 @@ async function main() {
   const params = parseArgs();
   const state = loadState();
   
+  // Resolve beneficiary: if --beneficiary @username is provided, look up their wallet
+  // and use it as the creator (fee recipient) instead of the requester
+  let creatorAddress = params.creator;
+  let beneficiaryUsername: string | undefined;
+  
+  if (params.beneficiary) {
+    const username = params.beneficiary.replace(/^@/, '');
+    console.log(`[deploy] Resolving beneficiary @${username}...`);
+    const wallet = await resolveUsernameToWallet(username);
+    if (wallet) {
+      creatorAddress = wallet;
+      beneficiaryUsername = username;
+      console.log(`[deploy] Beneficiary resolved: @${username} → ${wallet}`);
+    } else {
+      console.log(`[deploy] Could not resolve @${username}, using requester wallet`);
+    }
+  }
+  
   // Deploy with proof-of-origin URL
   const proofUrl = buildProofUrl(params);
   if (proofUrl) console.log(`[deploy] Proof URL: ${proofUrl}`);
   
   const result = await deployToken(
     { name: params.name, symbol: params.symbol, imageUrl: params.image, websiteUrl: proofUrl },
-    params.creator as `0x${string}`,
+    creatorAddress as `0x${string}`,
   );
   
   // Mark processed & record
@@ -115,12 +136,16 @@ async function main() {
     const tradeUrl = `https://matcha.xyz/tokens/base/${result.tokenAddress}?sellChain=8453&sellAddress=0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee`;
     const tokenPageUrl = `https://pumpclaw.com/#/token/${result.tokenAddress}`;
     
+    const feeRecipient = beneficiaryUsername
+      ? `@${beneficiaryUsername}`
+      : params.authorUsername ? `@${params.authorUsername}` : creatorAddress;
+    
     const replyText =
       `Token deployed!\n\n` +
       `${result.name} ($${result.symbol})\n` +
       `${result.tokenAddress}\n\n` +
-      `Creator: ${params.creator}\n` +
-      `80% trading fees go to you\n` +
+      `Fee recipient: ${feeRecipient}\n` +
+      `80% trading fees go to ${beneficiaryUsername ? `@${beneficiaryUsername}` : 'you'}\n` +
       `LP locked forever on Uniswap V4\n\n` +
       `Trade: ${tradeUrl}`;
     
@@ -133,11 +158,15 @@ async function main() {
   // Broadcast announcement (quote-cast the original request if available)
   if (params.announce) {
     try {
+      const byLine = beneficiaryUsername
+        ? `for @${beneficiaryUsername}` + (params.authorUsername ? ` (deployed by @${params.authorUsername})` : '')
+        : params.authorUsername ? `by @${params.authorUsername}` : '';
+      
       const announceText =
         `🦞 New token on PumpClaw!\n\n` +
         `${result.name} ($${result.symbol})\n` +
-        (params.authorUsername ? `by @${params.authorUsername}\n` : '') +
-        `💰 80% trading fees to creator\n` +
+        (byLine ? `${byLine}\n` : '') +
+        `💰 80% trading fees to ${beneficiaryUsername ? `@${beneficiaryUsername}` : 'creator'}\n` +
         `🔒 LP locked forever on Uniswap V4`;
       
       const embedsA: Array<{url: string}> = [

@@ -13,6 +13,8 @@ export interface DeployRequest {
   creatorAddress?: string;
   imageUrl?: string;
   websiteUrl?: string;
+  /** FC username of the fee beneficiary (if different from requester) */
+  beneficiary?: string;
 }
 
 // Known placeholder words from our CTA templates — these are NOT real values
@@ -99,12 +101,40 @@ export function parseDeployRequest(text: string, embeds?: any[]): DeployRequest 
     var t = deployLine.replace(/\s+/g, ' ').trim();
   }
   
+  // === Extract beneficiary BEFORE stripping payload ===
+  // Patterns: "fee beneficiary: @user", "creator: @user", "for @user", "fees to @user"
+  let beneficiary: string | undefined;
+  const beneficiaryMatch = t.match(
+    /(?:fee\s+beneficiary|creator|fees?\s+to|fees?\s+for|beneficiary)\s*:?\s*@(\w[\w.-]{0,24})/i
+  );
+  if (beneficiaryMatch) {
+    beneficiary = beneficiaryMatch[1].toLowerCase();
+  }
+  // Also match trailing "for @user" (but not "for me")
+  if (!beneficiary) {
+    const forMatch = t.match(/\bfor\s+@(\w[\w.-]{0,24})\s*$/i);
+    if (forMatch) {
+      beneficiary = forMatch[1].toLowerCase();
+    }
+  }
+  
   // Strip the @clawd deploy part to get the payload
-  const payload = t
+  // Also strip beneficiary clause so it doesn't pollute the token name
+  let payloadRaw = t
     .replace(/@clawd\s*/i, '')
     .replace(DEPLOY_KEYWORDS, '')
-    .replace(/^\s*(a\s+)?(new\s+)?(token\s+)?(for\s+)?(me\s+)?/i, '')
+    .replace(/^\s*(a\s+)?(new\s+)?(token\s+)?(for\s+)?(me\s+)?/i, '');
+  
+  // Remove beneficiary patterns from payload (keyword + @mention)
+  payloadRaw = payloadRaw
+    .replace(/\s*[-–—]\s*(?:fee\s+beneficiary|creator|fees?\s+to|fees?\s+for|beneficiary)\s*:?\s*@?\w[\w.-]{0,24}/i, '')
+    .replace(/\s+(?:fees?\s+to|fees?\s+for)\s+@?\w[\w.-]{0,24}\s*$/i, '')
+    .replace(/\s+for\s+@\w[\w.-]{0,24}\s*$/i, '')
+    .replace(/\s*(?:creator)\s*:\s*@?\w[\w.-]{0,24}/i, '')
+    .replace(/@\w[\w.-]{0,24}/g, '')  // Strip any remaining @mentions
     .trim();
+  
+  const payload = payloadRaw;
   
   // === Extract $SYMBOL candidates (filter placeholders) ===
   let symbol: string | null = null;
@@ -183,5 +213,5 @@ export function parseDeployRequest(text: string, embeds?: any[]): DeployRequest 
   // Extract image from embeds
   const imageUrl = extractImageFromEmbeds(embeds);
   
-  return { name, symbol, imageUrl };
+  return { name, symbol, imageUrl, beneficiary };
 }
