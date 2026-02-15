@@ -160,13 +160,13 @@ interface TokenCardProps {
   isERC8004Registered: boolean;
   purchasedPct: number;
   marketCapWei: bigint;
+  ethUsd: number | null;
   volume24h?: number;
   txns24h?: { buys: number; sells: number };
 }
 
-function TokenCard({ token, isERC8004Registered, purchasedPct, marketCapWei, volume24h, txns24h }: TokenCardProps) {
+function TokenCard({ token, isERC8004Registered, purchasedPct, marketCapWei, ethUsd, volume24h, txns24h }: TokenCardProps) {
   const { data: imageUrl } = useTokenImageUrl(token.token);
-  const ethUsd = useEthUsdPrice();
   
   const createdDate = new Date(Number(token.createdAt) * 1000);
   const timeAgo = getTimeAgo(createdDate);
@@ -210,7 +210,7 @@ function TokenCard({ token, isERC8004Registered, purchasedPct, marketCapWei, vol
           <span className="text-neutral-400 text-xs font-medium shrink-0">
             MC <span className="text-white">{formatMarketCapUsd(marketCapWei, ethUsd)}</span>
           </span>
-          <div className="flex-1 h-2 bg-neutral-800 rounded-full overflow-hidden">
+          <div className="flex-1 h-2 bg-neutral-800 rounded-full overflow-hidden" role="progressbar" aria-valuenow={Math.round(purchasedPct)} aria-valuemin={0} aria-valuemax={100} aria-label={`${purchasedPct.toFixed(1)}% purchased`}>
             <div
               className="h-full bg-orange-500 rounded-full transition-all duration-500"
               style={{ width: `${Math.min(purchasedPct, 100)}%` }}
@@ -244,6 +244,7 @@ export default function TokenList() {
   const [sortBy, setSortBy] = useState<SortOption>('hot');
   const [filterERC8004, setFilterERC8004] = useState(false);
   const { data: volumeData } = useVolumeData();
+  const ethUsd = useEthUsdPrice();
 
   // Get all unique creator addresses for batch ERC-8004 check
   const creatorAddresses = useMemo(() => {
@@ -364,6 +365,7 @@ export default function TokenList() {
                 isERC8004Registered={erc8004StatusMap.get(token.creator.toLowerCase()) ?? false}
                 purchasedPct={poolData?.purchasedPct ?? 0}
                 marketCapWei={poolData?.marketCap ?? token.initialFdv}
+                ethUsd={ethUsd}
                 volume24h={vol?.volume24h}
                 txns24h={vol?.txns24h}
               />
