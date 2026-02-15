@@ -4,6 +4,7 @@
   "type": "module",
   "exports": {
     ".": "./contracts.ts",
-    "./contracts": "./contracts.ts"
+    "./contracts": "./contracts.ts",
+    "./abis": "./abis.ts"
   }
 }

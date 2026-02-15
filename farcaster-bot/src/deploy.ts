@@ -4,34 +4,7 @@ import { base } from 'viem/chains';
 import { privateKeyToAccount } from 'viem/accounts';
 import { CONFIG, baseTransport } from './config.js';
 import type { DeployRequest } from './parse.js';
-
-const FACTORY_ABI = [
-  {
-    type: "function",
-    name: "createToken",
-    inputs: [
-      { name: "name", type: "string" },
-      { name: "symbol", type: "string" },
-      { name: "imageUrl", type: "string" },
-      { name: "websiteUrl", type: "string" },
-      { name: "totalSupply", type: "uint256" },
-      { name: "initialFdv", type: "uint256" },
-      { name: "creator", type: "address" },
-    ],
-    outputs: [
-      { name: "token", type: "address" },
-      { name: "positionId", type: "uint256" },
-    ],
-    stateMutability: "nonpayable",
-  },
-  {
-    type: "function",
-    name: "tokenCount",
-    inputs: [],
-    outputs: [{ name: "", type: "uint256" }],
-    stateMutability: "view",
-  },
-] as const;
+import { FACTORY_ABI } from '../../shared/abis.js';
 
 const DEFAULT_SUPPLY = 1_000_000_000n * (10n ** 18n); // 1 billion tokens
 const DEFAULT_FDV = 10n * (10n ** 18n); // 10 ETH — more volatility

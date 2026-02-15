@@ -22,6 +22,7 @@ import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { CONFIG, baseTransport } from './config.js';
+import { FACTORY_ABI, TOKEN_ABI } from '../../shared/abis.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const STATE_FILE = join(__dirname, '../announce-state.json');
@@ -54,50 +55,7 @@ function saveState(state: AnnounceState): void {
   writeFileSync(STATE_FILE, JSON.stringify(state, null, 2));
 }
 
-const FACTORY_ABI = [
-  {
-    type: 'function',
-    name: 'getTokenCount',
-    inputs: [],
-    outputs: [{ name: '', type: 'uint256' }],
-    stateMutability: 'view',
-  },
-  {
-    type: 'function',
-    name: 'getTokens',
-    inputs: [
-      { name: 'startIndex', type: 'uint256' },
-      { name: 'endIndex', type: 'uint256' },
-    ],
-    outputs: [
-      {
-        name: '',
-        type: 'tuple[]',
-        components: [
-          { name: 'token', type: 'address' },
-          { name: 'creator', type: 'address' },
-          { name: 'positionId', type: 'uint256' },
-          { name: 'totalSupply', type: 'uint256' },
-          { name: 'initialFdv', type: 'uint256' },
-          { name: 'createdAt', type: 'uint256' },
-          { name: 'name', type: 'string' },
-          { name: 'symbol', type: 'string' },
-        ],
-      },
-    ],
-    stateMutability: 'view',
-  },
-] as const;
-
-const ERC20_ABI = [
-  {
-    type: 'function',
-    name: 'imageUrl',
-    inputs: [],
-    outputs: [{ name: '', type: 'string' }],
-    stateMutability: 'view',
-  },
-] as const;
+// TOKEN_ABI from shared/abis.ts includes imageUrl
 
 function loadDeployMap(): Record<string, {castHash: string, username: string}> {
   try {
@@ -205,7 +163,7 @@ async function main() {
     try {
       imageUrl = await client.readContract({
         address: addr as Address,
-        abi: ERC20_ABI,
+        abi: TOKEN_ABI,
         functionName: 'imageUrl',
       }) as string;
     } catch {}

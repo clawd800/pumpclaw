@@ -10,6 +10,7 @@ import { base } from 'viem/chains';
 import { readFileSync, writeFileSync, existsSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { FACTORY_ABI, ERC20_ABI } from '../../shared/abis.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -21,23 +22,6 @@ const client = createPublicClient({
   chain: base,
   transport: http('https://base-rpc.publicnode.com'),
 });
-
-// ABIs
-const ERC20_ABI = [
-  { type: 'function', name: 'balanceOf', inputs: [{ type: 'address' }], outputs: [{ type: 'uint256' }], stateMutability: 'view' },
-] as const;
-
-const FACTORY_ABI = [
-  { type: 'function', name: 'getTokenCount', inputs: [], outputs: [{ type: 'uint256' }], stateMutability: 'view' },
-  { type: 'function', name: 'getTokens', inputs: [
-    { name: 'startIndex', type: 'uint256' }, { name: 'endIndex', type: 'uint256' },
-  ], outputs: [{ type: 'tuple[]', components: [
-    { name: 'token', type: 'address' }, { name: 'creator', type: 'address' },
-    { name: 'positionId', type: 'uint256' }, { name: 'totalSupply', type: 'uint256' },
-    { name: 'initialFdv', type: 'uint256' }, { name: 'createdAt', type: 'uint256' },
-    { name: 'name', type: 'string' }, { name: 'symbol', type: 'string' },
-  ]}], stateMutability: 'view' },
-] as const;
 
 const EXTSLOAD_ABI = [{
   type: 'function' as const, name: 'extsload' as const,
