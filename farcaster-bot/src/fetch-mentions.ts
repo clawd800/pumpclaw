@@ -12,8 +12,10 @@ import { loadState, saveState } from './state.js';
 import { checkGasBalance } from './deploy.js';
 import { formatEther } from 'viem';
 
-// Match explicit deploy keywords, Clanker-style "coin it", common typos, and structured Name/Ticker patterns
-const DEPLOY_KEYWORDS = /\b(deploy|launch|lauch|lau[cn]h|create|mint|make|coin\s*it|clawnch)\b/i;
+// Explicit deploy keywords + common typos + Clanker-style "coin it" + 4claw "clawnch"
+// lau[cn]h covers: lauch (missing n), launh (missing c); launch is the canonical spelling
+const DEPLOY_KEYWORDS = /\b(deploy|launch|lau[cn]h|create|mint|make|coin\s*it|clawnch)\b/i;
+// Fallback: structured "Name: X" / "Ticker: X" / "Symbol: X" patterns imply deploy intent
 const STRUCTURED_DEPLOY = /\b(name|ticker|symbol)\s*[:=]/i;
 
 async function main() {
