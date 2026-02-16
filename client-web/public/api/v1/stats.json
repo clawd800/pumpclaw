@@ -1,7 +1,7 @@
 {
-  "totalTokens": 131,
+  "totalTokens": 132,
   "uniqueCreators": 59,
-  "latestToken": "Clawfam",
+  "latestToken": "CSURGE",
   "chain": "Base (8453)",
   "dex": "Uniswap V4",
   "factory": "0xe5bCa0eDe9208f7Ee7FCAFa0415Ca3DC03e16a90",
@@ -11,7 +11,7 @@
   },
   "lpStatus": "locked_forever",
   "launchCost": "free",
-  "generatedAt": "2026-02-16T14:33:32.716Z",
+  "generatedAt": "2026-02-16T19:47:55.726Z",
   "endpoints": {
     "tokens": "https://pumpclaw.com/api/v1/tokens.json",
     "stats": "https://pumpclaw.com/api/v1/stats.json"
