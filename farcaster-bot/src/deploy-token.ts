@@ -162,22 +162,30 @@ async function main() {
         ? `for @${beneficiaryUsername}` + (params.authorUsername ? ` (deployed by @${params.authorUsername})` : '')
         : params.authorUsername ? `by @${params.authorUsername}` : '';
       
+      const tokenPageUrl = `https://pumpclaw.com/#/token/${result.tokenAddress}`;
       const announceText =
         `🦞 New token on PumpClaw!\n\n` +
         `${result.name} ($${result.symbol})\n` +
         (byLine ? `${byLine}\n` : '') +
         `💰 80% trading fees to ${beneficiaryUsername ? `@${beneficiaryUsername}` : 'creator'}\n` +
-        `🔒 LP locked forever on Uniswap V4`;
+        `🔒 LP locked forever on Uniswap V4\n\n` +
+        tokenPageUrl;
       
-      const embedsA: Array<{url: string}> = [
-        { url: `https://pumpclaw.com/#/token/${result.tokenAddress}` },
-      ];
-      // Quote-cast the original request so people see the context
+      // Embeds: prioritize image + quote cast (max 2 on FC)
+      // Token page URL is already in text body
+      const embedsA: Array<{url: string}> = [];
+      if (params.image) {
+        embedsA.push({ url: params.image });
+      }
       if (params.replyTo) {
         const quoteCastUrl = params.authorUsername
           ? `https://farcaster.xyz/${params.authorUsername}/${params.replyTo}`
           : `https://farcaster.xyz/~/conversations/${params.replyTo}`;
         embedsA.push({ url: quoteCastUrl });
+      }
+      // Fallback: if no image and no quote, embed the token page
+      if (embedsA.length === 0) {
+        embedsA.push({ url: tokenPageUrl });
       }
       
       await postCast(announceText, embedsA);
