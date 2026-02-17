@@ -11,7 +11,7 @@
   },
   "lpStatus": "locked_forever",
   "launchCost": "free",
-  "generatedAt": "2026-02-17T14:37:50.392Z",
+  "generatedAt": "2026-02-17T19:59:21.543Z",
   "endpoints": {
     "tokens": "https://pumpclaw.com/api/v1/tokens.json",
     "stats": "https://pumpclaw.com/api/v1/stats.json"
