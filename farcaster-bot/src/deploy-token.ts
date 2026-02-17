@@ -184,6 +184,24 @@ async function main() {
     } catch {}
   }
   
+  // Register in announce-state.json so announce-new.ts doesn't double-post
+  try {
+    const { readFileSync, writeFileSync, existsSync } = await import('fs');
+    const { join, dirname } = await import('path');
+    const { fileURLToPath } = await import('url');
+    const __dirname2 = dirname(fileURLToPath(import.meta.url));
+    const announceStateFile = join(__dirname2, '../announce-state.json');
+    const announceState = existsSync(announceStateFile)
+      ? JSON.parse(readFileSync(announceStateFile, 'utf8'))
+      : { lastTokenCount: 0, announcedTokens: [], lastAnnounceTime: 0 };
+    const tokenLower = result.tokenAddress.toLowerCase();
+    if (!announceState.announcedTokens.includes(tokenLower)) {
+      announceState.announcedTokens.push(tokenLower);
+      announceState.lastAnnounceTime = Date.now();
+      writeFileSync(announceStateFile, JSON.stringify(announceState, null, 2));
+    }
+  } catch {}
+  
   // Output result
   console.log(JSON.stringify({
     success: true,

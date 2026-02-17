@@ -1,67 +1,67 @@
 {
-  "generatedAt": "2026-02-15T16:09:59.627Z",
-  "totalTokens": 125,
+  "generatedAt": "2026-02-17T07:01:45.149Z",
+  "totalTokens": 132,
   "activeTokens": 3,
-  "totalVolume24h": 8.14,
-  "totalTxns24h": 6,
+  "totalVolume24h": 1.5,
+  "totalTxns24h": 8,
   "hotTokens": [
     {
-      "address": "0x76767891Fe941e1934953e9bd63cDeD7b5c473Da",
-      "symbol": "PUMPCLAW",
-      "priceUsd": "0.00004545",
-      "volume24h": 5.26,
+      "address": "0x1A6C0A0dD019dC2470686593956C7b6223bC464e",
+      "symbol": "CSURGE",
+      "priceUsd": "0.00001993",
+      "volume24h": 0.76,
       "txns24h": {
-        "buys": 0,
-        "sells": 1
+        "buys": 4,
+        "sells": 0
       },
       "fdvUsd": null,
-      "liquidityUsd": 45397.97,
-      "priceChange24h": null,
-      "pairUrl": "https://dexscreener.com/base/0x30d29308a17778764d3b54adfae59dc894a6a32171702780f59f80de64855704"
+      "liquidityUsd": 19939.22,
+      "priceChange24h": 0.33,
+      "pairUrl": "https://dexscreener.com/base/0xb03c02f577ea327e29a908e894f30a4e9d2dd4b85b0a2c52d3618475edcb1d59"
     },
     {
-      "address": "0x0b40285D79eb3a051D0dd0700Eaa7c7e2150A4B2",
-      "symbol": "CRAVE",
-      "priceUsd": "0.00002093",
-      "volume24h": 2.85,
-      "txns24h": {
-        "buys": 3,
-        "sells": 1
-      },
-      "fdvUsd": null,
-      "liquidityUsd": 20936.67,
-      "priceChange24h": 0.44,
-      "pairUrl": "https://dexscreener.com/base/0xe1c139da1b760a2ca2b7deb114fc9c145c7d97e9f48ad6b01b4d7508dfe5c8b1"
-    },
-    {
-      "address": "0x627fD5cA0E32F68b4Cc259bA56080D7282C79142",
-      "symbol": "CALWAAA",
-      "priceUsd": "0.00002002",
-      "volume24h": 0.03,
+      "address": "0x57e234C501573a8D8DB3d4962A5Db7f82f0BeD4B",
+      "symbol": "Clawfam",
+      "priceUsd": "0.00001970",
+      "volume24h": 0.49,
       "txns24h": {
         "buys": 1,
         "sells": 0
       },
       "fdvUsd": null,
-      "liquidityUsd": 20027.82,
+      "liquidityUsd": null,
       "priceChange24h": null,
-      "pairUrl": "https://dexscreener.com/base/0x2a3bf912aec83fe532b545cdb78bd7f1032a6db08a9e429f713d8bcf43609cdd"
+      "pairUrl": "https://dexscreener.com/base/0xbe36776da0ff642d659b0b595fbee7dcc87a8dbae0e03c050542b164cfd84ee5"
+    },
+    {
+      "address": "0x0b40285D79eb3a051D0dd0700Eaa7c7e2150A4B2",
+      "symbol": "CRAVE",
+      "priceUsd": "0.00001992",
+      "volume24h": 0.25,
+      "txns24h": {
+        "buys": 3,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": 19927.77,
+      "priceChange24h": 0.76,
+      "pairUrl": "https://dexscreener.com/base/0xe1c139da1b760a2ca2b7deb114fc9c145c7d97e9f48ad6b01b4d7508dfe5c8b1"
     }
   ],
   "tokens": [
     {
       "address": "0x76767891Fe941e1934953e9bd63cDeD7b5c473Da",
       "symbol": "PUMPCLAW",
-      "priceUsd": "0.00004545",
-      "volume24h": 5.26,
+      "priceUsd": null,
+      "volume24h": 0,
       "txns24h": {
         "buys": 0,
-        "sells": 1
+        "sells": 0
       },
       "fdvUsd": null,
-      "liquidityUsd": 45397.97,
+      "liquidityUsd": null,
       "priceChange24h": null,
-      "pairUrl": "https://dexscreener.com/base/0x30d29308a17778764d3b54adfae59dc894a6a32171702780f59f80de64855704"
+      "pairUrl": null
     },
     {
       "address": "0xCE92aaC1ec6b83451986E39A149eA23f96CD42bb",
@@ -808,16 +808,16 @@
     {
       "address": "0x627fD5cA0E32F68b4Cc259bA56080D7282C79142",
       "symbol": "CALWAAA",
-      "priceUsd": "0.00002002",
-      "volume24h": 0.03,
+      "priceUsd": null,
+      "volume24h": 0,
       "txns24h": {
-        "buys": 1,
+        "buys": 0,
         "sells": 0
       },
       "fdvUsd": null,
-      "liquidityUsd": 20027.82,
+      "liquidityUsd": null,
       "priceChange24h": null,
-      "pairUrl": "https://dexscreener.com/base/0x2a3bf912aec83fe532b545cdb78bd7f1032a6db08a9e429f713d8bcf43609cdd"
+      "pairUrl": null
     },
     {
       "address": "0x3CC094098A9655019659D9D66d3270dAfB116591",
@@ -934,15 +934,15 @@
     {
       "address": "0x0b40285D79eb3a051D0dd0700Eaa7c7e2150A4B2",
       "symbol": "CRAVE",
-      "priceUsd": "0.00002093",
-      "volume24h": 2.85,
+      "priceUsd": "0.00001992",
+      "volume24h": 0.25,
       "txns24h": {
         "buys": 3,
-        "sells": 1
+        "sells": 0
       },
       "fdvUsd": null,
-      "liquidityUsd": 20936.67,
-      "priceChange24h": 0.44,
+      "liquidityUsd": 19927.77,
+      "priceChange24h": 0.76,
       "pairUrl": "https://dexscreener.com/base/0xe1c139da1b760a2ca2b7deb114fc9c145c7d97e9f48ad6b01b4d7508dfe5c8b1"
     },
     {
@@ -1798,6 +1798,104 @@
       "liquidityUsd": null,
       "priceChange24h": null,
       "pairUrl": null
+    },
+    {
+      "address": "0xa8e35Ae6b7e1838cF79a4cAd9365ECCDB10876f3",
+      "symbol": "CLAWDAi",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x66505b1632254E1ce7d44C1eb43C26260f213569",
+      "symbol": "AISTUPID",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x11e5874b450Ba3E6F57640194d26db46ebCB4496",
+      "symbol": "GCR",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x6b922EfA94bc4FE184e5F14AC070E0523C225865",
+      "symbol": "TCOA",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x2df181415D5F856C9f221c9888fE45DBB1d2c21D",
+      "symbol": "MMS",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x57e234C501573a8D8DB3d4962A5Db7f82f0BeD4B",
+      "symbol": "Clawfam",
+      "priceUsd": "0.00001970",
+      "volume24h": 0.49,
+      "txns24h": {
+        "buys": 1,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": "https://dexscreener.com/base/0xbe36776da0ff642d659b0b595fbee7dcc87a8dbae0e03c050542b164cfd84ee5"
+    },
+    {
+      "address": "0x1A6C0A0dD019dC2470686593956C7b6223bC464e",
+      "symbol": "CSURGE",
+      "priceUsd": "0.00001993",
+      "volume24h": 0.76,
+      "txns24h": {
+        "buys": 4,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": 19939.22,
+      "priceChange24h": 0.33,
+      "pairUrl": "https://dexscreener.com/base/0xb03c02f577ea327e29a908e894f30a4e9d2dd4b85b0a2c52d3618475edcb1d59"
     }
   ]
 }
