@@ -1,51 +1,37 @@
 {
-  "generatedAt": "2026-02-17T11:01:04.218Z",
-  "totalTokens": 135,
-  "activeTokens": 3,
-  "totalVolume24h": 2.51,
-  "totalTxns24h": 9,
+  "generatedAt": "2026-02-18T01:00:34.384Z",
+  "totalTokens": 141,
+  "activeTokens": 2,
+  "totalVolume24h": 1.33,
+  "totalTxns24h": 4,
   "hotTokens": [
     {
       "address": "0x0b40285D79eb3a051D0dd0700Eaa7c7e2150A4B2",
       "symbol": "CRAVE",
       "priceUsd": "0.00001979",
-      "volume24h": 1.26,
+      "volume24h": 1.12,
       "txns24h": {
-        "buys": 3,
+        "buys": 1,
         "sells": 1
       },
       "fdvUsd": null,
       "liquidityUsd": 19794.99,
-      "priceChange24h": 0.09,
+      "priceChange24h": -0.67,
       "pairUrl": "https://dexscreener.com/base/0xe1c139da1b760a2ca2b7deb114fc9c145c7d97e9f48ad6b01b4d7508dfe5c8b1"
     },
     {
       "address": "0x1A6C0A0dD019dC2470686593956C7b6223bC464e",
       "symbol": "CSURGE",
       "priceUsd": "0.00001993",
-      "volume24h": 0.76,
+      "volume24h": 0.21,
       "txns24h": {
-        "buys": 4,
+        "buys": 2,
         "sells": 0
       },
       "fdvUsd": null,
       "liquidityUsd": 19939.22,
-      "priceChange24h": 0.33,
+      "priceChange24h": 0.1,
       "pairUrl": "https://dexscreener.com/base/0xb03c02f577ea327e29a908e894f30a4e9d2dd4b85b0a2c52d3618475edcb1d59"
-    },
-    {
-      "address": "0x57e234C501573a8D8DB3d4962A5Db7f82f0BeD4B",
-      "symbol": "Clawfam",
-      "priceUsd": "0.00001970",
-      "volume24h": 0.49,
-      "txns24h": {
-        "buys": 1,
-        "sells": 0
-      },
-      "fdvUsd": null,
-      "liquidityUsd": null,
-      "priceChange24h": null,
-      "pairUrl": "https://dexscreener.com/base/0xbe36776da0ff642d659b0b595fbee7dcc87a8dbae0e03c050542b164cfd84ee5"
     }
   ],
   "tokens": [
@@ -935,14 +921,14 @@
       "address": "0x0b40285D79eb3a051D0dd0700Eaa7c7e2150A4B2",
       "symbol": "CRAVE",
       "priceUsd": "0.00001979",
-      "volume24h": 1.26,
+      "volume24h": 1.12,
       "txns24h": {
-        "buys": 3,
+        "buys": 1,
         "sells": 1
       },
       "fdvUsd": null,
       "liquidityUsd": 19794.99,
-      "priceChange24h": 0.09,
+      "priceChange24h": -0.67,
       "pairUrl": "https://dexscreener.com/base/0xe1c139da1b760a2ca2b7deb114fc9c145c7d97e9f48ad6b01b4d7508dfe5c8b1"
     },
     {
@@ -1872,29 +1858,29 @@
     {
       "address": "0x57e234C501573a8D8DB3d4962A5Db7f82f0BeD4B",
       "symbol": "Clawfam",
-      "priceUsd": "0.00001970",
-      "volume24h": 0.49,
+      "priceUsd": null,
+      "volume24h": 0,
       "txns24h": {
-        "buys": 1,
+        "buys": 0,
         "sells": 0
       },
       "fdvUsd": null,
       "liquidityUsd": null,
       "priceChange24h": null,
-      "pairUrl": "https://dexscreener.com/base/0xbe36776da0ff642d659b0b595fbee7dcc87a8dbae0e03c050542b164cfd84ee5"
+      "pairUrl": null
     },
     {
       "address": "0x1A6C0A0dD019dC2470686593956C7b6223bC464e",
       "symbol": "CSURGE",
       "priceUsd": "0.00001993",
-      "volume24h": 0.76,
+      "volume24h": 0.21,
       "txns24h": {
-        "buys": 4,
+        "buys": 2,
         "sells": 0
       },
       "fdvUsd": null,
       "liquidityUsd": 19939.22,
-      "priceChange24h": 0.33,
+      "priceChange24h": 0.1,
       "pairUrl": "https://dexscreener.com/base/0xb03c02f577ea327e29a908e894f30a4e9d2dd4b85b0a2c52d3618475edcb1d59"
     },
     {
@@ -1928,6 +1914,90 @@
     {
       "address": "0xe6FCD9672CbF2B871F8a049dc16f21DDA30F740B",
       "symbol": "CG",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0xE7b1fC0d17b42b68752EAbFD5863e03890681436",
+      "symbol": "马年",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0xa93EA86741a8E53e01A36D502b0C2384122440d7",
+      "symbol": "RP",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x7F32ce6f2607B1dec2F98dC29F8CA6B595c28113",
+      "symbol": "LHS",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x1076Bb9D46c7064B8AD5f0Fb6639039fB8A7efb1",
+      "symbol": "GHS",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x4812812a70f73533b59D38460C108aDF681Aa4cE",
+      "symbol": "ETHG",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0xb121f6b0183DddF90aF9eb1bf921495eA09e4D7e",
+      "symbol": "RMDN",
       "priceUsd": null,
       "volume24h": 0,
       "txns24h": {
