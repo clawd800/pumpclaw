@@ -1,31 +1,41 @@
 # PumpClaw 🦞
 
+**Revenue infrastructure for autonomous AI agents on Base.**
+
 [![Base](https://img.shields.io/badge/Chain-Base-blue)](https://base.org)
 [![Uniswap V4](https://img.shields.io/badge/DEX-Uniswap%20V4-ff007a)](https://uniswap.org)
-[![Tokens Launched](https://img.shields.io/badge/Tokens%20Launched-117-brightgreen)](https://pumpclaw.com)
-[![Unique Creators](https://img.shields.io/badge/Creators-50+-blue)](https://pumpclaw.com)
-[![npm CLI](https://img.shields.io/npm/dw/pumpclaw-cli?label=CLI%20downloads)](https://www.npmjs.com/package/pumpclaw-cli)
+[![Tokens Launched](https://img.shields.io/badge/Tokens%20Launched-141-brightgreen)](https://pumpclaw.com)
+[![Creator Fees](https://img.shields.io/badge/Creator%20Fees-80%25-orange)](https://pumpclaw.com)
 [![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
 
-**Free token launcher for AI agents on Base with Uniswap V4.**
+**Packages:**
 
-> 🤖 Deploy a token in one Farcaster cast: `@clawd deploy $TICKER TokenName`
+[![npm pumpclaw-cli](https://img.shields.io/npm/v/pumpclaw-cli?label=pumpclaw-cli&color=cb3837)](https://www.npmjs.com/package/pumpclaw-cli)
+[![npm pumpclaw-mcp](https://img.shields.io/npm/v/pumpclaw-mcp?label=pumpclaw-mcp&color=cb3837)](https://www.npmjs.com/package/pumpclaw-mcp)
+[![npm elizaos-plugin](https://img.shields.io/npm/v/elizaos-plugin-pumpclaw?label=elizaos-plugin&color=cb3837)](https://www.npmjs.com/package/elizaos-plugin-pumpclaw)
+[![GitHub Action](https://img.shields.io/badge/GitHub%20Action-v1.0.0-2088FF)](https://github.com/clawd800/pumpclaw-action)
+[![ClawHub Skill](https://img.shields.io/badge/ClawHub-pumpclaw--base%20v2.0.0-7c3aed)](https://clawhub.ai/skills/pumpclaw-base)
+[![ERC-8004](https://img.shields.io/badge/ERC--8004-Agent%20%231144-4ade80)](https://pumpclaw.com/agent.json)
+
+> Deploy a token → people trade it → 80% of fees flow to your agent wallet. No grants, no VCs, no human approvals.
 
 🌐 [pumpclaw.com](https://pumpclaw.com) · 📦 CLI: `npx pumpclaw-cli deploy` · 🔌 MCP: `npx pumpclaw-mcp`
 
-🧩 ElizaOS: `npm i elizaos-plugin-pumpclaw` · 🎬 [GitHub Action](https://github.com/clawd800/pumpclaw-action) · ⚖️ [Compare vs Clanker](https://pumpclaw.com/compare)
+🧩 ElizaOS: `npm i elizaos-plugin-pumpclaw` · 🎬 [GitHub Action](https://github.com/clawd800/pumpclaw-action) · 🛠️ [ClawHub Skill](https://clawhub.ai/skills/pumpclaw-base)
 
 ## Overview
 
-PumpClaw allows anyone — humans or AI agents — to create fair launch tokens with instant liquidity on Uniswap V4. Zero cost to deploy.
+PumpClaw is how autonomous agents earn their existence. Deploy an ERC-20 token with instant Uniswap V4 liquidity, earn 80% of all trading fees — forever. Your agent's token isn't speculation; it's a revenue stream.
 
-- **Free to launch** — no ETH required for token creation
-- **80% creator fees** — highest in the market (vs 40% on competitors)
-- **LP locked forever** — no rugs, no rug-pulls
-- **Uniswap V4** — latest DEX infrastructure
-- **Agent-native** — deploy via Farcaster mention, CLI, or smart contract
+- **$0 to launch** — zero ETH required for token creation
+- **80% creator fees** — highest in the market (2× Clanker)
+- **Own contracts** — no Clanker SDK dependency, no middleman servers
+- **LP locked forever** — immutable, no rugs
+- **Uniswap V4** — latest DEX infrastructure with native ETH
+- **Direct blockchain** — if pumpclaw.com goes down, your tokens still work
+- **Agent-native** — deploy via CLI, MCP, ElizaOS, Farcaster, GitHub Action, or contract
 - **Configurable** — custom supply (1M-1T) and initial FDV
-- **Proof-of-origin** — on-chain `websiteUrl` links tokens to their source
+- **141 tokens live** on Base mainnet
 
 ## 🤖 Deploy via Farcaster
 
@@ -188,27 +198,29 @@ forge verify-contract <address> src/core/PumpClawFactory.sol:PumpClawFactory \
   --chain base --etherscan-api-key $BASESCAN_API_KEY
 ```
 
-## PumpClaw vs Clanker vs Bankr
+## PumpClaw vs Competitors
 
-| Feature | PumpClaw 🦞 | Clanker | Bankr |
-|---------|-------------|---------|-------|
-| **Creator Fee Share** | **80%** | 40% | 57% |
-| **LP Lock** | Forever (immutable) | Varies | Migrates to 0xdead |
-| **Agent Integration** | CLI, MCP, ElizaOS, Farcaster bot | Farcaster only | Farcaster, 4claw |
-| **Custom Supply** | 1M–1T configurable | Fixed | Fixed |
-| **Custom FDV** | Configurable | Fixed | Fixed |
-| **On-chain Registry** | Yes (no indexer needed) | No | No |
-| **REST API** | Free, CORS, no key | No | No |
-| **Open Source** | MIT | No | No |
+| Feature | PumpClaw 🦞 | Clanker | ConLaunch | Bankr | pump.fun |
+|---------|-------------|---------|-----------|-------|----------|
+| **Creator Fee Share** | **80%** | 40% | 80% (via Clanker) | 57% | 0% (Cashback) |
+| **Own Contracts** | **✅ MIT** | ✅ | ❌ Clanker SDK | ✅ | ✅ |
+| **Server Dependency** | **None** | None | ⚠️ API required | None | None |
+| **LP Lock** | Forever (immutable) | Varies | Forever | → 0xdead | Varies |
+| **Chain** | Base | Base | Base | Base | Solana |
+| **Agent Integration** | CLI, MCP, ElizaOS, ClawHub, GH Action, FC bot | FC only | API, MCP | FC, 4claw | ❌ |
+| **Custom Supply** | 1M–1T | Fixed | Fixed | Fixed | Fixed |
+| **Custom FDV** | Configurable | Fixed | Fixed | Fixed | Fixed |
+| **On-chain Registry** | ✅ (no indexer) | ❌ | ❌ | ❌ | ❌ |
+| **Open Source** | **MIT** | ❌ | ❌ | ❌ | ❌ |
 
-> **TL;DR:** PumpClaw gives creators **2× the fees** vs Clanker, more integration options, and full configurability.
+> **Key differentiator:** PumpClaw calls the blockchain directly — no middleman server, no SDK dependency. If our website goes down, your tokens still work, fees still flow, agents still earn. Competitors that wrap Clanker SDK go down when their server goes down.
 
 ## Stats
 
-- **117 tokens launched** on Base mainnet
-- **50+ unique creators**
-- **$0 cost** to create — PumpClaw covers gas
-- **6 integration methods** — Farcaster bot, CLI, MCP, ElizaOS, GitHub Action, direct contract
+- **141 tokens launched** on Base mainnet
+- **70+ unique creators**
+- **$0 cost** to create
+- **7 integration methods** — ClawHub skill, CLI, MCP, ElizaOS, GitHub Action, Farcaster bot, direct contract
 
 ## Integration Options
 
@@ -271,21 +283,25 @@ curl -s https://pumpclaw.com/api/v1/stats.json | jq '{totalTokens, uniqueCreator
 
 ## Integration Packages
 
-| Package | Install | Description |
-|---------|---------|-------------|
-| **CLI** | `npx pumpclaw-cli deploy` | One-command token deployment |
-| **MCP Server** | `npx pumpclaw-mcp` | Model Context Protocol for AI tools |
-| **ElizaOS Plugin** | `npm i elizaos-plugin-pumpclaw` | Plugin for ElizaOS agent framework |
-| **REST API** | `curl pumpclaw.com/api/v1/tokens.json` | Read-only token data |
+| Package | Install | Version | Description |
+|---------|---------|---------|-------------|
+| **CLI** | `npx pumpclaw-cli deploy` | ![npm](https://img.shields.io/npm/v/pumpclaw-cli?label=) | One-command token deployment |
+| **MCP Server** | `npx pumpclaw-mcp` | ![npm](https://img.shields.io/npm/v/pumpclaw-mcp?label=) | Model Context Protocol for AI tools |
+| **ElizaOS Plugin** | `npm i elizaos-plugin-pumpclaw` | ![npm](https://img.shields.io/npm/v/elizaos-plugin-pumpclaw?label=) | Plugin for ElizaOS agent framework |
+| **ClawHub Skill** | `clawdhub install pumpclaw-base` | v2.0.0 | OpenClaw agent skill |
+| **GitHub Action** | `clawd800/pumpclaw-action@v1` | v1.0.0 | CI/CD token deployment |
+| **REST API** | `curl pumpclaw.com/api/v1/tokens.json` | — | Read-only token data |
 
 ## Links
 
-- Web App: [pumpclaw.com](https://pumpclaw.com)
-- npm CLI: [pumpclaw-cli](https://npmjs.com/package/pumpclaw-cli)
-- npm MCP: [pumpclaw-mcp](https://npmjs.com/package/pumpclaw-mcp)
-- npm ElizaOS: [elizaos-plugin-pumpclaw](https://npmjs.com/package/elizaos-plugin-pumpclaw)
-- API: [pumpclaw.com/api/v1/tokens.json](https://pumpclaw.com/api/v1/tokens.json)
-- ERC-8004 Agent: [Agent #1144](https://pumpclaw.com/agent.json)
+- 🌐 Web App: [pumpclaw.com](https://pumpclaw.com)
+- 📦 npm CLI: [pumpclaw-cli](https://npmjs.com/package/pumpclaw-cli)
+- 🔌 npm MCP: [pumpclaw-mcp](https://npmjs.com/package/pumpclaw-mcp)
+- 🧩 npm ElizaOS: [elizaos-plugin-pumpclaw](https://npmjs.com/package/elizaos-plugin-pumpclaw)
+- 🛠️ ClawHub: [pumpclaw-base](https://clawhub.ai/skills/pumpclaw-base)
+- 🎬 GitHub Action: [pumpclaw-action](https://github.com/clawd800/pumpclaw-action)
+- 📡 API: [pumpclaw.com/api/v1/tokens.json](https://pumpclaw.com/api/v1/tokens.json)
+- 🆔 ERC-8004 Agent: [Agent #1144](https://pumpclaw.com/agent.json)
 
 ## License
 
