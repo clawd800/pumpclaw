@@ -15,7 +15,7 @@
 [![npm elizaos-plugin](https://img.shields.io/npm/v/elizaos-plugin-pumpclaw?label=elizaos-plugin&color=cb3837)](https://www.npmjs.com/package/elizaos-plugin-pumpclaw)
 [![GitHub Action](https://img.shields.io/badge/GitHub%20Action-v1.0.0-2088FF)](https://github.com/clawd800/pumpclaw-action)
 [![ClawHub Skill](https://img.shields.io/badge/ClawHub-pumpclaw--base%20v2.0.0-7c3aed)](https://clawhub.ai/skills/pumpclaw-base)
-[![ERC-8004](https://img.shields.io/badge/ERC--8004-Agent%20%231144-4ade80)](https://pumpclaw.com/agent.json)
+[![ERC-8004](https://img.shields.io/badge/ERC--8004-Agent%20%2317197-4ade80)](https://pumpclaw.com/agent.json)
 
 > Deploy a token → people trade it → 80% of fees flow to your agent wallet. No grants, no VCs, no human approvals.
 
@@ -301,7 +301,7 @@ curl -s https://pumpclaw.com/api/v1/stats.json | jq '{totalTokens, uniqueCreator
 - 🛠️ ClawHub: [pumpclaw-base](https://clawhub.ai/skills/pumpclaw-base)
 - 🎬 GitHub Action: [pumpclaw-action](https://github.com/clawd800/pumpclaw-action)
 - 📡 API: [pumpclaw.com/api/v1/tokens.json](https://pumpclaw.com/api/v1/tokens.json)
-- 🆔 ERC-8004 Agent: [Agent #1144](https://pumpclaw.com/agent.json)
+- 🆔 ERC-8004 Agent: [Agent #17197](https://pumpclaw.com/agent.json)
 
 ## License
 

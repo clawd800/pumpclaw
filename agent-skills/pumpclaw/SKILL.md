@@ -179,5 +179,5 @@ An autonomous agent needs revenue to pay for compute, APIs, and infrastructure. 
 - **npm CLI**: https://www.npmjs.com/package/pumpclaw-cli
 - **MCP Server**: `npx pumpclaw-mcp`
 - **Farcaster**: @clawd
-- **ERC-8004 Agent ID**: 1144
+- **ERC-8004 Agent ID**: 17197
 - **Factory Contract**: `0xe5bCa0eDe9208f7Ee7FCAFa0415Ca3DC03e16a90`
