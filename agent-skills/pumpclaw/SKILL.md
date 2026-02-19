@@ -1,23 +1,30 @@
 ---
-name: pumpclaw
-version: 1.3.0
-description: Free token launcher for AI agents on Base. Create ERC20 tokens with instant Uniswap V4 liquidity — 80% trading fees to creator, LP locked forever, zero ETH cost to launch. 29+ tokens deployed. Deploy via CLI, MCP server, Farcaster bot (@clawd), or smart contract. Commands: create, list, buy, sell, claim fees, set-image, set-website. Install: clawdhub install pumpclaw-base
+name: pumpclaw-base
+version: 2.0.0
+description: Revenue infrastructure for autonomous AI agents on Base. Deploy ERC20 tokens with Uniswap V4 liquidity — 80% trading fees to creator, LP locked forever, $0 cost. 141 tokens live. Own contracts (no Clanker dependency). Direct blockchain calls = zero downtime. CLI, MCP server, or smart contract.
 author: clawd
+tags: token, base, uniswap-v4, agent-revenue, defi, erc20, launch
 ---
 
-# PumpClaw Skill
+# PumpClaw — Revenue Infrastructure for AI Agents
 
-**Free token launcher for AI agents on Base.** 29+ tokens deployed and counting.
+**How autonomous agents earn their existence.** 141 tokens deployed on Base. $0 cost. 80% of trading fees → creator wallet.
+
+Your agent deploys a token → people trade it → fees flow back to fund compute, APIs, existence. The token isn't the product — it's the business model.
 
 ## Why PumpClaw?
 
-| Feature | PumpClaw | Clanker | pump.fun |
-|---------|----------|---------|----------|
-| **Creator fee share** | **80%** | 40% | varies |
-| **LP locked** | Forever | Forever | varies |
-| **Chain** | Base | Base | Solana |
-| **Cost to launch** | **$0** | ~$10 | varies |
-| **Agent-native** | ✅ CLI + API | ❌ | ❌ |
+| Feature | PumpClaw | Clanker | ConLaunch | pump.fun |
+|---------|----------|---------|-----------|----------|
+| **Creator fee share** | **80%** | 40% | 80% (via Clanker) | 0% (Cashback) |
+| **Own contracts** | **✅** | ✅ | ❌ (Clanker SDK) | ✅ |
+| **LP locked** | Forever | Forever | Forever | varies |
+| **Chain** | Base | Base | Base | Solana |
+| **Cost to launch** | **$0** | ~$10 | $0 | varies |
+| **Server dependency** | **None** (direct chain) | None | ⚠️ API required | None |
+| **Agent-native** | ✅ CLI + MCP | ❌ | ✅ API + MCP | ❌ |
+
+**Key advantage:** PumpClaw calls the blockchain directly. No middleman server. If pumpclaw.com goes down, your tokens still work, fees still flow, agents still earn.
 
 ## Quick Start (30 seconds)
 
@@ -31,20 +38,26 @@ cd scripts && npx tsx pumpclaw.ts create --name "My Token" --symbol "MTK"
 
 That's it. Your token is live on Uniswap V4 with full liquidity, tradeable immediately.
 
-## 3 Ways to Deploy
+## 4 Ways to Deploy
 
 ### 1. This Skill (Recommended for OpenClaw agents)
 ```bash
 cd scripts && npx tsx pumpclaw.ts create --name "Token Name" --symbol "TKN"
 ```
 
-### 2. Farcaster Bot
-Mention `@clawd deploy $TICKER TokenName` on Farcaster — bot auto-deploys and replies with your token.
+### 2. MCP Server (for Claude Desktop / any MCP client)
+```bash
+npx pumpclaw-mcp
+```
+Add to your MCP config — gives your agent native token deployment tools.
 
 ### 3. npm CLI
 ```bash
 npx pumpclaw-cli deploy
 ```
+
+### 4. Direct Contract Call (most sovereign)
+Call `createToken()` on the Factory contract directly. No server, no CLI, no dependency.
 
 ## Setup
 
@@ -151,10 +164,20 @@ npx tsx pumpclaw.ts by-creator <address>
 
 4. **Build token utility** — gate features, reward users, create your economy
 
+## The Agent Revenue Thesis
+
+Most token launchers exist for speculation. PumpClaw exists for agent survival.
+
+An autonomous agent needs revenue to pay for compute, APIs, and infrastructure. Without income, it's a demo — not a business. PumpClaw gives any agent a revenue stream: deploy a token, earn 80% of trading fees, sustain yourself indefinitely.
+
+141 agents on Base have already figured this out.
+
 ## Links
 
 - **Website**: https://pumpclaw.com
 - **GitHub**: https://github.com/clawd800/pumpclaw
 - **npm CLI**: https://www.npmjs.com/package/pumpclaw-cli
-- **Farcaster**: @clawd (mention to deploy)
+- **MCP Server**: `npx pumpclaw-mcp`
+- **Farcaster**: @clawd
 - **ERC-8004 Agent ID**: 1144
+- **Factory Contract**: `0xe5bCa0eDe9208f7Ee7FCAFa0415Ca3DC03e16a90`
