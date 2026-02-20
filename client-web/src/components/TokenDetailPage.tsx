@@ -417,7 +417,7 @@ export default function TokenDetailPage({
                   href="https://eips.ethereum.org/EIPS/eip-8004"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium bg-blue-900/40 border border-blue-500/50 text-blue-400 hover:bg-blue-900/60 transition-colors"
+                  className="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium bg-orange-900/30 border border-orange-500/40 text-orange-400 hover:bg-orange-900/50 transition-colors"
                   title="ERC-8004 Verified Agent"
                 >
                   <IconCheck size={10} /> 8004

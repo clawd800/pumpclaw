@@ -40,9 +40,9 @@ export default function App() {
       <LiveActivityTicker />
 
       {/* Desktop Layout */}
-      <main className="hidden lg:block max-w-6xl mx-auto px-4 py-8">
-        <div className="grid gap-8 lg:grid-cols-[1fr_2fr]">
-          <div className="space-y-8">
+      <main className="hidden lg:block max-w-6xl mx-auto px-4 py-6">
+        <div className="grid gap-6 lg:grid-cols-[1fr_2fr]">
+          <div className="space-y-6">
             <CreateTokenForm onSuccess={refetch} />
             <FeesDashboard />
           </div>
@@ -52,7 +52,7 @@ export default function App() {
         </div>
 
         {/* Stats footer */}
-        <footer className="mt-12 pt-8 border-t border-red-900/50 text-center text-sm text-neutral-500">
+        <footer className="mt-8 pt-6 border-t border-red-900/50 text-center text-xs text-neutral-500">
           <div className="flex flex-wrap justify-center gap-6">
             <a
               href="https://basescan.org/address/0xe5bCa0eDe9208f7Ee7FCAFa0415Ca3DC03e16a90"
@@ -88,8 +88,8 @@ export default function App() {
       </main>
 
       {/* Mobile Layout */}
-      <main className="lg:hidden pb-20 overflow-x-hidden w-full">
-        <div className="px-2 py-2 sm:px-4 sm:py-4 w-full min-w-0">
+      <main className="lg:hidden pb-16 overflow-x-hidden w-full">
+        <div className="px-3 py-3 sm:px-4 sm:py-4 w-full min-w-0">
           {activeTab === "launches" && <TokenList />}
           {activeTab === "create" && <CreateTokenForm onSuccess={refetch} />}
           {activeTab === "fees" && <FeesDashboard />}
@@ -104,41 +104,26 @@ export default function App() {
       </main>
 
       {/* Mobile Bottom Tab Bar */}
-      <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-black border-t border-red-900/50">
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-black/95 backdrop-blur-sm border-t border-red-900/50 z-50">
         <div className="flex">
-          <button
-            onClick={() => setActiveTab("launches")}
-            className={`flex-1 py-4 text-center transition-colors ${
-              activeTab === "launches"
-                ? "text-orange-200 bg-red-900/20"
-                : "text-neutral-500 hover:text-orange-400"
-            }`}
-          >
-            <IconChart size={20} />
-            <p className="text-xs mt-1">Launches</p>
-          </button>
-          <button
-            onClick={() => setActiveTab("create")}
-            className={`flex-1 py-4 text-center transition-colors ${
-              activeTab === "create"
-                ? "text-orange-200 bg-red-900/20"
-                : "text-neutral-500 hover:text-orange-400"
-            }`}
-          >
-            <IconRocket size={20} />
-            <p className="text-xs mt-1">Launch</p>
-          </button>
-          <button
-            onClick={() => setActiveTab("fees")}
-            className={`flex-1 py-4 text-center transition-colors ${
-              activeTab === "fees"
-                ? "text-orange-200 bg-red-900/20"
-                : "text-neutral-500 hover:text-orange-400"
-            }`}
-          >
-            <IconMoney size={20} />
-            <p className="text-xs mt-1">Fees</p>
-          </button>
+          {([
+            { tab: "launches" as MobileTab, label: "Tokens", icon: <IconChart size={18} /> },
+            { tab: "create" as MobileTab, label: "Launch", icon: <IconRocket size={18} /> },
+            { tab: "fees" as MobileTab, label: "Fees", icon: <IconMoney size={18} /> },
+          ]).map(({ tab, label, icon }) => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className={`flex-1 flex flex-col items-center gap-0.5 py-2.5 transition-colors ${
+                activeTab === tab
+                  ? "text-orange-200 bg-red-900/20"
+                  : "text-neutral-500 hover:text-orange-400"
+              }`}
+            >
+              {icon}
+              <span className="text-[10px]">{label}</span>
+            </button>
+          ))}
         </div>
       </nav>
     </div>

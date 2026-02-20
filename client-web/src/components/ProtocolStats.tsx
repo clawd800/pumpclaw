@@ -24,8 +24,8 @@ export default function ProtocolStats() {
 
   return (
     <div className="bg-red-950/20 border-b border-red-900/30">
-      <div className="max-w-6xl mx-auto px-3 sm:px-4 py-2">
-        <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center justify-center gap-x-5 gap-y-0.5 text-[11px] sm:text-sm">
+      <div className="max-w-6xl mx-auto px-3 sm:px-4 py-1.5">
+        <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center justify-center gap-x-4 gap-y-0 text-xs">
           <span className="text-red-400 font-semibold inline-flex items-center gap-1">
             <IconRocket size={14} />
             {isLoading ? (
