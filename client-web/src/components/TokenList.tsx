@@ -117,6 +117,21 @@ function ERC8004Badge() {
   );
 }
 
+function PriceChangeBadge({ change }: { change: number | null | undefined }) {
+  if (change === null || change === undefined) return null;
+
+  const isPositive = change >= 0;
+  const arrow = isPositive ? '▲' : '▼';
+  const color = isPositive ? 'text-green-400' : 'text-red-400';
+  const formatted = `${isPositive ? '+' : ''}${change.toFixed(1)}%`;
+
+  return (
+    <span className={`${color} text-[11px] font-medium`}>
+      {arrow} {formatted}
+    </span>
+  );
+}
+
 function VolumeBadge({ volume24h, txns }: { volume24h?: number; txns?: { buys: number; sells: number } }) {
   const vol = volume24h ?? 0;
   const totalTxns = txns ? txns.buys + txns.sells : 0;
@@ -164,9 +179,10 @@ interface TokenCardProps {
   volume24h?: number;
   txns24h?: { buys: number; sells: number };
   apiImageUrl?: string;
+  priceChange24h?: number | null;
 }
 
-function TokenCard({ token, isERC8004Registered, purchasedPct, marketCapWei, ethUsd, volume24h, txns24h, apiImageUrl }: TokenCardProps) {
+function TokenCard({ token, isERC8004Registered, purchasedPct, marketCapWei, ethUsd, volume24h, txns24h, apiImageUrl, priceChange24h }: TokenCardProps) {
   // Use API image URL if available, otherwise fetch on-chain (fallback)
   const { data: onChainImageUrl } = useTokenImageUrl(apiImageUrl ? undefined : token.token);
   const imageUrl = apiImageUrl || onChainImageUrl;
@@ -208,11 +224,12 @@ function TokenCard({ token, isERC8004Registered, purchasedPct, marketCapWei, eth
           <span className="text-neutral-500 text-[11px] shrink-0" title={createdDate.toLocaleString()}>{timeAgo}</span>
         </div>
 
-        {/* Market cap + progress bar + purchased % */}
+        {/* Market cap + price change + progress bar + purchased % */}
         <div className="flex items-center gap-2 min-w-0">
           <span className="text-neutral-400 text-xs font-medium shrink-0">
             MC <span className="text-white">{formatMarketCapUsd(marketCapWei, ethUsd)}</span>
           </span>
+          <PriceChangeBadge change={priceChange24h} />
           <div className="flex-1 h-2 bg-neutral-800 overflow-hidden" role="progressbar" aria-valuenow={Math.round(purchasedPct)} aria-valuemin={0} aria-valuemax={100} aria-label={`${purchasedPct.toFixed(1)}% purchased`}>
             <div
               className="h-full bg-orange-500 transition-all duration-500"
@@ -240,9 +257,9 @@ function getTimeAgo(date: Date): string {
   return `${Math.floor(seconds / 86400)}d ago`;
 }
 
-type SortOption = 'recent' | 'hot' | 'marketcap';
+type SortOption = 'recent' | 'hot' | 'marketcap' | 'pumped';
 
-const SORT_MAP: Record<SortOption, string> = { recent: 'newest', hot: 'hot', marketcap: 'mcap' };
+const SORT_MAP: Record<SortOption, string> = { recent: 'newest', hot: 'hot', marketcap: 'mcap', pumped: 'pumped' };
 
 export default function TokenList() {
   const [sortBy, setSortBy] = useState<SortOption>('hot');
@@ -353,6 +370,7 @@ export default function TokenList() {
         <div className="flex gap-1 flex-1 bg-neutral-900/50 p-1 min-w-0 overflow-hidden">
           {([
             { key: 'hot' as SortOption, label: '🔥 Hot' },
+            { key: 'pumped' as SortOption, label: '🚀 Pumped' },
             { key: 'marketcap' as SortOption, label: 'Top MCap' },
             { key: 'recent' as SortOption, label: 'Recent' },
           ]).map(({ key, label }) => (
@@ -419,6 +437,7 @@ export default function TokenList() {
                 volume24h={vol?.volume24h}
                 txns24h={vol?.txns24h}
                 apiImageUrl={apiData?.imageUrl}
+                priceChange24h={apiData?.priceChange24h}
               />
             );
           })}

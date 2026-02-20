@@ -35,6 +35,7 @@ export interface IndexerToken {
   blockNumber: number;
   price: IndexerTokenPrice;
   volume24h: IndexerTokenVolume;
+  priceChange24h: number | null;
 }
 
 interface IndexerResponse {
