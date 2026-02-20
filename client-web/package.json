@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && npx tsx scripts/generate-token-pages.ts && npx tsx scripts/generate-api.ts && npx tsx scripts/generate-volume-data.ts",
+    "build": "vite build && npx tsx scripts/generate-token-pages.ts",
     "preview": "vite preview",
     "lint": "eslint",
     "deploy": "./scripts/deploy.sh",

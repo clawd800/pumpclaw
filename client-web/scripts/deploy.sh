@@ -17,7 +17,6 @@ npm run build
 # Sync generated token pages from public/ to dist/
 # (generate-token-pages.ts writes to public/, but vite already copied it)
 cp -r public/token/* dist/token/ 2>/dev/null || true
-cp -r public/api/* dist/api/ 2>/dev/null || true
 cp public/sitemap.xml dist/sitemap.xml 2>/dev/null || true
 
 echo "✅ Build complete - v$VERSION ($(ls dist/token/ | wc -l | tr -d ' ') token pages)"

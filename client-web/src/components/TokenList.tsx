@@ -5,7 +5,6 @@ import { CONTRACTS } from "@/configs/constants";
 import { TokenMedia } from "./TokenMedia";
 import { ERC20_ABI } from "@/configs/abis";
 import { useEthUsdPrice } from "@/hooks/useTokenPrice";
-import { useVolumeData } from "@/hooks/useVolumeData";
 import { useIndexerTokens, type IndexerToken } from "@/hooks/useIndexerTokens";
 import { CreatorFarcasterBadge } from "./CreatorFarcasterProfile";
 
@@ -254,7 +253,6 @@ export default function TokenList() {
 
   // === On-chain fallback (only used when API is down) ===
   const { data: onChainTokens, isLoading: onChainLoading, count: onChainCount, refetch: onChainRefetch } = useLatestTokens();
-  const { data: volumeData } = useVolumeData();
   const ethUsd = useEthUsdPrice();
 
   // Decide data source: API first, on-chain fallback
@@ -315,13 +313,9 @@ export default function TokenList() {
     // When using API, tokens are already sorted by the server
     // Only need client-side sort for on-chain fallback
     if (!useApi) {
-      if (sortBy === 'hot') {
-        result.sort((a, b) => {
-          const volA = volumeData?.tokens.find(v => v.address.toLowerCase() === a.token.toLowerCase())?.volume24h ?? 0;
-          const volB = volumeData?.tokens.find(v => v.address.toLowerCase() === b.token.toLowerCase())?.volume24h ?? 0;
-          if (volB !== volA) return volB - volA;
-          return Number(b.createdAt - a.createdAt);
-        });
+      if (sortBy === 'hot' || sortBy === 'recent') {
+        // Without API, default to newest (no volume data available)
+        result.sort((a, b) => Number(b.createdAt - a.createdAt));
       } else if (sortBy === 'marketcap') {
         result.sort((a, b) => {
           const mcapA = poolDataMap.get(a.token.toLowerCase())?.marketCap ?? a.initialFdv;
@@ -334,7 +328,7 @@ export default function TokenList() {
     }
 
     return result;
-  }, [tokens, sortBy, filterERC8004, erc8004StatusMap, poolDataMap, volumeData, useApi]);
+  }, [tokens, sortBy, filterERC8004, erc8004StatusMap, poolDataMap, useApi]);
 
   return (
     <div className="px-2 sm:px-0 w-full min-w-0 overflow-hidden">
@@ -406,7 +400,7 @@ export default function TokenList() {
             const apiData = apiDataMap.get(token.token.toLowerCase());
             const vol = apiData
               ? { volume24h: apiData.volume24h.volumeUsd, txns24h: { buys: apiData.volume24h.buys, sells: apiData.volume24h.sells } }
-              : { volume24h: volumeData?.tokens.find(v => v.address.toLowerCase() === token.token.toLowerCase())?.volume24h, txns24h: volumeData?.tokens.find(v => v.address.toLowerCase() === token.token.toLowerCase())?.txns24h };
+              : { volume24h: undefined, txns24h: undefined };
             const poolData = poolDataMap.get(token.token.toLowerCase());
             
             // Use API market cap (USD) if available, otherwise fall back to on-chain
