@@ -96,30 +96,61 @@ export function IconChartLine({ className = "", size = defaults.size }: IconProp
 
 export function IconLobster({ className = "", size = defaults.size }: IconProps) {
   return (
-    <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <ellipse cx="12" cy="13" rx="4" ry="5" fill="url(#lobster-body)" />
-      <ellipse cx="12" cy="8" rx="3" ry="2.5" fill="url(#lobster-head)" />
-      <path d="M9 8C7 5 4 4 3 5C2 6 4 7 6 8" stroke="#FF6B35" strokeWidth="1.5" strokeLinecap="round" />
-      <path d="M15 8C17 5 20 4 21 5C22 6 20 7 18 8" stroke="#FF6B35" strokeWidth="1.5" strokeLinecap="round" />
-      <path d="M3 5L2 3" stroke="#FF6B35" strokeWidth="1.5" strokeLinecap="round" />
-      <path d="M3 5L1 5" stroke="#FF6B35" strokeWidth="1.5" strokeLinecap="round" />
-      <path d="M21 5L22 3" stroke="#FF6B35" strokeWidth="1.5" strokeLinecap="round" />
-      <path d="M21 5L23 5" stroke="#FF6B35" strokeWidth="1.5" strokeLinecap="round" />
-      <path d="M10 18C10 20 9 22 8 22" stroke="#FF6B35" strokeWidth="1.2" strokeLinecap="round" />
-      <path d="M12 18V22" stroke="#FF6B35" strokeWidth="1.2" strokeLinecap="round" />
-      <path d="M14 18C14 20 15 22 16 22" stroke="#FF6B35" strokeWidth="1.2" strokeLinecap="round" />
-      <circle cx="10.5" cy="7.5" r="0.7" fill="#1a1a2e" />
-      <circle cx="13.5" cy="7.5" r="0.7" fill="#1a1a2e" />
-      <defs>
-        <linearGradient id="lobster-body" x1="12" y1="8" x2="12" y2="18" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#FF6B35" />
-          <stop offset="1" stopColor="#CC4400" />
-        </linearGradient>
-        <linearGradient id="lobster-head" x1="12" y1="5.5" x2="12" y2="10.5" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#FF8C55" />
-          <stop offset="1" stopColor="#FF6B35" />
-        </linearGradient>
-      </defs>
+    <svg className={className} width={size} height={size} viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+      {/* Antennae */}
+      <g stroke="#FF574D" strokeWidth="3" strokeLinecap="round" fill="none">
+        <path d="M 110 85 C 100 20 40 20 25 50" />
+        <path d="M 146 85 C 156 20 216 20 231 50" />
+      </g>
+      {/* Side legs */}
+      <g stroke="#FF574D" strokeWidth="8" strokeLinecap="round" fill="none">
+        <path d="M 105 110 Q 85 105 75 115" />
+        <path d="M 105 125 Q 80 125 70 135" />
+        <path d="M 105 140 Q 85 145 75 155" />
+        <path d="M 151 110 Q 171 105 181 115" />
+        <path d="M 151 125 Q 176 125 186 135" />
+        <path d="M 151 140 Q 171 145 181 155" />
+      </g>
+      {/* Tail segments */}
+      <rect x="110" y="140" width="36" height="15" rx="7.5" fill="#FF574D" />
+      <rect x="114" y="152" width="28" height="15" rx="7.5" fill="#FF574D" />
+      <rect x="118" y="164" width="20" height="15" rx="7.5" fill="#FF574D" />
+      {/* Tail fan */}
+      <ellipse cx="108" cy="183" rx="16" ry="12" transform="rotate(-30 108 183)" fill="#FF574D" />
+      <ellipse cx="148" cy="183" rx="16" ry="12" transform="rotate(30 148 183)" fill="#FF574D" />
+      <circle cx="128" cy="187" r="16" fill="#FF574D" />
+      {/* Arms */}
+      <g stroke="#FF574D" strokeWidth="14" strokeLinecap="round" strokeLinejoin="round" fill="none">
+        <path d="M 105 105 L 85 90 L 75 85" />
+        <path d="M 151 105 L 171 90 L 181 85" />
+      </g>
+      {/* Left claw */}
+      <g transform="translate(75, 85) rotate(10)">
+        <path d="M 0 0 C -35 0, -55 -35, -35 -60 C -25 -50, -20 -40, -15 -30 Q -10 -25, -5 -30 C 0 -40, 5 -45, 10 -50 C 20 -40, 15 -10, 0 0 Z" fill="#FF574D" />
+        <path d="M -28 -45 Q -38 -20 -18 -5" stroke="#FFFFFF" strokeWidth="3" strokeLinecap="round" fill="none" opacity="0.4" />
+      </g>
+      {/* Right claw */}
+      <g transform="translate(181, 85) scale(-1, 1) rotate(10)">
+        <path d="M 0 0 C -35 0, -55 -35, -35 -60 C -25 -50, -20 -40, -15 -30 Q -10 -25, -5 -30 C 0 -40, 5 -45, 10 -50 C 20 -40, 15 -10, 0 0 Z" fill="#FF574D" />
+        <path d="M -28 -45 Q -38 -20 -18 -5" stroke="#FFFFFF" strokeWidth="3" strokeLinecap="round" fill="none" opacity="0.4" />
+      </g>
+      {/* Body */}
+      <rect x="100" y="75" width="56" height="75" rx="28" fill="#FF574D" />
+      {/* Body lines */}
+      <path d="M 102 120 Q 128 130 154 120" stroke="#D9362B" strokeWidth="3" fill="none" strokeLinecap="round" opacity="0.6" />
+      <path d="M 104 135 Q 128 145 152 135" stroke="#D9362B" strokeWidth="3" fill="none" strokeLinecap="round" opacity="0.6" />
+      {/* Eyes */}
+      <circle cx="114" cy="92" r="6" fill="#222222" />
+      <circle cx="112" cy="90" r="2.5" fill="#FFFFFF" />
+      <circle cx="142" cy="92" r="6" fill="#222222" />
+      <circle cx="140" cy="90" r="2.5" fill="#FFFFFF" />
+      {/* Cheeks */}
+      <ellipse cx="106" cy="100" rx="7" ry="3.5" fill="#FF8C82" opacity="0.8" />
+      <ellipse cx="150" cy="100" rx="7" ry="3.5" fill="#FF8C82" opacity="0.8" />
+      {/* Smile */}
+      <path d="M 123 99 Q 128 104 133 99" stroke="#222222" strokeWidth="2.5" strokeLinecap="round" fill="none" />
+      {/* Head highlight */}
+      <ellipse cx="128" cy="85" rx="16" ry="5" fill="#FFFFFF" opacity="0.3" />
     </svg>
   );
 }
