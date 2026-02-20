@@ -1,4 +1,5 @@
 // SVG Icon components — replaces emoji usage across the site for visual consistency
+import { useId } from "react";
 
 interface IconProps {
   className?: string;
@@ -8,16 +9,19 @@ interface IconProps {
 const defaults = { size: 16 };
 
 export function IconFire({ className = "", size = defaults.size }: IconProps) {
+  const id = useId();
+  const gradId = `fire-grad-${id}`;
+  const innerId = `fire-inner-${id}`;
   return (
     <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M12 23C16.5 23 20 19.5 20 15.5C20 11.5 17 8 14 5.5C14 8.5 12 10.5 10 10.5C10 7.5 8 3 6 1C6 5 4 8 4 12C4 16.5 7.5 23 12 23Z" fill="url(#fire-grad)" />
-      <path d="M12 23C14.5 23 16.5 20.5 16.5 17.5C16.5 14.5 14.5 12.5 13 11C13 13 11.5 14.5 10 14.5C10 12.5 9 10 8 8.5C8 11 7.5 13 7.5 15C7.5 19.5 9.5 23 12 23Z" fill="url(#fire-inner)" />
+      <path d="M12 23C16.5 23 20 19.5 20 15.5C20 11.5 17 8 14 5.5C14 8.5 12 10.5 10 10.5C10 7.5 8 3 6 1C6 5 4 8 4 12C4 16.5 7.5 23 12 23Z" fill={`url(#${gradId})`} />
+      <path d="M12 23C14.5 23 16.5 20.5 16.5 17.5C16.5 14.5 14.5 12.5 13 11C13 13 11.5 14.5 10 14.5C10 12.5 9 10 8 8.5C8 11 7.5 13 7.5 15C7.5 19.5 9.5 23 12 23Z" fill={`url(#${innerId})`} />
       <defs>
-        <linearGradient id="fire-grad" x1="12" y1="1" x2="12" y2="23" gradientUnits="userSpaceOnUse">
+        <linearGradient id={gradId} x1="12" y1="1" x2="12" y2="23" gradientUnits="userSpaceOnUse">
           <stop stopColor="#FF6B35" />
           <stop offset="1" stopColor="#F7931A" />
         </linearGradient>
-        <linearGradient id="fire-inner" x1="12" y1="8.5" x2="12" y2="23" gradientUnits="userSpaceOnUse">
+        <linearGradient id={innerId} x1="12" y1="8.5" x2="12" y2="23" gradientUnits="userSpaceOnUse">
           <stop stopColor="#FFD700" />
           <stop offset="1" stopColor="#FF8C00" />
         </linearGradient>
@@ -27,17 +31,20 @@ export function IconFire({ className = "", size = defaults.size }: IconProps) {
 }
 
 export function IconRocket({ className = "", size = defaults.size }: IconProps) {
+  const id = useId();
+  const bodyId = `rocket-body-${id}`;
+  const flameId = `rocket-flame-${id}`;
   return (
     <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M12 2C12 2 7 7 7 13L9.5 16L12 14L14.5 16L17 13C17 7 12 2 12 2Z" fill="url(#rocket-body)" stroke="#999" strokeWidth="0.5" />
-      <path d="M9.5 16L8 20L10.5 18.5L12 20L13.5 18.5L16 20L14.5 16" fill="url(#rocket-flame)" />
+      <path d="M12 2C12 2 7 7 7 13L9.5 16L12 14L14.5 16L17 13C17 7 12 2 12 2Z" fill={`url(#${bodyId})`} stroke="#999" strokeWidth="0.5" />
+      <path d="M9.5 16L8 20L10.5 18.5L12 20L13.5 18.5L16 20L14.5 16" fill={`url(#${flameId})`} />
       <circle cx="12" cy="10" r="1.5" fill="#1a1a2e" />
       <defs>
-        <linearGradient id="rocket-body" x1="12" y1="2" x2="12" y2="16" gradientUnits="userSpaceOnUse">
+        <linearGradient id={bodyId} x1="12" y1="2" x2="12" y2="16" gradientUnits="userSpaceOnUse">
           <stop stopColor="#E8E8E8" />
           <stop offset="1" stopColor="#B0B0B0" />
         </linearGradient>
-        <linearGradient id="rocket-flame" x1="12" y1="16" x2="12" y2="20" gradientUnits="userSpaceOnUse">
+        <linearGradient id={flameId} x1="12" y1="16" x2="12" y2="20" gradientUnits="userSpaceOnUse">
           <stop stopColor="#FF6B35" />
           <stop offset="0.5" stopColor="#FFD700" />
           <stop offset="1" stopColor="#FF4500" />
@@ -48,15 +55,17 @@ export function IconRocket({ className = "", size = defaults.size }: IconProps) 
 }
 
 export function IconCrown({ className = "", size = defaults.size }: IconProps) {
+  const id = useId();
+  const gradId = `crown-grad-${id}`;
   return (
     <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M3 18H21V20H3V18Z" fill="#F7931A" />
-      <path d="M4 18L2 8L7 12L12 6L17 12L22 8L20 18H4Z" fill="url(#crown-grad)" />
+      <path d="M4 18L2 8L7 12L12 6L17 12L22 8L20 18H4Z" fill={`url(#${gradId})`} />
       <circle cx="7" cy="14" r="1" fill="#1a1a2e" opacity="0.3" />
       <circle cx="12" cy="13" r="1" fill="#1a1a2e" opacity="0.3" />
       <circle cx="17" cy="14" r="1" fill="#1a1a2e" opacity="0.3" />
       <defs>
-        <linearGradient id="crown-grad" x1="12" y1="6" x2="12" y2="18" gradientUnits="userSpaceOnUse">
+        <linearGradient id={gradId} x1="12" y1="6" x2="12" y2="18" gradientUnits="userSpaceOnUse">
           <stop stopColor="#FFD700" />
           <stop offset="1" stopColor="#F7931A" />
         </linearGradient>
@@ -156,12 +165,14 @@ export function IconLobster({ className = "", size = defaults.size }: IconProps)
 }
 
 export function IconMoney({ className = "", size = defaults.size }: IconProps) {
+  const id = useId();
+  const gradId = `money-grad-${id}`;
   return (
     <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="12" cy="12" r="9" fill="url(#money-grad)" />
+      <circle cx="12" cy="12" r="9" fill={`url(#${gradId})`} />
       <path d="M12 6V18M15 9.5C15 8.12 13.66 7 12 7C10.34 7 9 8.12 9 9.5S10.34 12 12 12C13.66 12 15 13.12 15 14.5S13.66 17 12 17C10.34 17 9 15.88 9 14.5" stroke="#1a1a2e" strokeWidth="1.5" strokeLinecap="round" />
       <defs>
-        <linearGradient id="money-grad" x1="12" y1="3" x2="12" y2="21" gradientUnits="userSpaceOnUse">
+        <linearGradient id={gradId} x1="12" y1="3" x2="12" y2="21" gradientUnits="userSpaceOnUse">
           <stop stopColor="#FFD700" />
           <stop offset="1" stopColor="#F7931A" />
         </linearGradient>
@@ -171,11 +182,13 @@ export function IconMoney({ className = "", size = defaults.size }: IconProps) {
 }
 
 export function IconBolt({ className = "", size = defaults.size }: IconProps) {
+  const id = useId();
+  const gradId = `bolt-grad-${id}`;
   return (
     <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M13 2L4 14H12L11 22L20 10H12L13 2Z" fill="url(#bolt-grad)" />
+      <path d="M13 2L4 14H12L11 22L20 10H12L13 2Z" fill={`url(#${gradId})`} />
       <defs>
-        <linearGradient id="bolt-grad" x1="12" y1="2" x2="12" y2="22" gradientUnits="userSpaceOnUse">
+        <linearGradient id={gradId} x1="12" y1="2" x2="12" y2="22" gradientUnits="userSpaceOnUse">
           <stop stopColor="#FFD700" />
           <stop offset="1" stopColor="#F7931A" />
         </linearGradient>
@@ -210,15 +223,17 @@ export function IconRefresh({ className = "", size = defaults.size }: IconProps)
 }
 
 export function IconParty({ className = "", size = defaults.size }: IconProps) {
+  const id = useId();
+  const gradId = `party-grad-${id}`;
   return (
     <svg className={className} width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M4 20L7 9L15 17L4 20Z" fill="url(#party-grad)" />
+      <path d="M4 20L7 9L15 17L4 20Z" fill={`url(#${gradId})`} />
       <circle cx="14" cy="5" r="1.5" fill="#FF6B35" />
       <circle cx="19" cy="8" r="1" fill="#FFD700" />
       <circle cx="17" cy="3" r="1" fill="#22C55E" />
       <path d="M9 4L10 2M20 12L22 11M18 16L20 17" stroke="#F7931A" strokeWidth="1.5" strokeLinecap="round" />
       <defs>
-        <linearGradient id="party-grad" x1="4" y1="9" x2="15" y2="20" gradientUnits="userSpaceOnUse">
+        <linearGradient id={gradId} x1="4" y1="9" x2="15" y2="20" gradientUnits="userSpaceOnUse">
           <stop stopColor="#F7931A" />
           <stop offset="1" stopColor="#FF6B35" />
         </linearGradient>
