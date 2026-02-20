@@ -194,7 +194,7 @@ function TokenCard({ token, isERC8004Registered, purchasedPct, marketCapWei, eth
   return (
     <a
       href={`#/token/${token.token}`}
-      className="flex gap-3 p-3 border border-neutral-800 bg-neutral-950/80 hover:border-orange-500/30 hover:bg-neutral-900/50 transition-all group overflow-hidden min-w-0"
+      className="flex items-center gap-3 p-3 border border-neutral-800 bg-neutral-950/80 hover:border-orange-500/30 hover:bg-neutral-900/50 transition-all group overflow-hidden min-w-0"
     >
       {/* Left: Token image */}
       <div className="shrink-0 w-20 h-20 sm:w-24 sm:h-24 overflow-hidden bg-neutral-900 border border-neutral-800 group-hover:border-neutral-700 transition-colors">
@@ -367,10 +367,10 @@ export default function TokenList() {
       <div className="flex items-center gap-2 mb-3 pb-3 border-b border-neutral-800/50">
         <div className="flex flex-1 bg-neutral-900/50 p-0.5">
           {([
-            { key: 'hot' as SortOption, label: 'Hot', icon: <IconFire size={12} /> },
-            { key: 'pumped' as SortOption, label: 'Pumped', icon: <IconRocket size={12} /> },
-            { key: 'marketcap' as SortOption, label: 'MCap', icon: <IconCrown size={12} /> },
-            { key: 'recent' as SortOption, label: 'New', icon: <IconClock size={12} /> },
+            { key: 'hot' as SortOption, label: 'Hot', icon: <IconFire size={14} /> },
+            { key: 'pumped' as SortOption, label: 'Pumped', icon: <IconRocket size={14} /> },
+            { key: 'marketcap' as SortOption, label: 'MCap', icon: <IconCrown size={14} /> },
+            { key: 'recent' as SortOption, label: 'New', icon: <IconClock size={14} /> },
           ]).map(({ key, label, icon }) => (
             <button
               key={key}
