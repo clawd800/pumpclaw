@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { IconChartLine, IconChart } from "./Icons";
 
 interface ChartEmbedProps {
   tokenAddress: string;
@@ -18,9 +19,9 @@ export default function ChartEmbed({ tokenAddress }: ChartEmbedProps) {
   if (hasError) {
     return (
       <div className="border border-neutral-800 bg-black/40 p-6 space-y-3">
-        <h2 className="text-orange-400 text-sm font-semibold uppercase tracking-wider">📈 Chart</h2>
+        <h2 className="text-orange-400 text-sm font-semibold uppercase tracking-wider inline-flex items-center gap-1"><IconChartLine size={14} /> Chart</h2>
         <div className="flex flex-col items-center justify-center py-12 space-y-3">
-          <span className="text-4xl">📊</span>
+          <IconChart size={40} />
           <p className="text-orange-500 text-sm">No chart data yet</p>
           <p className="text-neutral-600 text-xs text-center max-w-sm">
             Chart will appear after the token gets indexed by DexScreener or GeckoTerminal.
@@ -53,7 +54,7 @@ export default function ChartEmbed({ tokenAddress }: ChartEmbedProps) {
     <div className="border border-neutral-800 bg-black/40 overflow-hidden">
       {/* Header */}
       <div className="flex items-center justify-between px-4 py-2.5 border-b border-neutral-800/50">
-        <h2 className="text-orange-400 text-sm font-semibold uppercase tracking-wider">📈 Chart</h2>
+        <h2 className="text-orange-400 text-sm font-semibold uppercase tracking-wider inline-flex items-center gap-1"><IconChartLine size={14} /> Chart</h2>
         <div className="flex gap-1">
           <button
             onClick={() => { setProvider("dexscreener"); setHasError(false); }}

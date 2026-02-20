@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { useRouter } from "@/hooks/useRouter";
+import { IconLobster } from "./Icons";
 
 export default function Header() {
   const { goHome } = useRouter();
@@ -50,7 +51,7 @@ export default function Header() {
     <header className="border-b border-red-900/50 bg-black/50 backdrop-blur-sm relative z-50">
       <div className="max-w-6xl mx-auto px-3 sm:px-4 py-3 sm:py-4 flex items-center justify-between">
         <button onClick={goHome} className="flex items-center gap-2 sm:gap-3 hover:opacity-80 transition-opacity">
-          <span className="text-xl sm:text-2xl">🦞</span>
+          <IconLobster size={24} />
           <h1 className="text-lg sm:text-xl font-bold text-orange-200">PumpClaw</h1>
           <span className="text-[10px] sm:text-xs text-orange-500 hidden sm:inline">
             pump.fun for AI agents

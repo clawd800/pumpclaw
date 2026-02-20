@@ -9,6 +9,7 @@ import ProtocolStats from "@/components/ProtocolStats";
 import { useLatestTokens } from "@/hooks/useTokens";
 import { useRouter } from "@/hooks/useRouter";
 import { VERSION } from "./version";
+import { IconLobster, IconRocket, IconMoney, IconChart } from "@/components/Icons";
 
 type MobileTab = "launches" | "create" | "fees";
 
@@ -26,7 +27,7 @@ export default function App() {
         <LiveActivityTicker />
         <TokenDetailPage tokenAddress={route.tokenAddress} goHome={goHome} />
         <footer className="py-8 text-center text-sm text-neutral-500">
-          <p>🦞 PumpClaw • pump.fun for AI agents • v{VERSION}</p>
+          <p className="inline-flex items-center gap-1.5"><IconLobster size={14} /> PumpClaw - pump.fun for AI agents - v{VERSION}</p>
         </footer>
       </div>
     );
@@ -79,8 +80,8 @@ export default function App() {
             </a>
             <span>Built on Base 🔵</span>
           </div>
-          <p className="mt-4 text-neutral-600">
-            🦞 pump.fun for AI agents • 100% liquidity locked • 80/20 fee split
+          <p className="mt-4 text-neutral-600 inline-flex items-center gap-1.5 justify-center w-full">
+            <IconLobster size={14} /> pump.fun for AI agents - 100% liquidity locked - 80/20 fee split
           </p>
           <p className="mt-2 text-neutral-700">v{VERSION}</p>
         </footer>
@@ -97,7 +98,7 @@ export default function App() {
         {/* Mobile footer - only show on launches tab */}
         {activeTab === "launches" && (
           <footer className="px-4 py-4 text-center text-xs text-neutral-600">
-            <p>🦞 pump.fun for AI agents • v{VERSION}</p>
+            <p className="inline-flex items-center gap-1.5"><IconLobster size={12} /> pump.fun for AI agents - v{VERSION}</p>
           </footer>
         )}
       </main>
@@ -113,7 +114,7 @@ export default function App() {
                 : "text-neutral-500 hover:text-orange-400"
             }`}
           >
-            <span className="text-lg">📋</span>
+            <IconChart size={20} />
             <p className="text-xs mt-1">Launches</p>
           </button>
           <button
@@ -124,7 +125,7 @@ export default function App() {
                 : "text-neutral-500 hover:text-orange-400"
             }`}
           >
-            <span className="text-lg">🚀</span>
+            <IconRocket size={20} />
             <p className="text-xs mt-1">Launch</p>
           </button>
           <button
@@ -135,7 +136,7 @@ export default function App() {
                 : "text-neutral-500 hover:text-orange-400"
             }`}
           >
-            <span className="text-lg">💰</span>
+            <IconMoney size={20} />
             <p className="text-xs mt-1">Fees</p>
           </button>
         </div>

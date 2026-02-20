@@ -1,6 +1,7 @@
 import { useLatestTokens, useTokenImageUrl, type TokenInfo } from "@/hooks/useTokens";
 import { useEffect, useState, useMemo } from "react";
 import { TokenMedia } from "./TokenMedia";
+import { IconLobster } from "./Icons";
 
 function getTimeAgo(date: Date): string {
   const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
@@ -17,7 +18,7 @@ function TokenLogo({ token }: { token: TokenInfo }) {
       {imageUrl ? (
         <TokenMedia src={imageUrl} alt={token.symbol} />
       ) : (
-        <div className="w-full h-full flex items-center justify-center text-[10px]">🦞</div>
+        <div className="w-full h-full flex items-center justify-center"><IconLobster size={10} /></div>
       )}
     </div>
   );

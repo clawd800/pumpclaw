@@ -1,3 +1,5 @@
+import { IconLobster, IconChart } from "./Icons";
+
 export default function PlatformTokenBanner() {
   const tokenAddress = "0x76767891Fe941e1934953e9bd63cDeD7b5c473Da";
   const geckoTerminalUrl = `https://www.geckoterminal.com/base/pools/${tokenAddress}`;
@@ -14,7 +16,7 @@ export default function PlatformTokenBanner() {
           {/* Left: Title & Description */}
           <div className="space-y-1">
             <div className="flex items-center gap-2">
-              <span className="text-orange-400 text-lg">🦞</span>
+              <IconLobster size={18} />
               <h3 className="text-orange-200 font-bold text-sm sm:text-base">
                 $PUMPCLAW Platform Token
               </h3>
@@ -47,7 +49,7 @@ export default function PlatformTokenBanner() {
               rel="noopener noreferrer"
               className="px-2 sm:px-3 py-1.5 bg-orange-800/30 border border-orange-600/40 text-orange-300 hover:bg-orange-800/50 transition-colors text-[10px] sm:text-xs rounded"
             >
-              Chart 📊
+              <span className="inline-flex items-center gap-1">Chart <IconChart size={12} /></span>
             </a>
           </div>
         </div>

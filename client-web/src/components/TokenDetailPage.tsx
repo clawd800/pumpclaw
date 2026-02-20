@@ -3,6 +3,7 @@ import { useReadContract } from "wagmi";
 import { formatEther } from "viem";
 import { useState } from "react";
 import { CONTRACTS } from "@/configs/constants";
+import { IconLobster, IconChart, IconCopy, IconCheck, IconRocket } from "./Icons";
 import { TokenMedia } from "./TokenMedia";
 import { ERC20_ABI } from "@/configs/abis";
 import { useTokenPrice, useEthUsdPrice } from "@/hooks/useTokenPrice";
@@ -59,7 +60,7 @@ function CopyButton({ text, label }: { text: string; label?: string }) {
       className="text-orange-500 hover:text-orange-300 transition-colors text-sm"
       title={`Copy ${label || "to clipboard"}`}
     >
-      {copied ? "✓ Copied!" : `📋 ${label || "Copy"}`}
+      {copied ? <span className="inline-flex items-center gap-1"><IconCheck size={12} /> Copied!</span> : <span className="inline-flex items-center gap-1"><IconCopy size={12} /> {label || "Copy"}</span>}
     </button>
   );
 }
@@ -164,7 +165,7 @@ function MarketStats({ tokenAddress, totalSupply }: { tokenAddress: `0x${string}
   if (priceLoading || ethPerToken === null) {
     return (
       <div className="border border-red-900/50 bg-black/40 p-6">
-        <h2 className="text-orange-400 text-sm font-semibold uppercase tracking-wider mb-3">📊 Live Market Data</h2>
+        <h2 className="text-orange-400 text-sm font-semibold uppercase tracking-wider mb-3"><span className="inline-flex items-center gap-1"><IconChart size={14} /> Live Market Data</span></h2>
         <div className="text-neutral-500 text-sm animate-pulse">Reading V4 pool...</div>
       </div>
     );
@@ -191,7 +192,7 @@ function MarketStats({ tokenAddress, totalSupply }: { tokenAddress: `0x${string}
   return (
     <div className="border border-red-900/50 bg-black/40 p-6 space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-orange-400 text-sm font-semibold uppercase tracking-wider">📊 Live Market Data</h2>
+        <h2 className="text-orange-400 text-sm font-semibold uppercase tracking-wider"><span className="inline-flex items-center gap-1"><IconChart size={14} /> Live Market Data</span></h2>
         <span className="text-neutral-600 text-xs">via Uniswap V4</span>
       </div>
       
@@ -300,8 +301,8 @@ export default function TokenDetailPage({
             {imageUrl ? (
               <TokenMedia src={imageUrl} alt={token.symbol} />
             ) : (
-              <div className="w-full h-full flex items-center justify-center text-orange-500 text-3xl sm:text-5xl">
-                🦞
+              <div className="w-full h-full flex items-center justify-center">
+                <IconLobster size={48} />
               </div>
             )}
           </div>
@@ -419,7 +420,7 @@ export default function TokenDetailPage({
                   className="inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium bg-blue-900/40 border border-blue-500/50 text-blue-400 hover:bg-blue-900/60 transition-colors"
                   title="ERC-8004 Verified Agent"
                 >
-                  ✓ 8004
+                  <IconCheck size={10} /> 8004
                 </a>
               )}
               <CreatorFarcasterProfile address={token.creator} />
@@ -586,7 +587,7 @@ export default function TokenDetailPage({
             onClick={goHome}
             className="flex-1 sm:flex-none px-4 sm:px-6 py-2 sm:py-3 bg-gradient-to-r from-red-600 to-orange-500 text-white hover:from-red-500 hover:to-orange-400 transition-all text-xs sm:text-sm font-medium"
           >
-            🚀 Launch
+            <span className="inline-flex items-center gap-1"><IconRocket size={14} /> Launch</span>
           </button>
           <a
             href="https://farcaster.xyz/~/compose?text=%40clawd%20deploy%20%24TICKER%20TokenName"

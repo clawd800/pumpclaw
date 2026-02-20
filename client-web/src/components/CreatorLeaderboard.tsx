@@ -1,5 +1,6 @@
 import { useTokenCount, useTokens, type TokenInfo } from "@/hooks/useTokens";
 import { useMemo } from "react";
+import { IconCrown, IconLobster } from "./Icons";
 
 interface CreatorStats {
   address: `0x${string}`;
@@ -64,7 +65,7 @@ export default function CreatorLeaderboard() {
     <div className="border border-green-900/50 bg-black/40 p-4 sm:p-5 space-y-4">
       <div className="flex items-center justify-between">
         <h2 className="text-green-500 text-sm font-semibold uppercase tracking-wider">
-          🏆 Top Creators
+          <span className="inline-flex items-center gap-1"><IconCrown size={14} /> Top Creators</span>
         </h2>
         <div className="flex gap-3 text-xs">
           <span className="text-green-600">
@@ -109,7 +110,7 @@ export default function CreatorLeaderboard() {
 
       <div className="pt-2 border-t border-green-900/30 text-center">
         <p className="text-green-800 text-xs">
-          Launch more tokens to climb the leaderboard 🦞
+          <span className="inline-flex items-center gap-1">Launch more tokens to climb the leaderboard <IconLobster size={12} /></span>
         </p>
       </div>
     </div>

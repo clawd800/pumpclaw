@@ -3,6 +3,7 @@ import { useAccount } from "wagmi";
 import { useCreateToken } from "@/hooks/useCreateToken";
 import { DEFAULT_SUPPLY, DEFAULT_FDV } from "@/configs/constants";
 import TokenLaunchSuccess from "./TokenLaunchSuccess";
+import { IconLobster } from "./Icons";
 
 export default function CreateTokenForm({ onSuccess }: { onSuccess?: () => void }) {
   const { address, isConnected } = useAccount();
@@ -274,7 +275,7 @@ export default function CreateTokenForm({ onSuccess }: { onSuccess?: () => void 
             ? "Confirm in Wallet..."
             : isConfirming
             ? "Deploying..."
-            : "🦞 Launch Token"}
+            : <><IconLobster size={16} className="inline" /> Launch Token</>}
         </button>
       </form>
 

@@ -7,6 +7,7 @@ import { ERC20_ABI } from "@/configs/abis";
 import { useEthUsdPrice } from "@/hooks/useTokenPrice";
 import { useIndexerTokens, type IndexerToken } from "@/hooks/useIndexerTokens";
 import { CreatorFarcasterBadge } from "./CreatorFarcasterProfile";
+import { IconFire, IconRocket, IconCrown, IconClock, IconChart, IconLobster, IconNoTrades, IconCheck, IconRefresh } from "./Icons";
 
 // ERC-8004 Registry on Base
 const ERC8004_REGISTRY = "0x8004A169FB4a3325136EB29fA0ceB6D2e539a432" as const;
@@ -111,7 +112,7 @@ function ERC8004Badge() {
       className="inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] font-medium bg-blue-900/40 border border-blue-500/50 text-blue-400"
       title="ERC-8004 Verified Agent"
     >
-      <span>✓</span>
+      <IconCheck size={10} />
       <span>8004</span>
     </span>
   );
@@ -139,7 +140,7 @@ function VolumeBadge({ volume24h, txns }: { volume24h?: number; txns?: { buys: n
   if (vol <= 0) {
     return (
       <span className="inline-flex items-center gap-1 px-1.5 py-0.5 bg-neutral-800/60 text-[10px]">
-        <span className="text-neutral-600">📊</span>
+        <IconNoTrades size={12} />
         <span className="text-neutral-500">No trades</span>
       </span>
     );
@@ -151,7 +152,7 @@ function VolumeBadge({ volume24h, txns }: { volume24h?: number; txns?: { buys: n
   
   return (
     <span className="inline-flex items-center gap-1 px-1.5 py-0.5 bg-orange-500/10 text-[10px]">
-      <span className="text-orange-400">🔥</span>
+      <IconFire size={12} />
       <span className="text-orange-300 font-medium">{fmtVol}</span>
       <span className="text-neutral-600">·</span>
       <span className="text-orange-400/70">{totalTxns} txn{totalTxns !== 1 ? 's' : ''}</span>
@@ -200,7 +201,7 @@ function TokenCard({ token, isERC8004Registered, purchasedPct, marketCapWei, eth
         {imageUrl ? (
           <TokenMedia src={imageUrl} alt={token.symbol} />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-orange-400 text-4xl">🦞</div>
+          <div className="w-full h-full flex items-center justify-center"><IconLobster size={48} /></div>
         )}
       </div>
 
@@ -365,7 +366,7 @@ export default function TokenList() {
           onClick={() => refetch()}
           className="text-xs text-neutral-500 hover:text-white transition-colors px-2.5 py-1 border border-neutral-800 hover:border-neutral-700"
         >
-          ↻ Refresh
+          <IconRefresh size={12} /> Refresh
         </button>
       </div>
 
@@ -373,11 +374,11 @@ export default function TokenList() {
       <div className="flex items-center gap-3 mb-4 pb-4 border-b border-neutral-800/50 min-w-0 w-full">
         <div className="flex gap-1 flex-1 bg-neutral-900/50 p-1 min-w-0 overflow-hidden">
           {([
-            { key: 'hot' as SortOption, label: '🔥 Hot' },
-            { key: 'pumped' as SortOption, label: '🚀 Pumped' },
-            { key: 'marketcap' as SortOption, label: 'Top MCap' },
-            { key: 'recent' as SortOption, label: 'Recent' },
-          ]).map(({ key, label }) => (
+            { key: 'hot' as SortOption, label: 'Hot', icon: <IconFire size={14} /> },
+            { key: 'pumped' as SortOption, label: 'Pumped', icon: <IconRocket size={14} /> },
+            { key: 'marketcap' as SortOption, label: 'Top MCap', icon: <IconCrown size={14} /> },
+            { key: 'recent' as SortOption, label: 'Recent', icon: <IconClock size={14} /> },
+          ]).map(({ key, label, icon }) => (
             <button
               key={key}
               onClick={() => setSortBy(key)}
@@ -387,7 +388,7 @@ export default function TokenList() {
                   : 'text-neutral-500 hover:text-neutral-300'
               }`}
             >
-              {label}
+              <span className="inline-flex items-center gap-1">{icon} {label}</span>
             </button>
           ))}
         </div>
@@ -413,7 +414,7 @@ export default function TokenList() {
         <div className="text-center py-16 text-neutral-500">
           {filterERC8004 
             ? "No ERC-8004 registered tokens found."
-            : "No tokens launched yet. Be the first! 🦞"
+            : <span className="inline-flex items-center gap-2">No tokens launched yet. Be the first! <IconLobster size={16} /></span>
           }
         </div>
       ) : (

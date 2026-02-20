@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { usePublicClient } from "wagmi";
 import { decodeEventLog } from "viem";
 import { FACTORY_ABI } from "@/configs/abis";
+import { IconLobster, IconParty, IconCopy, IconCheck, IconChart, IconChartLine, IconRocket, IconShare } from "./Icons";
 
 interface TokenLaunchSuccessProps {
   txHash: `0x${string}`;
@@ -76,7 +77,7 @@ export default function TokenLaunchSuccess({
     <div className="border border-orange-500/60 bg-gradient-to-b from-orange-950/40 to-black/60 p-6 space-y-5 animate-in">
       {/* Header */}
       <div className="text-center space-y-2">
-        <div className="text-4xl">🦞🎉</div>
+        <div className="flex items-center gap-2"><IconLobster size={40} /><IconParty size={40} /></div>
         <h2 className="text-xl font-bold text-orange-200">
           ${tokenSymbol} is LIVE!
         </h2>
@@ -95,7 +96,7 @@ export default function TokenLaunchSuccess({
             onClick={handleCopy}
             className="text-xs text-orange-500 hover:text-orange-300 whitespace-nowrap"
           >
-            {copied ? "✓ Copied" : "📋 Copy CA"}
+            {copied ? <><IconCheck size={12} className="inline" /> Copied</> : <><IconCopy size={12} className="inline" /> Copy CA</>}
           </button>
         </div>
       )}
@@ -107,7 +108,7 @@ export default function TokenLaunchSuccess({
             href={`/#/token/${tokenAddress}`}
             className="py-2 text-center text-xs font-medium bg-red-900/30 border border-red-900/50 text-orange-300 hover:bg-red-900/50 transition-all"
           >
-            📊 Token Page
+            <IconChart size={12} className="inline" /> Token Page
           </a>
         )}
         {tradeUrl && (
@@ -135,7 +136,7 @@ export default function TokenLaunchSuccess({
             rel="noopener noreferrer"
             className="py-2 text-center text-xs font-medium bg-black/40 border border-red-900/50 text-neutral-400 hover:text-orange-300 transition-all"
           >
-            📈 DexScreener
+            <IconChartLine size={12} className="inline" /> DexScreener
           </a>
         )}
       </div>
@@ -144,7 +145,7 @@ export default function TokenLaunchSuccess({
       <div className="border-t border-orange-500/30 pt-4 space-y-3">
         <div className="text-center">
           <p className="text-sm font-semibold text-orange-400">
-            🚀 Share to attract traders!
+            <span className="inline-flex items-center gap-1"><IconShare size={12} /> Share to attract traders!</span>
           </p>
           <p className="text-xs text-neutral-500 mt-1">
             Tokens that get shared get traded. Your followers are your first buyers.

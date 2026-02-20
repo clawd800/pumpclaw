@@ -3,6 +3,7 @@ import { useAccount, useReadContract } from "wagmi";
 import { formatEther } from "viem";
 import { usePendingFees } from "@/hooks/usePendingFees";
 import { useClaimFees } from "@/hooks/useClaimFees";
+import { IconMoney, IconCheck } from "./Icons";
 import { useLatestTokens } from "@/hooks/useTokens";
 import { CONTRACTS } from "@/configs/constants";
 import { LP_LOCKER_ABI } from "@/configs/abis";
@@ -64,7 +65,7 @@ function TokenFeeCard({
               disabled={isPending || isConfirming}
               className="w-full mt-2 py-2 text-sm font-medium bg-orange-600/20 border border-orange-500/40 text-orange-300 hover:bg-orange-600/30 hover:text-orange-200 transition-all disabled:opacity-50"
             >
-              {isPending ? 'Confirm in wallet...' : isConfirming ? 'Claiming...' : isSuccess ? '✓ Claimed!' : 'Claim Fees'}
+              {isPending ? 'Confirm in wallet...' : isConfirming ? 'Claiming...' : isSuccess ? <><IconCheck size={12} className="inline" /> Claimed!</> : 'Claim Fees'}
             </button>
           )}
         </div>
@@ -100,7 +101,7 @@ export default function FeesDashboard() {
     return (
       <div className="border border-red-900/50 bg-black/30 p-6">
         <h2 className="text-xl font-bold text-orange-200 flex items-center gap-2 mb-4">
-          <span>💰</span> Fee Dashboard
+          <><IconMoney size={14} /> Fee Dashboard</>
         </h2>
         <p className="text-neutral-500 text-center py-8">
           Connect wallet to view your claimable fees
@@ -113,7 +114,7 @@ export default function FeesDashboard() {
     return (
       <div className="border border-red-900/50 bg-black/30 p-6">
         <h2 className="text-xl font-bold text-orange-200 flex items-center gap-2 mb-4">
-          <span>💰</span> Fee Dashboard
+          <><IconMoney size={14} /> Fee Dashboard</>
         </h2>
         <p className="text-neutral-500 text-center py-8">
           {isAdmin 
@@ -128,7 +129,7 @@ export default function FeesDashboard() {
     <div className="border border-red-900/50 bg-black/30 p-6">
       <div className="flex flex-col gap-2 mb-4">
         <h2 className="text-lg font-bold text-orange-200 flex items-center gap-2">
-          <span>💰</span> Fee Dashboard
+          <><IconMoney size={14} /> Fee Dashboard</>
         </h2>
         <div className="flex items-center gap-2 text-sm">
           {isAdmin && <span className="text-xs bg-purple-900/50 text-purple-400 px-2 py-1">Admin</span>}
