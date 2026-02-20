@@ -54,8 +54,8 @@ interface UseIndexerTokensResult {
   refetch: () => void;
 }
 
-let cachedData: IndexerResponse | null = null;
-let lastFetchTime = 0;
+let cachedData: Map<string, IndexerResponse> = new Map();
+let lastFetchTime: Map<string, number> = new Map();
 
 async function fetchFromApi(sort: string): Promise<IndexerResponse | null> {
   try {
@@ -64,22 +64,24 @@ async function fetchFromApi(sort: string): Promise<IndexerResponse | null> {
     });
     if (!res.ok) return null;
     const data = await res.json();
-    cachedData = data;
-    lastFetchTime = Date.now();
+    cachedData.set(sort, data);
+    lastFetchTime.set(sort, Date.now());
     return data;
   } catch {
     // API down - return cached data if available
-    return cachedData;
+    return cachedData.get(sort) ?? null;
   }
 }
 
 export function useIndexerTokens(sort: string = "newest"): UseIndexerTokensResult {
-  const [data, setData] = useState<IndexerResponse | null>(cachedData);
-  const [loading, setLoading] = useState(!cachedData);
+  const cached = cachedData.get(sort);
+  const [data, setData] = useState<IndexerResponse | null>(cached ?? null);
+  const [loading, setLoading] = useState(!cached);
   const [error, setError] = useState<string | null>(null);
   const sortRef = useRef(sort);
   sortRef.current = sort;
 
+  // Manual refetch (user-triggered) - shows loading
   const refetch = useCallback(() => {
     setLoading(true);
     fetchFromApi(sortRef.current).then((result) => {
@@ -93,23 +95,38 @@ export function useIndexerTokens(sort: string = "newest"): UseIndexerTokensResul
     });
   }, []);
 
+  // Background refresh - silent, no loading state
+  const silentRefresh = useCallback(() => {
+    fetchFromApi(sortRef.current).then((result) => {
+      if (result) {
+        setData(result);
+        setError(null);
+      }
+      // On failure, keep existing data (no flicker)
+    });
+  }, []);
+
   useEffect(() => {
-    // Use cached data if fresh enough
-    if (cachedData && Date.now() - lastFetchTime < 10_000) {
-      setData(cachedData);
+    const c = cachedData.get(sort);
+    const t = lastFetchTime.get(sort) ?? 0;
+
+    if (c && Date.now() - t < 10_000) {
+      // Fresh cache - use it, no fetch
+      setData(c);
       setLoading(false);
+    } else if (c) {
+      // Stale cache - show it immediately, refresh in background
+      setData(c);
+      setLoading(false);
+      silentRefresh();
     } else {
+      // No cache - full loading
       refetch();
     }
 
-    const interval = setInterval(refetch, REFRESH_INTERVAL);
+    const interval = setInterval(silentRefresh, REFRESH_INTERVAL);
     return () => clearInterval(interval);
-  }, [refetch]);
-
-  // Re-fetch when sort changes
-  useEffect(() => {
-    refetch();
-  }, [sort, refetch]);
+  }, [sort, refetch, silentRefresh]);
 
   return {
     tokens: data?.tokens ?? null,
