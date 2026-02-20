@@ -196,8 +196,8 @@ function TokenCard({ token, isERC8004Registered, purchasedPct, marketCapWei, eth
       href={`#/token/${token.token}`}
       className="flex gap-3 p-3 border border-neutral-800 bg-neutral-950/80 hover:border-orange-500/30 hover:bg-neutral-900/50 transition-all group overflow-hidden min-w-0"
     >
-      {/* Left: Token image — stretches to full card height */}
-      <div className="shrink-0 w-20 sm:w-24 overflow-hidden bg-neutral-900 border border-neutral-800 group-hover:border-neutral-700 transition-colors">
+      {/* Left: Token image — square, stretches to full card height */}
+      <div className="shrink-0 aspect-square overflow-hidden bg-neutral-900 border border-neutral-800 group-hover:border-neutral-700 transition-colors">
         {imageUrl ? (
           <TokenMedia src={imageUrl} alt={token.symbol} />
         ) : (
