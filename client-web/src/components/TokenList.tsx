@@ -6,6 +6,7 @@ import { TokenMedia } from "./TokenMedia";
 import { ERC20_ABI } from "@/configs/abis";
 import { useEthUsdPrice } from "@/hooks/useTokenPrice";
 import { useVolumeData } from "@/hooks/useVolumeData";
+import { useIndexerTokens, type IndexerToken } from "@/hooks/useIndexerTokens";
 import { CreatorFarcasterBadge } from "./CreatorFarcasterProfile";
 
 // ERC-8004 Registry on Base
@@ -163,10 +164,13 @@ interface TokenCardProps {
   ethUsd: number | null;
   volume24h?: number;
   txns24h?: { buys: number; sells: number };
+  apiImageUrl?: string;
 }
 
-function TokenCard({ token, isERC8004Registered, purchasedPct, marketCapWei, ethUsd, volume24h, txns24h }: TokenCardProps) {
-  const { data: imageUrl } = useTokenImageUrl(token.token);
+function TokenCard({ token, isERC8004Registered, purchasedPct, marketCapWei, ethUsd, volume24h, txns24h, apiImageUrl }: TokenCardProps) {
+  // Use API image URL if available, otherwise fetch on-chain (fallback)
+  const { data: onChainImageUrl } = useTokenImageUrl(apiImageUrl ? undefined : token.token);
+  const imageUrl = apiImageUrl || onChainImageUrl;
   
   const createdDate = new Date(Number(token.createdAt) * 1000);
   const timeAgo = getTimeAgo(createdDate);
@@ -239,12 +243,54 @@ function getTimeAgo(date: Date): string {
 
 type SortOption = 'recent' | 'hot' | 'marketcap';
 
+const SORT_MAP: Record<SortOption, string> = { recent: 'newest', hot: 'hot', marketcap: 'mcap' };
+
 export default function TokenList() {
-  const { data: tokens, isLoading, count, refetch } = useLatestTokens();
   const [sortBy, setSortBy] = useState<SortOption>('hot');
   const [filterERC8004, setFilterERC8004] = useState(false);
+
+  // === API-first data source ===
+  const { tokens: apiTokens, total: apiTotal, loading: apiLoading, refetch: apiRefetch } = useIndexerTokens(SORT_MAP[sortBy]);
+
+  // === On-chain fallback (only used when API is down) ===
+  const { data: onChainTokens, isLoading: onChainLoading, count: onChainCount, refetch: onChainRefetch } = useLatestTokens();
   const { data: volumeData } = useVolumeData();
   const ethUsd = useEthUsdPrice();
+
+  // Decide data source: API first, on-chain fallback
+  const useApi = apiTokens !== null && apiTokens.length > 0;
+
+  // Normalize API tokens to match on-chain TokenInfo shape for shared components
+  const tokens: TokenInfo[] = useMemo(() => {
+    if (useApi) {
+      return apiTokens!.map((t) => ({
+        token: t.address as `0x${string}`,
+        creator: t.creator as `0x${string}`,
+        positionId: 0n,
+        totalSupply: BigInt(t.totalSupply),
+        initialFdv: BigInt(t.initialFdv),
+        createdAt: BigInt(t.createdAt),
+        name: t.name,
+        symbol: t.symbol,
+      }));
+    }
+    return onChainTokens;
+  }, [useApi, apiTokens, onChainTokens]);
+
+  const count = useApi ? apiTotal : onChainCount;
+  const isLoading = useApi ? apiLoading : onChainLoading;
+  const refetch = useApi ? apiRefetch : onChainRefetch;
+
+  // Build API lookup maps for price/volume
+  const apiDataMap = useMemo(() => {
+    const map = new Map<string, IndexerToken>();
+    if (apiTokens) {
+      for (const t of apiTokens) {
+        map.set(t.address.toLowerCase(), t);
+      }
+    }
+    return map;
+  }, [apiTokens]);
 
   // Get all unique creator addresses for batch ERC-8004 check
   const creatorAddresses = useMemo(() => {
@@ -254,7 +300,7 @@ export default function TokenList() {
   // Batch check ERC-8004 status
   const erc8004StatusMap = useERC8004Statuses(creatorAddresses);
 
-  // Batch get pool data (market cap + purchased %)
+  // Batch get pool data (market cap + purchased %) - on-chain fallback
   const poolDataMap = usePoolData(tokens);
 
   // Sort and filter tokens
@@ -266,28 +312,29 @@ export default function TokenList() {
       result = result.filter(t => erc8004StatusMap.get(t.creator.toLowerCase()));
     }
 
-    // Sort
-    if (sortBy === 'hot') {
-      // Volume descending, then recent for ties
-      result.sort((a, b) => {
-        const volA = volumeData?.tokens.find(v => v.address.toLowerCase() === a.token.toLowerCase())?.volume24h ?? 0;
-        const volB = volumeData?.tokens.find(v => v.address.toLowerCase() === b.token.toLowerCase())?.volume24h ?? 0;
-        if (volB !== volA) return volB - volA;
-        return Number(b.createdAt - a.createdAt);
-      });
-    } else if (sortBy === 'marketcap') {
-      result.sort((a, b) => {
-        const mcapA = poolDataMap.get(a.token.toLowerCase())?.marketCap ?? a.initialFdv;
-        const mcapB = poolDataMap.get(b.token.toLowerCase())?.marketCap ?? b.initialFdv;
-        if (mcapB > mcapA) return 1;
-        if (mcapB < mcapA) return -1;
-        return 0;
-      });
+    // When using API, tokens are already sorted by the server
+    // Only need client-side sort for on-chain fallback
+    if (!useApi) {
+      if (sortBy === 'hot') {
+        result.sort((a, b) => {
+          const volA = volumeData?.tokens.find(v => v.address.toLowerCase() === a.token.toLowerCase())?.volume24h ?? 0;
+          const volB = volumeData?.tokens.find(v => v.address.toLowerCase() === b.token.toLowerCase())?.volume24h ?? 0;
+          if (volB !== volA) return volB - volA;
+          return Number(b.createdAt - a.createdAt);
+        });
+      } else if (sortBy === 'marketcap') {
+        result.sort((a, b) => {
+          const mcapA = poolDataMap.get(a.token.toLowerCase())?.marketCap ?? a.initialFdv;
+          const mcapB = poolDataMap.get(b.token.toLowerCase())?.marketCap ?? b.initialFdv;
+          if (mcapB > mcapA) return 1;
+          if (mcapB < mcapA) return -1;
+          return 0;
+        });
+      }
     }
-    // 'recent' is already the default order from the hook
 
     return result;
-  }, [tokens, sortBy, filterERC8004, erc8004StatusMap, poolDataMap, volumeData]);
+  }, [tokens, sortBy, filterERC8004, erc8004StatusMap, poolDataMap, volumeData, useApi]);
 
   return (
     <div className="px-2 sm:px-0 w-full min-w-0 overflow-hidden">
@@ -356,18 +403,28 @@ export default function TokenList() {
       ) : (
         <div className="grid gap-3 sm:gap-4 grid-cols-1 md:grid-cols-2 w-full min-w-0">
           {displayedTokens.map((token) => {
-            const vol = volumeData?.tokens.find(v => v.address.toLowerCase() === token.token.toLowerCase());
+            const apiData = apiDataMap.get(token.token.toLowerCase());
+            const vol = apiData
+              ? { volume24h: apiData.volume24h.volumeUsd, txns24h: { buys: apiData.volume24h.buys, sells: apiData.volume24h.sells } }
+              : { volume24h: volumeData?.tokens.find(v => v.address.toLowerCase() === token.token.toLowerCase())?.volume24h, txns24h: volumeData?.tokens.find(v => v.address.toLowerCase() === token.token.toLowerCase())?.txns24h };
             const poolData = poolDataMap.get(token.token.toLowerCase());
+            
+            // Use API market cap (USD) if available, otherwise fall back to on-chain
+            const marketCapWei = apiData && apiData.price.mcapUsd
+              ? BigInt(Math.floor((apiData.price.mcapUsd / (ethUsd || 1)) * 1e18))
+              : (poolData?.marketCap ?? token.initialFdv);
+            
             return (
               <TokenCard 
                 key={token.token} 
                 token={token} 
                 isERC8004Registered={erc8004StatusMap.get(token.creator.toLowerCase()) ?? false}
                 purchasedPct={poolData?.purchasedPct ?? 0}
-                marketCapWei={poolData?.marketCap ?? token.initialFdv}
+                marketCapWei={marketCapWei}
                 ethUsd={ethUsd}
                 volume24h={vol?.volume24h}
                 txns24h={vol?.txns24h}
+                apiImageUrl={apiData?.imageUrl}
               />
             );
           })}

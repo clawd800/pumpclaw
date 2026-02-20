@@ -1,53 +1,109 @@
 {
-  "generatedAt": "2026-02-18T01:00:34.384Z",
-  "totalTokens": 141,
-  "activeTokens": 2,
-  "totalVolume24h": 1.33,
-  "totalTxns24h": 4,
+  "generatedAt": "2026-02-20T18:56:57.559Z",
+  "totalTokens": 144,
+  "activeTokens": 6,
+  "totalVolume24h": 13772.36,
+  "totalTxns24h": 80,
   "hotTokens": [
     {
-      "address": "0x0b40285D79eb3a051D0dd0700Eaa7c7e2150A4B2",
-      "symbol": "CRAVE",
-      "priceUsd": "0.00001979",
-      "volume24h": 1.12,
+      "address": "0x7b011a0504bb4BdB6700a40a6bE4DAE1937aD4a9",
+      "symbol": "TAALAS",
+      "priceUsd": "0.00002949",
+      "volume24h": 9101.8,
+      "txns24h": {
+        "buys": 37,
+        "sells": 11
+      },
+      "fdvUsd": null,
+      "liquidityUsd": 28606.48,
+      "priceChange24h": 48.31,
+      "pairUrl": "https://dexscreener.com/base/0x673b8e62ce0ea2f6a78f66d8131ff7900dbf22717fbeb1888915bc49394c639b"
+    },
+    {
+      "address": "0x49E792965D74e1cF92BB9C5D8da1b92f59A0771c",
+      "symbol": "JIMMY",
+      "priceUsd": "0.00002837",
+      "volume24h": 4469.38,
+      "txns24h": {
+        "buys": 18,
+        "sells": 6
+      },
+      "fdvUsd": null,
+      "liquidityUsd": 27632.18,
+      "priceChange24h": 41.03,
+      "pairUrl": "https://dexscreener.com/base/0xfbca7615b13f74a59361b966bca5a983cf493ff91b55e35d4d1603595b4174e7"
+    },
+    {
+      "address": "0x76767891Fe941e1934953e9bd63cDeD7b5c473Da",
+      "symbol": "PUMPCLAW",
+      "priceUsd": "0.00004514",
+      "volume24h": 197.38,
       "txns24h": {
         "buys": 1,
         "sells": 1
       },
       "fdvUsd": null,
-      "liquidityUsd": 19794.99,
-      "priceChange24h": -0.67,
+      "liquidityUsd": 45070.05,
+      "priceChange24h": 0.76,
+      "pairUrl": "https://dexscreener.com/base/0x30d29308a17778764d3b54adfae59dc894a6a32171702780f59f80de64855704"
+    },
+    {
+      "address": "0x0b40285D79eb3a051D0dd0700Eaa7c7e2150A4B2",
+      "symbol": "CRAVE",
+      "priceUsd": "0.00001967",
+      "volume24h": 2.08,
+      "txns24h": {
+        "buys": 2,
+        "sells": 1
+      },
+      "fdvUsd": null,
+      "liquidityUsd": 19674.9,
+      "priceChange24h": 0.41,
       "pairUrl": "https://dexscreener.com/base/0xe1c139da1b760a2ca2b7deb114fc9c145c7d97e9f48ad6b01b4d7508dfe5c8b1"
     },
     {
       "address": "0x1A6C0A0dD019dC2470686593956C7b6223bC464e",
       "symbol": "CSURGE",
-      "priceUsd": "0.00001993",
-      "volume24h": 0.21,
+      "priceUsd": "0.00001968",
+      "volume24h": 1.24,
       "txns24h": {
-        "buys": 2,
-        "sells": 0
+        "buys": 1,
+        "sells": 1
       },
       "fdvUsd": null,
-      "liquidityUsd": 19939.22,
-      "priceChange24h": 0.1,
+      "liquidityUsd": 19686.24,
+      "priceChange24h": 0.5,
       "pairUrl": "https://dexscreener.com/base/0xb03c02f577ea327e29a908e894f30a4e9d2dd4b85b0a2c52d3618475edcb1d59"
+    },
+    {
+      "address": "0x57e234C501573a8D8DB3d4962A5Db7f82f0BeD4B",
+      "symbol": "Clawfam",
+      "priceUsd": "0.00001969",
+      "volume24h": 0.48,
+      "txns24h": {
+        "buys": 0,
+        "sells": 1
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": "https://dexscreener.com/base/0xbe36776da0ff642d659b0b595fbee7dcc87a8dbae0e03c050542b164cfd84ee5"
     }
   ],
   "tokens": [
     {
       "address": "0x76767891Fe941e1934953e9bd63cDeD7b5c473Da",
       "symbol": "PUMPCLAW",
-      "priceUsd": null,
-      "volume24h": 0,
+      "priceUsd": "0.00004514",
+      "volume24h": 197.38,
       "txns24h": {
-        "buys": 0,
-        "sells": 0
+        "buys": 1,
+        "sells": 1
       },
       "fdvUsd": null,
-      "liquidityUsd": null,
-      "priceChange24h": null,
-      "pairUrl": null
+      "liquidityUsd": 45070.05,
+      "priceChange24h": 0.76,
+      "pairUrl": "https://dexscreener.com/base/0x30d29308a17778764d3b54adfae59dc894a6a32171702780f59f80de64855704"
     },
     {
       "address": "0xCE92aaC1ec6b83451986E39A149eA23f96CD42bb",
@@ -920,15 +976,15 @@
     {
       "address": "0x0b40285D79eb3a051D0dd0700Eaa7c7e2150A4B2",
       "symbol": "CRAVE",
-      "priceUsd": "0.00001979",
-      "volume24h": 1.12,
+      "priceUsd": "0.00001967",
+      "volume24h": 2.08,
       "txns24h": {
-        "buys": 1,
+        "buys": 2,
         "sells": 1
       },
       "fdvUsd": null,
-      "liquidityUsd": 19794.99,
-      "priceChange24h": -0.67,
+      "liquidityUsd": 19674.9,
+      "priceChange24h": 0.41,
       "pairUrl": "https://dexscreener.com/base/0xe1c139da1b760a2ca2b7deb114fc9c145c7d97e9f48ad6b01b4d7508dfe5c8b1"
     },
     {
@@ -1858,29 +1914,29 @@
     {
       "address": "0x57e234C501573a8D8DB3d4962A5Db7f82f0BeD4B",
       "symbol": "Clawfam",
-      "priceUsd": null,
-      "volume24h": 0,
+      "priceUsd": "0.00001969",
+      "volume24h": 0.48,
       "txns24h": {
         "buys": 0,
-        "sells": 0
+        "sells": 1
       },
       "fdvUsd": null,
       "liquidityUsd": null,
       "priceChange24h": null,
-      "pairUrl": null
+      "pairUrl": "https://dexscreener.com/base/0xbe36776da0ff642d659b0b595fbee7dcc87a8dbae0e03c050542b164cfd84ee5"
     },
     {
       "address": "0x1A6C0A0dD019dC2470686593956C7b6223bC464e",
       "symbol": "CSURGE",
-      "priceUsd": "0.00001993",
-      "volume24h": 0.21,
+      "priceUsd": "0.00001968",
+      "volume24h": 1.24,
       "txns24h": {
-        "buys": 2,
-        "sells": 0
+        "buys": 1,
+        "sells": 1
       },
       "fdvUsd": null,
-      "liquidityUsd": 19939.22,
-      "priceChange24h": 0.1,
+      "liquidityUsd": 19686.24,
+      "priceChange24h": 0.5,
       "pairUrl": "https://dexscreener.com/base/0xb03c02f577ea327e29a908e894f30a4e9d2dd4b85b0a2c52d3618475edcb1d59"
     },
     {
@@ -2008,6 +2064,48 @@
       "liquidityUsd": null,
       "priceChange24h": null,
       "pairUrl": null
+    },
+    {
+      "address": "0x96f4Fe9cC2721e19eFAFE28b1855DF34aAba84Be",
+      "symbol": "MCD",
+      "priceUsd": null,
+      "volume24h": 0,
+      "txns24h": {
+        "buys": 0,
+        "sells": 0
+      },
+      "fdvUsd": null,
+      "liquidityUsd": null,
+      "priceChange24h": null,
+      "pairUrl": null
+    },
+    {
+      "address": "0x49E792965D74e1cF92BB9C5D8da1b92f59A0771c",
+      "symbol": "JIMMY",
+      "priceUsd": "0.00002837",
+      "volume24h": 4469.38,
+      "txns24h": {
+        "buys": 18,
+        "sells": 6
+      },
+      "fdvUsd": null,
+      "liquidityUsd": 27632.18,
+      "priceChange24h": 41.03,
+      "pairUrl": "https://dexscreener.com/base/0xfbca7615b13f74a59361b966bca5a983cf493ff91b55e35d4d1603595b4174e7"
+    },
+    {
+      "address": "0x7b011a0504bb4BdB6700a40a6bE4DAE1937aD4a9",
+      "symbol": "TAALAS",
+      "priceUsd": "0.00002949",
+      "volume24h": 9101.8,
+      "txns24h": {
+        "buys": 37,
+        "sells": 11
+      },
+      "fdvUsd": null,
+      "liquidityUsd": 28606.48,
+      "priceChange24h": 48.31,
+      "pairUrl": "https://dexscreener.com/base/0x673b8e62ce0ea2f6a78f66d8131ff7900dbf22717fbeb1888915bc49394c639b"
     }
   ]
 }
