@@ -196,8 +196,8 @@ function TokenCard({ token, isERC8004Registered, purchasedPct, marketCapWei, eth
       href={`#/token/${token.token}`}
       className="flex gap-3 p-3 border border-neutral-800 bg-neutral-950/80 hover:border-orange-500/30 hover:bg-neutral-900/50 transition-all group overflow-hidden min-w-0"
     >
-      {/* Left: Token image — fixed width, stretches to card height */}
-      <div className="shrink-0 w-20 sm:w-24 overflow-hidden bg-neutral-900 border border-neutral-800 group-hover:border-neutral-700 transition-colors">
+      {/* Left: Token image — fixed square */}
+      <div className="shrink-0 w-24 h-24 sm:w-28 sm:h-28 overflow-hidden bg-neutral-900 border border-neutral-800 group-hover:border-neutral-700 transition-colors">
         {imageUrl ? (
           <TokenMedia src={imageUrl} alt={token.symbol} />
         ) : (
@@ -205,8 +205,8 @@ function TokenCard({ token, isERC8004Registered, purchasedPct, marketCapWei, eth
         )}
       </div>
 
-      {/* Right: Stacked info */}
-      <div className="flex-1 min-w-0 flex flex-col justify-between">
+      {/* Right: Stacked info — same height as image */}
+      <div className="flex-1 min-w-0 flex flex-col justify-between h-24 sm:h-28">
         {/* Top: name + ticker */}
         <div>
           <div className="flex items-center gap-1.5 mb-0.5">
