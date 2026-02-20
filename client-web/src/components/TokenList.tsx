@@ -205,7 +205,7 @@ function TokenCard({ token, isERC8004Registered, purchasedPct, marketCapWei, eth
       </div>
 
       {/* Right: Stacked info */}
-      <div className="flex-1 min-w-0 flex flex-col justify-between py-0.5">
+      <div className="flex-1 min-w-0 flex flex-col gap-1 py-0.5">
         {/* Token name */}
         <h3 className="font-bold text-white text-sm sm:text-base truncate group-hover:text-orange-200 transition-colors">
           {token.name}
@@ -224,19 +224,23 @@ function TokenCard({ token, isERC8004Registered, purchasedPct, marketCapWei, eth
           <span className="text-neutral-500 text-[11px] shrink-0" title={createdDate.toLocaleString()}>{timeAgo}</span>
         </div>
 
-        {/* Market cap + price change + progress bar + purchased % */}
+        {/* Market cap + price change */}
         <div className="flex items-center gap-2 min-w-0">
           <span className="text-neutral-400 text-xs font-medium shrink-0">
             MC <span className="text-white">{formatMarketCapUsd(marketCapWei, ethUsd)}</span>
           </span>
           <PriceChangeBadge change={priceChange24h} />
-          <div className="flex-1 h-2 bg-neutral-800 overflow-hidden" role="progressbar" aria-valuenow={Math.round(purchasedPct)} aria-valuemin={0} aria-valuemax={100} aria-label={`${purchasedPct.toFixed(1)}% purchased`}>
+        </div>
+
+        {/* Progress bar + purchased % */}
+        <div className="flex items-center gap-2 min-w-0">
+          <div className="flex-1 h-1.5 bg-neutral-800 overflow-hidden" role="progressbar" aria-valuenow={Math.round(purchasedPct)} aria-valuemin={0} aria-valuemax={100} aria-label={`${purchasedPct.toFixed(1)}% purchased`}>
             <div
               className="h-full bg-orange-500 transition-all duration-500"
               style={{ width: `${Math.min(purchasedPct, 100)}%` }}
             />
           </div>
-          <span className="text-orange-400 text-[11px] font-medium shrink-0">{purchasedPct.toFixed(1)}%</span>
+          <span className="text-orange-400 text-[10px] font-medium shrink-0">{purchasedPct.toFixed(1)}%</span>
         </div>
 
         {/* Volume badge */}
