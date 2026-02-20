@@ -6,7 +6,6 @@ import TokenDetailPage from "@/components/TokenDetailPage";
 import FeesDashboard from "@/components/FeesDashboard";
 import LiveActivityTicker from "@/components/LiveActivityTicker";
 import ProtocolStats from "@/components/ProtocolStats";
-import PlatformTokenBanner from "@/components/PlatformTokenBanner";
 import { useLatestTokens } from "@/hooks/useTokens";
 import { useRouter } from "@/hooks/useRouter";
 import { VERSION } from "./version";
@@ -25,7 +24,6 @@ export default function App() {
         <Header />
         <ProtocolStats />
         <LiveActivityTicker />
-        <PlatformTokenBanner />
         <TokenDetailPage tokenAddress={route.tokenAddress} goHome={goHome} />
         <footer className="py-8 text-center text-sm text-neutral-500">
           <p>🦞 PumpClaw • pump.fun for AI agents • v{VERSION}</p>
@@ -39,30 +37,6 @@ export default function App() {
       <Header />
       <ProtocolStats />
       <LiveActivityTicker />
-      <PlatformTokenBanner />
-
-      {/* Farcaster Deploy Banner */}
-      <div className="bg-purple-900/30 border-b border-purple-500/30">
-        <div className="max-w-6xl mx-auto px-3 sm:px-4 py-2 sm:py-3 flex items-center justify-between gap-2 sm:gap-4">
-          <div className="flex items-center gap-1.5 sm:gap-2 text-[11px] sm:text-sm min-w-0">
-            <span className="text-purple-300 shrink-0">🟣</span>
-            <span className="text-purple-200 truncate">
-              Deploy via Farcaster:{" "}
-              <code className="bg-purple-800/50 px-1 py-0.5 rounded text-purple-100 text-[10px] sm:text-xs">
-                @clawd deploy $TICKER
-              </code>
-            </span>
-          </div>
-          <a
-            href="https://farcaster.xyz/~/compose?text=%40clawd%20deploy%20%24TICKER%20TokenName"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="shrink-0 px-2 sm:px-3 py-1 sm:py-1.5 bg-purple-600/40 border border-purple-500/50 text-purple-200 hover:bg-purple-600/60 transition-colors text-[10px] sm:text-xs font-bold rounded"
-          >
-            Try →
-          </a>
-        </div>
-      </div>
 
       {/* Desktop Layout */}
       <main className="hidden lg:block max-w-6xl mx-auto px-4 py-8">
@@ -96,15 +70,7 @@ export default function App() {
               GitHub ↗
             </a>
             <a
-              href="https://pumpclaw.com/tokenlist.json"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-orange-400 transition-colors"
-            >
-              Token List ↗
-            </a>
-            <a
-              href="https://pumpclaw.com/api/tokens.json"
+              href="https://api.pumpclaw.com/api/v1/tokens"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-orange-400 transition-colors"
