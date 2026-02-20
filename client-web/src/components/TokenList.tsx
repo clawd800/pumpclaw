@@ -194,10 +194,10 @@ function TokenCard({ token, isERC8004Registered, purchasedPct, marketCapWei, eth
   return (
     <a
       href={`#/token/${token.token}`}
-      className="flex items-center gap-3 p-3 border border-neutral-800 bg-neutral-950/80 hover:border-orange-500/30 hover:bg-neutral-900/50 transition-all group overflow-hidden min-w-0"
+      className="flex gap-3 p-3 border border-neutral-800 bg-neutral-950/80 hover:border-orange-500/30 hover:bg-neutral-900/50 transition-all group overflow-hidden min-w-0"
     >
-      {/* Left: Token image */}
-      <div className="shrink-0 w-20 h-20 sm:w-24 sm:h-24 overflow-hidden bg-neutral-900 border border-neutral-800 group-hover:border-neutral-700 transition-colors">
+      {/* Left: Token image — stretches to full card height */}
+      <div className="shrink-0 w-20 sm:w-24 overflow-hidden bg-neutral-900 border border-neutral-800 group-hover:border-neutral-700 transition-colors">
         {imageUrl ? (
           <TokenMedia src={imageUrl} alt={token.symbol} />
         ) : (
@@ -219,8 +219,6 @@ function TokenCard({ token, isERC8004Registered, purchasedPct, marketCapWei, eth
             <span className="font-mono">${token.symbol}</span>
             <span>·</span>
             <CreatorFarcasterBadge address={token.creator} />
-            <span>·</span>
-            <span className="shrink-0" title={createdDate.toLocaleString()}>{timeAgo}</span>
           </div>
         </div>
 
@@ -239,7 +237,11 @@ function TokenCard({ token, isERC8004Registered, purchasedPct, marketCapWei, eth
             </div>
             <span className="text-orange-400 text-xs tabular-nums shrink-0">{purchasedPct.toFixed(1)}%</span>
           </div>
-          <VolumeBadge volume24h={volume24h} txns={txns24h} />
+          <div className="flex items-center gap-1 text-xs">
+            <VolumeBadge volume24h={volume24h} txns={txns24h} />
+            <span className="text-neutral-600">·</span>
+            <span className="text-neutral-500 shrink-0" title={createdDate.toLocaleString()}>{timeAgo}</span>
+          </div>
         </div>
       </div>
     </a>
