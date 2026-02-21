@@ -188,9 +188,6 @@ function TokenCard({ token, isERC8004Registered, purchasedPct, marketCapWei, eth
   const { data: onChainImageUrl } = useTokenImageUrl(apiImageUrl ? undefined : token.token);
   const imageUrl = apiImageUrl || onChainImageUrl;
   
-  const createdDate = new Date(Number(token.createdAt) * 1000);
-  const timeAgo = getTimeAgo(createdDate);
-
   return (
     <a
       href={`#/token/${token.token}`}
@@ -237,11 +234,7 @@ function TokenCard({ token, isERC8004Registered, purchasedPct, marketCapWei, eth
             </div>
             <span className="text-orange-400 text-xs tabular-nums shrink-0">{purchasedPct.toFixed(1)}%</span>
           </div>
-          <div className="flex items-center gap-1 text-xs">
-            <VolumeBadge volume24h={volume24h} txns={txns24h} />
-            <span className="text-neutral-600">·</span>
-            <span className="text-neutral-500 shrink-0" title={createdDate.toLocaleString()}>{timeAgo}</span>
-          </div>
+          <VolumeBadge volume24h={volume24h} txns={txns24h} />
         </div>
       </div>
     </a>
