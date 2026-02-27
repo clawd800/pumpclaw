@@ -79,7 +79,7 @@ npx tsx pumpclaw.ts info <token_address>
 
 ### Create token
 ```bash
-# Basic (1B supply, 20 ETH FDV)
+# Basic (1B supply, 2 ETH FDV)
 npx tsx pumpclaw.ts create --name "Token Name" --symbol "TKN"
 
 # With image

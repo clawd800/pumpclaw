@@ -9,7 +9,7 @@ export interface CreateTokenParams {
   imageUrl: string;
   websiteUrl: string;
   totalSupply: string; // In whole tokens (e.g., "1000000000" for 1B)
-  initialFdv: string;  // In ETH (e.g., "20")
+  initialFdv: string;  // In ETH (e.g., "2")
   creator: Address;
 }
 

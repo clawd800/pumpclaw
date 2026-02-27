@@ -2,6 +2,9 @@
 src = "src"
 out = "out"
 libs = ["lib"]
+remappings = [
+  "permit2/=lib/v4-periphery/lib/permit2/",
+]
 script = "script"
 test = "test"
 solc = "0.8.28"

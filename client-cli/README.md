@@ -31,7 +31,7 @@ npx tsx src/cli.ts info 0x...tokenAddress
 
 **Create a token:**
 ```bash
-# Basic (1B supply, 20 ETH FDV)
+# Basic (1B supply, 2 ETH FDV)
 npx tsx src/cli.ts create -n "My Token" -s "MTK"
 
 # With image

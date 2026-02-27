@@ -21,7 +21,7 @@ export const CHAIN = {
 
 export const TOKEN_DEFAULTS = {
   SUPPLY: 1_000_000_000n * 10n ** 18n, // 1B tokens (default, configurable)
-  FDV: 10n * 10n ** 18n, // 10 ETH (default, configurable)
+  FDV: 2n * 10n ** 18n, // 2 ETH (default, configurable)
 } as const;
 
 export const PROTOCOL_CONFIG = {

@@ -35,7 +35,7 @@ const CONTRACTS = {
 };
 
 const DEFAULT_SUPPLY = 1_000_000_000n * 10n ** 18n; // 1B tokens
-const DEFAULT_FDV = 20n * 10n ** 18n; // 20 ETH
+const DEFAULT_FDV = 2n * 10n ** 18n; // 2 ETH
 
 // ─── ABIs (minimal, only what we need) ──────────────────────────────────────
 
@@ -379,7 +379,7 @@ server.tool(
     imageUrl: z.string().optional().describe("Token logo URL (optional)"),
     websiteUrl: z.string().optional().describe("Project website URL (optional)"),
     totalSupply: z.string().optional().describe("Total supply in tokens (default: 1000000000)"),
-    initialFdv: z.string().optional().describe("Initial FDV in ETH (default: 20)"),
+    initialFdv: z.string().optional().describe("Initial FDV in ETH (default: 2)"),
     creator: z.string().optional().describe("Creator address for fee attribution (default: deployer wallet)"),
   },
   async ({ name, symbol, imageUrl, websiteUrl, totalSupply, initialFdv, creator }) => {

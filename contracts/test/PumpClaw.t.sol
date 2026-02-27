@@ -36,7 +36,7 @@ contract PumpClawV4Test is Test {
 
     // Default values (moved from contract to client-side)
     uint256 constant DEFAULT_SUPPLY = 1_000_000_000e18; // 1B tokens
-    uint256 constant DEFAULT_FDV = 20 ether; // 20 ETH
+    uint256 constant DEFAULT_FDV = 2 ether; // 2 ETH
 
     PumpClawLPLocker locker;
     PumpClawFactory factory;
@@ -186,50 +186,36 @@ contract PumpClawV4Test is Test {
     // ========== Trading Tests ==========
 
     function test_BuyTokensWithETH() public {
-        // Create token
+        // Create token — factory always pairs with native ETH (address(0) < any token address)
         vm.prank(creator);
         (address token, ) = factory.createToken("Buy Test", "BUY", "", "", DEFAULT_SUPPLY, DEFAULT_FDV, creator);
 
-        // Build pool key
-        bool tokenIsToken0 = token < WETH;
+        // Native ETH pool key: currency0 = address(0), currency1 = token (always, since 0 < any addr)
         PoolKey memory poolKey = PoolKey({
-            currency0: tokenIsToken0 ? Currency.wrap(token) : Currency.wrap(WETH),
-            currency1: tokenIsToken0 ? Currency.wrap(WETH) : Currency.wrap(token),
+            currency0: Currency.wrap(address(0)),
+            currency1: Currency.wrap(token),
             fee: 10000,
             tickSpacing: 200,
             hooks: IHooks(address(0))
         });
 
-        // Trader buys tokens
+        // Trader buys tokens with native ETH (zeroForOne=true: pay ETH c0, receive token c1)
         vm.startPrank(trader);
-        
-        // Wrap ETH to WETH
-        (bool success,) = WETH.call{value: 10 ether}("");
-        require(success, "WETH wrap failed");
-        IERC20(WETH).approve(address(swapRouter), type(uint256).max);
-        
-        // For buying tokens (selling WETH):
-        // If tokenIsToken0: WETH is token1, zeroForOne=false
-        // If !tokenIsToken0: WETH is token0, zeroForOne=true
-        bool zeroForOne = !tokenIsToken0;
-        
-        BalanceDelta delta = swapRouter.swap(
+        swapRouter.swap{value: 1 ether}(
             poolKey,
             IPoolManager.SwapParams({
-                zeroForOne: zeroForOne,
-                amountSpecified: -1 ether, // Spend 1 ETH
-                sqrtPriceLimitX96: zeroForOne ? TickMath.MIN_SQRT_PRICE + 1 : TickMath.MAX_SQRT_PRICE - 1
+                zeroForOne: true,
+                amountSpecified: -1 ether,
+                sqrtPriceLimitX96: TickMath.MIN_SQRT_PRICE + 1
             }),
             PoolSwapTest.TestSettings({takeClaims: false, settleUsingBurn: false}),
             ""
         );
-        
         vm.stopPrank();
 
-        // Verify trader received tokens
         uint256 tokenBalance = IERC20(token).balanceOf(trader);
         assertGt(tokenBalance, 0, "Trader should have received tokens");
-        
+
         console2.log("Trader spent 1 ETH, received tokens:", tokenBalance);
         console2.log("Tokens as % of supply:", tokenBalance * 100 / DEFAULT_SUPPLY, "%");
     }
@@ -238,47 +224,40 @@ contract PumpClawV4Test is Test {
         vm.prank(creator);
         (address token, ) = factory.createToken("Sell Test", "SELL", "", "", DEFAULT_SUPPLY, DEFAULT_FDV, creator);
 
-        bool tokenIsToken0 = token < WETH;
         PoolKey memory poolKey = PoolKey({
-            currency0: tokenIsToken0 ? Currency.wrap(token) : Currency.wrap(WETH),
-            currency1: tokenIsToken0 ? Currency.wrap(WETH) : Currency.wrap(token),
+            currency0: Currency.wrap(address(0)),
+            currency1: Currency.wrap(token),
             fee: 10000,
             tickSpacing: 200,
             hooks: IHooks(address(0))
         });
 
         vm.startPrank(trader);
-        
-        // First buy some tokens
-        (bool success,) = WETH.call{value: 10 ether}("");
-        require(success);
-        IERC20(WETH).approve(address(swapRouter), type(uint256).max);
         IERC20(token).approve(address(swapRouter), type(uint256).max);
 
-        bool buyZeroForOne = !tokenIsToken0;
-        swapRouter.swap(
+        // Buy tokens with ETH (zeroForOne=true)
+        swapRouter.swap{value: 1 ether}(
             poolKey,
             IPoolManager.SwapParams({
-                zeroForOne: buyZeroForOne,
+                zeroForOne: true,
                 amountSpecified: -1 ether,
-                sqrtPriceLimitX96: buyZeroForOne ? TickMath.MIN_SQRT_PRICE + 1 : TickMath.MAX_SQRT_PRICE - 1
+                sqrtPriceLimitX96: TickMath.MIN_SQRT_PRICE + 1
             }),
             PoolSwapTest.TestSettings({takeClaims: false, settleUsingBurn: false}),
             ""
         );
 
         uint256 tokensHeld = IERC20(token).balanceOf(trader);
-        uint256 wethBefore = IERC20(WETH).balanceOf(trader);
+        uint256 ethBefore = trader.balance;
         console2.log("Tokens held after buy:", tokensHeld);
 
-        // Now sell half the tokens
-        bool sellZeroForOne = tokenIsToken0;
+        // Sell half the tokens for ETH (zeroForOne=false: pay token c1, receive ETH c0)
         swapRouter.swap(
             poolKey,
             IPoolManager.SwapParams({
-                zeroForOne: sellZeroForOne,
+                zeroForOne: false,
                 amountSpecified: -int256(tokensHeld / 2),
-                sqrtPriceLimitX96: sellZeroForOne ? TickMath.MIN_SQRT_PRICE + 1 : TickMath.MAX_SQRT_PRICE - 1
+                sqrtPriceLimitX96: TickMath.MAX_SQRT_PRICE - 1
             }),
             PoolSwapTest.TestSettings({takeClaims: false, settleUsingBurn: false}),
             ""
@@ -286,9 +265,9 @@ contract PumpClawV4Test is Test {
 
         vm.stopPrank();
 
-        uint256 wethAfter = IERC20(WETH).balanceOf(trader);
-        console2.log("WETH gained from sell:", wethAfter - wethBefore);
-        assertGt(wethAfter, wethBefore, "Should have received WETH from sell");
+        uint256 ethAfter = trader.balance;
+        console2.log("ETH gained from sell:", ethAfter - ethBefore);
+        assertGt(ethAfter, ethBefore, "Should have received ETH from sell");
     }
 
     // ========== Fee Tests ==========
@@ -297,53 +276,44 @@ contract PumpClawV4Test is Test {
         vm.prank(creator);
         (address token, ) = factory.createToken("Fee Test", "FEE", "", "", DEFAULT_SUPPLY, DEFAULT_FDV, creator);
 
-        bool tokenIsToken0 = token < WETH;
         PoolKey memory poolKey = PoolKey({
-            currency0: tokenIsToken0 ? Currency.wrap(token) : Currency.wrap(WETH),
-            currency1: tokenIsToken0 ? Currency.wrap(WETH) : Currency.wrap(token),
+            currency0: Currency.wrap(address(0)),
+            currency1: Currency.wrap(token),
             fee: 10000,
             tickSpacing: 200,
             hooks: IHooks(address(0))
         });
 
-        // Generate trading volume
+        // Generate trading volume via buy/sell cycles
         vm.startPrank(trader);
-        (bool success,) = WETH.call{value: 50 ether}("");
-        require(success);
-        IERC20(WETH).approve(address(swapRouter), type(uint256).max);
         IERC20(token).approve(address(swapRouter), type(uint256).max);
 
         PoolSwapTest.TestSettings memory settings = PoolSwapTest.TestSettings({
-            takeClaims: false,
-            settleUsingBurn: false
+            takeClaims: false, settleUsingBurn: false
         });
 
-        bool buyZeroForOne = !tokenIsToken0;
-        bool sellZeroForOne = tokenIsToken0;
-
-        // Multiple buy/sell cycles to generate fees
         for (uint i = 0; i < 3; i++) {
-            // Buy
-            swapRouter.swap(
+            // Buy with ETH (zeroForOne=true)
+            swapRouter.swap{value: 1 ether}(
                 poolKey,
                 IPoolManager.SwapParams({
-                    zeroForOne: buyZeroForOne,
+                    zeroForOne: true,
                     amountSpecified: -1 ether,
-                    sqrtPriceLimitX96: buyZeroForOne ? TickMath.MIN_SQRT_PRICE + 1 : TickMath.MAX_SQRT_PRICE - 1
+                    sqrtPriceLimitX96: TickMath.MIN_SQRT_PRICE + 1
                 }),
                 settings,
                 ""
             );
 
-            // Sell half
+            // Sell half the tokens for ETH (zeroForOne=false)
             uint256 bal = IERC20(token).balanceOf(trader);
             if (bal > 0) {
                 swapRouter.swap(
                     poolKey,
                     IPoolManager.SwapParams({
-                        zeroForOne: sellZeroForOne,
+                        zeroForOne: false,
                         amountSpecified: -int256(bal / 2),
-                        sqrtPriceLimitX96: sellZeroForOne ? TickMath.MIN_SQRT_PRICE + 1 : TickMath.MAX_SQRT_PRICE - 1
+                        sqrtPriceLimitX96: TickMath.MAX_SQRT_PRICE - 1
                     }),
                     settings,
                     ""
@@ -352,22 +322,18 @@ contract PumpClawV4Test is Test {
         }
         vm.stopPrank();
 
-        // Claim fees
-        uint256 creatorWethBefore = IERC20(WETH).balanceOf(creator);
-        uint256 adminWethBefore = IERC20(WETH).balanceOf(ADMIN);
+        // Claim fees (paid in native ETH, not WETH)
+        uint256 creatorEthBefore = creator.balance;
+        uint256 adminEthBefore   = ADMIN.balance;
 
         locker.claimFees(token);
 
-        uint256 creatorWethAfter = IERC20(WETH).balanceOf(creator);
-        uint256 adminWethAfter = IERC20(WETH).balanceOf(ADMIN);
+        uint256 creatorGain = creator.balance - creatorEthBefore;
+        uint256 adminGain   = ADMIN.balance   - adminEthBefore;
 
-        console2.log("Creator WETH fees:", creatorWethAfter - creatorWethBefore);
-        console2.log("Admin WETH fees:", adminWethAfter - adminWethBefore);
+        console2.log("Creator ETH fees:", creatorGain);
+        console2.log("Admin ETH fees:",   adminGain);
 
-        // Verify 80/20 split
-        uint256 creatorGain = creatorWethAfter - creatorWethBefore;
-        uint256 adminGain = adminWethAfter - adminWethBefore;
-        
         if (creatorGain + adminGain > 0) {
             uint256 totalFees = creatorGain + adminGain;
             assertApproxEqRel(creatorGain, totalFees * 80 / 100, 0.02e18, "Creator should get ~80%");
@@ -499,29 +465,22 @@ contract PumpClawV4Test is Test {
         vm.prank(creator);
         (address token, ) = factory.createToken("Fair Test", "FAIR", "", "", DEFAULT_SUPPLY, DEFAULT_FDV, creator);
 
-        bool tokenIsToken0 = token < WETH;
         PoolKey memory poolKey = PoolKey({
-            currency0: tokenIsToken0 ? Currency.wrap(token) : Currency.wrap(WETH),
-            currency1: tokenIsToken0 ? Currency.wrap(WETH) : Currency.wrap(token),
+            currency0: Currency.wrap(address(0)),
+            currency1: Currency.wrap(token),
             fee: 10000,
             tickSpacing: 200,
             hooks: IHooks(address(0))
         });
 
         vm.startPrank(trader);
-        (bool success,) = WETH.call{value: 10 ether}("");
-        require(success);
-        IERC20(WETH).approve(address(swapRouter), type(uint256).max);
-
-        bool zeroForOne = !tokenIsToken0;
-        
-        // First buyer with 1 ETH
-        swapRouter.swap(
+        // Buy with 1 ETH (native, zeroForOne=true)
+        swapRouter.swap{value: 1 ether}(
             poolKey,
             IPoolManager.SwapParams({
-                zeroForOne: zeroForOne,
+                zeroForOne: true,
                 amountSpecified: -1 ether,
-                sqrtPriceLimitX96: zeroForOne ? TickMath.MIN_SQRT_PRICE + 1 : TickMath.MAX_SQRT_PRICE - 1
+                sqrtPriceLimitX96: TickMath.MIN_SQRT_PRICE + 1
             }),
             PoolSwapTest.TestSettings({takeClaims: false, settleUsingBurn: false}),
             ""
@@ -530,13 +489,13 @@ contract PumpClawV4Test is Test {
 
         uint256 tokensReceived = IERC20(token).balanceOf(trader);
         uint256 percentOfSupply = tokensReceived * 100 / DEFAULT_SUPPLY;
-        
+
         console2.log("Tokens received for 1 ETH:", tokensReceived);
         console2.log("Percent of supply:", percentOfSupply, "%");
 
-        // With 20 ETH FDV, 1 ETH should get roughly 5% (1/20 = 5%)
-        // Allow some slippage, but should be < 10%
-        assertLt(percentOfSupply, 10, "First buyer should get < 10% for 1 ETH");
-        assertGt(percentOfSupply, 1, "First buyer should get > 1% for 1 ETH");
+        // With 2 ETH FDV, 1 ETH should get roughly 25-50% of supply (concentrated curve).
+        // Verify it's within a reasonable range.
+        assertLt(percentOfSupply, 80, "First buyer should get < 80% for 1 ETH");
+        assertGt(percentOfSupply, 5,  "First buyer should get > 5% for 1 ETH");
     }
 }
