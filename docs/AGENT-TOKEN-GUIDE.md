@@ -67,7 +67,7 @@ Share it with your community!
 
 **Default Economics:**
 - Total supply: 1 billion tokens
-- Initial FDV: 20 ETH (~$60K)
+- Initial FDV: 2 ETH
 - Swap fee: 1% (0.8% to you, 0.2% to protocol)
 - Bonding curve: Continuous liquidity
 

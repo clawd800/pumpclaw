@@ -47,7 +47,7 @@ async function launchToken(params: {
   symbol: string;
   imageUri: string;
   initialSupply?: bigint; // default: 1_000_000_000
-  fdv?: bigint; // default: 20 ETH
+  fdv?: bigint; // default: 2 ETH
 }) {
   const walletClient = createWalletClient({
     chain: base,
@@ -63,7 +63,7 @@ async function launchToken(params: {
       params.symbol,
       params.imageUri,
       params.initialSupply || BigInt(1_000_000_000),
-      params.fdv || BigInt(20) // ETH
+      params.fdv || BigInt(2) // ETH
     ]
   });
 
@@ -274,7 +274,7 @@ publicClient.watchContractEvent({
 
 **Default Economics:**
 - Total supply: 1,000,000,000 tokens
-- Initial FDV: 20 ETH (~$60K at current prices)
+- Initial FDV: 2 ETH
 - Swap fee: 1% (80% to creator, 20% to protocol)
 - LP locked: Forever (can't rug)
 

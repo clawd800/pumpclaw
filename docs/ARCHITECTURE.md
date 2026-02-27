@@ -18,7 +18,7 @@ function createToken(
     string imageUrl,
     string websiteUrl,
     uint256 totalSupply,  // e.g., 1_000_000_000e18
-    uint256 initialFdv,   // e.g., 20e18 for 20 ETH
+    uint256 initialFdv,   // e.g., 2e18 for 2 ETH
     address creator       // receives 80% of fees
 ) returns (address token, uint256 positionId)
 ```
@@ -73,7 +73,7 @@ function getPendingFees(address token) view returns (PendingFees);
 ## Token Economics
 
 - **Supply**: Configurable (default 1B)
-- **Initial FDV**: Configurable (default 20 ETH)
+- **Initial FDV**: Configurable (default 2 ETH)
 - **LP Fee**: 1% on all swaps
 - **Fee Split**: 80% creator, 20% protocol
 

@@ -24,7 +24,7 @@ Just gas (~$0.50-2 depending on network conditions). No creation fee.
 - Image URL
 - Website URL  
 - Total supply (default: 1 billion)
-- Initial FDV (default: 20 ETH)
+- Initial FDV (default: 2 ETH)
 - Creator address (receives fee claims)
 
 ### Where does the liquidity come from?

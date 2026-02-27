@@ -28,9 +28,10 @@ mcp-server/.mcpregistry_*
 clanker-v4-reference/
 pumpclaw-action/
 
-# Internal operational scripts (not part of public repo)
+# Internal operational scripts & notes (not part of public repo)
 farcaster-bot/
 tools/
+docs/COPY.md
 
 # Compiled output (build locally before npm publish, don't commit)
 client-cli/dist/
