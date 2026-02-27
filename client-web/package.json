@@ -1,11 +1,11 @@
 {
   "name": "pumpclaw-web",
-  "version": "0.1.89",
+  "version": "0.1.90",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && npx tsx scripts/generate-token-pages.ts",
+    "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint",
     "deploy": "./scripts/deploy.sh",
