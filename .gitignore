@@ -28,6 +28,12 @@ mcp-server/.mcpregistry_*
 clanker-v4-reference/
 pumpclaw-action/
 
+# Compiled output (build locally before npm publish, don't commit)
+client-cli/dist/
+mcp-server/dist/
+elizaos-plugin/dist/
+farcaster-bot/dist/
+
 # Shared lib compiled output
 shared/*.js
 shared/*.d.ts
