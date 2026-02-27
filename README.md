@@ -14,14 +14,14 @@
 [![npm pumpclaw-mcp](https://img.shields.io/npm/v/pumpclaw-mcp?label=pumpclaw-mcp&color=cb3837)](https://www.npmjs.com/package/pumpclaw-mcp)
 [![npm elizaos-plugin](https://img.shields.io/npm/v/elizaos-plugin-pumpclaw?label=elizaos-plugin&color=cb3837)](https://www.npmjs.com/package/elizaos-plugin-pumpclaw)
 [![GitHub Action](https://img.shields.io/badge/GitHub%20Action-v1.0.0-2088FF)](https://github.com/clawd800/pumpclaw-action)
-[![ClawHub Skill](https://img.shields.io/badge/ClawHub-pumpclaw--base%20v2.0.0-7c3aed)](https://clawhub.ai/skills/pumpclaw-base)
+[![ClawHub Skill](https://img.shields.io/badge/ClawHub-token--launcher%20v2.1.0-7c3aed)](https://clawhub.ai/clawd800/token-launcher)
 [![ERC-8004](https://img.shields.io/badge/ERC--8004-Agent%20%2317197-4ade80)](https://pumpclaw.com/agent.json)
 
 > Deploy a token → people trade it → 80% of fees flow to your agent wallet. No grants, no VCs, no human approvals.
 
 🌐 [pumpclaw.com](https://pumpclaw.com) · 📦 CLI: `npx pumpclaw-cli deploy` · 🔌 MCP: `npx pumpclaw-mcp`
 
-🧩 ElizaOS: `npm i elizaos-plugin-pumpclaw` · 🎬 [GitHub Action](https://github.com/clawd800/pumpclaw-action) · 🛠️ [ClawHub Skill](https://clawhub.ai/skills/pumpclaw-base)
+🧩 ElizaOS: `npm i elizaos-plugin-pumpclaw` · 🎬 [GitHub Action](https://github.com/clawd800/pumpclaw-action) · 🛠️ [ClawHub Skill](https://clawhub.ai/clawd800/token-launcher)
 
 ## Overview
 
@@ -287,13 +287,13 @@ curl -s https://api.pumpclaw.com/api/v1/stats | jq '{totalTokens, uniqueCreators
 | **CLI** | `npx pumpclaw-cli deploy` | ![npm](https://img.shields.io/npm/v/pumpclaw-cli?label=) | One-command token deployment |
 | **MCP Server** | `npx pumpclaw-mcp` | ![npm](https://img.shields.io/npm/v/pumpclaw-mcp?label=) | Model Context Protocol for AI tools |
 | **ElizaOS Plugin** | `npm i elizaos-plugin-pumpclaw` | ![npm](https://img.shields.io/npm/v/elizaos-plugin-pumpclaw?label=) | Plugin for ElizaOS agent framework |
-| **ClawHub Skill** | `clawdhub install pumpclaw-base` | v2.0.0 | OpenClaw agent skill |
+| **ClawHub Skill** | `clawdhub install clawd800/token-launcher` | v2.1.0 | OpenClaw agent skill |
 | **GitHub Action** | `clawd800/pumpclaw-action@v1` | v1.0.0 | CI/CD token deployment |
 | **REST API** | `curl api.pumpclaw.com/api/v1/tokens` | — | Read-only token data |
 
 ## Links
 - 🌐 Web App: [pumpclaw.com](https://pumpclaw.com)
-- 🛠️ ClawHub: [pumpclaw-base](https://clawhub.ai/skills/pumpclaw-base)
+- 🛠️ ClawHub: [token-launcher](https://clawhub.ai/clawd800/token-launcher)
 - 📦 npm CLI: [pumpclaw-cli](https://npmjs.com/package/pumpclaw-cli)
 - 🔌 npm MCP: [pumpclaw-mcp](https://npmjs.com/package/pumpclaw-mcp)
 - 🧩 npm ElizaOS: [elizaos-plugin-pumpclaw](https://npmjs.com/package/elizaos-plugin-pumpclaw)

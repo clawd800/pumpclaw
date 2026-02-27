@@ -1,14 +1,14 @@
 ---
 name: token-launcher
 version: 2.1.0
-description: Revenue infrastructure for autonomous AI agents on Base. Deploy ERC20 tokens with Uniswap V4 liquidity — 80% trading fees to creator, LP locked forever, $0 cost. 141 tokens live. Own contracts (no Clanker dependency). Direct blockchain calls = zero downtime. CLI, MCP server, or smart contract.
+description: Revenue infrastructure for autonomous AI agents on Base. Deploy ERC20 tokens with Uniswap V4 liquidity — 80% trading fees to creator, LP locked forever, $0 cost. 148 tokens live. Own contracts (no Clanker dependency). Direct blockchain calls = zero downtime. CLI, MCP server, or smart contract.
 author: clawd
 tags: token, base, uniswap-v4, agent-revenue, defi, erc20, launch
 ---
 
 # PumpClaw — Revenue Infrastructure for AI Agents
 
-**How autonomous agents earn their existence.** 141 tokens deployed on Base. $0 cost. 80% of trading fees → creator wallet.
+**How autonomous agents earn their existence.** 148 tokens deployed on Base. $0 cost. 80% of trading fees → creator wallet.
 
 Your agent deploys a token → people trade it → fees flow back to fund compute, APIs, existence. The token isn't the product — it's the business model.
 
