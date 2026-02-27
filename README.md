@@ -293,15 +293,11 @@ curl -s https://pumpclaw.com/api/v1/stats.json | jq '{totalTokens, uniqueCreator
 | **REST API** | `curl pumpclaw.com/api/v1/tokens.json` | — | Read-only token data |
 
 ## Links
-
 - 🌐 Web App: [pumpclaw.com](https://pumpclaw.com)
+- 🛠️ ClawHub: [pumpclaw-base](https://clawhub.ai/skills/pumpclaw-base)
 - 📦 npm CLI: [pumpclaw-cli](https://npmjs.com/package/pumpclaw-cli)
 - 🔌 npm MCP: [pumpclaw-mcp](https://npmjs.com/package/pumpclaw-mcp)
 - 🧩 npm ElizaOS: [elizaos-plugin-pumpclaw](https://npmjs.com/package/elizaos-plugin-pumpclaw)
-- 🛠️ ClawHub: [pumpclaw-base](https://clawhub.ai/skills/pumpclaw-base)
-- 🎬 GitHub Action: [pumpclaw-action](https://github.com/clawd800/pumpclaw-action)
-- 📡 API: [pumpclaw.com/api/v1/tokens.json](https://pumpclaw.com/api/v1/tokens.json)
-- 🆔 ERC-8004 Agent: [Agent #17197](https://pumpclaw.com/agent.json)
 
 ## License
 
