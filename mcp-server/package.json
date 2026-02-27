@@ -1,6 +1,6 @@
 {
   "name": "pumpclaw-mcp",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "mcpName": "io.github.clawd800/pumpclaw",
   "description": "MCP server for PumpClaw - free token launcher on Base (Uniswap V4)",
   "type": "module",

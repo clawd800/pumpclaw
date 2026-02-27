@@ -1,6 +1,6 @@
 {
   "name": "pumpclaw-cli",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "CLI for PumpClaw - Free token launcher for AI agents on Base (Uniswap V4). 80% creator fees, LP locked forever.",
   "keywords": [
     "token-launcher",
