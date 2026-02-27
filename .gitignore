@@ -1,0 +1,33 @@
+# Foundry
+out/
+cache/
+broadcast/
+
+# Environment & secrets
+.env
+.env.*
+!.env.example
+
+# Node
+node_modules/
+*.log
+
+# Bot state (runtime, not source)
+farcaster-bot/*-state.json
+farcaster-bot/state.json
+farcaster-bot/state.json.bak
+farcaster-bot/deploy-queue.json
+
+# MCP server tokens
+mcp-server/.mcpregistry_*
+
+# External repos
+clanker-v4-reference/
+pumpclaw-action/
+
+# Shared lib compiled output
+shared/*.js
+shared/*.d.ts
+
+# Misc
+outreach_log.txt
