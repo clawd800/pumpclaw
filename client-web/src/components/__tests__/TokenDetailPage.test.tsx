@@ -11,7 +11,7 @@ const MOCK_TOKEN_INFO = {
   creator: "0xCREATOR1234567890123456789012345678901234" as `0x${string}`,
   positionId: 1n,
   totalSupply: 1_000_000_000_000_000_000_000_000_000n, // 1B tokens
-  initialFdv: 20_000_000_000_000_000_000n, // 20 ETH
+  initialFdv: 2_000_000_000_000_000_000n, // 2 ETH
   createdAt: BigInt(Math.floor(Date.now() / 1000) - 86400), // 1 day ago
   name: "TestCoin",
   symbol: "TCOIN",

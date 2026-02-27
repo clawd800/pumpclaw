@@ -97,7 +97,7 @@ export const createTokenAction: Action = {
 
       // Default values
       const totalSupply = params.totalSupply || parseUnits('1000000000', 18); // 1B tokens
-      const initialFdv = params.initialFdv || parseEther('20'); // 20 ETH FDV
+      const initialFdv = params.initialFdv || parseEther('2'); // 2 ETH FDV
 
       logger.info(
         `Creating token: ${params.name} (${params.symbol}) — supply: ${totalSupply}, FDV: ${initialFdv}`

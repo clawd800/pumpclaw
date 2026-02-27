@@ -143,7 +143,7 @@ async function create(opts: {
       args: [opts.name, opts.symbol, image, fdv],
     });
   } else if (opts.creator) {
-    // Use default FDV (20 ETH) for createTokenFor
+    // Use default FDV (2 ETH) for createTokenFor
     const defaultFdv = parseEther("20");
     hash = await walletClient.writeContract({
       address: CONTRACTS.FACTORY as `0x${string}`,
@@ -280,7 +280,7 @@ async function main() {
         console.log("  info <token>                    Get token info");
         console.log("  create --name <n> --symbol <s>  Create token");
         console.log("    [--image <url>]               Token image URL");
-        console.log("    [--fdv <eth>]                 Initial FDV (default: 20 ETH)");
+        console.log("    [--fdv <eth>]                 Initial FDV (default: 2 ETH)");
         console.log("    [--creator <address>]         Creator address");
         console.log("  claim <token>                   Claim LP fees");
         console.log("  by-creator <address>            Tokens by creator");

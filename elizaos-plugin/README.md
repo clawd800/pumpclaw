@@ -99,7 +99,7 @@ Get details about a specific token.
 - **LP**: Full-range, locked forever
 - **Fee Split**: 80% creator / 20% protocol
 - **Default Supply**: 1 billion tokens
-- **Default FDV**: 20 ETH
+- **Default FDV**: 2 ETH
 
 All contracts are verified on Basescan.
 

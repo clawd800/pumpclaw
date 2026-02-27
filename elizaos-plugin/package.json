@@ -1,6 +1,6 @@
 {
   "name": "elizaos-plugin-pumpclaw",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "ElizaOS plugin for PumpClaw — free token launcher on Base (Uniswap V4). Deploy ERC-20 tokens with LP locked forever, 80% creator fees.",
   "type": "module",
   "main": "dist/index.js",

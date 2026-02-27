@@ -12,7 +12,7 @@ const MOCK_TOKENS = [
     creator: "0x1111111111111111111111111111111111111111" as `0x${string}`,
     positionId: 1n,
     totalSupply: 1_000_000_000_000_000_000_000_000_000n,
-    initialFdv: 20_000_000_000_000_000_000n, // 20 ETH
+    initialFdv: 2_000_000_000_000_000_000n, // 2 ETH
     createdAt: BigInt(Math.floor(Date.now() / 1000) - 3600), // 1h ago
     name: "AlphaToken",
     symbol: "ALPHA",
@@ -22,7 +22,7 @@ const MOCK_TOKENS = [
     creator: "0x2222222222222222222222222222222222222222" as `0x${string}`,
     positionId: 2n,
     totalSupply: 1_000_000_000_000_000_000_000_000_000n,
-    initialFdv: 10_000_000_000_000_000_000n, // 10 ETH
+    initialFdv: 2_000_000_000_000_000_000n, // 2 ETH
     createdAt: BigInt(Math.floor(Date.now() / 1000) - 86400), // 1d ago
     name: "BetaToken",
     symbol: "BETA",

@@ -24,7 +24,7 @@ export interface CreateTokenParams {
   symbol: string;
   imageUrl?: string;
   totalSupply?: bigint;  // defaults to 1B
-  initialFdv?: bigint;   // defaults to 20 ETH
+  initialFdv?: bigint;   // defaults to 2 ETH
   creator: Address;
 }
 

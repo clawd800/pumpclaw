@@ -9,7 +9,7 @@ import { base } from 'viem/chains';
 import { CONTRACTS, FACTORY_ABI } from './constants.js';
 
 const POOL_MANAGER = '0x498581fF718922c3f8e6A244956aF099B2652b2b';
-const INITIAL_FDV_ETH = 10; // 10 ETH initial FDV per token
+const INITIAL_FDV_ETH = 2; // 2 ETH initial FDV per token
 
 const client = createPublicClient({
   chain: base,

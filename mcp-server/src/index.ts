@@ -214,7 +214,7 @@ PumpClaw lets anyone launch a token on Base (Ethereum L2) for free using Uniswap
 
 ## Protocol Config
 - Default supply: 1,000,000,000 tokens
-- Default FDV: 20 ETH
+- Default FDV: 2 ETH
 - Fee split: 80% creator / 20% protocol
 - Price range: 100x multiplier
 - LP fee: 1%
