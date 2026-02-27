@@ -214,7 +214,7 @@ export default function CreateTokenForm({ onSuccess }: { onSuccess?: () => void 
 
             <div>
               <label className="block text-sm text-orange-500 mb-1">
-                Initial FDV in ETH (default: 20)
+                Initial FDV in ETH (default: 2)
               </label>
               <input
                 type="text"
