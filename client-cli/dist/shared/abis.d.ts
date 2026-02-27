@@ -674,6 +674,40 @@ export declare const ERC20_ABI: readonly [{
     }];
     readonly stateMutability: "nonpayable";
 }];
+export declare const SWAP_ROUTER_ABI: readonly [{
+    readonly type: "function";
+    readonly name: "buyTokens";
+    readonly inputs: readonly [{
+        readonly name: "token";
+        readonly type: "address";
+    }, {
+        readonly name: "minTokensOut";
+        readonly type: "uint256";
+    }];
+    readonly outputs: readonly [{
+        readonly name: "tokensOut";
+        readonly type: "uint256";
+    }];
+    readonly stateMutability: "payable";
+}, {
+    readonly type: "function";
+    readonly name: "sellTokens";
+    readonly inputs: readonly [{
+        readonly name: "token";
+        readonly type: "address";
+    }, {
+        readonly name: "tokensIn";
+        readonly type: "uint256";
+    }, {
+        readonly name: "minEthOut";
+        readonly type: "uint256";
+    }];
+    readonly outputs: readonly [{
+        readonly name: "ethOut";
+        readonly type: "uint256";
+    }];
+    readonly stateMutability: "nonpayable";
+}];
 export declare const FEE_VIEWER_ABI: readonly [{
     readonly type: "function";
     readonly name: "getPendingFees";

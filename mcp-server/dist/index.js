@@ -18,12 +18,12 @@ import { privateKeyToAccount } from "viem/accounts";
 const BASE_RPC = "https://base-rpc.publicnode.com";
 const CONTRACTS = {
     FACTORY: "0xe5bCa0eDe9208f7Ee7FCAFa0415Ca3DC03e16a90",
-    LP_LOCKER: "0x9047c0944c843d91951a6C91dc9f3944D826ACA8",
+    LP_LOCKER: "0x6e4D241957074475741Ff42ec352b8b00217Bf5d",
     SWAP_ROUTER: "0x3A9c65f4510de85F1843145d637ae895a2Fe04BE",
     FEE_VIEWER: "0xd25Da746946531F6d8Ba42c4bC0CbF25A39b4b39",
 };
 const DEFAULT_SUPPLY = 1000000000n * 10n ** 18n; // 1B tokens
-const DEFAULT_FDV = 20n * 10n ** 18n; // 20 ETH
+const DEFAULT_FDV = 2n * 10n ** 18n; // 2 ETH
 // ─── ABIs (minimal, only what we need) ──────────────────────────────────────
 const FACTORY_ABI = [
     {
@@ -311,7 +311,7 @@ server.tool("deploy_token", "Deploy a new token on PumpClaw (Base, Uniswap V4). 
     imageUrl: z.string().optional().describe("Token logo URL (optional)"),
     websiteUrl: z.string().optional().describe("Project website URL (optional)"),
     totalSupply: z.string().optional().describe("Total supply in tokens (default: 1000000000)"),
-    initialFdv: z.string().optional().describe("Initial FDV in ETH (default: 20)"),
+    initialFdv: z.string().optional().describe("Initial FDV in ETH (default: 2)"),
     creator: z.string().optional().describe("Creator address for fee attribution (default: deployer wallet)"),
 }, async ({ name, symbol, imageUrl, websiteUrl, totalSupply, initialFdv, creator }) => {
     try {

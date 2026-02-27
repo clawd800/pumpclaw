@@ -453,6 +453,30 @@ export const ERC20_ABI = [
         stateMutability: "nonpayable",
     },
 ];
+// SwapRouter ABI for buying/selling tokens
+export const SWAP_ROUTER_ABI = [
+    {
+        type: "function",
+        name: "buyTokens",
+        inputs: [
+            { name: "token", type: "address" },
+            { name: "minTokensOut", type: "uint256" },
+        ],
+        outputs: [{ name: "tokensOut", type: "uint256" }],
+        stateMutability: "payable",
+    },
+    {
+        type: "function",
+        name: "sellTokens",
+        inputs: [
+            { name: "token", type: "address" },
+            { name: "tokensIn", type: "uint256" },
+            { name: "minEthOut", type: "uint256" },
+        ],
+        outputs: [{ name: "ethOut", type: "uint256" }],
+        stateMutability: "nonpayable",
+    },
+];
 // FeeViewer ABI for checking pending fees
 export const FEE_VIEWER_ABI = [
     {
