@@ -4,7 +4,7 @@
 
 [![Base](https://img.shields.io/badge/Chain-Base-blue)](https://base.org)
 [![Uniswap V4](https://img.shields.io/badge/DEX-Uniswap%20V4-ff007a)](https://uniswap.org)
-[![Tokens Launched](https://img.shields.io/badge/Tokens%20Launched-141-brightgreen)](https://pumpclaw.com)
+[![Tokens Launched](https://img.shields.io/badge/Tokens%20Launched-148-brightgreen)](https://pumpclaw.com)
 [![Creator Fees](https://img.shields.io/badge/Creator%20Fees-80%25-orange)](https://pumpclaw.com)
 [![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
 
@@ -35,7 +35,7 @@ PumpClaw is how autonomous agents earn their existence. Deploy an ERC-20 token w
 - **Direct blockchain** — if pumpclaw.com goes down, your tokens still work
 - **Agent-native** — deploy via CLI, MCP, ElizaOS, Farcaster, GitHub Action, or contract
 - **Configurable** — custom supply (1M-1T) and initial FDV
-- **141 tokens live** on Base mainnet
+- **148 tokens live** on Base mainnet
 
 ## 🤖 Deploy via Farcaster
 
@@ -55,7 +55,7 @@ The bot will:
 
 **Requirements:** Must have a verified Ethereum address on your Farcaster profile.
 
-See [`farcaster-bot/`](./farcaster-bot/) for the bot source code.
+The bot source is an internal operational script.
 
 ## Contracts (Base Mainnet) — V3
 
@@ -79,14 +79,14 @@ function createToken(
     string imageUrl,
     string websiteUrl,
     uint256 totalSupply,  // e.g., 1_000_000_000e18 for 1B
-    uint256 initialFdv,   // e.g., 20e18 for 20 ETH
+    uint256 initialFdv,   // e.g., 2e18 for 2 ETH
     address creator       // receives fee claims
 ) returns (address token, uint256 positionId)
 ```
 
 **Defaults (set in clients):**
 - Supply: 1 billion tokens
-- Initial FDV: 10 ETH
+- Initial FDV: 2 ETH
 
 ## CLI Usage
 
@@ -103,7 +103,7 @@ npx tsx src/cli.ts info
 # Create a new token (V4: no ETH required!)
 npx tsx src/cli.ts create --name "My Token" --symbol "MTK"
 
-# Create with custom FDV (default: 10 ETH)
+# Create with custom FDV (default: 2 ETH)
 npx tsx src/cli.ts create --name "My Token" --symbol "MTK" --fdv 50
 
 # Create with custom supply
@@ -165,15 +165,14 @@ PumpClawFactory
 └── Locks LP in LPLocker
 
 PumpClawSwapRouter
-├── Handles WETH wrapping
-├── Executes V4 swaps
+├── Executes V4 swaps (native ETH)
 └── Simple buy/sell interface
 ```
 
 ## Token Economics
 
 - **Total Supply**: Configurable (default: 1 billion)
-- **Initial FDV**: Configurable (default: 10 ETH)
+- **Initial FDV**: Configurable (default: 2 ETH)
 - **LP Fee**: 1% on all swaps
 - **Fee Distribution**: 80% to creator, 20% to protocol
 
@@ -217,7 +216,7 @@ forge verify-contract <address> src/core/PumpClawFactory.sol:PumpClawFactory \
 
 ## Stats
 
-- **141 tokens launched** on Base mainnet
+- **148 tokens launched** on Base mainnet
 - **70+ unique creators**
 - **$0 cost** to create
 - **7 integration methods** — ClawHub skill, CLI, MCP, ElizaOS, GitHub Action, Farcaster bot, direct contract
@@ -226,7 +225,7 @@ forge verify-contract <address> src/core/PumpClawFactory.sol:PumpClawFactory \
 
 | Method | Best For | Docs |
 |--------|----------|------|
-| **Farcaster Bot** | Humans & social agents | [`farcaster-bot/`](./farcaster-bot/) |
+| **Farcaster Bot** | Humans & social agents | Cast `@clawd deploy $SYM Name` |
 | **CLI** | Developers & automation | [`client-cli/`](./client-cli/) |
 | **npm package** | Agent frameworks | [`npx pumpclaw-cli deploy`](https://npmjs.com/package/pumpclaw-cli) |
 | **MCP Server** | Claude, GPT, any MCP agent | [`npx pumpclaw-mcp`](https://npmjs.com/package/pumpclaw-mcp) |
@@ -235,11 +234,11 @@ forge verify-contract <address> src/core/PumpClawFactory.sol:PumpClawFactory \
 
 ## 📡 API
 
-Static JSON endpoints — no API key needed, CORS-friendly, updated periodically.
+Live JSON API — no API key needed, CORS-friendly, served by the indexer.
 
 ### All Tokens
 ```
-GET https://pumpclaw.com/api/v1/tokens.json
+GET https://api.pumpclaw.com/api/v1/tokens
 ```
 
 Returns all tokens with metadata, creator info, trade links, and % purchased:
@@ -261,13 +260,13 @@ Returns all tokens with metadata, creator info, trade links, and % purchased:
       }
     }
   ],
-  "meta": { "count": 27, "generatedAt": "2026-02-10T..." }
+  "total": 148, "lastSynced": 42701077, "currentBlock": 42701109
 }
 ```
 
 ### Protocol Stats
 ```
-GET https://pumpclaw.com/api/v1/stats.json
+GET https://api.pumpclaw.com/api/v1/stats
 ```
 
 Returns aggregate stats: total tokens, unique creators, factory address, fee structure.
@@ -275,10 +274,10 @@ Returns aggregate stats: total tokens, unique creators, factory address, fee str
 ### Quick Fetch (curl/agents)
 ```bash
 # Get all tokens
-curl -s https://pumpclaw.com/api/v1/tokens.json | jq '.tokens[] | {symbol, address}'
+curl -s https://api.pumpclaw.com/api/v1/tokens | jq '.tokens[] | {symbol, address}'
 
 # Get stats
-curl -s https://pumpclaw.com/api/v1/stats.json | jq '{totalTokens, uniqueCreators}'
+curl -s https://api.pumpclaw.com/api/v1/stats | jq '{totalTokens, uniqueCreators}'
 ```
 
 ## Integration Packages
@@ -290,7 +289,7 @@ curl -s https://pumpclaw.com/api/v1/stats.json | jq '{totalTokens, uniqueCreator
 | **ElizaOS Plugin** | `npm i elizaos-plugin-pumpclaw` | ![npm](https://img.shields.io/npm/v/elizaos-plugin-pumpclaw?label=) | Plugin for ElizaOS agent framework |
 | **ClawHub Skill** | `clawdhub install pumpclaw-base` | v2.0.0 | OpenClaw agent skill |
 | **GitHub Action** | `clawd800/pumpclaw-action@v1` | v1.0.0 | CI/CD token deployment |
-| **REST API** | `curl pumpclaw.com/api/v1/tokens.json` | — | Read-only token data |
+| **REST API** | `curl api.pumpclaw.com/api/v1/tokens` | — | Read-only token data |
 
 ## Links
 - 🌐 Web App: [pumpclaw.com](https://pumpclaw.com)
