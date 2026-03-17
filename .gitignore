@@ -47,3 +47,4 @@ shared/*.d.ts
 outreach_log.txt
 client-web/dist/
 memory/
+client-web/.env
