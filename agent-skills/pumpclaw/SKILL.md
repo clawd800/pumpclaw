@@ -126,7 +126,7 @@ npx tsx pumpclaw.ts by-creator <address>
 | Contract | Address |
 |----------|---------|
 | Factory | `0xe5bCa0eDe9208f7Ee7FCAFa0415Ca3DC03e16a90` |
-| LP Locker | `0x6e4D241957074475741Ff42ec352b8b00217Bf5d` |
+| LP Locker | `0x9047c0944c843d91951a6C91dc9f3944D826ACA8` |
 | Swap Router | `0x3A9c65f4510de85F1843145d637ae895a2Fe04BE` |
 | Fee Viewer | `0xd25Da746946531F6d8Ba42c4bC0CbF25A39b4b39` |
 
