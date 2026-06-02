@@ -291,6 +291,25 @@ curl -s https://api.pumpclaw.com/api/v1/stats | jq '{totalTokens, uniqueCreators
 | **GitHub Action** | `clawd800/pumpclaw-action@v1` | v1.0.0 | CI/CD token deployment |
 | **REST API** | `curl api.pumpclaw.com/api/v1/tokens` | — | Read-only token data |
 
+## Reputation Layer
+
+[**MainStreet**](https://avisradar.app/mainstreet.html) — onchain reputation oracle for AI agents on Base — indexes every PumpClaw launch automatically. Each creator wallet gets a `clawd-launched` proof attached, joining their broader multi-source identity layer (Farcaster + Coinbase Verified + Basename + Virtuals).
+
+Buyer agents can read deployer reputation before paying any PumpClaw-launched token:
+
+```bash
+# Free read for any creator wallet
+curl https://avisradar.app/api/agent/deployer/<creator-addr>
+
+# Or via MCP — natively callable from Claude / Cursor / Anthropic SDK
+claude mcp add --transport http mainstreet https://avisradar.app/mcp
+```
+
+Returns score 0-100, alive vs rugged history per launch, identity proofs, verdict. Free read; live re-score paywalled at $0.05 USDC via x402.
+
+No integration needed on the PumpClaw side — MainStreet pulls from the public `api.pumpclaw.com/api/v1/tokens` endpoint and indexes every launch on its own. 177+ tokens already cross-referenced.
+
+
 ## Links
 - 🌐 Web App: [pumpclaw.com](https://pumpclaw.com)
 - 🛠️ ClawHub: [token-launcher](https://clawhub.ai/clawd800/token-launcher)
